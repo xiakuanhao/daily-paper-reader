@@ -25,3 +25,55 @@ subscriptions:
     stage: A
     diff_threshold_pct: 15
   keyword_recall_mode: or
+  intent_profiles:
+    - tag: part-aware
+      description: 查找类似ArticulateAnything、X-Part、CubePart等关于零件感知生成的文章
+      enabled: true
+      paper_sources:
+        - arxiv
+      keywords:
+        - keyword: 3D part generation
+          keyword_cn: 3D零件生成
+          query: generating 3D models with separate parts
+        - keyword: articulated object generation
+          keyword_cn: 铰接式物体生成
+          query: methods for generating articulated 3D objects
+        - keyword: part decomposition
+          keyword_cn: 零件分解
+          query: decomposing 3D shapes into parts
+        - keyword: semantic part segmentation
+          keyword_cn: 语义零件分割
+          query: segmenting 3D objects into semantic parts
+        - keyword: part-based 3D modeling
+          keyword_cn: 基于零件的3D建模
+          query: building 3D models from assembled parts
+        - keyword: part assembly
+          keyword_cn: 零件装配
+          query: assembling 3D parts into complete objects
+      intent_queries:
+        - query: How to generate articulated 3D parts from single images?
+          query_cn: 如何从单张图像生成铰接式3D零件？
+          enabled: true
+          source: manual
+          note: ''
+        - query: Approaches for decomposing 3D shapes into semantic parts
+          query_cn: 将3D形状分解为语义零件的方法
+          enabled: true
+          source: manual
+          note: ''
+      updated_at: '2026-06-04T05:49:07.766Z'
+source_backends:
+  arxiv:
+    papers_table: arxiv_papers
+    use_vector_rpc: true
+    vector_rpc: match_arxiv_papers
+    vector_rpc_exact: match_arxiv_papers_exact
+    use_bm25_rpc: true
+    bm25_rpc: match_arxiv_papers_bm25
+    sync_table: arxiv_sync_status
+    sync_success_value: success
+    schema: public
+    kind: supabase
+    enabled: true
+    url: https://lyucdwgefyfbmaiopjbk.supabase.co
+    anon_key: sb_publishable_lX-oi64Uxyd7SIVv3_w2Uw_MTOojeKq
