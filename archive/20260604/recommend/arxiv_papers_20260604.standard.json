@@ -1,0 +1,176 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-04T21:54:16.922132+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2606.01518v1",
+      "source": "arxiv",
+      "title": "MotionDreamer: Universal Skeletal Motion Generation for 3D Rigged Shapes",
+      "abstract": "Motion generation for rigged shapes is vital for scalable 4D asset production. However, template-based methods are limited by specific topologies and fail to generalize across diverse morphologies. Conversely, per-case optimization is computationally expensive, susceptible to local optima, and highly sensitive to viewpoint-induced ambiguities. In this paper, we present MotionDreamer, a diffusion-based framework designed for category-agnostic skeletal animation generation from 2D video guidance. To overcome the scarcity of high-quality training data, we have curated a large-scale dynamic dataset comprising approximately 20,000 diverse 3D models, each featuring complete textures, skeletal rigging, and a wide array of comprehensive animation sequences. To bridge the kinematic gap between 2D visual motion cues and heterogeneous 3D skeletal structures, we propose a structural-semantic injection mechanism. Our model integrates texture and semantic attributes directly into skeletal joint representations. This allows it to map perceived visual dynamics to specific joint hierarchies and their functional roles. This enables MotionDreamer to synthesize high-fidelity animations that maintain anatomical consistency across a vast range of unseen categories, from existing biological species to fantastical beings. Extensive experiments demonstrate that our approach significantly outperforms existing methods, setting a new state-of-the-art benchmark for robust and efficient 4D asset generation. The code will be made publicly available upon acceptance.",
+      "authors": [
+        "Ye Tao",
+        "Yuxin Yao",
+        "Kendong Liu",
+        "Dapeng Wu",
+        "Junhui Hou"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-06-01T00:42:31+00:00",
+      "link": "https://arxiv.org/pdf/2606.01518v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "generates skeletal animations for rigged 3D shapes with articulated parts",
+      "llm_evidence_cn": "为具有关节部件的绑定三维形状生成骨架动画",
+      "llm_evidence": "为具有关节部件的绑定三维形状生成骨架动画",
+      "canonical_evidence": "为具有关节部件的绑定三维形状生成骨架动画",
+      "llm_tldr_en": "MotionDreamer is a diffusion framework that generates skeletal animation for diverse rigged 3D shapes from 2D video, enabling scalable articulated object creation without template reliance.",
+      "llm_tldr_cn": "针对现有方法难以跨形态泛化的限制，MotionDreamer提出基于扩散的骨架动画生成框架，从2D视频条件生成适用于任意拓扑的骨骼动画。通过构建包含约2万个多样化绑定三维模型的大规模动态数据集，实现了对复杂关节运动的生成。该工作显著降低了关节物体动画制作的门槛，推动了三维资产生产。",
+      "llm_tldr": "针对现有方法难以跨形态泛化的限制，MotionDreamer提出基于扩散的骨架动画生成框架，从2D视频条件生成适用于任意拓扑的骨骼动画。通过构建包含约2万个多样化绑定三维模型的大规模动态数据集，实现了对复杂关节运动的生成。该工作显著降低了关节物体动画制作的门槛，推动了三维资产生产。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "methods for generating articulated 3D objects",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.02573v1",
+      "source": "arxiv",
+      "title": "HumanNOVA: Photorealistic, Universal and Rapid 3D Human Avatar Modeling from a Single Image",
+      "abstract": "In this paper, we present HumanNOVA, a photorealistic, universal, and rapid model for generating 3D human avatars from a single RGB image. Achieving both photorealism and generalization is challenging due to the scarcity of diverse, high-quality 3D human data. To address this, we build a scalable data generation pipeline that follows two strategies. The first one is to leverage existing rigged assets and animate them with extensive poses from daily life. The second strategy is to utilize existing multi-camera captures of humans and employ fitting to generate more diverse views for training. These two strategies enable us to scale up to 100k assets, significantly enhancing both the quantity and the diversity of data for robust model training. In terms of the architecture, HumanNOVA adopts a feed-forward, token-conditioned avatar modeling framework that allows fast inference in less than one second and requires no test-time optimization. Given an input image and an estimated simplified human mesh (SMPL) without detailed geometry or appearance, the model first encodes both inputs into compact token representations. These tokens then act as conditioning signals and are fused through cross-attention to construct a triplane-based 3D avatar representation. Extensive experiments on multiple benchmarks demonstrate the superiority of our approach, both quantitatively and qualitatively, as well as its robustness under diverse input image conditions. Project page at https://HumanNOVA.github.io .",
+      "authors": [
+        "Hezhen Hu",
+        "Wangbo Zhao",
+        "Lanqing Guo",
+        "Hanwen Jiang",
+        "Jonathan C. Liu",
+        "Zhiwen Fan",
+        "Kai Wang",
+        "Zhangyang Wang",
+        "Georgios Pavlakos"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-01T17:58:11+00:00",
+      "link": "https://arxiv.org/pdf/2606.02573v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Generates articulated 3D human avatars from a single image",
+      "llm_evidence_cn": "从单张图像生成铰接3D人物化身",
+      "llm_evidence": "从单张图像生成铰接3D人物化身",
+      "canonical_evidence": "从单张图像生成铰接3D人物化身",
+      "llm_tldr_en": "HumanNOVA generates photorealistic, articulated 3D human avatars from a single RGB image by leveraging a scalable data pipeline: rigging existing assets with diverse animations and fitting multi-camera captures to create 100k training assets, achieving high-quality, generalizable avatar modeling.",
+      "llm_tldr_cn": "HumanNOVA 解决了从单张图像生成真实感 3D 人物化身时高质量多样化数据稀缺的难题。通过两条路径构建大规模管线：利用现有骨架资产施加丰富的日常姿态动画，并利用多相机捕捉数据进行拟合以生成多视角训练数据，最终得到 10 万级训练资产。该方法显著提升了模型的泛化能力和真实感，实现从单张 RGB 图像快速生成可驱动的逼真化身，为单图 3D 化身生成提供了可扩展的解决方案。",
+      "llm_tldr": "HumanNOVA 解决了从单张图像生成真实感 3D 人物化身时高质量多样化数据稀缺的难题。通过两条路径构建大规模管线：利用现有骨架资产施加丰富的日常姿态动画，并利用多相机捕捉数据进行拟合以生成多视角训练数据，最终得到 10 万级训练资产。该方法显著提升了模型的泛化能力和真实感，实现从单张 RGB 图像快速生成可驱动的逼真化身，为单图 3D 化身生成提供了可扩展的解决方案。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "methods for generating articulated 3D objects",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.28257v1",
+      "source": "arxiv",
+      "title": "Category-Level 3D Correspondence in Camera Space via Morphable Object Priors",
+      "abstract": "Understanding 3D objects from images is fundamental to robotics and AR/VR applications. While recent work has made progress in category-level pose estimation, current representations fail to capture the fine-grained semantics needed for reasoning about object parts, functions, and interactions. In this work, we study category-level 3D correspondence in camera space -- predicting, from a single image, 3D locations that remain consistent across instances within a category -- and show that it can emerge without explicit correspondence supervision by learning a shared morphable object prior. To enable research in this direction, we introduce HouseCorr3D, the first large-scale benchmark for monocular category-level 3D correspondence with 178k images across 50 household object categories, 280 unique instances, and 3D keypoint annotations directly on CAD models. Crucially, HouseCorr3D provides amodal correspondence labels for occluded regions and explicit symmetry annotations, addressing key limitations of existing datasets. We further propose Morpheus, a method that learns morphable category-level shape priors by disentangling canonical shape, deformation, and object pose. Through this shared canonical grounding, semantically meaningful 3D correspondences in camera space emerge implicitly. These emerging 3D correspondences set a new state of the art on HouseCorr3D, demonstrating that semantic 3D object understanding can arise without direct correspondence supervision. Data and code are publicly available at https://github.com/GenIntel/HouseCorr3D.",
+      "authors": [
+        "Leonhard Sommer",
+        "Artur Jesslen",
+        "Basavaraj Sunagad",
+        "Adam Kortylewski"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-27T10:08:32+00:00",
+      "link": "https://arxiv.org/pdf/2605.28257v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "predicts 3D part correspondences across instances from a single image",
+      "llm_evidence_cn": "从单张图像预测实例间的三维部件对应",
+      "llm_evidence": "从单张图像预测实例间的三维部件对应",
+      "canonical_evidence": "从单张图像预测实例间的三维部件对应",
+      "llm_tldr_en": "Learns category-level 3D correspondences of object parts from a single image using a shared morphable prior, enabling fine-grained part understanding without explicit supervision.",
+      "llm_tldr_cn": "本文解决了从单张图像捕获物体部件精细语义的难题，提出通过共享的可变形物体先验学习类别级三维对应，无需显式监督即可预测类别内实例间一致的部件位置。该方法在新建的大规模基准HouseCorr3D上验证，表明部件理解能力可作为姿态估计等下游任务的先验，推动了物体部件感知研究。",
+      "llm_tldr": "本文解决了从单张图像捕获物体部件精细语义的难题，提出通过共享的可变形物体先验学习类别级三维对应，无需显式监督即可预测类别内实例间一致的部件位置。该方法在新建的大规模基准HouseCorr3D上验证，表明部件理解能力可作为姿态估计等下游任务的先验，推动了物体部件感知研究。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "segmenting 3D objects into semantic parts",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2605.31597v1",
+      "source": "arxiv",
+      "title": "SOCO: Benchmarking Semantic Object Correspondence in Vision Foundation Models",
+      "abstract": "Measuring structured object understanding in vision foundation models remains challenging due to inconsistent evaluation protocols and limited part-level supervision. Semantic correspondence (SC) evaluates this capability by testing whether object parts can be matched across instances and categories under large variations in appearance, viewpoint, and geometry. To enable a systematic SC evaluation, we introduce SOCO, a new benchmark for Semantic Object Correspondence that introduces a taxonomy of correspondence types and provides consistent, functionally meaningful keypoint annotations across 100 categories and over 1M correspondence pairs. In addition, SOCO includes keypoint language descriptions, enabling the evaluation of large vision-language models (LVLMs) and their fine-grained part-level understanding. Comprehensive experiments reveal that (i) vision foundation backbones encode strong semantic structure but transfer correspondences poorly across related categories and only partially capture object-part position, (ii) LVLMs are stronger at text-prompted part localization than at visual-reference cross-image matching, exposing a gap between language-grounded localization and fine-grained visual correspondence, and (iii) correspondence performance predicts performance on dense downstream tasks, including segmentation, tracking, 3D pose estimation, and 3D detection, more strongly than ImageNet classification. Together, these findings position SOCO as a benchmark for structured, part-level representation quality in vision and multimodal foundation models.",
+      "authors": [
+        "Olaf Dünkel",
+        "Basavaraj Sunagad",
+        "Haoran Wang",
+        "David T. Hoffmann",
+        "Christian Theobalt",
+        "Adam Kortylewski"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-29T17:58:48+00:00",
+      "link": "https://arxiv.org/pdf/2605.31597v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "benchmark for matching object parts across instances and categories",
+      "llm_evidence_cn": "跨实例和类别匹配物体部件的基准",
+      "llm_evidence": "跨实例和类别匹配物体部件的基准",
+      "canonical_evidence": "跨实例和类别匹配物体部件的基准",
+      "llm_tldr_en": "Introduces SOCO, a benchmark with part-level keypoint annotations across 100 categories to evaluate semantic object correspondence in vision models, highlighting deficiencies in part-level reasoning.",
+      "llm_tldr_cn": "现存视觉基础模型在部件级结构化物体理解上评估不一致，本文提出SOCO基准，提供100个类别、超百万对的功能性关键点标注，系统评估语义物体对应能力。该基准揭示了当前模型在部件匹配上的不足，为部件感知模型的发展提供了标准化测试平台，促进了三维物体部件分解研究。",
+      "llm_tldr": "现存视觉基础模型在部件级结构化物体理解上评估不一致，本文提出SOCO基准，提供100个类别、超百万对的功能性关键点标注，系统评估语义物体对应能力。该基准揭示了当前模型在部件匹配上的不足，为部件感知模型的发展提供了标准化测试平台，促进了三维物体部件分解研究。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "segmenting 3D objects into semantic parts",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
