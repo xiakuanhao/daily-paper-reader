@@ -1,0 +1,713 @@
+{
+  "top_k": 200,
+  "generated_at": "2026-06-04T07:39:34.259698+00:00",
+  "papers": [
+    {
+      "id": "openreview-icml-2024-lgh8bhwpvc",
+      "source": "ICML-2024-Public",
+      "title": "Disentangled 3D Scene Generation with Layout Learning",
+      "abstract": "We introduce a method to generate 3D scenes that are disentangled into their component objects. This disentanglement is unsupervised, relying only on the knowledge of a large pretrained text-to-image model. Our key insight is that objects can be discovered by finding parts of a 3D scene that, when rearranged spatially, still produce valid configurations of the same scene. Concretely, our method jointly optimizes multiple NeRFs---each representing its own object---along with a *set of layouts* that composite these objects into scenes. We then encourage these composited scenes to be in-distribution according to the image generator. We show that despite its simplicity, our approach successfully generates 3D scenes decomposed into individual objects, enabling new capabilities in text-to-3D content creation.",
+      "authors": [
+        "Dave Epstein",
+        "Ben Poole",
+        "Ben Mildenhall",
+        "Alexei A Efros",
+        "Aleksander Holynski"
+      ],
+      "primary_category": "ICML.cc/2024/Conference",
+      "categories": [],
+      "published": "2024-05-02T00:38:10.83+00:00",
+      "link": "https://openreview.net/forum?id=Lgh8bhWpVC",
+      "pdf_url": null,
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ]
+    },
+    {
+      "id": "openreview-icml-2025-oxzpgnkbb1",
+      "source": "ICML-2025-Accepted",
+      "title": "BiAssemble: Learning Collaborative Affordance for Bimanual Geometric Assembly",
+      "abstract": "Shape assembly, the process of combining parts into a complete whole, is a crucial skill for robots with broad real-world applications. Among the various assembly tasks, geometric assembly—where broken parts are reassembled into their original form (e.g., reconstructing a shattered bowl)—is particularly challenging. This requires the robot to recognize geometric cues for grasping, assembly, and subsequent bimanual collaborative manipulation on varied fragments. In this paper, we exploit the geometric generalization of point-level affordance, learning affordance aware of bimanual collaboration in geometric assembly with long-horizon action sequences. To address the evaluation ambiguity caused by geometry diversity  of broken parts, we introduce a real-world benchmark featuring geometric variety and global reproducibility. Extensive experiments demonstrate the superiority of our approach over both previous affordance-based and imitation-based methods.",
+      "authors": [
+        "Yan Shen",
+        "Ruihai Wu",
+        "Yubin Ke",
+        "Xinyuan Song",
+        "Zeyi Li",
+        "Xiaoqi Li",
+        "Hongwei Fan",
+        "Haoran Lu",
+        "Hao Dong"
+      ],
+      "primary_category": "Bimanual Manipulation",
+      "categories": [
+        "Bimanual Manipulation",
+        "Geometric Shape Assembly"
+      ],
+      "published": "2025-05-01T13:18:12.373+00:00",
+      "link": "https://openreview.net/forum?id=OxzPgnkbB1",
+      "pdf_url": null,
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ]
+    },
+    {
+      "id": "openreview-icml-2024-fyqigqwh3d",
+      "source": "ICML-2024-Public",
+      "title": "3D Geometric Shape Assembly via Efficient Point Cloud Matching",
+      "abstract": "Learning to assemble geometric shapes into a larger target structure is a pivotal task in various practical applications. In this work, we tackle this problem by establishing local correspondences between point clouds of part shapes in both coarse- and fine-levels. To this end, we introduce Proxy Match Transform (PMT), an approximate high-order feature transform layer that enables reliable matching between mating surfaces of parts while incurring low costs in memory and compute. Building upon PMT, we introduce a new framework, dubbed Proxy Match TransformeR (PMTR), for the geometric assembly task. We evaluate the proposed PMTR on the large-scale 3D geometric shape assembly benchmark dataset of Breaking Bad and demonstrate its superior performance and efficiency compared to state-of-the-art methods. Project page: https://nahyuklee.github.io/pmtr",
+      "authors": [
+        "Nahyuk Lee",
+        "Juhong Min",
+        "Junha Lee",
+        "Seungwook Kim",
+        "Kanghee Lee",
+        "Jaesik Park",
+        "Minsu Cho"
+      ],
+      "primary_category": "ICML.cc/2024/Conference",
+      "categories": [],
+      "published": "2024-05-02T00:41:39.552+00:00",
+      "link": "https://openreview.net/forum?id=FYQIgQWH3d",
+      "pdf_url": null,
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ]
+    },
+    {
+      "id": "openreview-icml-2025-nhaanf5com",
+      "source": "ICML-2025-Rejected-Public",
+      "title": "Improved Convex Decomposition with Ensembling and Boolean Primitives",
+      "abstract": "Describing a scene in terms of primitives -- geometrically simple shapes that offer a parsimonious but accurate abstraction of structure -- is an established and difficult fitting problem. Different scenes require different numbers of primitives, and these primitives interact strongly. Existing methods are evaluated by predicting depth, normals and segmentation from the primitives, then evaluating the accuracy of those predictions. The state of the art method involves a learned regression procedure to predict a start point consisting of a fixed number of primitives, followed by a descent method to refine the geometry and remove redundant primitives. CSG representations are significantly enhanced by a set-differencing operation. Our representation incorporates $\\textit{negative}$ primitives, which are differenced from the positive primitives. These notably enrich the geometry that the model can encode, while complicating the fitting problem. This paper  demonstrates a method that can (a) incorporate these negative primitives and (b) choose the overall number of positive and negative primitives by ensembling. Extensive experiments on the standard NYUv2 dataset confirm that (a) this approach results in substantial improvements in depth representation and segmentation over SOTA and (b) negative primitives make a notable contribution to accuracy. Our method is robustly applicable across datasets: in a first, we evaluate primitive prediction for LAION images. Code will be released upon acceptance of the paper.",
+      "authors": [
+        "Vaibhav Vavilala",
+        "Florian Kluger",
+        "Seemandhar Jain",
+        "Bodo Rosenhahn",
+        "David Forsyth"
+      ],
+      "primary_category": "Convex Decomposition",
+      "categories": [
+        "Convex Decomposition",
+        "3D primitives",
+        "ensembling"
+      ],
+      "published": "2025-01-22T17:10:47.59+00:00",
+      "link": "https://openreview.net/forum?id=nHaaNf5cOM",
+      "pdf_url": null,
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ]
+    },
+    {
+      "id": "openreview-icml-2025-jmocqueaqw",
+      "source": "ICML-2025-Accepted",
+      "title": "Compositional Scene Understanding through Inverse Generative Modeling",
+      "abstract": "Generative models have demonstrated remarkable abilities in generating high-fidelity visual content. In this work, we explore how generative models can further be used not only to synthesize visual content but also to understand the properties of a scene given a natural image. We formulate scene understanding as an inverse generative modeling problem, where we seek to find conditional parameters of a visual generative model to best fit a given natural image. To enable this procedure to infer scene structure from images substantially different than those seen during training, we further propose to build this visual generative model compositionally from smaller models over pieces of a scene. We illustrate how this procedure enables us to infer the set of objects in a scene, enabling robust generalization to new test scenes with an increased number of objects of new shapes. We further illustrate how this enables us to infer global scene factors, likewise enabling robust generalization to new scenes. Finally, we illustrate how this approach can be directly applied to existing pretrained text-to-image generative models for zero-shot multi-object perception. Code and visualizations are at https://energy-based-model.github.io/compositional-inference.",
+      "authors": [
+        "Yanbo Wang",
+        "Justin Dauwels",
+        "Yilun Du"
+      ],
+      "primary_category": "Scene Understanding",
+      "categories": [
+        "Scene Understanding",
+        "Compositional Generative Modeling",
+        "Generalization"
+      ],
+      "published": "2025-05-01T13:16:50.191+00:00",
+      "link": "https://openreview.net/forum?id=JmOCquEAqW",
+      "pdf_url": null,
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ]
+    },
+    {
+      "id": "openreview-icml-2024-xcykkacmsd",
+      "source": "ICML-2024-Public",
+      "title": "S3O: A Dual-Phase Approach for Reconstructing Dynamic Shape and Skeleton of Articulated Objects from Single Monocular Video",
+      "abstract": "Reconstructing dynamic articulated objects from a singular monocular video is challenging, requiring joint estimation of shape, motion, and camera parameters from limited views. Current methods typically demand extensive computational resources and training time, and require additional human annotations such as predefined parametric models, camera poses, and key points, limiting their generalizability. We propose Synergistic Shape and Skeleton Optimization (S3O), a novel two-phase method that forgoes these prerequisites and efficiently learns parametric models including visible shapes and underlying skeletons. Conventional strategies typically learn all parameters simultaneously, leading to interdependencies where a single incorrect prediction can result in significant errors. In contrast, S3O adopts a phased approach: it first focuses on learning coarse parametric models, then progresses to motion learning and detail addition. This method substantially lowers computational complexity and enhances robustness in reconstruction from limited viewpoints, all without requiring additional annotations. To address the current inadequacies in 3D reconstruction from monocular video benchmarks, we collected the PlanetZoo dataset. Our experimental evaluations on standard benchmarks and the PlanetZoo dataset affirm that S3O provides more accurate 3D reconstruction, and plausible skeletons, and reduces the training time by approximately 60% compared to the state-of-the-art, thus advancing the state of the art in dynamic object reconstruction.",
+      "authors": [
+        "Hao Zhang",
+        "Fang Li",
+        "Samyak Rawlekar",
+        "Narendra Ahuja"
+      ],
+      "primary_category": "ICML.cc/2024/Conference",
+      "categories": [],
+      "published": "2024-05-02T00:38:10.162+00:00",
+      "link": "https://openreview.net/forum?id=xcyKKACmSd",
+      "pdf_url": null,
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ]
+    }
+  ],
+  "queries": [
+    {
+      "type": "intent_query",
+      "tag": "part-aware",
+      "paper_tag": "query:part-aware",
+      "query_text": "Approaches for decomposing 3D shapes into semantic parts",
+      "sim_scores": {
+        "openreview-icml-2024-fyqigqwh3d": {
+          "score": 0.01639344262295082,
+          "rank": 1
+        },
+        "openreview-icml-2024-lgh8bhwpvc": {
+          "score": 0.015151515151515152,
+          "rank": 6
+        },
+        "openreview-icml-2025-nhaanf5com": {
+          "score": 0.0136986301369863,
+          "rank": 13
+        },
+        "openreview-icml-2025-jmocqueaqw": {
+          "score": 0.010309278350515464,
+          "rank": 37
+        },
+        "openreview-icml-2025-oxzpgnkbb1": {
+          "score": 0.009433962264150943,
+          "rank": 46
+        }
+      },
+      "ranked": [
+        {
+          "paper_id": "openreview-icml-2024-lgh8bhwpvc",
+          "score": 1.0,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2025-nhaanf5com",
+          "score": 0.9586435070306036,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2024-fyqigqwh3d",
+          "score": 0.8798076923076922,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2025-oxzpgnkbb1",
+          "score": 0.7703788748564866,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2024-xcykkacmsd",
+          "score": 0.3668882557771445,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2025-jmocqueaqw",
+          "score": 0.1933160472486314,
+          "star_rating": 3
+        }
+      ]
+    },
+    {
+      "type": "intent_query",
+      "tag": "part-aware",
+      "paper_tag": "query:part-aware",
+      "query_text": "How to generate articulated 3D parts from single images?",
+      "sim_scores": {
+        "openreview-icml-2024-lgh8bhwpvc": {
+          "score": 0.015384615384615385,
+          "rank": 5
+        },
+        "openreview-icml-2024-fyqigqwh3d": {
+          "score": 0.014705882352941176,
+          "rank": 8
+        },
+        "openreview-icml-2024-xcykkacmsd": {
+          "score": 0.013888888888888888,
+          "rank": 12
+        },
+        "openreview-icml-2025-nhaanf5com": {
+          "score": 0.011764705882352941,
+          "rank": 25
+        },
+        "openreview-icml-2025-jmocqueaqw": {
+          "score": 0.011363636363636364,
+          "rank": 28
+        },
+        "openreview-icml-2025-oxzpgnkbb1": {
+          "score": 0.010309278350515464,
+          "rank": 37
+        }
+      },
+      "ranked": [
+        {
+          "paper_id": "openreview-icml-2024-xcykkacmsd",
+          "score": 1.0,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2024-lgh8bhwpvc",
+          "score": 0.9185999185999183,
+          "star_rating": 5
+        },
+        {
+          "paper_id": "openreview-icml-2025-jmocqueaqw",
+          "score": 0.6703296703296702,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2024-fyqigqwh3d",
+          "score": 0.608262108262108,
+          "star_rating": 4
+        },
+        {
+          "paper_id": "openreview-icml-2025-nhaanf5com",
+          "score": 0.46719946719946726,
+          "star_rating": 3
+        },
+        {
+          "paper_id": "openreview-icml-2025-oxzpgnkbb1",
+          "score": 0.015799015799015898,
+          "star_rating": 2
+        }
+      ]
+    },
+    {
+      "type": "keyword",
+      "tag": "part-aware",
+      "paper_tag": "keyword:part-aware",
+      "query_text": "3D part generation",
+      "sim_scores": {
+        "openreview-icml-2024-lgh8bhwpvc": {
+          "score": 0.01639344262295082,
+          "rank": 1
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "part-aware",
+      "paper_tag": "keyword:part-aware",
+      "query_text": "articulated object generation",
+      "sim_scores": {}
+    },
+    {
+      "type": "keyword",
+      "tag": "part-aware",
+      "paper_tag": "keyword:part-aware",
+      "query_text": "assembling 3D parts into complete objects",
+      "sim_scores": {
+        "openreview-icml-2024-fyqigqwh3d": {
+          "score": 0.01639344262295082,
+          "rank": 1
+        },
+        "openreview-icml-2024-lgh8bhwpvc": {
+          "score": 0.015625,
+          "rank": 4
+        },
+        "openreview-icml-2025-oxzpgnkbb1": {
+          "score": 0.015151515151515152,
+          "rank": 6
+        },
+        "openreview-icml-2025-nhaanf5com": {
+          "score": 0.014285714285714285,
+          "rank": 10
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "part-aware",
+      "paper_tag": "keyword:part-aware",
+      "query_text": "building 3D models from assembled parts",
+      "sim_scores": {
+        "openreview-icml-2024-fyqigqwh3d": {
+          "score": 0.01639344262295082,
+          "rank": 1
+        },
+        "openreview-icml-2025-oxzpgnkbb1": {
+          "score": 0.015625,
+          "rank": 4
+        },
+        "openreview-icml-2024-lgh8bhwpvc": {
+          "score": 0.014705882352941176,
+          "rank": 8
+        },
+        "openreview-icml-2025-nhaanf5com": {
+          "score": 0.012658227848101266,
+          "rank": 19
+        },
+        "openreview-icml-2024-xcykkacmsd": {
+          "score": 0.010638297872340425,
+          "rank": 34
+        },
+        "openreview-icml-2025-jmocqueaqw": {
+          "score": 0.010101010101010102,
+          "rank": 39
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "part-aware",
+      "paper_tag": "keyword:part-aware",
+      "query_text": "decomposing 3D shapes into parts",
+      "sim_scores": {
+        "openreview-icml-2024-fyqigqwh3d": {
+          "score": 0.01639344262295082,
+          "rank": 1
+        },
+        "openreview-icml-2025-nhaanf5com": {
+          "score": 0.016129032258064516,
+          "rank": 2
+        },
+        "openreview-icml-2024-lgh8bhwpvc": {
+          "score": 0.015625,
+          "rank": 4
+        },
+        "openreview-icml-2025-oxzpgnkbb1": {
+          "score": 0.009433962264150943,
+          "rank": 46
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "part-aware",
+      "paper_tag": "keyword:part-aware",
+      "query_text": "generating 3D models with separate parts",
+      "sim_scores": {
+        "openreview-icml-2024-lgh8bhwpvc": {
+          "score": 0.015873015873015872,
+          "rank": 3
+        },
+        "openreview-icml-2024-fyqigqwh3d": {
+          "score": 0.015625,
+          "rank": 4
+        },
+        "openreview-icml-2025-nhaanf5com": {
+          "score": 0.012195121951219513,
+          "rank": 22
+        },
+        "openreview-icml-2025-jmocqueaqw": {
+          "score": 0.011627906976744186,
+          "rank": 26
+        },
+        "openreview-icml-2025-oxzpgnkbb1": {
+          "score": 0.01,
+          "rank": 40
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "part-aware",
+      "paper_tag": "keyword:part-aware",
+      "query_text": "methods for generating articulated 3D objects",
+      "sim_scores": {
+        "openreview-icml-2024-xcykkacmsd": {
+          "score": 0.015151515151515152,
+          "rank": 6
+        },
+        "openreview-icml-2024-lgh8bhwpvc": {
+          "score": 0.014492753623188406,
+          "rank": 9
+        },
+        "openreview-icml-2025-oxzpgnkbb1": {
+          "score": 0.013513513513513514,
+          "rank": 14
+        },
+        "openreview-icml-2024-fyqigqwh3d": {
+          "score": 0.01282051282051282,
+          "rank": 18
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "part-aware",
+      "paper_tag": "keyword:part-aware",
+      "query_text": "part assembly",
+      "sim_scores": {
+        "openreview-icml-2025-oxzpgnkbb1": {
+          "score": 0.01639344262295082,
+          "rank": 1
+        },
+        "openreview-icml-2024-fyqigqwh3d": {
+          "score": 0.016129032258064516,
+          "rank": 2
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "part-aware",
+      "paper_tag": "keyword:part-aware",
+      "query_text": "part decomposition",
+      "sim_scores": {}
+    },
+    {
+      "type": "keyword",
+      "tag": "part-aware",
+      "paper_tag": "keyword:part-aware",
+      "query_text": "segmenting 3D objects into semantic parts",
+      "sim_scores": {
+        "openreview-icml-2024-fyqigqwh3d": {
+          "score": 0.012987012987012988,
+          "rank": 17
+        },
+        "openreview-icml-2024-lgh8bhwpvc": {
+          "score": 0.011764705882352941,
+          "rank": 25
+        },
+        "openreview-icml-2025-nhaanf5com": {
+          "score": 0.00909090909090909,
+          "rank": 50
+        }
+      }
+    },
+    {
+      "type": "keyword",
+      "tag": "part-aware",
+      "paper_tag": "keyword:part-aware",
+      "query_text": "semantic part segmentation",
+      "sim_scores": {}
+    }
+  ],
+  "global_candidate_ids": [
+    "openreview-icml-2024-fyqigqwh3d",
+    "openreview-icml-2025-oamdljezm4",
+    "openreview-icml-2024-xbnhjqu84y",
+    "openreview-icml-2024-zl9q2jd1dc",
+    "openreview-icml-2024-lgh8bhwpvc",
+    "openreview-icml-2025-4umrqdvuw5",
+    "openreview-icml-2024-ysommnwzzx",
+    "openreview-icml-2024-ju3xhh1vww",
+    "openreview-icml-2025-eyba77xort",
+    "openreview-icml-2025-nhaanf5com",
+    "openreview-icml-2025-pnz3piokrn",
+    "openreview-icml-2025-oxzpgnkbb1",
+    "openreview-icml-2025-g2maztpjcz",
+    "openreview-icml-2025-6qnbvtkgy2",
+    "openreview-icml-2025-vf5f7cl76i",
+    "openreview-icml-2024-6dbvbcw770",
+    "openreview-icml-2025-oyfafpqaca",
+    "openreview-icml-2024-nlgthhbgl3",
+    "openreview-icml-2024-8l1kygum4w",
+    "openreview-icml-2024-swtg6xju8o",
+    "openreview-icml-2025-6srcnb5kcc",
+    "openreview-icml-2025-us8v5tdofd",
+    "openreview-icml-2025-x4ytgv2wkj",
+    "openreview-icml-2025-yoaerylge9",
+    "openreview-icml-2025-cxnkxldczm",
+    "openreview-icml-2024-4bodu42rte",
+    "openreview-icml-2025-4ssnofuqf1",
+    "openreview-icml-2024-5pcl5qoofl",
+    "openreview-icml-2025-xytlswiuli",
+    "openreview-icml-2024-gayzjhw2ml",
+    "openreview-icml-2025-rcdynkg1f8",
+    "openreview-icml-2025-reushgihdg",
+    "openreview-icml-2025-zqs9yrynhs",
+    "openreview-icml-2025-o2waq5s2ty",
+    "openreview-icml-2025-7sg4s8d8aq",
+    "openreview-icml-2025-p0bqivwnez",
+    "openreview-icml-2025-o4kpjicdrk",
+    "openreview-icml-2025-fki6yjxwcn",
+    "openreview-icml-2025-w8mcyyavqd",
+    "openreview-icml-2025-fcteo26afz",
+    "openreview-icml-2024-1xkgdanodx",
+    "openreview-icml-2024-ttyvg17wfc",
+    "openreview-icml-2025-vwpzkn6usz",
+    "openreview-icml-2025-adwra8faao",
+    "openreview-icml-2024-aybxn9pojl",
+    "openreview-icml-2025-dw8otck2nf",
+    "openreview-icml-2025-sdk6bsmhgm",
+    "openreview-icml-2025-ikhjapkjq3",
+    "openreview-icml-2025-yhpwi6a2xt",
+    "openreview-icml-2025-jmocqueaqw",
+    "openreview-icml-2025-ax550vokon",
+    "openreview-icml-2024-xcykkacmsd",
+    "openreview-icml-2024-diye6oogba",
+    "openreview-icml-2024-ezcfk8hupf",
+    "openreview-icml-2025-wiifdh0gju",
+    "openreview-icml-2025-lbe7hklqda",
+    "openreview-icml-2025-f7boaymwl7",
+    "openreview-icml-2024-sz0jnrxi0x",
+    "openreview-icml-2025-hemldrnffy",
+    "openreview-icml-2025-cuasys6xzw",
+    "openreview-icml-2025-v7ebdkptng",
+    "openreview-icml-2024-mu7ffqt6ve",
+    "openreview-icml-2025-vji1nnsw4t",
+    "openreview-icml-2024-evlx8dag9h",
+    "openreview-icml-2024-vitl6cqikk",
+    "openreview-icml-2025-jvp1wbd0xh",
+    "openreview-icml-2025-bgdsssjwot",
+    "openreview-icml-2025-9mj8fpuvjd",
+    "openreview-icml-2025-hm9fnezz6z",
+    "openreview-icml-2024-urz9gzn17x",
+    "openreview-icml-2025-dikilmw4f8",
+    "openreview-icml-2025-0yxxh8walf",
+    "openreview-icml-2025-imkfokwfwd",
+    "openreview-icml-2025-ya2kskunmh",
+    "openreview-icml-2025-7dt3nh5tzq",
+    "openreview-icml-2025-7exlwkfcgl",
+    "openreview-icml-2025-gpsmbdtzbm",
+    "openreview-icml-2024-slqddwwibh",
+    "openreview-icml-2024-7wgxunof0v",
+    "openreview-icml-2025-nsldadggy5",
+    "openreview-icml-2024-lq3sebh1gf",
+    "openreview-icml-2024-jvxjdgq4ed",
+    "openreview-icml-2025-xtxcm4xz82",
+    "openreview-icml-2024-dwwef5w2cr",
+    "openreview-icml-2025-dtl79vl0qy",
+    "openreview-icml-2025-1dzgzgtzeo",
+    "openreview-icml-2024-wudq1wfupr",
+    "openreview-icml-2025-9adqzafcuc",
+    "openreview-icml-2024-iav6agrtup",
+    "openreview-icml-2025-dgdokuubzf",
+    "openreview-icml-2025-h4lzmggyaz",
+    "openreview-icml-2025-9bzgpytqzn",
+    "openreview-icml-2025-if9vxy4yrl",
+    "openreview-icml-2025-sux6wzy9t1",
+    "openreview-icml-2024-7zvl9mnqg2",
+    "openreview-icml-2024-q8ujyowosd",
+    "openreview-icml-2024-jjsj8uxqd4",
+    "openreview-icml-2024-qrtm5eqe9l",
+    "openreview-icml-2025-ajn5btaqnk",
+    "openreview-icml-2025-odptv1rvee",
+    "openreview-icml-2025-rcjgzbyvhf",
+    "openreview-icml-2025-utlfqrdjkl",
+    "openreview-icml-2024-maviklgqr7",
+    "openreview-icml-2024-vwcpm39pel",
+    "openreview-icml-2025-tiynbkwl7t",
+    "openreview-icml-2024-hkdjpmqvew",
+    "openreview-icml-2024-7ckuc9c2fz",
+    "openreview-icml-2024-wddprthyet",
+    "openreview-icml-2025-2fdsh5d2th",
+    "openreview-icml-2025-iwkcnloa2a",
+    "openreview-icml-2024-jorlz5d7ow",
+    "openreview-icml-2025-xyvevdusb6",
+    "openreview-icml-2024-xxl7cewuxz",
+    "openreview-icml-2025-souzxkresn",
+    "openreview-icml-2025-to6jrwuxi4",
+    "openreview-icml-2024-6byd121jfo",
+    "openreview-icml-2024-isusvgs7w1",
+    "openreview-icml-2025-ss5jnmjdkw",
+    "openreview-icml-2025-47ghx0qpyw",
+    "openreview-icml-2025-bp975diajt"
+  ],
+  "global_pool_lane_top_k": 30,
+  "global_pool_limit": 120,
+  "global_pool_guaranteed_per_lane": 2,
+  "global_pool_effective_size": 120,
+  "reranked_at": "2026-06-04T07:40:06.347690+00:00",
+  "llm_ranked": [
+    {
+      "paper_id": "openreview-icml-2025-oxzpgnkbb1",
+      "score": 10.0,
+      "evidence_en": "Shape assembly, combining broken parts into original form via bimanual geometric assembly",
+      "evidence_cn": "形状装配，通过双手协同几何装配将碎片组合成完整物体",
+      "canonical_evidence": "形状装配，通过双手协同几何装配将碎片组合成完整物体",
+      "tldr_en": "BiAssemble learns point-level affordance for bimanual collaborative geometric assembly, enabling robots to reassemble shattered fragments into whole objects with long-horizon actions.",
+      "tldr_cn": "针对碎片几何装配的挑战，提出BiAssemble方法，学习点级功能可供性以指导双手协同操作，实现将破碎部件重组为原始形状。引入几何装配评估指标，克服因部件多样性导致的评价模糊。机器人实验验证了长序列动作下精确装配的能力，为视觉引导的零件装配提供了新方案。该方法在残缺物体重建等任务中表现出色，证明了点级功能可供性在双手协作装配中的有效性，并展示了从感知到行动闭环的潜力。这为解决物流分拣、古物修复等实际问题提供了理论基础与技术支撑。",
+      "title_zh": "BiAssemble：学习双手协同在几何装配中的功能可供性",
+      "motivation_cn": "几何装配需识别碎片几何线索并执行长序列协同操作，极具挑战。",
+      "method_cn": "利用点级功能可供性泛化，设计双手协同装配的长程动作序列。",
+      "result_cn": "成功重建破碎碗等物体，评估指标缓解了形状多样性引起的模糊。",
+      "conclusion_cn": "为机器人执行复杂装配任务提供了有效的学习方案。",
+      "matched_requirement_id": "req-6",
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "assembling 3D parts into complete objects"
+    },
+    {
+      "paper_id": "openreview-icml-2024-lgh8bhwpvc",
+      "score": 10.0,
+      "evidence_en": "Generates 3D scenes disentangled into component objects by optimizing multiple NeRFs and layouts",
+      "evidence_cn": "通过优化多个NeRF与布局生成解耦成组件物体的3D场景",
+      "canonical_evidence": "通过优化多个NeRF与布局生成解耦成组件物体的3D场景",
+      "tldr_en": "Disentangled 3D scene generation discovers objects by rearranging parts of the scene, jointly optimizing multiple NeRFs and layouts to composite objects into valid configurations.",
+      "tldr_cn": "提出无监督的3D场景生成方法，自动将场景分解为独立物体。核心思路是寻找可空间重排仍保持合理性的场景部件，通过联合优化多个代表各自物体的NeRF及其布局，利用预训练文本到图像模型鼓励组合场景符合分布。方法成功生成分离的物体，支持独立操控和组合。这为生成式3D建模中的部件级控制铺平了道路，使得用户可以自由编辑场景中的物体布局，甚至将不同物体组合成新场景，极大提升了3D内容创作的灵活性。实验展示了对合成场景与真实图像的有效分解，验证了方法的实用性与泛化能力。",
+      "title_zh": "解耦的3D场景生成与布局学习",
+      "motivation_cn": "3D场景生成需解耦为独立物体，但缺乏监督。",
+      "method_cn": "通过重排部件保持有效性，联合优化多NeRF与布局，利用文生图先验。",
+      "result_cn": "成功生成分解为多个物体的3D场景，支持独立编辑与重布局。",
+      "conclusion_cn": "无监督场景分解为可控3D内容创建开辟了新可能性。",
+      "matched_requirement_id": "req-1",
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "generating 3D models with separate parts"
+    },
+    {
+      "paper_id": "openreview-icml-2024-fyqigqwh3d",
+      "score": 10.0,
+      "evidence_en": "Learning to assemble geometric shapes (parts) into a larger target structure via matching mating surfaces",
+      "evidence_cn": "通过匹配零件配合面将几何形状装配成更大目标结构",
+      "canonical_evidence": "通过匹配零件配合面将几何形状装配成更大目标结构",
+      "tldr_en": "Proposes Proxy Match TransformeR for 3D geometric shape assembly by establishing local correspondences between part point clouds, achieving superior performance on Breaking Bad benchmark.",
+      "tldr_cn": "该论文针对将多个独立零件组合成完整目标结构的3D几何形状装配任务，提出一种基于代理匹配变换（PMT）的高效点云匹配框架PMTR。方法通过粗精两级匹配捕获零件配合面间的对应关系，在低计算开销下实现可靠装配。在Breaking Bad基准上验证了优越性能，为零件感知的3D模型构建提供了关键技术。",
+      "title_zh": "通过高效点云匹配实现3D几何形状装配",
+      "motivation_cn": "解决3D零件装配中高效、准确的零件间匹配问题",
+      "method_cn": "提出Proxy Match Transform和PMTR框架，通过粗精两级点云匹配实现零件装配",
+      "result_cn": "在Breaking Bad数据集上性能显著优于现有方法，且计算高效",
+      "conclusion_cn": "PMTR为3D几何装配提供了有效解决方案，推动了零件级3D建模的发展",
+      "matched_requirement_id": "req-6",
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "assembling 3D parts into complete objects"
+    },
+    {
+      "paper_id": "openreview-icml-2025-nhaanf5com",
+      "score": 9.0,
+      "evidence_en": "Improved convex decomposition describes scenes as primitives, segmenting them into parts",
+      "evidence_cn": "改进的凸分解将场景描述为图元，实现部件的分割",
+      "canonical_evidence": "改进的凸分解将场景描述为图元，实现部件的分割",
+      "tldr_en": "Improved Convex Decomposition uses ensembling and boolean primitives to parsimoniously describe scenes, enabling accurate part-based segmentation and geometry prediction.",
+      "tldr_cn": "针对场景解析中图元拟合问题，现有方法评估困难且图元数量固定。本文提出改进的凸分解方法，通过集成学习和布尔操作（如集合差）增强CSG表示。方法先用学习回归预测初始图元，再进行下降优化和去冗余。实验在深度、法线和分割预测上均优于现有技术，为紧凑且可解释的3D形状分解提供了新途径。该工作表明，布尔操作能显著提升基于原语的场景描述能力，对于三维视觉理解与生成中的部件级表示具有重要意义。",
+      "title_zh": "改进的凸分解：结合集成与布尔原语",
+      "motivation_cn": "现有场景解析中图元拟合困难，不同场景需不同数量图元且图元间强交互。",
+      "method_cn": "提出集成学习方法与布尔操作增强的凸分解，从学习回归起点开始，经下降法优化并移除冗余。",
+      "result_cn": "预测深度、法线和分割精度优于现有方法，图元表示更精确。",
+      "conclusion_cn": "布尔操作显著提升CSG表示能力，为可解释的紧凑场景描述提供了新途径。",
+      "matched_requirement_id": "req-3",
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "decomposing 3D shapes into parts"
+    },
+    {
+      "paper_id": "openreview-icml-2024-xcykkacmsd",
+      "score": 9.0,
+      "evidence_en": "Reconstructs dynamic shape and skeleton of articulated objects from monocular video",
+      "evidence_cn": "从单目视频重建动态铰接物体的形状与骨架",
+      "canonical_evidence": "从单目视频重建动态铰接物体的形状与骨架",
+      "tldr_en": "S3O reconstructs dynamic articulated objects from monocular video by jointly optimizing shape and skeleton in two phases, eliminating the need for predefined models or keypoints.",
+      "tldr_cn": "针对单目视频中动态铰接物体重建需大量计算和人工标注的局限，S3O提出两阶段协同优化方法。第一阶段粗略估计相机位姿和初始形状，第二阶段联合细化形状与骨架，避免参数耦合。无需预定义模型或关键点，直接从视频学习。实验证明该方法高效且泛化性强，为无先验条件下铰接物体的快速重建提供了实用框架。其无需人工标注的特点使其在非结构化环境中具有广泛应用前景，且两阶段设计显著降低了计算开销，适合实时应用。",
+      "title_zh": "S3O：从单目视频重建铰接物体动态形状与骨架的双阶段方法",
+      "motivation_cn": "现有方法依赖大量计算和人工标注，泛化性受限。",
+      "method_cn": "提出S3O两阶段优化，分步学习相机、形状和骨架参数，避免同时优化干扰。",
+      "result_cn": "实验显示高效重建，无需预定义模型，泛化能力强。",
+      "conclusion_cn": "为无先验的铰接物体重建提供了简洁有效的方案。",
+      "matched_requirement_id": "req-2",
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "methods for generating articulated 3D objects"
+    },
+    {
+      "paper_id": "openreview-icml-2025-jmocqueaqw",
+      "score": 7.0,
+      "evidence_en": "Builds generative model compositionally from smaller models over pieces of a scene to infer object-level structure",
+      "evidence_cn": "通过组合场景小块模型实现逆生成式建模，推断物体级别结构",
+      "canonical_evidence": "通过组合场景小块模型实现逆生成式建模，推断物体级别结构",
+      "tldr_en": "Compositional scene understanding via inverse generative modeling infers scene structure by fitting a compositional generative model to a single image, discovering objects and their poses.",
+      "tldr_cn": "现有的生成模型多用于合成，本文探索将其用于场景理解，将之视为逆问题——寻找能最佳拟合输入图像的条件参数。为使模型能从异域图像推断，构建组合式生成模型，由场景各部分的子模型构成。实验展示该方法能够推断物体集合、位姿与形状，无需监督信号。这不仅扩展了生成模型的应用，也为场景的语义、部件级解析提供了统一框架。该工作为通过生成先验实现无监督的部件发现与结构化理解铺平了道路，对于自动驾驶、机器人抓取等任务中从单一图像理解场景具有潜在价值。",
+      "title_zh": "通过逆生成式建模实现组合场景理解",
+      "motivation_cn": "生成模型不仅可用于合成，还可用于理解单张图像中的场景属性。",
+      "method_cn": "将场景理解转为拟合条件生成模型参数，组合各部件模型来结构发现。",
+      "result_cn": "能推断物体集合与属性，即使测试图与训练分布不同也有效。",
+      "conclusion_cn": "提供了一种无监督的、基于部件的场景理解新范式。",
+      "matched_requirement_id": "req-3",
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "decomposing 3D shapes into parts"
+    }
+  ],
+  "llm_ranked_at": "2026-06-04T07:44:49.791442+00:00",
+  "display_min_score": 4.0,
+  "pruned_at": "2026-06-04T07:44:49.826261+00:00"
+}

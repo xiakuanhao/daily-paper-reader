@@ -1,0 +1,940 @@
+Title: 3D Geometric Shape Assembly via Efficient Point Cloud Matching
+
+URL Source: https://openreview.net/pdf?id=FYQIgQWH3d
+
+Number of Pages: 18
+
+Markdown Content:
+# 3D Geometric Shape Assembly via Efficient Point Cloud Matching 
+
+Nahyuk Lee * 1 Juhong Min * 2 Junha Lee 1 Seungwook Kim 2 Kanghee Lee 3 Jaesik Park 3 4 Minsu Cho 1 2 
+
+## Abstract 
+
+Learning to assemble geometric shapes into a larger target structure is a pivotal task in var-ious practical applications. In this work, we tackle this problem by establishing local corre-spondences between point clouds of part shapes in both coarse- and fine-levels. To this end, we introduce Proxy Match Transform (PMT), an ap-proximate high-order feature transform layer that enables reliable matching between mating sur-faces of parts while incurring low costs in mem-ory and compute. Building upon PMT, we in-troduce a new framework, dubbed Proxy Match TransformeR (PMTR), for the geometric assem-bly task. We evaluate the proposed PMTR on the large-scale 3D geometric shape assembly benchmark dataset of Breaking Bad and demon-strate its superior performance and efficiency com-pared to state-of-the-art methods. Project page: 
+
+https://nahyuklee.github.io/pmtr .
+
+## 1. Introduction 
+
+Shape assembly aims to determine a precise placement for each constituent part and construct a larger target shape as a whole. This task holds paramount significance, espe-cially in the context of various applications encompassing robotics (Wang & Hauser, 2019; Zakka et al., 2020; Zeng et al., 2021), manufacturing (Tian et al., 2022), computer graphics (Li et al., 2012), and computer-aided design (Chen et al., 2015; Jacobson, 2017). Despite its pivotal role in industrial productivity and the plethora of applications, the field of shape assembly remains relatively underexplored in the literature due to the intricate challenge it presents:        
+
+> *Equal contribution 1Department of Computer Science and En-gineering, POSTECH, Pohang, Korea 2Graduate School of Artifi-cial Intelligence, POSTECH, Pohang, Korea 3Department of Com-puter Science and Engineering, Seoul National University, Seoul, Korea 4Interdisciplinary Program in Artificial Intelligence, Seoul National University, Seoul, Korea. Correspondence to: Minsu Cho
+> <mscho@postech.ac.kr >.
+> Proceedings of the 41 st International Conference on Machine Learning , Vienna, Austria. PMLR 235, 2024. Copyright 2024 by the author(s).
+
+demands for comprehensive understanding of geometric structures and analyses of pairwise relationships between local surfaces of given input parts for accurate assembly. There have been several recent attempts (Schor et al., 2019; Li et al., 2020a; Wu et al., 2020; Li et al., 2020b; Huang et al., 2020; Narayan et al., 2022; Chen et al., 2022; Wu et al., 2023b) to address the task of shape assembly, but these methods fall short of achieving accurate assembly. They typically represent each part as a global embedding and perform regression to predict a placement for each part. The global encoding strategy for each part, while simplifying the process, greatly limits local information by collapsing spatial resolutions, which is necessary to localize mating surface. Indeed, accurate shape assembly requires a detailed analysis of both fine- and coarse-level spatial information of the parts in recognizing mating surfaces and establish-ing correspondences between the surfaces. Therefore, a promising approach would be to retain the spatially-rich part representations during the encoding phase and analyze pairwise local correspondence relationships between them for reliable localization and matching of mating surfaces. In the realm of correspondence analysis within image match-ing, prior methods (Rocco et al., 2018; Min & Cho, 2021; Kim et al., 2022; Min et al., 2021; Rocco et al., 2020) typically utilize a high-order feature transform, i.e., high-dimensional convolution or attention, to achieve objectives of localizing relevant instances and establishing correspon-dences between them. The high-order feature transforms, which assess structural patterns of correlations in high-dimensional spaces, have been empirically validated for their efficacy in identifying accurate visual matches. How-ever, the quadratic complexity with respect to input spatial resolution still remains as a significant drawback, limiting their application to only low-resolution (coarse-grained) inputs . Such a limitation becomes particularly problem-atic in the context of geometric assembly since meticulous alignment between parts requires to analyze high-resolution (fine-grained) to precisely identify ‘geometric compatibility’ between mating surfaces to match. In this paper, we address this issue by introducing a new form of low-complexity high-order feature transform layer, dubbed Proxy Match Transform (PMT) , to tackle the chal-lenges of geometric shape assembly. The layer is designed 13D Geometric Shape Assembly via Efficient Point Cloud Matching 
+
+to align analogous local embeddings in feature space, e.g., points on mating surfaces, with sub-quadratic complexity, thus offering low-complexity yet high-order approach as illustrated in Fig. 1. We theoretically prove that the pro-posed PMT layer can effectively approximate the conven-tional high-order feature transforms (Rocco et al., 2018; Choy et al., 2020; Min & Cho, 2021) under particular condi-tions. To demonstrate its efficacy, we incorporate the PMT layer into a coarse-to-fine matching framework Proxy Match TransformeR (PMTR), which uses PMTs for both coarse-and fine-level matching steps for establishing reliable cor-respondences on mating surfaces. We compare our results with recent state of the arts and provide thorough perfor-mance analysis on the standard geometric shape assembly benchmark dataset of Breaking Bad (Sell ´an et al., 2022). The experiments demonstrate that our method outperforms existing approaches by a significant margin while being computationally efficient compared to the baselines. Our main contributions can be summarized as follows: • We introduce Proxy Match Transform (PMT), a low-complexity high-order feature transform layer that ef-fectively refines the matching of the feature pair. • Our theoretical analysis shows that PMT effectively approximates high-order feature transform while incur-ring sub-quadratic memory and time complexity. • The performance improvements in geometric shape as-sembly over the state-of-the-art baselines demonstrate the effectiveness and efficiency of our approach. 
+
+## 2. Related Work 
+
+3D shape assembly & registration. Previous research in generative models for 3D objects has primarily focused on building objects through the combination of basic 3D prim-itives. One prevalent approach trains specialized models tailored to individual object classes, enabling the assem-bly of objects from volumetric primitives such as cuboids (Tulsiani et al., 2017). Conversely, Khan et al. (2019) pro-poses a unified model that can generate cuboid primitives across various classes. Additionally, variational autoen-coders (VAEs) have been employed to model objects as compositions of cuboids, offering robust abstractions that distill local geometric details and elucidate object correspon-dences (Kingma & Welling, 2014; Jones et al., 2020). Parallel to these developments, research in part assembly has aimed to construct complete objects from predefined semantic parts. The method of Li et al. (2020b) predicts translations and rotations for part point clouds to assem-ble a target object from an image reference. Extending this, Narayan et al. (2022); Huang et al. (2020) have con-ceptualized part assembly as a graph learning challenge, utilizing iterative message passing techniques to integrate parts into cohesive objects. These approaches heavily rely on the PartNet dataset (Mo et al., 2019) to ensure seman-tic correspondence between the assembled parts and the target models, demonstrating that while geometric shapes are foundational, semantic cues can significantly guide and streamline the assembly process. Our research diverges from these methods by focusing on the assembly of parts without predefined semantics. A closely related method-ology is that of Chen et al. (2022), which also tackles the problem of 3D shape assembly by integrating implicit shape reconstruction, providing a relevant benchmark. Additionally, the concept of 3D shape assembly overlaps with the domain of 3D registration, especially in scenar-ios characterized by low overlap between a pair of point clouds. Techniques such as those proposed by Huang et al. (2021) and Yu et al. (2021) leverage self-attention and cross-attention mechanisms within and across point cloud features to transform 3D features, facilitating enhanced matching ac-curacy. Qin et al. (2022) further advances this by embedding transformation-invariant data into the positional embeddings of transformer layers, optimizing the matching process in low-overlap conditions. Despite their efficacy, the practi-cal application of these methods in fine-grained matching scenarios is often constrained by the quadratic complexity 
+
+associated with their matching layers, highlighting a critical area for improvement in computational efficiency and scala-bility. Our work addresses these challenges by proposing a novel approach that optimizes the computational demands of feature matching while maintaining high robustness. 
+
+High-order feature transform for matching. High-order feature transforms are essential in (both image and point cloud) matching tasks, helping to establish consensus among correspondences within a high-dimensional space. Initially introduced by Rocco et al. (2018), the concept of a learning-based neighborhood consensus supports the identification of accurate matches by leveraging neighboring ambiguous matches between 2D images. This approach has also been adapted for 3D registration tasks, notably by Choy et al. (2020), who utilized a 6D sparse convolutional layer to fil-ter out outlier correspondences. Given high computational complexity associated with high-order feature transforms, several studies have proposed methods to reduce this bur-den. Techniques such as decomposing high-dimensional convolutional kernels (Min et al., 2021) and sparsifying the correlation map with top-k scores (Rocco et al., 2020) have been effective. Further, Shi et al. (2023) enhanced matching efficiency by creating a sparse correlation matrix through the clustering of input tokens, significantly reducing the number of tokens involved. More recent advancements have integrated the self-attention mechanism to utilize global fea-ture consensus effectively, although these methodologies, proposed by Cho et al. (2021) and Kim et al. (2022), come at a higher computational cost. 23D Geometric Shape Assembly via Efficient Point Cloud Matching High -order feature transform with quadratic complexity Product of PMTs with sub -quadratic complexity 
+
+> Proxy
+> Tensor
+
+Figure 1. Given a correlation score at position (x, y) (the edge between highlighted nodes) and its neighboring scores (all other edges), vanilla high-order feature transform (shown on the left) leads to quadratic complexity due to its demand for memory-intensive pairwise correlation scores. The product of two PMTs (shown on the right) effectively approximates this high-order transform only with sub-quadratic complexity by avoiding direct construction of correlation scores, instead exchanging information through a low-dimensional proxy tensor. The red/blue nodes and black edges represent the source/target features and the correlation scores between them, respectively. 
+
+Our work introduces the Proxy Match Transform (PMT), which simplifies existing high-order feature transforms to significantly reduce computational demands. We apply PMT in a coarse-to-fine approach, identifying reliable correspon-dences between the mating surfaces of input parts and subse-quently refining them for precise assembly. There have been several approaches relevant to ours such as leveraging local geometric cues for assembly by Lu et al. (2023), the linear approximations in convolutional networks by Denton et al. (2014), sparse attention mechanisms by Zaheer et al. (2021), low-rank approximations of self-attention by Chen et al. (2020), and Gaussian kernel approximations by Chen et al. (2021). Unlike these methods, however, which primarily enhance processing within a single feature , PMT uniquely addresses the challenge of efficient matching between two distinct features , improving both computational efficiency and the feature correspondence analysis, which are essential for diverse applications like geometric shape assembly. 
+
+## 3. Proposed Approach 
+
+In the task of geometric shape assembly, analyzing geo-metric compatibility between fractured shapes is of utmost importance; the geometric properties of the mating surfaces 
+
+should exhibit consistency, where vertices, edges, and sur-faces seamlessly fit together to form a coherent structure. To achieve reliable localization of mating surfaces between shapes, a model needs to analyze the compatibility of all possible feature correspondences and accurately identify spatially consistent matches. In the field of visual match-ing and its applications (Rocco et al., 2018; Choy et al., 2020; Min & Cho, 2021; Cho et al., 2021; Min et al., 2021), a trending approach for assessing match reliability is the utilization of high-order feature transform , e.g., convolu-tion or self-attention. This technique effectively assesses patterns within neighborhood matches in a differentiable manner. Building upon these principles, we will now ex-plore the theoretical formulation of high-order transform, with a specific emphasis on its application for enhancing pairwise feature correlation. 
+
+Preliminary. High-order convolution (Rocco et al., 2018; Choy et al., 2020; Min & Cho, 2021) generalizes the stan-dard convolution by taking as input more functions, feature maps, or sets. In the context of our problem, we consider two point clouds X = {xi ∈ R3}Ni=1 and Y = {yi ∈
+
+R3}Mi=1 , and focus on the 2nd-order convolution with two sets of features FX and FY , associated with the two point clouds, respectively. For ease of notation, we represent these features in matrix form, i.e., FX ∈ R|X |× Demb , where Demb 
+
+is the feature embedding dimension, and indexes each fea-ture embedding using its associated point x ∈ X such that 
+
+(FX )x ∈ RDemb , and same goes for FY . We also express the feature correlation of two points from each point cloud, 
+
+x and y, as C(x,y) := ( FX )x · (FY )⊤ 
+
+> y
+
+∈ R. The 2nd-order convolution on (FX , FY ) with kernel K is then defined as: Conv (FX , FY )(x,y) := 
+
+X  
+
+> (n,m)∈N (x)×N (y)
+
+C(n,m)K([ n − x, m − y]) , (1) where N (·) represents a set of neighbor points and K :
+
+R6 −→ R is a convolutional kernel, represented as a mapping function that takes a displacement vector onto learnable weight scalar. Building upon insights from the work of Cordonnier et al. (2020), we consider Lemma 1 which states that the conv layer in Eq. 1 can be re-formulated as a form of multi-head self-attention under sufficient conditions: 
+
+Lemma 1. Consider a bijective mapping of natural num-bers, i.e., heads, onto 6-dimensional local displacements: 
+
+t(h) : [ Nh] → ∆( x, y). Let A(h) ∈ R|X ||Y|×|X ||Y| be an 
+
+33D Geometric Shape Assembly via Efficient Point Cloud Matching 
+
+attention matrix that holds the following: 
+
+A(h)(x,y),(n,m) =
+
+(
+
+1, if t(h) = ( n, m) − (x, y)
+
+0, otherwise. (2) 
+
+Then, for any high-dimensional convolution with a kernel 
+
+K : R6 −→ R, there exists {w(h) ∈ R}h∈[Nh] such that following equality holds: 
+
+Conv (FX , FY )(x,y) = X
+
+> h∈[Nh]
+
+A(h)(( x,y),:) C w(h). (3) 
+
+Proof. We refer to the Appendix A for the complete proof. As illustrated in the left of Fig. 1, the 2nd-order convolution (Eq. 1 and 3) is designed to disambiguate spatially consis-tent correspondences and update their correlation values by analyzing local correlation patterns around each point pair 
+
+(x, y) ∈ X × Y . Despite its good empirical performance in literature (Rocco et al., 2018; Choy et al., 2020; Min & Cho, 2021; Min et al., 2021), its critical limitation lies in the quadratic complexity of correlation computation, i.e., 
+
+O(|X | · |Y| ), with respect to the input resolution, imposing significant computational burdens during both the training and inference phases. This restricts its practical applications with large spatial resolution inputs, such as the geomet-ric shape assembly task that demands high-resolution, i.e., geometric-level, input processing for geometric compatibil-ity analysis to ensure precise correspondence alignments. 
+
+3.1. Proxy Match Transform: an efficient high-order feature transform with sub-quadratic complexity 
+
+To overcome the limitation, we introduce an efficient feature matching layer, dubbed Proxy Match Transform , which approximates high-order convolution with sub-quadratic complexity. Given a pair of features (FX , FY ) as inputs, PMT layers with Nh heads 1 are defined as follows: PMT (FX ) := X
+
+> h∈[Nh]
+
+A(h) 
+
+> X
+
+FX P(h)⊤w(h) 
+
+> X
+
+, (4) PMT (FY ) := X
+
+> h∈[Nh]
+
+A(h) 
+
+> Y
+
+FY P(h)⊤w(h) 
+
+> Y
+
+, (5) where w(h) 
+
+> X
+
+∈ R is a learnable weight scalar, A(h) 
+
+> X
+
+∈
+
+R|X |×|X | is local attention matrix 2, and P(h) ∈ RDproxy ×Demb 
+
+is proxy tensor that satisfies the following: 
+
+P(i)⊤P(j) =
+
+(
+
+IDemb , if i = j
+
+0, otherwise. (6) 
+
+> 1
+
+Similar to multi-head self-attention (Vaswani et al., 2017), each head performs distinct attentions and feature transform, al-lowing the layer to attend different aspects of inputs. 
+
+> 2
+
+To avoid the quadratic complexity of |X |×|X | in the attention matrices, we adopt an implementation strategy similar to that described in Thomas et al. (2019). We refer to Sec. 4.2 for details. 
+
+where Dproxy refers to the spatial resolution of the proxy tensor satifying Dproxy ≪ |X | , |Y| . The constraint ensures orthogonality between different proxy tensors. The rationale behind this design is discussed in Sec. 3.2. At each head, the layer initially constructs a correlation between the input feature FX and the proxy tensor P(h)
+
+such that C(h) 
+
+> X
+
+:= FX P(h)⊤ in much smaller size of 
+
+|X | × Dproxy , compared to the pairwise feature correla-tion C = FX FY ⊤ ∈ R|X |×|Y| as defined in Eq. 1. Af-ter applying learnable weight w(h) 
+
+> X
+
+, the output at position 
+
+(n, m) ∈ |X | × Dproxy is computed through a weighted-sum of its neighborhood matches lying on the spatial di-mension of feature map FX , e.g., {(n′, m)}n′∈N (n) where 
+
+|N (n)| = ϵ ≪ |X | . To formally put, the Proxy Match Transform output at head h given input FX at position 
+
+(n, m) is defined as PMT (FX )(h)(n,m) = A(h) 
+
+> X(n,:)
+
+FX P(h)⊤(: ,m)w(h)
+
+> X
+
+= A(h) 
+
+> X(n,:)
+
+C(h) 
+
+> X(: ,m)
+
+w(h)
+
+> X
+
+= X 
+
+> n′∈N (n)
+
+A(h) 
+
+> X(n,n′)
+
+C(h) 
+
+> X(n′,m)
+
+w(h) 
+
+> X
+
+. (7) PMT (FY )(h) is similarly defined with a different set of parameters of A(h) 
+
+> Y
+
+and w(h) 
+
+> Y
+
+.It is important to note that the PMT layers perform two 
+
+independent transforms for feature matching , one for FX
+
+and the other for FY . Despite the independence, matching between the feature pair is effectively facilitated by a shared proxy tensor P. This proxy tensor allows for the exchange of information between the features, eliminating the need to construct and convolve memory-intensive pairwise feature correlations, which often contain sparse and limited infor-mative match scores. We demonstrate that how the PMT effectively approximates existing high-order convolution in Sec. 3.2 and empirically prove the efficacy of the use of proxy tensor and different parameter sets in geometric shape assembly in Sec. 4.4. 
+
+3.2. Constraints for Proxy Match Transform 
+
+In order for the Proxy Match Transforms to express the high-order convolution, we assume the following constraints, (i) orthonormality constraint: P(i)⊤P(j) = IDemb if i = j, and (ii) zero-matrix constraint: P(i)⊤P(j) = 0 ∈ RDemb ×Demb 
+
+otherwise for all i, j ∈ [Nh]. Under such conditions, a dot product between two Proxy Match Transforms can ef-fectively approximate high-order convolution. Our main theoretical result is provided below. 
+
+Theorem 1. If we assume P(i)⊤P(j) = IDemb if i = j
+
+and P(i)⊤P(j) = 0 otherwise for all i, j ∈ [Nh], and de-fine A(h)(x,y),(n,m) := A(h)  
+
+> X(x,n)
+
+· A(h)  
+
+> Y(y,m)
+
+and w(h) := 
+
+43D Geometric Shape Assembly via Efficient Point Cloud Matching Coarse -level  
+
+> Correspondence
+> Fine Matcher
+> Fine Matcher
+> Coarse Matcher
+> Fine -level
+> Correspondence
+> Local
+> Patch
+> Compute
+> Correlation
+> sinkhorn
+> Optimal
+> Transport
+> Ungrouping
+> Fine -level
+> Feature
+> Coarse -level
+> Feature
+> …
+> Fine Matcher score matrix
+> confidence
+> matrix
+> …
+> …
+> …
+> …
+> …
+> PMT
+> independent
+> shared proxy
+> PMT
+> Proxy Match Transform
+> Group Normalization
+> LeakyReLU
+> PMT
+> Group Normalization
+> LeakyReLU
+> PMT
+> Group Normalization
+> LeakyReLU
+
+Figure 2. Overall pipeline of the Proxy Match TransformeR (PMTR) for pairwise shape assembly. The proposed architecture consists of coarse-level matching and fine-level matching. Each part of matching uses coarse-level features and fine-level features, respectively, acquired from the KPConv-FPN backbone as their input. Each matcher consists of Nt PMT layers in series. See Sec. 3.3 for details. 
+
+w(h) 
+
+> X
+
+w(h) 
+
+> Y
+
+, then, the dot-product of Proxy Match Trans-form outputs with a sufficient number of heads Nh can express high-dimensional convolutional layer with kernel 
+
+K : R6 −→ R: PMT (FX ) · PMT (FY )⊤ = Conv (FX , FY ).
+
+We refer to the Appendix A for the complete proof of the theorem. For the proxy tensors to satisfy the conditions, we design two auxiliary training objectives on proxy tensors, orthonormal loss Lorth and zero loss Lzero , as follows: 
+
+Lorth = X
+
+> (i,j )∈[Nh]2
+
+δ(i, j )( P(i)⊤P(j) − IDemb ), (8) 
+
+Lzero = X
+
+> (i,j )∈[Nh]2
+
+(1 − δ(i, j )) P(i)⊤P(j), (9) where δ(i, j ) provides 1 if i = j and 0 otherwise. 
+
+3.3. Overall architecture 
+
+The proposed architecture, dubbed Proxy Match Trans-formeR (PMTR) comprises four main parts: (1) feature ex-traction, (2) coarse-level matching, (3) fine-level matching, and (4) transformation prediction & training objectives. As illustrated in Fig. 2, our pipeline begins with the point cloud pair embedding. The feature extraction network generates three pairs of features, each at distinct spatial resolutions. These feature pairs are subsequently fed to a corresponding PMT layer, which facilitates both coarse-level matching (for mating surface localization) and fine-level matching (for geometric matching). The outputs from the coarse matching phase are utilized to establish a preliminary correspondence between the mating surfaces of the input parts, which is crucial for identifying potential areas of alignment. Subse-quently, the fine matching phase are designed to refine these correspondences, focusing exclusively on reliable matches identified during the coarse matching stage. This allows for precise correspondence establishment, ensuring accurate assembly as demonstrated by our experiments in Sec. 4.4. 
+
+Feature extraction. A pair of point cloud to match is fed to a feature embedding network, reducing their spa-tial resolution to provide coarse-level feature pair. Each of two subsequent upsampling layers connected in series provides features in more high-resolution. From this U-Net shaped architecture, similarly to KPConv-FPN (Thomas et al., 2019), the model gives three pairs of point cloud fea-tures with different spatial resolutions: {(FXn , FYn )}3
+
+> n=1
+
+where FXn ∈ R|X n|× Dn-emb with |X 1| < |X 2| < |X 3|, im-plying FX1 is the coarse feature with the smallest number of features. {Y i}3 
+
+> n=1
+
+is similarly defined. The coarse feature pair {(FX1 , FY1 )} is utilized for identifying potential mat-ing surfaces to match while the others {(FXn , FYn )}3
+
+> n=2
+
+are used precise geometric alignment between identified potential surface matches. 
+
+Coarse-level matching. At this stage, PMT processes the coarse feature pair {(FX1 , FY1 )}, aiming to evaluate poten-tial local correspondence between the feature set. This is achieved without directly computing the pairwise correla-tion matrix FX1 · FY1
+
+> ⊤
+
+, which would otherwise result in a quadratic dimensionality of R|X 1|×|Y 1|. Instead, a pair of PMTs operates in a manner that allows them to be refined independently to provide two refined coarse-level features 
+
+(FXc , FYc ) as follows: PMT (FX1 ) = FXc , PMT (FY1 ) = FYc . (10) Despite this independence, the transformations ensure that the dot product of the refined features closely approximates 53D Geometric Shape Assembly via Efficient Point Cloud Matching 
+
+the output of a high-order feature transformation. The ap-proximation is conceptualized as if the features had under-gone a high-order transform, according to Theorem 1: PMT (FX1 ) · PMT (FY1 )⊤ = FXc · FYc 
+
+> ⊤
+
+(11) 
+
+≈ Conv (FX1 , FY1 ). (12) This approach allows for the independent refinement of the features while still capturing the essence of their interac-tion, akin to high-order convolution, without the direct com-putation of their pairwise correlation , thereby effectively avoiding the burden of quadratic complexity. 
+
+Fine-level matching. In fine-level matching, we lever-age the high-resolution feature pairs {(FXn , FYn )}3 
+
+> n=2
+
+to achieve more precise alignment. This stage mirrors the coarse-level matching in its use of PMT layers for trans-forming features but in a serial configuration. This setup ensures that the output of one PMT layer serves as the input to the next, such that PMT (FX2 ) = FX3 and subse-quently, PMT (FX3 ) = FXf , with an analogous sequence for providing fine-level feature FYf . Note that PMT ef-fectively addresses the infeasibility of employing vanilla high-order convolution for high-resolution matching, es-pecially under conditions where |X | , |Y| > 1500 , as ob-served in our experiments. Compared to vanilla high-order convolution with complexity of O(|X | · |Y| ), render-ing it infeasible for large-scale applications, the proposed PMT having O(max (|X | , |Y| ) · Dproxy ) complexity where 
+
+Dproxy ≪ |X | , |Y| provides a more efficient means of an-alyzing feature correlations. In Sec. 4.4, we present an apples-to-apples comparisons, illustrating the practical ad-vantages of PMT over traditional matching methods, e.g., high-order convolution (Rocco et al., 2018). 
+
+Transformation prediction. After the coarse-level match-ing, the refined feature pair (FXc , FYc ) is utilized to com-pute correlation in size of |X c| × |Y c| where each score at position (x, y) is defined as exp (−|| (FXc )x − (FYc )y|| 22)
+
+similarly to the work of Qin et al. (2022). From |X c| × |Y c|
+
+number of scores, we collect top-k matches as reliable coarse matches, laying the foundation for more granular alignment at the subsequent fine-level matching. Building on coarse-level matches and fine-level features , we employ the point-to-node grouping method (Yu et al., 2021), which clusters fine-level features that are spatially proximate to the coarse matches, effectively sharpening the broad coarse-level correspondence into more precise fine-level ones. In essence, the computation of fine-level matches is directly influenced by the groundwork laid at the coarse level, es-tablishing a hierarchical refinement process. We then in-corporate an optimal transport layer (Sarlin et al., 2020) to the fine-level matches to obtain final correspondences for the subsequent transformation prediction. Finally, similarly to Qin et al. (2022), we use the final correspondences to predict the relative transformation {R|t} between the point cloud pair (X , Y).
+
+Training objectives. Following the previous 3D matching literatures (Zhao et al., 2023; Wu et al., 2023a; Chen et al., 2023; Yu et al., 2023), we adopt overlap-aware circle loss 
+
+Loc (Qin et al., 2022), and point matching loss Lp (Sarlin et al., 2020), as our main training objectives for coarse- and fine-level correspondence matching respectively. We direct readers to the work of Qin et al. (2022) for further details of Loc and Lp. With two auxiliary losses in Eq. 9, our main training objective is defined as follows: 
+
+L = Loc + Lp + λorth Lorth + λzero Lzero , (13) where λorth and λzero are hyperparameters which are set to 1.0 in our experiments. 
+
+## 4. Experiments 
+
+In this section, we discuss the dataset and evaluation metrics used (Sec. 4.1), implementation details (Sec. 4.2), the results of pairwise shape assembly with comprehensive analysis (Sec. 4.3), an in-depth ablation study to inspect the efficacy of the proposed techniques (Sec. 4.4), and extension of our evaluation to the task of multi-part assembly (Sec. 4.5). 
+
+4.1. Dataset and Evaluation Metrics Dataset. In our experiments, we utilize the Breaking Bad dataset (Sell ´an et al., 2022) which is a large-scale dataset of fractured objects for the task of geometric shape assembly, which consists of over 1 million fractured objects simu-lated from 10K meshes of PartNet (Mo et al., 2019) and Thingi10k (Zhou & Jacobson, 2016). For pairwise assembly training and evaluation, we exclusively select a subset of the Breaking Bad dataset containing two-part objects (Sec. 4.3). For multi-part assembly, we expand our evaluation to in-clude all samples in the dataset, encompassing objects with 2 to 20 parts (Sec. 4.5). 
+
+Evaluation metrics. Following the evaluation protocol of Sell ´an et al. (2022), we measure the root mean square error (RMSE) between the ground-truth and predicted rotation (R) and translation (T) parameters, and the Chamfer distance (CD) between the assembly results and ground-truth. In addition, we introduce and report a new metric, called CoR-respondence Distance (CRD), which is defined as Frobenius norm between the input pair of the assembled point cloud; unlike CD, CRD offers a more comprehensive measure of correspondence, capturing both proximity and structural alignment between the assembled objects. We compute the evaluation metrics of RMSE (R) and RMSE (T) based on 
+
+relative transformation , e.g., rotation and translation, be-tween the input fracture pair, instead of absolute pose as in previous literature (Chen et al., 2022; Wu et al., 2023b) by setting the largest fracture as an anchor and compute 63D Geometric Shape Assembly via Efficient Point Cloud Matching 
+
+Table 1. Pairwise shape assembly results. Numbers in bold indicate the best performance and underlined ones are the second best.                                                                                          
+
+> Method Estimator Type Target
+> {R|t}
+> CRD ↓CD ↓RMSE (R) ↓RMSE (T) ↓CRD ↓CD ↓RMSE (R) ↓RMSE (T) ↓
+> (10 −2)(10 −3)(◦)(10 −2)(10 −2)(10 −3)(◦)(10 −2)
+> everyday artifact
+> Global (2019; 2020a) MLP absolute pose 27.77 15.26 110.74 30.61 19.26 7.16 86.30 21.02 LSTM (2020) 20.04 7.77 84.60 22.07 19.52 6.45 84.42 21.33 DGL (2020) 20.32 6.40 86.23 22.38 19.82 6.19 85.46 21.65 NSM (2022) 21.71 11.09 83.38 23.71 19.44 6.33 83.22 21.41 Wu et al. (2023b) 20.65 11.66 84.58 22.90 19.17 7.97 85.04 20.90 GeoTransformer (2022) correspondence alignment relative transformation 0.61 0.51 22.81 7.28 0.89 0.70 33.23 10.30 Jigsaw (2023) 5.48 1.34 38.73 2.73 6.36 1.45 39.71 3.02 PMTR (Ours) 0.39 0.25 17.14 5.53 0.60 0.42 23.28 7.27
+
+the relative transformation. The formal definitions of the evaluation metrics can be found in Appendix D. 
+
+4.2. Implementation details 
+
+We implement our PMTR using PyTorch Lightning (Fal-con & team, 2019). Experiments were conducted on a ma-chine with Intel(R) Xeon(R) Gold 6342 CPU @ 2.80GHz and NVIDIA GeForce RTX 3090 GPU. For all experi-ments, except the ones include GeoTransformer, we use ADAM (Kingma & Ba, 2015) optimizer with a learning rate of 1 × 10 −3 for 150 epochs. For GeoTransformer, we use the identical settings but only reduce the learning rate to 
+
+1 × 10 −4 to prevent model divergence. To ensure uniform point density among fractures, we uniform-sample approx-imately 5,000 points on the surface of holistic objects and allocate the number of sample points for each fracture pro-portional to the surface area of each fracture. Each of both coarse-level and fine-level matchers consists of 2 PMT( ·)layers ( Nt = 2 ) with nonlinearity and group norm (Wu & He, 2018). See Appendix C for further details. 
+
+Avoiding quadratic complexity of attention in PMT. In our actual implementation, we use local, i.e., sparse, at-tention for A(h) 
+
+> X
+
+by collecting attention scores of ‘neigh-borhood’ of each position, thus reducing attention size to |X | × ϵ instead of |X | × |X | where ϵ ∈ N+ is the number of neighbors: ϵ ≪ |X | . Specifically, atten-tion at position x ∈ R3 denoted as A(h)  
+
+> X(x,:)
+
+∈ R1×ϵ
+
+are limited to the neighborhood of x, represented by 
+
+N (x). Then, the output of PMT at x is formulated as PMT (FX )(x,:) = P 
+
+> h∈[Nh]
+
+A(h) 
+
+> X(x,:)
+
+FX (N (x),:) P(h)⊤w(h)
+
+> X
+
+where FX (N (x),:) ∈ Rϵ×Demb is neighborhood features of position x. This method significantly reduces the computa-tional complexity typically associated with full pairwise at-tention, which would otherwise be quadratic, i.e., |X | × |X | .This reduction in complexity mirrors strategies found in existing literature, such as those described by Thomas et al. (2019). For simplicity in presentation, however, this pa-per narrates with a conventional square attention matrix 
+
+A(h) 
+
+> X
+
+∈ R|X |×|X | to illustrate our methodology. A similar approach applies to the other matrix A(h) 
+
+> Y
+
+∈ R|Y|×|Y| .
+
+Assessment with relative transformations. Note that the previous methods for pairwise geometric assembly (Li et al., 2020a; Wu et al., 2020; Huang et al., 2020; Chen et al., 2022) predict two different transformation parameters for the input pair of parts to assemble them in 3D space. However, this approach has a limitation in accurate evaluation: even if a model perfectly assembles the pair of parts, the assessment may be inaccurate if the assembled object does not match the specific absolute pose of the ground truth. To address this issue, we suggest to predict the relative transformation between input parts, allowing us to focus solely on the assembly rather than the predefined absolute poses. 
+
+4.3. Pairwise Shape Assembly 
+
+To evaluate our method, we categorize previous baseline methods into two groups based on their approach to trans-formation parameters {R|t} prediction. The first group includes ‘regression methods’ that encode each part into a global embedding and directly regress their absolute trans-formations using MLP: Global (Li et al., 2020a), LSTM (Wu et al., 2020), DGL (Huang et al., 2020), NSM (Chen et al., 2022), and Wu et al. (2023b). The second group consists of ‘matching-based methods’ that estimate relative transforma-tions by aligning their predicted correspondences between each pair of parts: GeoTransformer (Qin et al., 2022) and Jigsaw (Lu et al., 2023). 
+
+Experimental results and analysis. We evaluate our method and compare it against baseline methods on the 
+
+everyday and artifact subsets of the Breaking Bad dataset. Tab. 1 presents the results, demonstrating that our method consistently outperforms all baseline methods on both subsets. In Fig. 4, we provide qualitative comparisons between ours and the baselines, using mesh representation for better visualization. To provide deeper insights to the learned shared proxy P(h),we visualize how the proxy and the refined coarse-level fea-tures ( FXc and FYc ) are distributed in the feature space via t-SNE. As shown in Fig. 3, The visualization reveals that 73D Geometric Shape Assembly via Efficient Point Cloud Matching 
+
+Table 2. Ablation study on the proxy sharing. By sharing proxy tensor in each Proxy Match Transform layer, two independent feature transforms share information, yielding the highest score.                                 
+
+> Ref. proxy shared CRD ↓CD ↓RMSE (R) ↓RMSE (T) ↓
+> proxy (10 −2)(10 −3)(◦)(10 −2)(a) ✗✗0.53 0.47 21.04 6.93 (b) ✓✗0.44 0.31 18.66 5.97
+> Ours ✓✓0.39 0.25 17.14 5.53
+
+Table 3. Ablation study on the contribution of Lorth and Lzero .
+
+They constrains Proxy Match Transform in approximating the high-dimensional convolution layers, yielding the highest score. 
+
+Ref. Lorth Lzero 
+
+CRD ↓ CD ↓ RMSE (R) ↓ RMSE (T) ↓
+
+(10 −2) (10 −3) (◦) (10 −2)(a) ✗ ✗ 0.43 0.31 18.82 6.23 (b) ✓ ✗ 0.43 0.32 17.87 5.73 (c) ✗ ✓ 0.43 0.27 18.77 6.02 
+
+Ours ✓ ✓ 0.39 0.25 17.14 5.53 
+
+subsets of the source and target features (orange and light-blue) and the proxy (purple) form distinct clusters (Fig. 3 (a)) with closer proximity, implying higher correlation with the proxy. In Fig. 3. (b), we visually mark those points in 3D space. Notably, the points with the highest correlation (red and blue) with the proxy are predominantly located on the “mating surfaces” of the parts, revealing that the proxy effec-tively facilitates the information exchange between given feature pair without the burden of quadratic complexity. 
+
+4.4. Ablation studies Effect of proxy tensor in assembly. To verify the effect of proxy tensor in PMT, we conducted a series of abla-tion studies on the everyday subset of the Breaking Bad dataset. Specifically, we examine the impact of the shared proxy tensor by either removing it or using two different proxies instead of a shared one. The results, summarized in Tab. 2, clearly indicate that both removing the proxy and not sharing it lead to a significant decline in assembly per-formance. This underscores the efficacy of the shared proxy in facilitating information exchange in PMT. Next, we explore the impact of Lorth and Lzero , which serve as the sufficient conditions to constrain the PMT layer to represent the high-dimensional convolutional layers, as de-tailed in Sec. 3.2. The results are presented in Tab. 3; as evident from the table, the best performance is achieved when both losses are incorporated. This highlights that the significance of these constraining conditions for PMT, as they are crucial in enabling PMT to effectively approximate the high-dimensional convolution. 
+
+Comparison between different matchers. To demonstrate the efficacy and efficiency of the proposed matching layer, PMT, we conduct ablations by either removing it (None) or replacing it with different layers: a single linear trans-
+
+Table 4. Ablation study on the choice of fine-level matcher. 
+
+Proxy Match Transform layer at fine-level yields the best assembly accuracy while incurring low-compute complexity than baselines.                                       
+
+> Ref. Coarse-level Fine-level CRD ↓CD ↓RMSE (R) ↓RMSE (T) ↓
+> Matcher Matcher (10 −2)(10 −3)(◦)(10 −2)(a) PMT None 0.53 0.43 20.70 6.63 (b) Linear 0.47 0.37 17.55 5.68 (c) MLP 0.49 0.38 17.35 5.69 (d) HDC Out of memory error (e) GeoTr Out of memory error
+> Ours PMT 0.39 0.25 17.14 5.53
+
+Table 5. Ablation study on the impact of Proxy Match Trans-form as a fine-level matcher. Proxy Match Transform layer con-sistently boosts performance with various coarse-level matchers.                                                                                  
+
+> Ref. Coarse-level Fine-level CRD ↓CD ↓RMSE (R) ↓RMSE (T) ↓
+> Matcher Matcher (10 −2)(10 −3)(◦)(10 −2)(a) None None 0.69 0.57 27.71 8.78 (b) PMT 0.60 0.52 24.66 7.42
+> (c) Linear None 0.64 0.53 26.14 7.42 (d) PMT 0.55 0.50 22.44 6.69
+> (e) MLP None 0.66 0.50 26.93 7.35 (f) PMT 0.57 0.44 23.74 7.03
+> (g) HDC None 0.76 0.63 27.75 8.68 (h) PMT 0.63 0.48 23.43 7.08
+> (i) GeoTr None 0.61 0.51 22.81 7.28
+> (j) PMT 0.48 0.33 23.91 7.32 (k) PMT None 0.53 0.43 20.70 6.63
+> Ours PMT 0.39 0.25 17.14 5.53
+
+formation (Linear), multi-layer perceptron (MLP), high-dimensional convolution (HDC by Min et al. (2021)), and GeoTransformer (GeoTr by Qin et al. (2022)). In Tab. 4, we compare ours with other layers at fine-level; Undoubt-edly, the layers without any information exchange between source and target features, e.g., None, Linear, and MLP, show dramatic drops in performance. While the matching layers of HDC and GeoTr cause out-of-memory-error due to their quadratic complexity, being unable to be incorpo-rated at fine-level with large input spatial resolutions, the proposed PMT not only efficiently processes source and target features without memory burden but also effectively source (non -mating)      
+
+> source (mating)
+> target (mating)
+> target (non -mating)
+> proxy source (nearest sup. poin t)
+> source (others)
+> target (others)
+> target ( nearest sup. point)
+
+(a) (b) 
+
+Figure 3. (a) t-SNE visualization of proxy tensor (colored in pur-ple), source features FXc and target features FYc . The source and target features are colored in warm (red) and cool (blue) tones, respectively, and those on mating surfaces are colored in orange and lightblue. (b) Feature visualization in 3D space. Source X1
+
+and target features Y1 with closer proximity to the proxy tensor are highlighted in red and blue, respectively, and features on mating surfaces are highlighted in orange and lightblue. For this visualiza-tion, we use proxy tensor at a head index of h = 0 : P(0) .
+
+83D Geometric Shape Assembly via Efficient Point Cloud Matching 
+
+Table 6. Multi-part assembly results on the Breaking Bad dataset.                                                                                                                  
+
+> Method CRD ↓CD ↓RMSE (R) ↓RMSE (T) ↓PA CRD ↑PA CD ↑CRD ↓CD ↓RMSE (R) ↓RMSE (T) ↓PA CRD ↑PA CD ↑
+> (10 −2)(10 −3)(◦)(10 −2)(%) (%) (10 −2)(10 −3)(◦)(10 −2)(%) (%)
+> everyday artifact
+> Global (2019; 2020a) 27.79 15.30 55.42 15.31 36.42 37.90 26.42 14.92 54.41 14.48 36.67 36.97 LSTM (2020) 27.69 15.23 54.78 15.24 36.74 38.97 28.15 14.61 53.59 15.49 36.67 37.25 DGL (2020) 27.90 13.23 55.76 15.33 36.99 39.70 27.48 13.91 54.66 15.10 36.66 37.40 Wu et al. (2023b) 28.18 19.70 54.98 15.59 35.66 36.28 26.02 15.81 54.35 14.27 36.63 37.02 Jigsaw (2023) 14.13 11.82 41.12 11.74 52.48 60.26 16.10 9.53 42.01 17.47 56.93 65.58
+> PMTR (Ours) 6.51 5.56 31.57 9.95 66.95 70.56 5.67 4.33 31.58 10.08 66.96 71.61 GT Ours Jigsaw DGL LSTM Global NSM Wu et al. GeoTr
+> Jigsaw Global GT DGL LSTM Wu et al. Ours
+
+Figure 4. Qualitative results of pairwise shape assembly (Upper row) and multipart shape assembly (Bottom row) on Breaking Bad dataset. 
+
+exchanges information between them via proxy tensor. In Tab. 5, similar experiments are conducted at coarse-level. As evident from the tables, incorporating the PMT layer as both fine and coarse matcher consistently leads to superior performance, affirming its superiority over the state-of-the-art matching layers (Min et al., 2021; Qin et al., 2022). 
+
+4.5. Multi-part Assembly 
+
+To assess the generalizibility of our method, we extend our evaluation to include multiple input parts, i.e., multi-part as-sembly, which requires the model to understand the pairwise correspondence relationships among all input parts. Utiliz-ing the two-part assembly framework (Fig. 2), it begins with computing relative transformations between each pair of the 
+
+P parts. We then construct a pose graph wherein each node and factor respectively represent an individual part and the predicted relative transformation, i.e., pose, between two parts. To optimize this pose graph for assembly, we employ a recent transformation averaging method detailed in the work of Dellaert et al. (2020). After the optimization, we evaluate our method using the metrics from pairwise assem-bly, supplemented by Part Accuracy ( PA CD ) (Huang et al., 2020) – the percentage of parts with Chamfer Distance less than the predefined threshold of 0.01 – as well as CRD-based Part Accuracy ( PA CRD ) with 0.1 threshold. As seen from Tab. 6 and Fig. 4, our method significantly surpasses all baselines on all metrics on the multi-part assembly, demon-strating robust generalization to multiple input scenarios. For details on the evaluation metrics, refer to Appendix D. 
+
+## 5. Scope and Limitations 
+
+Despite the advances in efficient point cloud matching and shape assembly, our method still faces several limitations. First, the accuracy of our method can be compromised in scenarios with extremely low overlap between point clouds, which can hinder the identification of reliable correspon-dences. Second, our method, like many others in the field, requires extensive training on domain-specific datasets to achieve optimal performance. Third, while our experiments demonstrate the efficacy of PMT in shape assembly tasks, it have not been extensively tested across other potential applications such as robotics, manufacturing, digital artistry, or even restoration of ancient artifacts via more accurate and detailed part assembly. Thus, the applicability of our approach beyond geometric shape assembly remains to be fully validated. We leave this to future work. 
+
+## 6. Conclusion 
+
+We have introduced a low-complexity, high-order feature transform layer, Proxy Match Transform, designed for effi-cient approximation of traditional compute-intensive high-order feature transforms. The significant performance im-provements over the recent state of the arts with lower com-putational load indicate that its effective real-world appli-cability from artifact reconstruction to manufacturing. Al-though the proposed method has been applied exclusively to geometric shape assembly, its remarkable improvements across various evaluation metrics indicate its profound po-tential for broad applications. 93D Geometric Shape Assembly via Efficient Point Cloud Matching 
+
+## Acknowledgements 
+
+This work was supported by IITP grants (RS-2022-II220290: Visual Intelligence for Space-Time Understanding and Gen-eration (30%), RS-2021-II212068: AI Innovation Hub (60%), RS-2019-II191906: AI Graduate School Program at POSTECH (5%), RS-2021-II211343: AI Graduate School Program at SNU: 2021-0-01343 (5%)) funded by the Korea government. 
+
+## Impact Statement 
+
+The advancements in geometric shape assembly hold paramount potentials across numerous fields, from archaeo-logical artifact reconstruction to industrial manufactures. This research can also advance the field manufacturing, robotics, digital artistry, and even restoration of ancient artifacts via more accurate and robust shape assembly. 
+
+## References 
+
+Chen, S., Xu, H., Li, R., Liu, G., Fu, C.-W., and Liu, S. Sira-pcr: Sim-to-real adaptation for 3d point cloud registration. In Proc. IEEE International Conference on Computer Vision (ICCV) , 2023. Chen, X., Zhang, H., Lin, J., Hu, R., Lu, L., Huang, Q.-X., Benes, B., Cohen-Or, D., and Chen, B. Dapper: decompose-and-pack for 3d printing. ACM Trans. Graph. ,34(6):213–1, 2015. Chen, Y., Zeng, Q., Ji, H., and Yang, Y. Skyformer: Re-model self-attention with gaussian kernel and nystr ¨om method. In Advances in Neural Information Processing Systems (NeurIPS) , 2021. Chen, Y.-C., Li, H., Turpin, D., Jacobson, A., and Garg, A. Neural shape mating: Self-supervised object assembly with adversarial shape priors. In Proc. IEEE Conference on Computer Vision and Pattern Recognition (CVPR) ,2022. Chen, Z., Gong, M., Ge, L., and Du, B. Compressed self-attention for deep metric learning with low-rank approxi-mation. In Proc. International Joint Conference on Artifi-cial Intelligence (IJCAI) , 2020. Cho, S., Hong, S., Jeon, S., Lee, Y., Sohn, K., and Kim, S. Cats: Cost aggregation transformers for visual corre-spondence. Advances in Neural Information Processing Systems , 34:9011–9023, 2021. Choy, C., Dong, W., and Koltun, V. Deep global registra-tion. In Proc. IEEE Conference on Computer Vision and Pattern Recognition (CVPR) , 2020. Cordonnier, J.-B., Loukas, A., and Jaggi, M. On the rela-tionship between self-attention and convolutional layers. In International Conference on Learning Representations (ICLR) , 2020. Dellaert, F., Rosen, D. M., Wu, J., Mahony, R., and Carlone, L. Shonan rotation averaging: Global optimality by surf-ing so (p)ˆ n so (p) n. In Proc. European Conference on Computer Vision (ECCV) , 2020. Denton, R., Zaremba, W., Bruna, J., LeCun, Y., and Fer-gus, R. Exploiting linear structure within convolutional networks for efficient evaluation. In Advances in Neural Information Processing Systems (NeurIPS) , 2014. Falcon, W. and team, T. P. L. Pytorch lightning, 2019. URL 
+
+https://github.com/PyTorchLightning/ pytorch-lightning .Huang, J., Zhan, G., Fan, Q., Mo, K., Shao, L., Chen, B., Guibas, L., and Dong, H. Generative 3d part assembly via dynamic graph learning. In Advances in Neural Infor-mation Processing Systems (NeurIPS) , 2020. Huang, S., Gojcic, Z., Usvyatsov, M., Wieser, A., and Schindler, K. Predator: Registration of 3d point clouds with low overlap. In Proc. IEEE Conference on Computer Vision and Pattern Recognition (CVPR) , 2021. Jacobson, A. Generalized matryoshka: Computational de-sign of nesting objects. In Computer Graphics Forum ,volume 36, pp. 27–35. Wiley Online Library, 2017. Jones, R. K., Barton, T., Xu, X., Wang, K., Jiang, E., Guer-rero, P., Mitra, N. J., and Ritchie, D. Shapeassembly: Learning to generate programs for 3d shape structure synthesis. ACM Transactions on Graphics (TOG) , 39(6): 1–20, 2020. Khan, S. H., Guo, Y., Hayat, M., and Barnes, N. Unsu-pervised primitive discovery for improved 3d generative modeling. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , pp. 9739– 9748, 2019. Kim, S., Min, J., and Cho, M. Transformatcher:match-to-match attention for semantic correspondence. In Proc. IEEE Conference on Computer Vision and Pattern Recog-nition (CVPR) , 2022. Kingma, D. P. and Ba, J. Adam: A method for stochastic optimization. In International Conference on Learning Representations (ICLR) , 2015. Kingma, D. P. and Welling, M. Auto-encoding variational bayes. In International Conference on Learning Repre-sentations (ICLR) , 2014. 10 3D Geometric Shape Assembly via Efficient Point Cloud Matching 
+
+Li, H., Alhashim, I., Zhang, H., Shamir, A., and Cohen-Or, D. Stackabilization. ACM Transactions on Graphics, (Proc. of SIGGRAPH Asia 2012) , 31(6), 2012. Li, J., Niu, C., and Xu, K. Learning part generation and assembly for structure-aware shape synthesis. In Proc. AAAI Conference on Artificial Intelligence (AAAI) , 2020a. Li, Y., Mo, K., Shao, L., Sung, M., and Guibas, L. Learning 3d part assembly from a single image. In Computer Vision–ECCV 2020: 16th European Conference, Glasgow, UK, August 23–28, 2020, Proceedings, Part VI 16 , pp. 664–682. Springer, 2020b. Lu, J., Sun, Y., and Huang, Q. Jigsaw: Learning to assemble multiple fractured objects. arXiv preprint arXiv:2305.17975 , 2023. Min, J. and Cho, M. Convolutional hough matching net-works. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) , pp. 2940–2950, June 2021. Min, J., Kang, D., and Cho, M. Hypercorrelation squeeze for few-shot segmentation. In Proc. IEEE International Conference on Computer Vision (ICCV) , 2021. Min, J., Zhao, Y., Luo, C., and Cho, M. Peripheral vision transformer. Advances in Neural Information Processing Systems (NeurIPS) , 2022. Mo, K., Zhu, S., Chang, A. X., Yi, L., Tripathi, S., Guibas, L. J., and Su, H. Partnet: A large-scale benchmark for fine-grained and hierarchical part-level 3d object under-standing. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , pp. 909–918, 2019. Narayan, A., Nagar, R., and Raman, S. Rgl-net: A recurrent graph learning framework for progressive part assembly. In Proceedings of the IEEE/CVF Winter Conference on Applications of Computer Vision , pp. 78–87, 2022. Qin, Z., Yu, H., Wang, C., Guo, Y., Peng, Y., and Xu, K. Geometric transformer for fast and robust point cloud registration. In Proc. IEEE Conference on Computer Vision and Pattern Recognition (CVPR) , 2022. Rocco, I., Cimpoi, M., Arandjelovi ´c, R., Torii, A., Pajdla, T., and Sivic, J. Neighbourhood consensus networks. In Advances in Neural Information Processing Systems (NeurIPS) , 2018. Rocco, I., Arandjelovi ´c, R., and Sivic, J. Efficient neigh-bourhood consensus networks via submanifold sparse convolutions. In Proc. European Conference on Com-puter Vision (ECCV) , 2020. Sarlin, P.-E., DeTone, D., Malisiewicz, T., and Rabinovich, A. Superglue: Learning feature matching with graph neural networks. In Proc. IEEE Conference on Computer Vision and Pattern Recognition (CVPR) , 2020. Schor, N., Katzir, O., Zhang, H., and Cohen-Or, D. Com-ponet: Learning to generate the unseen by part synthesis and composition. In Proc. IEEE International Conference on Computer Vision (ICCV) , 2019. Sell ´an, S., Chen, Y.-C., Wu, Z., Garg, A., and Jacobson, A. Breaking bad: A dataset for geometric fracture and reassembly. In Thirty-sixth Conference on Neural Infor-mation Processing Systems Datasets and Benchmarks Track (NeurIPS) , 2022. Shi, Y., Cai, J.-X., Shavit, Y., Mu, T.-J., Feng, W., and Zhang, K. Clustergnn: Cluster-based coarse-to-fine graph neural network for efficient feature matching. In Proc. IEEE Conference on Computer Vision and Pattern Recog-nition (CVPR) , 2023. Thomas, H., Qi, C. R., Deschaud, J.-E., Marcotegui, B., Goulette, F., and Guibas, L. J. Kpconv: Flexible and deformable convolution for point clouds. In Proc. IEEE International Conference on Computer Vision (ICCV) ,2019. Tian, Y., Xu, J., Li, Y., Luo, J., Sueda, S., Li, H., Willis, K. D., and Matusik, W. Assemble them all: Physics-based planning for generalizable assembly by disassem-bly. ACM Trans. Graph. , 41(6), 2022. Tulsiani, S., Su, H., Guibas, L. J., Efros, A. A., and Malik, J. Learning shape abstractions by assembling volumet-ric primitives. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition , pp. 2635– 2643, 2017. Vaswani, A., Shazeer, N., Parmar, N., Uszkoreit, J., Jones, L., Gomez, A. N., Kaiser, Ł., and Polosukhin, I. Atten-tion is all you need. Advances in Neural Information Processing Systems (NeurIPS) , 2017. Wang, F. and Hauser, K. Stable bin packing of non-convex 3d objects with a robot manipulator. In 2019 Interna-tional Conference on Robotics and Automation (ICRA) ,pp. 8698–8704. IEEE, 2019. Wu, Q., Shen, Y., Jiang, H., Mei, G., Ding, Y., Luo, L., Xie, J., and Yang, J. Graph matching optimization network for point cloud registration. In 2023 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS) ,2023a. Wu, R., Zhuang, Y., Xu, K., Zhang, H., and Chen, B. Pq-net: A generative part seq2seq network for 3d shapes. In 
+
+Proc. IEEE Conference on Computer Vision and Pattern Recognition (CVPR) , 2020. 11 3D Geometric Shape Assembly via Efficient Point Cloud Matching 
+
+Wu, R., Tie, C., Du, Y., Zhao, Y., and Dong, H. Leverag-ing se (3) equivariance for learning 3d geometric shape assembly. In Proc. IEEE International Conference on Computer Vision (ICCV) , 2023b. Wu, Y. and He, K. Group normalization. In Proc. European Conference on Computer Vision (ECCV) , 2018. Yu, H., Li, F., Saleh, M., Busam, B., and Ilic, S. Cofinet: Reliable coarse-to-fine correspondences for robust point-cloud registration. Advances in Neural Information Pro-cessing Systems (NeurIPS) , 2021. Yu, J., Ren, L., Zhang, Y., Zhou, W., Lin, L., and Dai, G. Peal: Prior-embedded explicit attention learning for low-overlap point cloud registration. In Proc. IEEE Con-ference on Computer Vision and Pattern Recognition (CVPR) , 2023. Zaheer, M., Guruganesh, G., Dubey, A., Ainslie, J., Alberti, C., Ontanon, S., Pham, P., Ravula, A., Wang, Q., Yang, L., and Ahmed, A. Big bird: Transformers for longer sequences. In Advances in Neural Information Processing Systems (NeurIPS) , 2021. Zakka, K., Zeng, A., Lee, J., and Song, S. Form2fit: Learn-ing shape priors for generalizable assembly from dis-assembly. In 2020 IEEE International Conference on Robotics and Automation (ICRA) , pp. 9404–9410. IEEE, 2020. Zeng, A., Florence, P., Tompson, J., Welker, S., Chien, J., Attarian, M., Armstrong, T., Krasin, I., Duong, D., Sindhwani, V., et al. Transporter networks: Rearranging the visual world for robotic manipulation. In Conference on Robot Learning , pp. 726–747. PMLR, 2021. Zhao, H., Wei, S., Shi, D., Tan, W., Li, Z., Ren, Y., Wei, X., Yang, Y., and Pu, S. Learning symmetry-aware geom-etry correspondences for 6d object pose estimation. In 
+
+Proc. IEEE International Conference on Computer Vision (ICCV) , 2023. Zhou, Q. and Jacobson, A. Thingi10k: A dataset of 10,000 3d-printing models. arXiv preprint arXiv:1605.04797 ,2016. 12 3D Geometric Shape Assembly via Efficient Point Cloud Matching 
+
+## A. Theoretical Analysis of Proxy Match Transform 
+
+We now derive sufficient conditions such that Proxy Match Transform can express high-dimensional convolution. Our main theoretical result is given below. 
+
+Theorem 1. If we assume P(i)⊤P(j) = IDemb if i = j and P(i)⊤P(j) = 0 otherwise for all i, j ∈ [Nh], and define 
+
+A(h)(x,y),(n,m) := A(h)  
+
+> X(x,n)
+
+· A(h)  
+
+> Y(y,m)
+
+and w(h) := w(h) 
+
+> X
+
+w(h) 
+
+> Y
+
+, then, the dot-product of Proxy Match Transform outputs with a sufficient number of heads Nh can express high-dimensional convolutional layer with kernel K : R6 −→ R:PMT (FX ) · PMT (FY )⊤ = Conv (FX , FY ).Proof. We first take the dot-product of Proxy Match Transform outputs and simplify: PMT (FX ) · PMT (FY )⊤ =
+
+ X
+
+> h∈[Nh]
+
+A(h) 
+
+> X
+
+FX P(h)⊤w(h)
+
+> X
+
+ X
+
+> h∈[Nh]
+
+A(h) 
+
+> Y
+
+FY P(h)⊤w(h)
+
+> Y
+
+
+
+> ⊤
+
+(14) 
+
+= X
+
+> (i,j )∈[Nh]2
+
+w(i) 
+
+> X
+
+A(i) 
+
+> X
+
+FX P(i)⊤P(j)FY ⊤A(j)⊤Y w(j) 
+
+> Y
+
+(15) 
+
+= X
+
+> (i,j )∈[Nh]2
+
+δ(i, j )
+
+
+
+w(i) 
+
+> X
+
+A(i) 
+
+> X
+
+FX FY ⊤A(j)⊤Y w(j)
+
+> Y
+
+
+
+(16) 
+
+= X
+
+> h∈[Nh]
+
+w(h) 
+
+> X
+
+A(h) 
+
+> X
+
+FX FY ⊤A(h)⊤Y w(h) 
+
+> Y
+
+, (17) where δ(i, j ) provides 1 if i = j and 0 otherwise. Using definitions of A(h) ∈ R|X ||Y|×|X ||Y| and w(h) ∈ R, the output at a specific position (x, y) ∈ R6 is as follows: 
+
+(PMT (FX ) · PMT (FY )⊤)(x,y) = X
+
+> h∈[Nh]
+
+A(h) 
+
+> X(x,:)
+
+FX FY ⊤A(h)⊤Y (: ,y)w(h) (18) 
+
+= X
+
+> h∈[Nh]
+
+X
+
+> (n,m)∈X ×Y
+
+A(h) 
+
+> X(x,n)
+
+FX (n,:) FY ⊤
+
+> (: ,m)
+
+A(h)⊤Y (m,y)w(h) (19) 
+
+= X
+
+> h∈[Nh]
+
+ X
+
+> (n,m)∈X ×Y
+
+A(h)  
+
+> X(x,n)
+
+· A(h) 
+
+> Y(y,m)
+
+ C(n,m)w(h) (20) 
+
+= X
+
+> h∈[Nh]
+
+A(h)(( x,y),:) C w(h). (21) Now consider the following Lemma: 
+
+Lemma 1. Consider a bijective mapping of natural numbers, i.e., heads, onto 6-dimensional local displacements: t(h) : [Nh] → ∆( x, y). Let A(h) ∈ R|X ||Y|×|X ||Y| be an attention matrix that holds the following: 
+
+A(h)(x,y),(n,m) =
+
+(
+
+1, if t(h) = ( n, m) − (x, y)
+
+0, otherwise. (22) 
+
+Then, for any high-dimensional convolution with a kernel K : R6 −→ R, there exists {w(h) ∈ R}h∈[Nh] such that following equality holds: 
+
+Conv (FX , FY )(x,y) = X
+
+> h∈[Nh]
+
+A(h)(( x,y),:) C w(h). (23) 13 3D Geometric Shape Assembly via Efficient Point Cloud Matching 
+
+Proof. Consider high-dimensional convolution at position (x, y):Conv (FX , FY )(x,y) := X  
+
+> (n,m)∈N (x)×N (y)
+
+C(n,m)K([ n − x, m − y]) = X
+
+> (ννν,μ μμ)∈∆( x,y)
+
+C(x,y)+( ννν,μ μμ)K(( ννν, μ μμ)) = X
+
+> h∈[Nh]
+
+C(x,y)+ t(h)K(t(h)) ( t(h) : [ Nh] → ∆( x, y) )
+
+= X
+
+> h∈[Nh]
+
+C(x,y)+ t(h)w(h) ( w(h) := K(t(h)) ∈ R )
+
+= X
+
+> h∈[Nh]
+
+ X
+
+> (n,m)∈X ×Y
+
+1[t(h) = ( n, m) − (x, y)] C(n,m)
+
+ w(h)
+
+= X
+
+> h∈[Nh]
+
+A(h)(( x,y),:) Cw(h). (24) By applying Lemma 1, we conclude that the dot-product of Proxy Match Transform outputs is equivalent to the high-order convolution. ■
+
+## B. Efficiency of Proxy Match Transform 
+
+To demonstrate the superiority of the proposed PMT, we provide the efficiency comparison between different matchers, e.g., Geometric Transformer (GeoTr) by Qin et al. (2022) and Proxy Match Transform (PMT), both during training and inference phases in Tab. 7. “Coarse-only” and “Coarse + Fine” refer to two different Proxy Match TransformeR (PMTR) models with PMT integrated only at the coarse-level and both levels, respectively. Specifically, we measure the computational efficiency by employing Floating Point Operations Per Second (FLOPS), and to assess the memory overhead and footprint, we record the peak memory usage for each method during both the training and inference phases, as well as the number of parameters. We also provide the training/inference times required for each matcher. For clarity in our comparison, when measuring the FLOPS, number of parameters, and train/inference times, we exclude those associated with the backbone and focus solely on the matchers: the coarse- or fine-level matcher. 
+
+Table 7. Efficiency comparison results between GeoTr (Qin et al., 2022) and PMT. Lower is better.                                              
+
+> Method Coarse-level Fine-level FLOPS ↓# Param. ↓Mem. train ↓Mem. test ↓Train time ↓Inference time ↓
+> Matcher Matcher (G) (K) (GB) (GB) (ms) (ms) GeoTransformer (2022) GeoTr None 9.67 926.85 6.96 3.10 8.93 8.04 PMTR (Coarse-only) PMT None 0.45 273.85 2.12 0.28 4.06 3.23 PMTR (Coarse + Fine) PMT PMT 0.78 296.15 3.78 0.88 5.35 3.75
+
+The results clearly indicates that PMT delivers substantial reductions not only in training/inference time but also in memory requirements. Notably, PMT is approximately ×21.5 more efficient in FLOPS, needs ×3.4 more compact number of parameters and ×3.28 / ×11.07 less required memory for training/inference phases compared to GeoTr. Such efficiency is crucial, as it facilitates the practical deployment of our fine-level matcher for intricate matching tasks. 14 3D Geometric Shape Assembly via Efficient Point Cloud Matching 
+
+## C. Additional implementation Details 
+
+Attention Calculation. We adopt the relative-position encoding strategy of PerViT (Min et al., 2022) to compute the attention A(h) 
+
+> X
+
+. Specifically, we compute pairwise Euclidean distances RX ∈ R|X |×|X | each of which entry at position 
+
+q, k ∈ R3 is defeind as (RX )q,k = || q − k|| 2. An MLP processes this to provide an attention score A(h) 
+
+> X
+
+. A(h) 
+
+> Y
+
+is similarly defined. We refer the readers to the work of Min et al. (2022) for additional details. 
+
+Model hyperparameters. For the backbone network, we utilize KPConv-FPN (Thomas et al., 2019) with subsampling radius of 0.01. We leverage global attention matrix for coarse-level matcher, and local attention matrix (See Sec. 4.2) for fine-level matchers. The number of attention heads Nh is set to 4. Refer to Tab. 8 the rest of hyperparameters. Each matcher takes a specific input and output feature pair, applies a type of attention mechanism, and uses various hyperparameters crucial for its operation. 
+
+Table 8. Detail configurations and hyperparameters of different type of matchers. AY similarly defined. 
+
+Matcher Type Input Feature Pair Output Feature Pair Attention Type Demb i-th PMT Dproxy 
+
+Coarse-level matcher {FX1 , FY1 } {FXc , FYc } global attention A(h) 
+
+> X1
+
+∈ R|X 1|×|X 1| 512 1 32 2 128 Fine-level matcher {FX2 , FY2 } {FX3 , FY3 } local attention A(h) 
+
+> X2
+
+∈ R|X 2|× ϵ 256 1 16 2 64 Fine-level matcher {FX3 , FY3 } {FXf , FYf } local attention A(h) 
+
+> X3
+
+∈ R|X 3|× ϵ 128 1 82 32 
+
+## D. Evaluation Metrics 
+
+We employ four different metrics to assess the results. Consider a pair of input point clouds {X , Y} . The ground truth SE(3) relative pose between the point clouds is represented by {RGT , tGT }, while the prediction is denoted as {R, t}. We define 
+
+T(·) as a function that transform input pose with corresponding rotation R and translation t.
+
+Chamfer Distance (CD). The chamfer distance between two point clouds S1, S 2 is defined as 
+
+dCD (S1, S 2) = 1
+
+S1
+
+X
+
+> x∈S1
+
+min 
+
+> y∈S2
+
+∥x − y∥22 + 1
+
+S2
+
+X
+
+> y∈S2
+
+min 
+
+> x∈S1
+
+∥x − y∥22, (25) which measures the sum of the distance between nearest neighbor correspondences between point clouds. To assess the quality of shape assembly, we measure the chamfer distance between ground truth assembly and the prediction as: CD = dCD (T(X ) ∪ Y , TGT (X ) ∪ Y ). (26) 
+
+CoRrespondence Distance (CRD) . While the Chamfer distance calculates the distance between two point clouds, its ability to capture more complex features of the object’s geometry, such as symmetry and rotation, is limited. To overcome this limitation, we define a new metric, CoRrespondence Distance (CRD). CRD is simply defined as the Frobenius norm between two point clouds: CRD = 1
+
+L
+
+> L
+
+X
+
+> i=1
+
+∥(T(X ) ∪ Y )i − (TGT (X ) ∪ Y )i∥F , (27) where L = |X | + |Y| is the size of assembled object. By considering all pairwise distances between point clouds, it offers a more comprehensive measure of similarity, capturing both proximity and structural alignment: 
+
+Rotational-, Translational-RMSE (RMSE(R), RMSE(T)) . Finally, to directly measure the prediction accuracy of transfor-mation parameters, we compute the root mean square error (RMSE) between predicted and ground-truth rotation and translation, respectively. Following the protocols of Sell´ an et al. (2022), we use Euler angle representation for rotation: RMSE(R) = 1
+
+√3 ∥R − RGT ∥F , RMSE(T) = 1
+
+√3 ∥t − tGT ∥F . (28) 15 3D Geometric Shape Assembly via Efficient Point Cloud Matching 
+
+Additional metrics for multi-part assembly. Also, we employ two additional metrics to evaluate multi-part assembly performance. Consider a set of input point clouds P = {P i}Pi=1 with P parts. The ground truth SE(3) relative poses between the point clouds are represented by {TGT  
+
+> i
+
+}Pi=1 , while the prediction is denoted as {Ti}Pi=1 . Similar to pairwise assembly, the assembled object can be represented with SPi=1 Ti(Pi). Note that in our context, the direction of pose is defined as the transformation that aligns each part Pi with the coordinate frame of largest fracture as anchor. 
+
+Part Accuracy (Chamfer Distance-based) . Part accuracy (PA) (Li et al., 2020b) is defined as the percentage of fractures with Chamfer Distance (CD) less than the predefined threshold τCD = 0 .01 :PA CD = 1
+
+P
+
+> P
+
+X
+
+> i=1
+
+1  dCD (Ti(Pi), TGT  
+
+> i
+
+(Pi)) < τ CD 
+
+ . (29) 
+
+Part Accuracy (Correspondence Distance-based) . Our proposed CoRrespondence Distance (CRD) can be seamlessly adapted for Part Accuracy (PA) evaluation. This adaptation involves substituting the Chamfer Distance (CD) with the CoRrespondence Distance (CRD), and setting the threshold τCRD = 0 .1:PA CRD = 1
+
+P
+
+> P
+
+X
+
+> i=1
+
+1
+
+ 1
+
+|P i|
+
+> |P i|
+
+X
+
+> j=1
+
+∥Ti(Pi)j − TGT  
+
+> i
+
+(Pi)j ∥F < τ CRD 
+
+ . (30) 16 3D Geometric Shape Assembly via Efficient Point Cloud Matching 
+
+## E. Additional Qualitative Results GT Ours Jigsaw DGL LSTM Global NSM Wu et al. GeoTr 
+
+Figure 5. Additional qualitative results of pairwise shape assembly on Breaking Bad dataset. 
+
+17 3D Geometric Shape Assembly via Efficient Point Cloud Matching GT Ours Jigsaw DGL LSTM Global Wu et al. 
+
+Figure 6. Additional qualitative results of multipart shape assembly on Breaking Bad dataset. 
+
+18
