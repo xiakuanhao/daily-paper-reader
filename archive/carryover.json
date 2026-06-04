@@ -1,6 +1,12 @@
 {
-  "generated_at": "2026-03-06T19:11:18.471356+00:00",
-  "updated_date": "20260306",
+  "generated_at": "2026-06-04T05:59:16.731752+00:00",
+  "updated_date": "20260506-20260604",
   "carryover_days": 9,
-  "items": []
+  "tag_states": {
+    "part-aware": {
+      "updated_date": "20260506-20260604",
+      "carryover_days": 9,
+      "items": []
+    }
+  }
 }

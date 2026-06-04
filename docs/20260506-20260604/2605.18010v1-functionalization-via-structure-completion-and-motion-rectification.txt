@@ -1,0 +1,589 @@
+Title: Functionalization via Structure Completion and Motion Rectification
+
+URL Source: https://arxiv.org/pdf/2605.18010v1
+
+Published Time: Tue, 19 May 2026 02:30:33 GMT
+
+Number of Pages: 19
+
+Markdown Content:
+# Functionalization via Structure Completion and Motion Rectification 
+
+# MINGRUI ZHAO, Simon Fraser University, Canada 
+
+# SAI RAJ KISHORE PERLA, Simon Fraser University, Canada 
+
+# KAI WANG, Simon Fraser University, Canada and ShanghaiTech University, China 
+
+# SAURADIP NAG, Simon Fraser University, Canada 
+
+# DUC ANH NGUYEN, Simon Fraser University, Canada 
+
+# JIAYI PENG, Simon Fraser University, Canada 
+
+# RUIQI WANG, Simon Fraser University, Canada 
+
+# ANGEL X. CHANG, Simon Fraser University, Canada 
+
+# MANOLIS SAVVA, Simon Fraser University, Canada 
+
+# ALI MAHDAVI-AMIRI, Simon Fraser University, Canada 
+
+# HAO ZHANG, Simon Fraser University, Canada Geometric Realization 
+
+> …
+> …
+> Supported drawer
+> with rail
+> Complete Structure
+
+Neural Graph Functionalizer (GraFu )  
+
+> Handle
+> Hinge
+> Rail
+> Door collision
+> Detached drawer Resolved collision
+> due to hinge
+> Functionalized graph Input graph
+> + Hinge
+> + Rail
+> + Top panel
+> +Handle
+
+Fig. 1. Our method functionalizes a cabinet model that cannot function as it should, due to a) missing connectors for its door (hinge) or drawer (rails) to open and be held in place, and b) a collision between the door and the side panel. Our solution pipeline consists of a neural graph functionalizer (GraFu) for functional graph completion, e.g., adding missing connectors (new graph edges), as well as drawer handles (new graph nodes), followed by geometric realization to put actual hinges and rails in place. The hinge mechanism enforces a motion axis rectification that effectively fixes the initial collision. 
+
+Acquisition and creation of 3D assets have been largely view- or appearance-driven. As a result, existing digital 3D models often lack the requisite struc-tural components to function as intended, such as joints, supports, interiors, or interaction elements. At the same time, even human-annotated motions are frequently error-prone, leading to physically implausible behavior. We introduce object functionalization , a novel task aimed at transforming visu-ally plausible but non-functional 3D models into functional and physically operable ones. We formulate functionalization as a graph completion problem over a new functional graph representation, where labeled nodes represent object parts, labeled edges encode functional and contact relations, and mov-able nodes carry motion attributes, so that structural functional deficiencies manifest as missing nodes or incorrect edges. We develop a neural Graph Functionalizer (GraFu) to complete an incomplete graph representing a non-functional 3D object. The completed graph then drives a geometry realization stage that instantiates predicted connectors and structural elements in 3D, with the compelling side effect of rectifying erroneous human-annotated and predicted motions. To support training and evaluation, focusing on furniture as a rich and challenging target category, we introduce FurFun-233, a dataset of 233 paired non-functional and functionalized furniture models. 
+
+Authors’ Contact Information: Mingrui Zhao, Simon Fraser University, Canada, mza143@sfu.ca; Sai Raj Kishore Perla, Simon Fraser University, Canada; Kai Wang, Simon Fraser University, Canada and ShanghaiTech University, China; Sauradip Nag, Simon Fraser University, Canada; Duc Anh Nguyen, Simon Fraser University, Canada; Jiayi Peng, Simon Fraser University, Canada; Ruiqi Wang, Simon Fraser University, Canada; Angel X. Chang, Simon Fraser University, Canada; Manolis Savva, Simon Fraser University, Canada; Ali Mahdavi-Amiri, Simon Fraser University, Canada; Hao Zhang, Simon Fraser University, Canada. 
+
+On PartNet-Mobility (“zero-shot”) and HSSD test sets, our method matches state-of-the-art methods in motion prediction accuracy while substantially improving functionality in terms of collision and connectivity. 
+
+1 Introduction 
+
+We live in a 3D world, surrounded by 3D objects that we constantly act on and interact with to carry out our daily activities. These activities define how we function as humans, while the same also applies to the robots we design to assist us. Correspondingly, the 3D objects have been constructed with their intended functionalities to afford the actions of humans or robotic agents alike. For example, all cabinets must have interior shelving and tops for storage and support, drawers have handles or grooves so that they can be pulled, doors have hinges to swing open, while a swivel chair must have a full cylinder assembly to stabilize and rotate its seat. In reality, however, very few, if any, of the existing 3D assets fully possess the necessary functional components such as joints, handles, tracks, or other constituents of a part assembly for them to work. The majority of daily objects such as furniture and appliances do not have interior structures, and worse yet, a great many of them contain self collisions, under- or over-segmented parts, misalign-ments, etc., which prevent realization of functional motions. Even when the assets were manually created by 3D artists [Chang et al .2015; Collins et al . 2022; Deitke et al . 2024], the modeling emphasis        
+
+> arXiv:2605.18010v1 [cs.CV] 18 May 2026 2•Zhao, M. et al
+> Table 1. A rough taxonomy of functional deficiencies related to incomplete object structures . Dynamic deficiencies are due to missing motion-enabling elements. Static deficiencies affect usability or interactability.
+> Category Deficiency Type Examples
+> Dynamic Missing motion joints or connectors Revolute: hinges, pins, pistons Prismatic: tracks, rails, sliders Static Missing interactable parts or elements Additive: handles, knobs, pull bars Subtractive: sockets, grooves, etc. Missing support elements Shelves, dividers, furniture tops
+
+has predominantly been placed on their appearance , rarely their interior structures, and certainly not their functionalities. Besides these geometric and topological functional deficiencies, accuracy is another issue. For example, the majority (80%+) of 
+
+human-annotated articulations for the storage furnitures in PartNet-Mobility [Xiang et al . 2020] contain errors in the motion ranges or axes which may cause part collision during articulation. We argue that all of these deficiencies and inaccuracies for existing 3D as-sets need to be corrected, since the main purpose of reconstructing or generating a 3D object is not to merely look at it, but to use it, 
+
+interact with it, perhaps to eventually manufacture it. In this paper, we pose the novel problem of object functionaliza-tion , whose goal is to convert a non-functional 3D object into one that works as intended, by fixing its functional deficiencies through structural and geometric transformations. Given the immense di-versity of object functionalities, a single unified solution capable of resolving all forms of functional deficiencies would be overly ambi-tious. As a first step, we focus on a tractable and well-defined subset: structural functional deficiencies stemming from incomplete object structures , as summarized in Table 1. Accordingly, our functionaliza-tion solution involves adding parts or connectors and adjusting part relationships, while addressing the challenge of devising a unified approach across both the dynamic and static settings. To this end, we formulate object functionalization as a graph com-pletion problem, which offers a unified treatment of both dynamic and static deficiencies. Specifically, we parse an input 3D model, with part segmentation, into a new functional graph representation ,where every mesh part becomes a labeled node, every functional or contact relation becomes a typed edge (e.g., contact, hinge, rail, etc.), while movable nodes are further annotated with motion attributes. Under this representation, structural functional deficiencies mani-fest uniformly as missing nodes and/or incorrect edges, regardless of whether they are dynamic (e.g., missing hinges for revolute motion between a door and its frame and missing rails for prismatic motion) or static (e.g., a missing countertop node). We develop a neural model called a graph functionalizer (GraFu), which takes an incomplete graph representing a non-functional object and transforms it into a complete graph representing its func-tional counterpart. Technically, GraFu is a graph-to-graph trans-lation network comprising a node encoder, a Graph Transformer encoder operating on a fully-connected topology, and a DETR-style (i.e., DEtection TRansformers [Carion et al . 2020]) decoder that pre-dicts new structural nodes, functional edges (hinge, rail, attached), and motion attributes for movable parts. Graph completion with GraFu is only the first step, which is ded-icated to structural (i.e., topological) functionalization without fully resolving geometric or motion precisions. In the second stage, the completed graph drives geometric realization , where predicted con-nectors are instantiated and snapped into place, template meshes are inserted for new structural nodes, and the full pipeline is wrapped in a Blender add-on for interactive review and adjustment. A com-pelling side effect of such a geometric functionalization is that by grounding part motion in explicit mechanical structures rather than virtual motion axes, any errors in the initial motion annotations, as those in PartNet-Mobility [Xiang et al . 2020], can be rectified to produce physically realistic, collision-free motions; see Fig. 1. To support training GraFu and evaluation, we introduce FurFun -233, for Furniture Functionalization, a dataset of 233 furniture mod-els with paired non-functional and functionalized counterparts, sourced from ShapeNet [Chang et al . 2015], Objaverse [Deitke et al .2023], ABO [Collins et al . 2022], HSSD [Khanna* et al . 2023], and artist creations. Each model is pre-screened to ensure it contains interior structures, annotated with per-part semantic labels, and paired with a ground-truth functional graph. Functionalized coun-terparts include manually inserted mechanical components drawn from an expanded gallery of 9 connector types (7 hinges and 2 rails). While our formulation is general, we focus on furniture in this paper, as it represents one of the richest and most challenging categories of functional objects, encompassing both dynamic deficiencies (hinges, rails) and static ones (shelves, handles, countertops). Our contributions can be summarized as follows: 
+
+• A functional graph representation encompassing part and connector/edge labeling and motion attributes. 
+
+• A neural graph functionalizer for structure completion. 
+
+• A two-stage functionalization pipeline that follows topolog-ical completion with geometry realization which can rectify predicted motion attributes via mechanical grounding. 
+
+• A high-quality dataset FurFun -233 to support training and evaluation of object functionalization models. We evaluate our method for its motion prediction using GraFu by comparing against state-of-the-art baselines, Particulate [Li et al .2025] and SINGAPO [Liu et al . 2024]. On the Storage Furniture subset of PartNet-Mobility (PN-M), GraFu matches their motion prediction accuracy while geometric realization substantially im-proves physical plausibility in terms of collision resolution and part connectivity. Our method also exhibits strong generalizability with this test since its training set does not contain any PN-M models. On HSSD, our method outperforms both baselines across all three metrics. We further demonstrate robustness via an ablation study in which input node labels are progressively corrupted up to 100%, showing that GraFu maintains competitive motion prediction and near-perfect connectivity even under severe label noise. 
+
+2 Related Work 
+
+With rapid advances in 3D generative and spatial AI, robotics, and the pursuit of world models, the value of high-quality 3D assets has Functionalization via Structure Completion and Motion Rectification • 3
+
+received increasing attention. Take single-view 3D reconstruction as an example, recent works such as CLAY [Zhang et al . 2024], Trellis [Xiang et al . 2025], and Hi3DGen [Ye et al . 2025] unanimously highlight the importance of high-quality 3D training data. However, achieving this only through careful data selection and curation is insufficient. Our work seeks to bring object functionalization as a new means of quality upgrades for existing 3D assets. Broadly speaking, object functionalization falls into the category of shape modeling and editing, a well-studied topic in computer graphics with a variety of criteria or objectives such as symme-try [Mitra et al . 2007], stackability [Li et al . 2012], balance [Prévost et al . 2013], strength [Lu et al . 2014], foldability [Li et al . 2015], detail preservation [Botsch and Sorkine 2008], structure preservation [Mi-tra et al . 2013], and sketch conformation [Olsen et al . 2009], among others. Umentani et al . [2015] focus on interactive design of static plank-based furniture under frictional and nail-joint constraints, offering real-time guidance to a human designer. It does not address motion-enabling components such as hinges or rails, nor does it automate the functionalization of existing 3D assets. To our knowl-edge, no prior works targeted functionalizing 3D objects via shape completion or geometric transformation. 
+
+Shape Completion and Assembly. Shape completion has been ex-tensively studied under different settings and representations from classical hole-filling algorithms [Centin et al . 2015; Ju 2004; Kazh-dan et al . 2006; Kazhdan and Hoppe 2013; Liepa 2003; Tekumalla and Cohen 2004; Zhao et al . 2007] to more recent deep learning approaches [Arora et al . 2022; Tesema et al . 2023; Yan et al . 2022]. However, most of these techniques try to complete a portion of the shape that is missing due to occlusion or flaws in the scanning pro-cess as opposed to our technique that recovers a missing functional part necessary for interaction, movement, or function. Shape assembly methods are more directly related to our ap-proach, as they typically focus on predicting how parts and joints should be connected. For example, JoinABLe [Willis et al . 2022] is a learning-based assembly method which connects pairs of CAD parts by predicting the correct parametric joints, operating directly on boundary representations without class labels or human guidance. It also contributed the Fusion 360 Gallery assembly dataset. Schulz et al . [2014] propose a data-driven interactive system to help users design 3D models that are fabricable by composing parts from a database of expert-created templates. It automatically aligns, parameterizes, and connects parts, with proper constraints and con-nectors even including screws and corner braces, so that the result-ing models can be manufactured. Such a “fabricabilization" process bears resemblance to one of our functionalization options, namely, hinge/track insertion, but without motion rectification. Generally, while fabricability and functionality are related, they are distinctive modeling goals. Operationally, our work is less about shape assem-bly but more on structure completion and shape transformation. In other related work Lin et al . [2017] reconstruct kinematic as-semblies from raw 3D scans by inferring part segmentation and joint parameters, and Mitra et al . [2010] analyze and visualize mechanical motion relationships. More recently, Kinematic Kitbashing [Guo et al . 2025] assembles reusable parts into a prescribed kinematic graph by optimizing per-part transforms under an exemplar-based vector distance field energy aggregated across each joint’s motion range. However, all of these methods presuppose a complete assem-bly as input, whereas our work addresses inferring and inserting 
+
+missing functional geometry to enable articulated motion. 
+
+Motion Prediction and Generation. Since many object functions are realized through part motions and human-object interactions, works that predict, reconstruct, and/or generate part articulations [Liu et al . 2025] are relevant to functionalization, but their goal is not to functionalize an object by altering its shape or part structure. Recent data-driven methods predict part articulations directly from geometry or images [Le et al . 2024; Li et al . 2025; Liu et al . 2024, 2025], but while effective at inferring where and how parts move, they do not address why a motion may be physically implausible or how to correct it. Our rule-based geometric fixing stage is thus complementary: as shown in our experiments, applying hinge and rail insertion on top of predicted motion axes consistently reduces collisions, demonstrating that learned articulation and explicit me-chanical grounding are mutually reinforcing. ArtLLM [Wang et al . 2026] autoregressively predicts part lay-outs and joint structures from point clouds using a multimodal large language model, generating high-fidelity articulated assets; while it advances joint inference and part geometry synthesis, it does not address functional deficiencies in existing assets or insert physical connectors to correct implausible motions. In this spirit, annotated [Xiang et al . 2020] or generated (e.g., [Li et al . 2025; Qiu et al . 2025; Vora et al . 2025]) part motions can serve to initialize mo-tion parameters in our dynamic functionalization setting, which are then improved through functionalization. Motion prediction, and the ensuing simulation, has recently been employed for functional anomaly detection [Bhunia et al . 2025] by comparing observed (pos-sibly abnormal) part articulations with anticipated (normal) ones. But the detected anomalies are not corrected. 
+
+Interior Modeling. Object interiors are often exposed under part motion, e.g., when opening a cabinet door or drawer. As a result, recent works on geometry and interaction reconstruction such as DRAWER [Xia et al . 2025] and S2O [Iliash et al . 2024] contain mod-ules which complete drawer/cabinet interiors that were hidden from the input videos or missing from the input 3D objects, using a category-specific template approach similar to ours. For representation learning, aside from volumetric representa-tions such as NeRF [Mildenhall et al . 2020] and 3DGS [Kerbl et al .2023], object interiors can also be modeled by multi-slice images [Wang et al . 2024] and variants of signed distance functions (SDFs) such as 3-poled SDF [Chen et al . 2022]. But all of these works have targeted reconstruction or generation tasks, e.g., from images or point clouds, not functionalization, for which we simply employ polygonal meshes. Furniture interiors, along with part articulation, can be acquired in conjunction through active 3D reconstruction [Yan et al . 2023], where a robot interacts with a physical piece (e.g., opening/closing a drawer) while scanning the geometry. 
+
+Fixing Malfunctions. To our knowledge, the closest work to ours is [Hong et al . 2022], which also resolves functional deficiencies via a discrete set of fixes detected by a physics simulator. However, it fo-cuses solely on motion malfunctions, whereas our work covers both dynamic and static deficiencies. More fundamentally, our motion 4 • Zhao, M. et al Slot Decoder         
+
+> Graph Encoder
+> category
+> point cloud
+> bbox + centroid
+> …
+> …
+> Graph Transformer Layer
+> Graph Transformer Layer
+> Graph Transformer Layer
+> Input nodes (anchored) New nodes Dull nodes
+> Per slot
+> category bbox motion axis
+> Per slot -pair
+> hinge rail null
+> contact attach
+> Functional Graph
+> + Geometry Fix
+> Graph Decoder
+> node feature
+> side
+> panel
+> Non -functional Graph
+> Static Mesh
+
+Fig. 2. Our Pipeline. Given a non-functional 3D furniture asset, the system encodes each part node using category, point cloud, and bounding box centroid features. A Graph Transformer then models inter-node relationships across the fully-connected graph. The resulting node features are passed to a DETR-style Slot Decoder, which predicts per-slot attributes (category, bounding box, motion axis) and per-slot-pair edge types (hinge, rail, contact, attach, or null) across anchored input nodes, free new-node slots, and dull (padding) slots. The output is a functionalized graph that is subsequently grounded in 3D geometry via the Geometry Fix stage, yielding a physically operable furniture model with instantiated hinge and rail mechanisms. 
+
+rectification is not simulation-driven but a natural consequence of inserting proper mechanical connectors, which allows us to correct even the erroneous human annotations in PartNet-Mobility, which usually serves as ground truth. For static deficiencies, no prior work directly addresses the full scope we tackle: works such as [Hržica et al . 2022] and [Badami et al . 2017] address the related but distinct problems of storage space detection and furniture segmentation without modifying geometry, while PhysX-Anything [Cao et al .2025] and PhysX-3D [Cao et al . 2026] generate simulation-ready assets from scratch rather than functionalizing existing ones. Pro-cedural tools such as the IKEA kitchen planner similarly operate under rigid predefined templates and do not reason about functional deficiencies in arbitrary 3D assets. 
+
+3 Method 
+
+We address the problem of functionalization —transforming non-functional 3D objects, particularly furniture, into physically plau-sible, functional counterparts. Our approach consists of two main stages: a) The input 3D model is first converted into a graph repre-sentation that captures part-level relationships within the object. In this graph, functional deficiencies, missing nodes, or incorrect edges may arise due to imperfections in the input model. A novel 
+
+Gra ph Fu nctionalizer ( GraFu ) module then operates on this non-functional graph to predict the missing functional nodes which can be static nodes (i.e, nodes associated with stationary parts) or dynamic nodes (i.e, nodes corresponding to moving parts), cor-rect relational edges, and estimate motion axes for dynamic nodes, thereby producing a complete functional graph. b) The 3D geometry is subsequently updated by cross-referencing the predicted graph with the original input: a suite of geometric post-fix algorithms di-rectly embeds hinge and rail mechanisms into the 3D model for newly introduced revolute and prismatic edges, respectively, while template or bounding-box geometries are instantiated for any newly added static nodes. To support practical usability, we additionally provide a Blender add-on that allows users to interactively inspect and refine the output at each stage of the pipeline. In the following, we discuss each of these components in detail. The overall pipeline of our method is illustrated in Figure 2. 
+
+3.1 Functional Graph Parsing 
+
+For a segmented 3D model, we construct a functional graph 𝐺 =
+
+(𝑉 , 𝐸 ), where 𝑉 denotes the set of annotated part nodes and 𝐸 de-notes the set of inter-part contact relationships. Each node 𝑣 ∈ 𝑉 en-codes three attributes: the 3D bounding box of the part, its geometric representation, and a semantic label. Part labels are assigned from a fixed vocabulary: {top/side/back/bottom panels, face frame, shelf, divider, bar, leg, door, drawer, handle, misc} .This label set covers the vast majority of structural geometries en-countered in practice; parts that do not fit any named category, such as stretchers, are assigned to the misc label. Each edge 𝑒 ∈ 𝐸 be-longs to one of four types: {contact, hinge, rail, attached} .A contact edge encodes static structural connectivity, representing joints analogous to glued or nailed panels in physical assemblies. 
+
+Hinge and rail edges capture revolute and prismatic kinematic relationships between movable parts and their fixed mounting an-chors. Handles are connected to their parent door or drawer via an 
+
+attached edge. For dynamic nodes, a motion axis 𝑀 is addition-ally defined in the local coordinate frame of the part. For revolute joints, the motion axis is selected from the bounding box edges of the part, where a positive sign denotes counter-clockwise rotation and a negative sign denotes the opposite. For prismatic joints, the motion axis is assigned as one of the canonical ±{ 𝑥, 𝑦, 𝑧 } directions. Functionalization via Structure Completion and Motion Rectification • 5
+
+3.2 GraFu Network 
+
+GraFu is a graph-to-graph translation network that transforms a non-functional graph 𝐺 𝑢 into a functional graph 𝐺 𝑓 by predicting missing structural nodes, inferring functional edges ( hinge , rail ,
+
+attached ), and estimating motion attributes for dynamic nodes. The architecture comprises three sequential components: a) a Node Encoder that extracts per-node feature representations, b) a Graph Encoder that models relational dependencies across nodes, and c) a 
+
+Graph Decoder that produces the functionalized output graph 𝐺 𝑓 .The complete pipeline is illustrated in Figure 2. 
+
+Node Encoder. The node encoder maps each node 𝑣 ∈ 𝑉 in the non-functional graph 𝐺 𝑢 to a fixed-dimensional latent embedding. The part category , represented as a one-hot vector, is projected into a latent embedding of dimension 𝑑 cat = 128 via a lightweight MLP, capturing the semantic identity of each node. The 3D geometry of each part is encoded using a lightweight variant of PointNet++ [Qi et al . 2017], which maps the per-part point cloud to a latent em-bedding of dimension 𝑑 pc = 64 . Additionally, the centroid of the part bounding box is encoded by a separate lightweight MLP into a latent of dimension 𝑑 geo = 32 . The three embeddings are concate-nated to yield a unified per-node latent representation 𝑧 𝑣 ∈ R224 
+
+for each node 𝑣 ∈ 𝑉 . By design, the category embedding 𝑑 cat con-stitutes the dominant component of 𝑧 𝑣 , since part category is the most informative attribute for describing each node. 
+
+Graph encoder. To model inter-node relationships in the non-functional graph, we employ a lightweight Graph Transformer that operates over a fully-connected graph topology, where all nodes attend to one another and absent edges are assigned null -type edge labels. Edge features are constructed by encoding the edge connec-tivity type as a one-hot vector, augmented with an 8-dimensional geometric descriptor [ ∥ 𝑟 ∥, ∥𝑔 ∥, ˆ𝑟, 𝑔 axis ] that captures the spatial relationship between part bounding boxes. Here, ˆ𝑟 denotes the signed unit vector along the centroid-to-centroid direction, and 
+
+𝑔 axis ∈ R3 
+
+> ≥0
+
+represents the per-axis surface gap between oriented bounding boxes (set to zero where boxes overlap). The connectivity encoding and geometric descriptor are jointly projected into a 128-dimensional edge feature embedding 𝑧 𝑒 for each node pair using an MLP. At each Graph Transformer layer, 𝑧 𝑒 is incorporated into the attention computation as a learned edge bias: Attn (𝑧 𝑄 𝑣 , 𝑧 𝐾 𝑣 , 𝑧 𝑉 𝑣 ) = ( 𝑧 𝑄 𝑣 .(𝑧 𝐾 𝑣 )𝑇 
+
+√𝑑 + 𝑧 𝑒 ).𝑧 𝑉 𝑣 , (1) where 𝑧 𝑄 𝑣 , 𝑧 𝐾 𝑣 and 𝑧 𝑉 𝑣 are Query/Key/Value derived from the node embeddings 𝑧 𝑣 . This formulation enables the model to jointly reason over both node attributes and inter-part relational structure, such as which parts are connected via hinge or rail joints, thereby improving its capacity to predict a functionally coherent output graph. 
+
+Graph Decoder. To decode the learned latent representations into a functional graph, we adopt a DETR [Carion et al . 2020]-style Trans-former Decoder as our Graph Decoder. Rather than using object queries as in the original DETR formulation, we introduce node slots that serve as learned queries over graph nodes. Graph Encoder features are passed to the Graph Decoder via cross-attention. We initialize 𝑁 anchor slots , one per node in the input graph, and set a 
+
+> Fig. 3. Various application conditions for Contact-face snapping, Flushing-face snapping, and Perpendicular-face snapping hinges under counter-clockwise rotation motion.
+
+global maximum slot count of 𝑀 . To allow the decoder to predict nodes beyond those present in the non-functional input, we intro-duce 𝐾 additional free query slots alongside the 𝑁 anchor slots. These free queries are tasked with recovering missing structural nodes required to make the graph functional; unused slots are zero-padded and treated as null nodes. To provide free queries with global graph context, we pool the Graph Encoder output and add its projected summary as an initialization to each free query embedding. Each decoder slot independently predicts: (i) node validity, (ii) part cate-gory, (iii) bounding box, and (iv) centroid. For every pair of nodes, the decoder additionally classifies the connecting edge into one of 
+
+{rail , hinge , attached , contact , null }. When a hinge or rail 
+
+edge is predicted between dynamic nodes, the motion axis can be es-timated by aligning the edge on the target geometry. The first three edge types are directed, encoding a parent-child relation between parts, while contact and null edges are treated as bidirectional. 
+
+Training. To train GraFu , we require paired (non-functional, func-tional) graph data. To address the scarcity of such supervision, we introduce the FurFun-233 dataset, which provides ground-truth functional graphs. Non-functional counterparts 𝐺 𝑢 are synthesized from each functional graph 𝐺 via a set of structure-corrupting aug-mentations, including random edge collapse, node and edge removal, node and edge label masking, and geometric flips. The resulting paired data constitutes the training corpus for GraFu . The whole network is trained using a combination of an anchor loss, node and edge reconstruction losses, and a graph completion loss, all computed over the synthesized training pairs. Full details of the loss formulations, ablation studies, and augmentation strategies are provided in the supplementary material. 
+
+3.3 Geometric Fixing 
+
+Given the predicted graph and input mesh, Stage 2 realizes the prediction in 3D via dynamic and static geometric fixes. For every predicted hinge or rail edge, the corresponding mechanical geometry is instantiated and integrated into the mesh, with dynamic nodes inheriting the embedded motion animations — mirroring how real-life furniture motion is governed by physical joints rather than virtual axes. For every predicted new node, a template mesh is 6 • Zhao, M. et al 
+
+instantiated and surfaced through a Blender API for the user to visualize, tune, accept, or deny. 
+
+Hinge Insertion. Inserting actual hinge geometries into the static mesh offers multiple benefits. First, it ensures physical motion plau-sibility by keeping all parts connected throughout motion, with the range naturally constrained by the hinge. Second, the hinge carries its own local revolution system, snapping it between the movable and static parts rectifies the predicted motion axis, making the rev-olute motion geometrically grounded and physically consistent. Physically plausible revolute motion requires bilateral surface contact . This means that the joint must simultaneously contact both the static frame and movable part at geometrically compatible loca-tions. We identify three hinge types based on surface arrangement (Fig. 3): C-hinge for two contacting faces, F-hinge for flushing faces, and P-hinge for perpendicular interior faces. Together these three types empirically cover all furniture revolute joints, with C-hinge being the most prevalent in practice. For hinges, we apply a template-based snapping algorithm using a gallery of the three hinge types, each annotated with static/dynamic snap planes and a rotation axis. Given a predicted hinge edge and its two nodes, we detect the presence of contacting, flushing, or interior perpendicular faces to determine the appropriate hinge type, after which a local geometric solver finds the optimal hinge placement. Given a static-side part 𝑆 and a dynamic-side part 𝐷 from the pre-dicted edge, we (i) align the rotation axis to the network-predicted 
+
+hinge_axis_signed on 𝐷 , (ii) place the hinge along the predicted 
+
+hinge_border face of 𝐷 , and (iii) snap it to the actual surfaces of 𝑆 
+
+and 𝐷 by solving a 3×3 linear system for a translation Δ:
+
+n𝑠 ·Δ = 𝑡 𝑠 , n𝑑 ·Δ = 𝑡 𝑑 , ˆa·Δ = 0,
+
+where (n𝑠 , n𝑑 ) are the world-space snap-plane normals, (𝑡 𝑠 , 𝑡 𝑑 ) are robust median ray-cast distances from the snap planes to 𝑆 and 𝐷 
+
+along −n and ˆa is the rotation-axis direction. 
+
+Rail Insertion. Rail insertion follows a similar template-based approach, with each template pre-annotated with static and dynamic snap planes. The rail is oriented to the predicted sliding axis, snapped to the movable part’s main body, and scaled to its length. Since most 3D assets lack mechanical compatibility, gaps between the rail and mounting panel are bridged with an additional supporting block. The inserted rail constrains motion range proportionally to the part size and ensures the movable part remains physically connected throughout animation. 
+
+Interactive Correction. The above algorithms are wrapped as Blender operators so that the user can switch between different template geometries and tune the motion range, speed, scale and placement of these templates through Blender API. In addition to functional edge instantiation, our GraFu also predicts new nodes that complement the model structure, such as additional handles, top panel (which is the most commonly missed item in PartNet-Mobility dataset), shelves and dividers. We develop respective algorithms for each of the categories, where users can choose to accept or deny the introduction of new nodes or interactively tune the position and geometry of them in Blender. The detailed algorithm and Blender API are presented in the Supplementary Material. 
+
+4 Experiments 
+
+We evaluate our functionalization output along three axes: motion correctness , motion plausibility , and structural completeness . Motion correctness measures the position and sign of the predicted motion axis. Motion plausibility captures the collision rate and rootedness of the dynamic geometry—whether movable parts detach from or pen-etrate the static body during articulation. Structural completeness measures whether all required structural elements are present. 
+
+FurFun-233 Dataset. To facilitate further investigations on func-tionalization , we introduce FurFun -233, a dataset of 233 furniture assets with paired non-functional and functionalized versions. Assets are sourced from ShapeNet [Chang et al . 2015], Objaverse [Deitke et al . 2023], ABO [Collins et al . 2022], HSSD [Khanna* et al . 2023], and artist creations, all pre-screened to ensure non-monolithic inte-riors. Functionalized versions are produced by human annotators via per-part labeling and manual insertion of mechanical compo-nents ( e.g. , handles, hinges, and rails), with appropriate scaling and placement to match the original design intent, and are coupled with ground truth functional graphs. 
+
+Datasets and Training. We benchmark on two datasets: the Stor-age Furniture subset of PartNet-Mobility (PN-M), and 50 randomly sampled models from HSSD. For the PN-M benchmark we train a separate checkpoint that excludes all 33 ShapeNet-sourced models to avoid data leakage; for the remaining experiments we train on the FurFun training split (80%). We set 𝑀 =55 , 𝐾 =4, and use Adam (𝑙𝑟 =3e −4) with cosine annealing. Training data is augmented by extracting non-functional graphs from functional ones (see Supple-ment). Training completes in 1.5 hours on a single RTX 4090. 
+
+4.1 Quantitative Results 
+
+Baselines and Protocol. We compare against Particulate [Li et al .2025] and SINGAPO [Liu et al . 2024], as well as ground-truth annota-tions, on PN-M and HSSD. PN-M segmentations and category labels are mapped to our taxonomy via keyword matching (e.g., panel side maps to the side panel category), covering 67% of the parts; the remainder of PN-M (e.g.,ambiguous vertical bar parts) and the HSSD test set are manually segmented at the part level. The input non-functional graph uses contact-only edges, determined by bounding-box intersection between parts. To ensure a fair comparison for the two baselines, we expose both of them to maximal GT information: for Particulate, we replace its segmented meshes with GT part meshes after shape matching; for SINGAPO, we supply the GT mobility graph (bypassing its LLM-based prediction), inpaint its bounding-box prediction with the GT bboxes during diffusion, and provide GT meshes upon retrieval. 
+
+Generalizability. Note that both baselines were previously trained on PN-M, whereas our method is “zero-shot" on this dataset, since our training data does not contain any ShapeNet, and hence PN-M, models. This suggests that a comparison on PN-M is also a test of generalizability for our method. 
+
+Metrics. Because PN-M contains substantial model duplication with differing motion annotations, we report two motion-correctness measures: GT-aligned , requiring a one-to-one match with the PN-M annotation, and Reasonable , accepting any motion observed on other Functionalization via Structure Completion and Motion Rectification • 7
+
+Table 2. Quantitative evaluation on PN-M (345 models, “zero-shot”) and HSSD (50 models). GT-aligned matches dataset annotations one-to-one; Reasonable is human-verified plausibility (PN-M only). Collision and connectivity cells report raw (+GeoFix ), where the second value in brackets is obtained by applying our dynamic connector insertion on top of the method’s predicted motion axes for motion rectification. The GT annotation row applies GeoFix on top of ground-truth motion axes annotated by humans, isolating the contribution of geometric realization. Ours produces a single integrated result, so no separate raw/ +GeoFix split is shown. Best per slot in bold , second best underlined ( GT annotation excluded from ranking). 
+
+PartNet-Mobility HSSD Motion Correctness ↑ Collision ↓ Connectivity ↑ Motion ↑ Collision ↓ Connectivity ↑
+
+Method GT-aligned Reasonable (%) (%) GT-aligned (%) (%) Particulate [Li et al. 2025] 87.6% 96.5% 7.9 (5.5) 13.2 (96.5) 7.1% 29.0 (28.7) 62.8 (58.0) SINGAPO [Liu et al. 2024] 87.8% 93% 28.7 (27.0) 48.4 (73.8) 59.4% 28.7 (24.6) 51.7 (98.1) 
+
+GT annotation – – 19.2 (5.2) 49.1 (97.2) – 25.0 (25.0) 82.1 (97.7) Ours 87.0% 96.3% 4.4 98.1 85.8% 15.1 98.6 
+
+GT annotations of the same geometry. For collision, we densely sample 50 frames spanning each part’s rest-to-full-extent motion and count frames in which the movable and static parts intersect; the per-object rate is averaged over all movable parts. Connectivity is measured by the distance between the movable and static parts along the motion: if this distance exceeds 5 mm (models are normalized to a unit cube), the part is deemed detached, and we report the fraction of movable parts that remain connected. 
+
+Results. Table 2 summarizes the quantitative comparison results. GraFu predicts plausible motion for movable parts, and mechanical-part insertion substantially improves physical motion rationality. The geometric fix is method-agnostic: applied on top of Particulate or SINGAPO motion axes, or human-annotated GT, it consistently improves both collision and connectivity. On PN-M, our method matches the baselines on motion prediction accuracy despite being zero-shot, indicating strong generalizability across datasets. On HSSD, our method outperforms both baselines across all met-rics, while it is worth mentioning that our training data does contain models from HSSD, while the two baselines did not. Particulate tends to predict motion axes that detach the movable part from the static frame, yielding a low collision rate but also low connectivity—our mechanical-part insertion repairs both failure modes. 
+
+Robustness to Label Corruption. We further ablate on partially labeled inputs, simulating the case where some part labels are miss-ing or unknown. We mask 10%, 30%, 50%, and 100% of input node labels at inference (Table 3). On PN-M, moderate corruption im-proves performance: many static panels in PN-M are pre-labeled as doors or drawers, giving GraFu a misleading signal, and corrup-tion relaxes it. On HSSD, performance degrades monotonically with corruption. Across both datasets, GraFu is robust—all three metrics stay within a narrow band even at 100% corruption. 
+
+4.2 Qualitative Results 
+
+Figure 5 presents qualitative outputs of GraFu and its geometric refinement. From top to bottom, input graph nodes are progres-sively corrupted (corrupted nodes shown in pale gray); the bottom two rows are fully unlabeled. Our method robustly emits functional edges and produces realistic articulation through mechanical-part 
+
+Table 3. Robustness ablation on PN-M and HSSD under varying levels of node label corruption. At corruption rate 𝑟 , a random fraction 𝑟 of input node material labels is replaced with unknown .                                           
+
+> PartNet-Mobility HSSD Corruption Motion Corr. ↑Collision ↓Connectivity ↑Motion Corr. ↑Collision ↓Connectivity ↑
+> rate (GT-aligned) Rate (%) (%) (GT-aligned) Rate (%) (%) 10% 85.31% 4.4 98.20% 68.70% 15.8 98.64% 30% 86.20% 4.2 98.32% 65.93% 17.7 98.27% 50% 85.13% 4.9 97.95% 59.76% 17.0 98.00% 100% 82.07% 5.3 96.79% 52.87% 21.8 96.10%
+
+insertion. Newly introduced nodes are highlighted: rows 1, 4, 5, and 7 gain a top panel; rows 1 and 3 gain handles—all installed automatically by our functionalization pipeline. Figures 6 and 7 further demonstrate our functionalization operations in inserting mechanical parts, bridging connectivity, resolving collisions, struc-tural completion and application to generated objects. 
+
+Structural Completeness. We further validate structural com-pleteness on PN-M, where over 150 models lack a top panel. Our method correctly fires an additional top-panel node in 100% of these cases. The supplement includes 100 paired PN-M / functionalized results illustrating this completion. 
+
+Comparison to LLM-based Methods. Finally, we compare against an LLM-based baseline that uses a commercial LLM to complete non-functional graphs and BlenderMCP to perform mechanical-part insertion. Qualitative results are provided in Supplementary. 
+
+5 Conclusion, Limitations, and Future Work 
+
+We present object functionalization, a novel 3D modeling task to convert visually plausible but non-functional 3D assets into objects that operate as intended. To our knowledge, this is the first sys-tematic attempt to correct major functional deficiencies in both dynamic and static settings. Our functionalization pipeline operates in two stages, by disentangling relation/topology prediction, via a graph completion neural network (GraFu), and geometry realization driven by the predicted graph which can help refine the predicted motion parameters (e.g., for collision avoidance). While effective, our approach is still limited on several fronts. First, it can only functionalize parts that have been segmented, which would not cover, for example, the top drawer in Figure 7. This 8 • Zhao, M. et al (a) Template limitation (b) Irregular shape (c) Noisy label (d) Functional edge mismatch 
+
+Fig. 4. Limitations and failure cases. Our method is bounded by the available template gallery, which does not yet cover piston or sliding-door motions (a); struggles with highly irregular shapes that violate the bounding-box assumptions of our geometric solver (b); inherits errors from contaminated input labels (c); and is susceptible to cascaded failures when GraFu predicts the wrong mounting node for a functional edge (d) 
+
+example also reveals that our current method can only add whole parts, not partial structures, such as the missing panels of a drawer. Second, our method does not handle geometric deficiencies that compromise physical validity at the modeling or mesh level (e.g., multiple doors in one segment or shell-only models). Last but not least, our current focuses has been on a limited set of motion types (e.g., no chained motions) and a narrow set of object categories (i.e., furniture) as dictated by the training set we constructed. Figure 4 shows several failure cases that reveal additional limitations. Despite these limitations, we believe that our first attempt at addressing such an important modeling problem opens the door for further research. Enriching our FurFun dataset and extending our framework to accommodate broader functional mechanisms and additional object categories would increase applicability. Beyond furniture, functionalization has potential applications in fabrication, simulation, and embodied AI, where functional correctness is critical. We hope this work encourages the community to move beyond appearance-driven 3D assets and toward models that are not only visually plausible but also physically usable and functional. Functionalization via Structure Completion and Motion Rectification • 9
+
+Fig. 5. Qualitative results and comparisons to Particulate and SINGAPO on test samples from PN-M (top 7 rows) and HSSD (bottom 2 rows). For our results, we mainly show GraFu graph completion with added nodes and edges highlighted in the functionalized graphs (third column). From top-down, the input graphs (left column) are increasingly “corrupted" with less nodes semantically labeled, shown as grey vs. colored nodes. 10 • Zhao, M. et al (a ) Hinge + motion range rectificatio n (b ) Hinge + rail (orange) + motion axis rectification (c ) Hinge + connectivity 
+
+(d) Hinge + gap/axis rectification (e) Hinge + gap/axis rectification (f) Hinge + collision resolution (g) Hinge + collision resolution 
+
+(h) Adding tops (i) Interior completion with options (j) Adding handles with options 
+
+Fig. 6. A gallery of qualitative results from our object functionalization tool. Dynamic functionalization is shown in (a-g), where in each, the top is before functionalization and bottom is after. We highlight the fixes in both zoom-ins and sub-figure captions. Static functionalizations (h-j) are self-explanatory. input generated motion annotated dynamic functionalized static functionalized 
+
+Fig. 7. Dynamic and static functionalizations applied to a 3D model obtained from single-view 3D reconstruction by Omniparts [Yang et al. 2025]. Functionalization via Structure Completion and Motion Rectification 
+
+# (Supplementary Material) 
+
+A Loss Function Formulation and Ablation 
+
+Given a training pair (𝐺 𝑢 , 𝐺 ) where 𝐺 𝑢 is the non-functional input graph and 𝐺 is the ground-truth functional graph, GraFu decodes a slot graph ˆ𝐺 = {ˆ𝑠 𝑖 }𝑀 𝑖 =1 with 𝑀 output slots. The first 𝑁 slots are 
+
+anchored to the input nodes and the next 𝐾 are free queries; the remaining 𝑀 −𝑁 −𝐾 slots are zero-padded (and supervised to be null). We optimize a weighted sum of per-slot, per-pair, and motion losses, where the per-pair terms are evaluated after Hungarian matching between the predicted slot set and the GT node set. 
+
+Set assignment. Free slots are matched to unmatched GT nodes us-ing the Hungarian assignment 𝜎 = arg min 𝜎 
+
+Í𝑖 [ 𝜆 cls CE ( ˆ𝑚 𝜎 (𝑖 ) , 𝑚 𝑖 )+ 
+
+𝜆 pos ∥ ˆ𝑐 𝜎 (𝑖 ) − 𝑐 𝑖 ∥1 ], where 𝑚 𝑖 , 𝑐 𝑖 are the GT category and centroid. Anchored slots are not matched: they keep their input-node corre-spondence so the input identity is preserved across the decoder. 
+
+Per-slot losses. For every slot ˆ𝑠 𝑖 with ground-truth match index 
+
+𝜎 (𝑖 ), we group six per-slot terms into a single node loss: 
+
+Lnode = Lexist + L free _exist + L count + L mat 
+
++ L cent + L bbox + L anchor + L anchor _bbox .
+
+The six common terms supervise existence (binary cross-entropy on the existence logit; with a free-slot-only variant Lfree _exist ), ex-pected slot count Lcount = Í𝑖 ∈free 𝜎 ( ˆ𝑒 𝑖 ) − 𝑁 gt free (here 𝜎 is the sig-moid and 𝑁 gt free is the count of GT nodes not covered by any anchored slot), part category (categorical cross-entropy), centroid ℓ1, and bbox half-extent ℓ1. Anchored slots receive two additional pose terms 
+
+Lanchor and Lanchor _bbox that pull each anchored prediction back onto its input-node pose, preventing encoder drift from corrupting the identity transform on existing parts. 
+
+Per-pair losses. For every ordered pair (𝑖, 𝑗 ) of real slots, the de-coder emits an edge-type distribution ˆ𝑟 𝑖 𝑗 over five classes 
+
+{contact , hinge , rail , attached , null }
+
+:
+
+Ledge = CE  ˆ𝑟 𝑖 𝑗 , 𝑟 𝑖 𝑗 
+
+. (2) Two auxiliary directed heads enforce the parent–child semantics of attached and hinge edges. For each handle slot, the soft-parent 
+
+head selects exactly one parent (door or drawer) among the predicted dynamic slots, and is trained with cross-entropy against the GT parent, yielding Lparent . The hinge-target head is its analogue on the door side: for each door slot it picks exactly one static mounting panel, yielding Lhinge _target .
+
+Motion losses. For each (door, panel) hinge edge and each (drawer, body) rail edge, three per-pair heads predict pose-invariant joint attributes: 
+
+Lmotion = CE   ˆ𝑓 (4) 
+
+> 𝑖 𝑗
+
+, 𝑓 (4)
+
+> 𝑖 𝑗
+
+ + CE   ˆ𝜖 𝑖 𝑗 , 𝜖 𝑖 𝑗 
+
+ + CE   ˆ𝑎 (6) 
+
+> 𝑖 𝑗
+
+, 𝑎 (6)
+
+> 𝑖 𝑗
+
+, (3) where ˆ𝑓 (4) is the 4-way hinge-border (one of the four non-thin panel-face edges of the door), ˆ𝜖 is the 2-way axis sign along the orthogonal non-thin axis, and ˆ𝑎 (6) is the 6-way signed rail axis for drawers. 
+
+Total loss. The full training objective is a weighted sum over the five groups defined above: 
+
+L = 𝑤 node Lnode + 𝑤 edge Ledge + 𝑤 parent Lparent 
+
++ 𝑤 ht Lhinge _target + 𝑤 motion Lmotion . (4) We use equal group weights 𝑤 node = 𝑤 edge = 𝑤 parent = 𝑤 ht =
+
+𝑤 motion = 1. Within Lnode , the per-term sub-weights 
+
+{𝑤 exist , 𝑤 free _exist , 𝑤 count , 𝑤 mat , 𝑤 cent , 𝑤 bbox , 𝑤 anchor , 𝑤 anchor _bbox }
+
+= {1, 3, 1, 1, 1, 0.5, 0.3, 0.3}
+
+gave the best validation loss. 
+
+B Loss Ablation 
+
+Setup. We probe the contribution of each supervisory signal by holding out one loss component (or a tightly coupled pair, when two losses jointly supervise the same quantity) on top of the winning con-figuration and retraining from scratch under identical optimisation settings ( 85 epochs, cosine-annealed learning rate with 𝑇 max =450 ,same train/val/test split as the main model). The six variants we evaluate are: 
+
+• − 𝑤 ht : removes Lhinge _target . This loss trains the directed head that, for each door, picks exactly one static mounting panel; removing it disables the door-to-panel selection signal. 
+
+• − 𝑤 parent : removes Lparent . This loss trains the directed head that, for each handle, picks exactly one parent door or drawer; removing it disables the handle-to-parent selection signal. 
+
+• − 𝑤 cent : removes the centroid ℓ1 inside Lnode . This loss su-pervises slot centroids; removing it leaves bbox half-extents as the only direct geometry supervision. 
+
+• − 𝑤 bbox +𝑤 anchor _bbox : removes both bbox ℓ1 losses (free-slot and anchor-side). These jointly carry all bbox supervision; removing them leaves the model with no signal about part size. 
+
+• − 𝑤 anchor +𝑤 anchor _bbox : removes both anchor pose losses (cen-troid and bbox). These jointly tie anchored slots to their input-node poses; removing them lets the encoder freely drift the identity transform on existing parts. 
+
+• − 𝑤 free _exist +𝑤 count : removes the two free-slot firing supervi-sions. Together they regulate when and how many free slots fire; removing them frees the model to predict any number of hallucinated nodes. We pair each loss with another only when both supervise the same underlying quantity from different angles, so that the ablation iso-lates a function (e.g. bbox supervision, anchor-pose preservation, or hallucination control) rather than an arbitrary single weight. Table 4 reports the resulting test-set metrics against the un-ablated baseline. 
+
+Conclusion. The un-ablated baseline is the best overall configu-ration. Looking across Table 4, it attains the highest hinge edge F1, hinge axis-sign accuracy, and joint motion accuracy (the signature metrics for our task), and ranks at-or-near best on the remaining 12 • Zhao, M. et al                                                                                                                      
+
+> Table 4. Loss hold-out ablation on the FurFun test split. Each column zeros one loss term (or pair). Bold = best per row; ↓/↑indicates desirable direction. Every variant degrades at least one signature metric, and no single loss is dispensable.
+> Metric Baseline −𝑤 ht −𝑤 parent −𝑤 cent −𝑤 bbox +anc .bbox −𝑤 anc +anc .bbox −𝑤 free _exist +count
+> Node existence F1 ↑0.972 0.959 0.974 0.961 0.970 0.969 0.964 Material accuracy ↑0.957 0.947 0.958 0.949 0.961 0.954 0.961
+> Centroid MAE (m) ↓0.060 0.048 0.046 0.092 0.060 0.079 0.056 Bbox MAE (m) ↓0.081 0.078 0.069 0.114 0.298 0.108 0.075 Edge acc. (real) ↑0.770 0.637 0.649 0.646 0.725 0.704 0.777
+> Edge F1 contact ↑0.884 0.836 0.858 0.835 0.896 0.844 0.892 Edge F1 hinge ↑0.656 0.409 0.567 0.565 0.573 0.580 0.652 Edge F1 rail ↑0.447 0.377 0.407 0.395 0.431 0.398 0.479
+> Edge F1 attached ↑0.855 0.778 0.004 0.749 0.791 0.835 0.823 Hinge border-4 acc. ↑0.922 0.918 0.930 0.877 0.926 0.866 0.940
+> Hinge axis-sign acc. ↑0.975 0.925 0.899 0.897 0.940 0.925 0.954 Rail axis acc. ↑0.997 0.992 0.992 1.000 1.000 1.000 0.996
+> Joint motion (hb4 ×has) ↑0.899 0.849 0.836 0.786 0.870 0.801 0.897
+
+metrics. Every ablated variant degrades at least one diagnostic met-ric, and the affected metric is always traceable to the function of the removed loss: removing Lparent degrades the attached edge prediction, removing the bbox supervisions degrades bbox MAE, removing Lhinge _target degrades hinge edge classification, and so on. Importantly, no single ablation improves more than one metric in isolation while leaving the others unaffected, ruling out the possi-bility that any loss is redundant. Each loss therefore supervises a distinct, non-overlapping aspect of the functional graph (slot exis-tence and count, geometry, edge typing, parent–child direction, and motion attributes), and the full objective is required to obtain the best performance on the joint prediction task. 
+
+C Data Augmentation 
+
+Beyond the natural (𝐺 𝑢 , 𝐺 ) pairs obtained from FurFun-233 (where 
+
+𝐺 𝑢 is the rest-state contact-only graph and 𝐺 the functional coun-terpart), we synthesize additional input variants by corrupting the functional graph 𝐺 via one of thirteen structure-corrupting strate-gies plus a random geometric flip. Per training step, a strategy is sampled from a weighted categorical distribution (Table 5); the sam-pled corruption is then applied to 𝐺 to produce a synthetic 𝐺 aug  
+
+> 𝑢
+
+,while the supervision target remains the original 𝐺 . With 𝛼 = 1.0
+
+augmentation ratio, every real (𝐺 𝑢 , 𝐺 ) pair is paired with one syn-thetic (𝐺 aug  
+
+> 𝑢
+
+, 𝐺 ) pair in each epoch, doubling the effective paired set and exposing the model to a wider distribution of input defects than the natural test split would. 
+
+Category drops. Five strategies remove all nodes of a specific struc-tural category (handles, top panels, bottom panels, doors, drawers). Each forces the free-slot existence and material heads to recover the missing category from the surrounding contact graph and the global pooled summary fed into the free queries. A sixth strategy removes two or three of the above categories simultaneously, training the decoder to handle compound completion where multiple structural roles are missing at once. A seventh strategy randomly removes a handful of arbitrary nodes regardless of category. 
+
+Label-masking corruptions. Two strategies anonymize the input labels: one replaces every node’s category with the unknown token and collapses all edges to contact edges, and another does the same while keeping all surviving edge types. Both train the material head to recover part categories from geometry and topology alone, even when the input graph carries no semantic labels. 
+
+Edge-preserving partial-functional drops. Three strategies pre-serve a partial functional edge set on the input, training the model on partial-functional inputs —useful for cascaded inference, where prior iterations have already labelled some edges. They are: 
+
+• drop a random fraction of edges but keep the functional type of every surviving edge; 
+
+• drop a few nodes while keeping all surviving edge types intact; 
+
+• drop 1–4 random non-door / non-drawer nodes and retain every remaining hinge / rail / attached edge unchanged; 
+
+Geometric flip. Independently of the corruption strategy, with probability 𝑝 = 0.5 we apply a random axis-aligned mirror across 𝑋 
+
+or 𝑌 (never 𝑍 , so “up” is preserved). Coordinates and bbox extents are negated on the mirrored axis, point-cloud samples are flipped, and the face-encoded motion labels are remapped through a fixed face-permutation table so that the GT joint axis stays geometrically consistent. The mirror doubles the effective data without enlarging the dataset on disk and acts as a chirality regulariser, since cabinet motion is invariant under left/right reflection but face-indexed labels are not. 
+
+Curriculum. The fraction of input nodes/edges removed by a given strategy follows a per-sample uniform draw from a curricu-lum interval that anneals during training: (0.30 , 0.50 ) early (forcing aggressive recovery and strong free-slot “fire” priors), interpolated linearly to (0.10 , 0.20 ) late (matching the test distribution, which is typically only mildly incomplete). A per-graph cap of # free _slots =16 
+
+ensures every removed node has a slot available to be recovered into. The curriculum progress 𝑡 ∈ [ 0, 1] is updated from train.py 
+
+as 𝑡 = epoch /total _epochs .Functionalization via Structure Completion and Motion Rectification • 13                    
+
+> Table 5. Categorical sampling weights for augmentation strategies.
+> Family Strategy Weight Category drop drop_handles 0.15 drop_top 0.15 drop_bottom 0.10 drop_doors 0.08 drop_drawers 0.08 drop_completion 0.10 random 0.05 Label masking fully_anonymized 0.05 mask_materials_keep_edges 0.04 Edge-preserving mask_random_edges_keep_types 0.10 drop_nodes_keep_edge_types 0.05 fully_functional_drop 0.20 Legacy isolate_door 0.05
+> Fig. 8. Mechanical part annotation. Row 1: interior mount hinge with non-linear motion; Row 2: exterior mount hinge with linear revolute motion. Cyan and gold indicate geometry and snap plane for static and dynamic parts, respectively. Row 3: Sliding rail. Magenta and lime indicate two snapping planes.
+
+Sampling weights. Table 5 lists the categorical sampling weight of each strategy. Weights are renormalised to a probability distribution at sampling time. 
+
+D Geometric Realization Algorithms 
+
+Revolute Motion: Hinge Attachment. We observe that physically plausible revolute motion requires bilateral surface contact —the me-chanical joint must simultaneously contact both the static frame and the movable part at geometrically compatible locations. Specifically, given a static frame S, a movable part P, and a rotation axis a =Added hinges 
+
+(o, d) with origin 𝑜 ∈ R3 and axis 𝑑 ∈ S2, we seek the op-timal placement of a hinge H
+
+that best approximates the in-tended revolute motion while achieving the highest snapping quality with respect to two contact entities. Rather than inferring mechanical parameters from data, we use hinge templates collected from the internet, and annotate snap planes {Π𝑠 , Π𝑑 } for static and dynamic contact, a rotation axis indicator , and handedness anchors 
+
+for orientation disambiguation, as shown in Figure 8. This template-based formulation transforms the continuous placement problem into a discrete selection followed by geometric fitting. We begin by determining the pose of the hinge template to be inserted. We initialize the hinge template at o and rotate it to align with d via a minimal rotation. We further ensure that the hinge’s static plate is closer to the static mesh part and vice versa, flipping the hinge as needed. After pose initialization, we then snap the hinge template to the static mesh and the movable part. We formulate this as a search-and-snap process. For each snap plane Π with normal nΠ , we cast rays towards the target mesh and collect hit points {( h𝑖 , 𝑡 𝑖 )} where 𝑡 𝑖 is the distance along nΠ . To handle multi-layer geometry (e.g., cabinet panels with two-sided walls), we cluster hits by proximity and select the appropriate layer based on the hinge mounting type. The interior mounting hinge snaps to the inner layer of the static frame and the exterior mounting hinge snaps to the outer layer of the static frame, while both of them snap to the inner layer of the movable parts. The snap displacement is then Δ = nΠ · ( ¯𝑡 + 𝛿 offset ) where ¯𝑡 is the distance to the chosen surface and 𝛿 offset adds a heuristic offset that accounts for snap-plane thickness. Finally, we align the edge of the hinge with the existing geometry. This is handled implicitly for interior-mounted hinges (P-Hinge) during the snapping process, against the side-panels. For exterior-mounted hinges (C-Hinge and F-Hinge), we conduct an additional 
+
+tangential alignment step to ensure the hinge edge coincides with the door edge along the rotation axis: let u = nΠ × d be the co-border direction perpendicular to both the snap normal and rotation axis. We project bounding extents onto u and align outer edges: 
+
+Δco-border = u
+
+
+
+max   
+
+> v∈𝜕 P
+
+v · u − max 
+
+> v∈𝜕 Π𝑑
+
+v · u
+
+
+
+(5) This ensures the hinge pin axis passes through the geometric edge of the door, producing visually correct exterior hardware placement. 
+
+Prismatic Motion: Sliding Rail Attachment. Prismatic joints present distinct challenges: the mechanical component must span the full travel distance while avoiding collision with non-sliding geome-try such as drawer fronts. We introduce a body-region detection algorithm that automatically identifies the functional sliding extent. Specifically, given a drawer D with sliding axis s ∈ S2 and a cabinet frame S, we seek to place paired rails {R 𝐿 , R𝑅 } satisfying: 
+
+min 
+
+> R𝐿 ,R𝑅
+
+Econtact (R , D, S) + 𝜆 Esymmetry (R 𝐿 , R𝑅 ) (6) subject to mechanically governed motion over the translation range 
+
+[0, 𝑑 max ].Added rail 
+
+To do so, we begin by detecting the container body (the functional storage volume) and the 
+
+pulling board (the front panel extending beyond the body) of the drawer—rails should span only the body region to avoid mechanical interference. We do so via a geometric discontinuity analysis. 14 • Zhao, M. et al 
+
+Sampling points along the sliding axis at the drawer’s lateral edge, we compute the local surface profile 𝑧 (𝑡 ) where 𝑡 parameterizes position along s. The body-board boundary 𝑡 ∗ is identified as the first significant discontinuity: 
+
+𝑡 ∗ = min 𝑡 : |𝑧 (𝑡 ) − 𝑧 (𝑡 − 𝛿 )| > 𝜏 𝑧 ∨ ∥ p(𝑡 ) − p(𝑡 − 𝛿 )∥ > 𝜏 𝑝 
+
+(7) where 𝜏 𝑧 and 𝜏 𝑝 are geometric thresholds. The rail is then scaled to match the detected body length ℓbody = 𝑡 ∗ − 𝑡 min .We then snap the drawer rail to the exterior of the drawer body. We employ directional surface search with expected normal priors: 
+
+nbottom = +ˆz, nside = ±( s × ˆz) (8) The sign of nside depends on left/right rail placement. Ray-surface intersection identifies contact points, with candidates filtered to exclude the pulling board region ( 𝑡 > 𝑡 ∗). We then correct the orientation of the rail templates to ensure correct contact topology. We handle two cases: (1) the support plane (drawer bottom contact) should be below the static plane (drawer wall contact), and (2) the support plane should be closer to the drawer centerline than the static plane. We correct these via axis-aligned reflections: 
+
+Scorrect = diag (𝜎 𝑥 , 𝜎 𝑦 , 𝜎 𝑧 ), 𝜎 𝑖 ∈ {− 1, +1} (9) As drawers require bilateral rail support, we only compute the left rail placement and generate the right rail via reflection across the drawer’s sagittal plane: 
+
+Mmirror = I − 2n⊥n⊤⊥ (10) where n⊥ = s × ˆz is the perpendicular direction. This guarantees perfect geometric symmetry and simplifies the optimization to a single-rail problem. Finally, we align the rail’s dynamic end (the drawer-attached com-ponent) with the detected body-board boundary 𝑡 ∗. This prevents the rail from protruding into the pulling board region, which would cause collision during drawer closure: 
+
+Δcutoff = s ·
+
+
+
+𝑡 ∗ − max  
+
+> v∈𝜕 R𝑑
+
+v · s
+
+
+
+(11) where R𝑑 denotes the rail’s dynamic component. 
+
+Adding Countertops. We frequently observe base-cabinets in PartNet-Mobility [Xiang et al . 2020] that are modeled without an explicit countertop. This is often reasonable when the cabinet is intended to be placed beneath a shared counter surface or paired with appliances (e.g. , a stove). However, when the asset is considered in isolation, the missing top surface makes it unusable as a standalone cabinet. We therefore treat missing countertops as a static malfunction and repair them as part of our functionalization pipeline. To check if an object has a countertop, from a top view, we look at how much space it covers on the floor and how much of that space is covered near the top of the object. If a large part of the floor area is also covered near the top, we say a countertop exists. Adding a t op 
+
+Algorithmically, we project the mesh onto the ground plane and create two binary occu-pancy maps: O𝑎𝑙𝑙 for the entire mesh and O𝑡𝑜𝑝 for geometry near the maximum height. We then compute the coverage ratio 𝑐 = area( O𝑡𝑜𝑝 )/area( O𝑎𝑙𝑙 ). If 𝑐 
+
+exceeds a threshold 𝛼 , we declare a countertop present; otherwise, it is considered missing. When a countertop is missing, we generate one by first estimating a planar outline and then extruding it into a slab. The outline is obtained by slicing the furniture near the top, fitting an axis-aligned rectangle to the rim points (with optional overhang), and extruding it by a user-defined thickness to form the final panel. 
+
+Fixing Leg Misalignment. Human-made furniture often has sym-metric parts, which naturally keeps geometric consistency, such as having legs of equal length. Automatically generated models usually lack these constraints and, although they may look plausible, can fail basic functional checks, for example due to leg misalignment 
+
+that makes them unstable. To detect leg misalignment, we first need to identify leg regions. We do that by first rendering the object from several views and using a text-guided segmentation model (SAM3) [Carion et al . 2025] with the prompt “legs” . These regions are mapped back onto the 3D mesh and combined across views to keep only parts consistently labeled as legs. We remove small isolated regions, group the remaining geometry into individual legs using mesh connectivity and connected components information, and compare their bottom heights to check leg alignment. Aligning legs 
+
+We repair leg misalignment by resizing each leg group so that all leg bottoms reach a com-mon target height. Let ℎ𝑧 de-note the bottom height of leg group 𝑧 in the canonical coordinate frame. We choose a target height 
+
+ℎ★ from the set of existing bottom heights to minimize the total adjustment: 
+
+ℎ★ = arg min  
+
+> ℎ∈ { ℎ1,...,ℎ 𝑁 }
+> 𝑁
+
+∑︁ 
+
+> 𝑧 =1
+
+|ℎ − ℎ𝑧 | . (12) This selection favors a target that reduces the overall amount of resizing while keeping the target consistent with one of the origi-nal legs. Given ℎ★, we scale each leg group either (i) isotropically, or (ii) only along the up axis (user-controlled), to obtain a final model whose leg bottoms are coplanar. Please note that our pipeline works for furniture with clear, separable legs, but is less suitable for pedestal bases or fused leg designs. 
+
+Interior Generation. While the previous components address ex-terior defects, interior structure is an equally important aspect of functionalization that is often missing or incomplete in 3D furniture assets. Although not applicable to categories such as chairs or ta-bles, interior layout largely defines the functionality of cabinet-like furniture (e.g., wardrobes). Missing interiors are prevalent in both human-made repositories [Deitke et al . 2023; Xiang et al . 2020] and automatically generated models [Yang et al. 2025]. Here, we discuss generating shelves and dividers for cabinet-like furniture, and utilize S2O [Iliash et al. 2024] for generating drawer boxes. We start by slicing the furniture down the middle to get a 2D cross-section. Empty compartments are extracted as connected components and then extruded into 3D axis-aligned boxes using the surrounding panels, forming initial interior candidates. We then Functionalization via Structure Completion and Motion Rectification • 15 
+
+refine the candidate spaces by removing occupied areas (like draw-ers) and partitioning the remaining space, horizontally for shelves, vertically for dividers. We filter by size and support, then generate panels of user-set thickness, inserting them at adjustable intervals. Adding interiors 
+
+This approach supports gen-erating interiors from scratch as well as augmenting exist-ing interiors, while providing direct control over orienta-tion, number of panels, spac-ing, and thickness. Although we do not propose an explicit interior detector , the same candidate-compartment extraction can be used to infer whether an asset con-tains meaningful interior free space. The primary limitation is that the representation relies on axis-aligned rectangular compartments; consequently, irregularly shaped interiors are not directly modeled by this procedure. 
+
+Adding Interaction Elements. Our final static functionalization module augments furniture models with interaction elements —geometry that enables a user to grasp and operate movable parts such as drawers and cabinet doors. We consider two complementary types. 
+
+Additive elements correspond to externally attached handles that protrude from the drawer/door surface. Adding a subtractive handle 
+
+Subtractive elements corre-spond to recessed grips, where a portion of the drawer/door geometry is carved to form a finger groove (with no external attachment). In practice, addi-tive handles are generally eas-ier to detect from appearance, whereas recessed grips can be vi-sually similar to decorative grooves or other surface ornamenta-tion. Here, we focus on detecting additive handles. Using the same render–segment–back-project pipeline as for legs (Sec. D) with SAM3 [Carion et al . 2025], we sample views along a front-facing arc and prompt SAM3 with “handle” to get per-view masks, which are then back-projected and combined on the mesh. When attaching interaction elements, our pipeline handles both additive handles and recessed grips. The main steps are choos-ing a placement region and setting handle orientation and size. Adding additive handles 
+
+For drawers, additive handles go at the front center, and re-cessed grips are carved on a chosen side. For doors, we use the motion axis to find the hinge side, placing handles on the opposite side, additive at mid-height with an offset, recessed carved into the panel thick-ness. For additive handles, we add a small snap plane to define the mounting position. During attachment, the handle is oriented to-ward the target, rays are cast from the snap plane to the surface, and the handle is moved until it sits flush. The handle is also scaled to match the part. For recessed grips, we subdivide the target face and deform vertices into a U-shaped groove, with profile (sharpness, depth, size) controllable by users.          
+
+> Table 6. Add-on sub-panels and the in-scene operations they expose.
+> Sub-panel Operations Graph Files quick-load preset; manual pred / input / mesh paths; clear scene Hinges per-joint type (C/F/P) + variant + scale Rails per-joint variant (corner / center) + support-block toggle Handles handle-style gallery; idempotent per-attachment add Tops one-click synthesised top above the body union Interior voxel-based compartment detection →shelves / dividers
+
+E Structural Completeness Result 
+
+We present 100 randomly sampled PN-M cases where the top panels are missing. Our method successfully predicts the missing node and applies our heuristic to install a top panel properly. 
+
+F Blender Add-on 
+
+We provide a Blender add-on ( functionalization_ui ) that wraps the geometry-realization stage of Sec. 3.3 into an interactive panel, letting a user inspect, switch, and refine every predicted connector and synthesised node directly in the 3D viewport. The accompany-ing video walks through a complete session on a PM-N test cabinet. Source code is released with the supplement. 
+
+Pipeline integration. The add-on consumes the same artifacts pro-duced by GraFu’s inference script: a predicted graph JSON ˆ𝐺 , the corresponding input non-functional graph 𝐺 𝑢 (for the slot →node mapping and the GT bounding boxes), and a directory of per-part meshes ( parts.json +objs/ for PMN, or per-node <id>.ply files for FurFun). One click on Load Graph clears the scene, imports every anchored part with project-palette materials, tightens each OBB to its mesh’s world-AABB, builds hinge / rail / handle records from 
+
+ˆ𝐺 ’s motion edges, and auto-parents every anchored handle mesh to its predicted door/drawer so subsequent articulation propagates correctly. Free-slot nodes are kept as records but no bounding-box placeholders are drawn — handles and top panels are materialised only when the user requests them, avoiding visual clutter. 
+
+Modular panel layout. The sidebar exposes one sub-panel per functional category (Table 6). Each sub-panel lists the predicted joints/attachments of its type as a Blender UIList ; selecting a row reveals the per-joint controls and three actions: Prev / Re-apply / Next 
+
+which cycle the template variant or commit the current settings. Every action operates in-place on the open scene without leaving the Functionalization tab. 
+
+Hinges. The hinge sub-panel offers eight templates spanning the three mechanical classes of Sec. 3.3 (5 × exterior C-hinges, 2 × flat F-hinges, 1 × interior P-hinge). Per joint the user can: (i) override the predicted class, (ii) cycle the template within a class with Prev/Next ,(iii) override the auto-computed scale (default: fit to door/panel dimensions per Sec. 3.3), (iv) toggle strict border to honour the predicted hinge_border face even when the geometry would oth-erwise admit only a different face — internally this monkey-patches 
+
+enumerate_placements to filter candidates by the predicted face_id ,with a graceful fall-back to the geometry pick if no candidate sur-vives, and (v) toggle flip side to mirror the mounting edge to the 16 • Zhao, M. et al 
+
+Fig. 9. 100 randomly sampled PN-M models with missing tops. Top row, GT render, bottom row: ours functionalized. Please zoom in for details. Functionalization via Structure Completion and Motion Rectification • 17 
+
+opposite face on the same axis ( min ↔ max ) when the prediction itself is wrong. Re-applying also resets the door mesh’s parent and 
+
+matrix_parent_inverse so successive re-installs do not accumu-late stale transforms. A panel-decomposition pre-pass (ported from our reference batch script) splits any labelled mounting panel mesh into loose sub-components and selects the sub-bar nearest the predicted hinge axis as the effective static OBB; non-picked sub-bars are added to the collision-avoidance set. This is essential for face-frame mounts, where the labelled panel’s bulky collective bbox would otherwise collapse the four valid sub-bar candidates into a single ambiguous surface. 
+
+Rails. The rail sub-panel exposes the two annotated rail templates (corner-mount and centre-mount). Per drawer the user picks a vari-ant and re-applies; an optional pass installs the per-drawer support slabs/dividers from rail _ v2 (toggleable). All rail objects are tagged on creation so re-applying reliably removes the prior install before snapping the new template. 
+
+Handles. The handle gallery offers 18 templates (bar, knob, cup styles). Each Add Handle action is idempotent on the same parent: the operator snapshots the scene, runs the snap pipeline, tags ev-ery newly created object with the parent id, and on the next call wipes any prior template tagged with the same parent. The user can therefore cycle through styles without manual cleanup. Anchored handles (those present in 𝐺 𝑢 ) are auto-parented during Load Graph ;Clicking Add Handle on an anchored row replaces the imported mesh with the chosen template. 
+
+Tops. A single click synthesises a top panel above the union of the body meshes. The synthesised top is materialised with the project’s top-panel colour and re-parented under body , so it sits statically with the cabinet. 
+
+Interior. Compartment detection runs the project’s voxel-silhouette pipeline on the open scene meshes: the user selects a body part, picks up/front axes, and clicks Detect Compartments . The detector creates semi-transparent compartment boxes in the viewport; the user selects one or more boxes and dispatches Generate Panels with orientation (shelves/dividers/both), count, thickness, and front inset. Panel generation is incremental: different compartments can host different shelf/divider configurations within the same session. 
+
+G Comparison with LLM-based method 
+
+We compare our geometric realization algorithms against Blen-derMCP, a tool that connects a vision-language model (VLM) to Blender. We use Claude 4.5 Sonnet as the VLM, and prompt it to functionalize the object under a range of instructions with differ-ent amounts of detail. We show the results in Figure 10. When prompted only with “functionalize the object", the VLM fails to apply any meaningful edits. We thus exclude these results. When prompted with the same edit types as ours, the VLM still fails to make accurate edits, leading to inaccurately positioned parts, as well as floating geometry (a-d, left image of e). Only after additional detailed instructions can the VLM perform satisfactory edits (middle image of e). In contrast, our method is able to perform the edits consistently. We further tested on Google Gemini on graph completion results. We provide 20 ground truth functional graphs as the context, and provide detailed instructions in defining nodes, edges and function-ality criteria. Upon inference, we provide an unfunctional graph and a model’s render, then explicitly query for graph completion. The commercial VLM performed poorly even with sufficient context, with the returned graph containing many isolated nodes. 
+
+References 
+
+Himanshu Arora, Saurabh Mishra, Shichong Peng, Ke Li, and Ali Mahdavi-Amiri. 2022. Multimodal Shape Completion via Implicit Maximum Likelihood Estimation. In 
+
+Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition (CVPR) Workshops . 2958–2967. Ishrat Badami, Manu Tom, Markus Mathias, and Bastian Leibe. 2017. 3D Semantic Segmentation of Modular Furniture using rjMCMC. In WACV .Ankan Kumar Bhunia, Changjian Li, and Hakan Bilen. 2025. Interactive Anomaly Detection for Articulated Objects via Motion Anticipation. In The Thirty-ninth Annual Conference on Neural Information Processing Systems . https://openreview. net/forum?id=t22zHB6yQ0 Mario Botsch and Olga Sorkine. 2008. On Linear Variational Surface Deformation Methods. IEEE TVCG 14, 1 (2008). Ziang Cao, Zhaoxi Chen, Liang Pan, and Ziwei Liu. 2026. Physx-3d: Physical-grounded 3d asset generation. Advances in Neural Information Processing Systems 38 (2026), 93771–93784. Ziang Cao, Fangzhou Hong, Zhaoxi Chen, Liang Pan, and Ziwei Liu. 2025. PhysX-Anything: Simulation-Ready Physical 3D Assets from Single Image. arXiv preprint arXiv:2511.13648 (2025). Nicolas Carion, Laura Gustafson, Yuan-Ting Hu, Shoubhik Debnath, Ronghang Hu, Di-dac Suris, Chaitanya Ryali, Kalyan Vasudev Alwala, Haitham Khedr, Andrew Huang, et al . 2025. Sam 3: Segment anything with concepts. arXiv preprint arXiv:2511.16719 
+
+(2025). Nicolas Carion, Francisco Massa, Gabriel Synnaeve, Nicolas Usunier, Alexander Kirillov, and Sergey Zagoruyko. 2020. End-to-end object detection with transformers. In 
+
+European conference on computer vision . Springer, 213–229. Marco Centin, Nicola Pezzotti, and Alberto Signoroni. 2015. Poisson-driven seamless completion of triangular meshes. Computer Aided Geometric Design 35 (2015), 42–55. Angel X Chang, Thomas Funkhouser, Leonidas Guibas, Pat Hanrahan, Qixing Huang, Zimo Li, Silvio Savarese, Manolis Savva, Shuran Song, Hao Su, Jianxiong Xiao, Li Yi, and Fisher Yu. 2015. ShapeNet: An information-rich 3D model repository. arXiv preprint arXiv:1512.03012 (2015). Weikai Chen, Cheng Lin, Weiyang Li, and Bo Yang. 2022. 3PSDF: Three-Pole Signed Distance Function for Learning Surfaces with Arbitrary Topologies. In CVPR .Jasmine Collins, Shubham Goel, Kenan Deng, Achleshwar Luthra, Leon Xu, Erhan Gundogdu, Xi Zhang, Tomas F Yago Vicente, Thomas Dideriksen, Himanshu Arora, Matthieu Guillaumin, and Jitendra Malik. 2022. ABO: Dataset and benchmarks for real-world 3D object understanding. In CVPR . 21126–21136. Matt Deitke, Ruoshi Liu, Matthew Wallingford, Huong Ngo, Oscar Michel, Aditya Kusupati, Alan Fan, Christian Laforte, Vikram Voleti, Samir Yitzhak Gadre, et al .2024. Objaverse-xl: A universe of 10m+ 3d objects. Advances in Neural Information Processing Systems 36 (2024). Matt Deitke, Dustin Schwenk, Jordi Salvador, Luca Weihs, Oscar Michel, Eli VanderBilt, Ludwig Schmidt, Kiana Ehsani, Aniruddha Kembhavi, and Ali Farhadi. 2023. Obja-verse: A universe of annotated 3d objects. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition . 13142–13153. Minghao Guo, Victor Zordan, Sheldon Andrews, Wojciech Matusik, Maneesh Agrawala, and Hsueh-Ti Derek Liu. 2025. Kinematic Kitbashing for Modeling Functional Articulated Objects. arXiv preprint arXiv:2510.13048 (2025). Yining Hong, Kaichun Mo, Li Yi, Leonidas J Guibas, Antonio Torralba, Joshua B Tenen-baum, and Chuang Gan. 2022. Fixing malfunctional objects with learned physical simulation and functional prediction. In Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition . 1413–1423. Mateja Hržica, Petra Pejić, Ivana Hartmann Tolić, and Robert Cupec. 2022. Detection of household furniture storage space in depth images. Sensors 22, 18 (2022), 6774. Denys Iliash, Hanxiao Jiang, Yiming Zhang, Manolis Savva, and Angel X Chang. 2024. S2O: Static to openable enhancement for articulated 3D objects. arXiv preprint arXiv:2409.18896 (2024). Tao Ju. 2004. Robust repair of polygonal models. ACM Transactions on Graphics (TOG) 
+
+23, 3 (2004), 888–895. Michael Kazhdan, Matthew Bolitho, and Hugues Hoppe. 2006. Poisson surface re-construction. In Proceedings of the fourth Eurographics symposium on Geometry 18 • Zhao, M. et al (a ) (b ) (c) 
+
+(d) (e) 
+
+Fig. 10. Comparison against BlenderMCP. Left: BlenderMCP, right: Ours. (a) Adding rails to the drawer. (b)(d) Adding hinges to the cabinet. (c) Adding countertops. (e) Adding interior shelves. For each case, multiple prompts are provided from coarse "functionalize it" to detailed step-by-step instructions. (e) shows two BlenderMCP attempts, where the middle case undergoes iterative prompt tuning. 
+
+processing , Vol. 7. Michael Kazhdan and Hugues Hoppe. 2013. Screened poisson surface reconstruction. 
+
+ACM Transactions on Graphics (ToG) 32, 3 (2013), 1–13. Bernhard Kerbl, Georgios Kopanas, Thomas Leimkühler, and George Drettakis. 2023. 3D Gaussian Splatting for Real-Time Radiance Field Rendering. ACM Transactions on Graphics 42, 4 (July 2023). https://repo-sam.inria.fr/fungraph/3d-gaussian-splatting/ Mukul Khanna*, Yongsen Mao*, Hanxiao Jiang, Sanjay Haresh, Brennan Shacklett, Dhruv Batra, Alexander Clegg, Eric Undersander, Angel X. Chang, and Manolis Savva. 2023. Habitat Synthetic Scenes Dataset (HSSD-200): An Analysis of 3D Scene Scale and Realism Tradeoffs for ObjectGoal Navigation. arXiv preprint (2023). arXiv:2306.11290 [cs.CV] Long Le, Jason Xie, William Liang, Hung-Ju Wang, Yue Yang, Yecheng Jason Ma, Kyle Vedder, Arjun Krishna, Dinesh Jayaraman, and Eric Eaton. 2024. Articulate-Anything: Automatic Modeling of Articulated Objects via a Vision-Language Foun-dation Model. arXiv preprint arXiv:2410.13882 (2024). Honghua Li, Ibraheem Alhashim, Hao Zhang, Ariel Shamir, and Daniel Cohen-Or. 2012. Stackabilization. ACM TOG 31 (2012), article 158. Issue 6. Honghua Li, Ruizhen Hu, Ibraheem Alhashim, and Hao Zhang. 2015. Foldabilizing furniture. ACM TOG 34 (2015), article 90. Issue 4. Ruining Li, Yuxin Yao, Chuanxia Zheng, Christian Rupprecht, Joan Lasenby, Shangzhe Wu, and Andrea Vedaldi. 2025. Particulate: Feed-Forward 3D Object Articulation. arXiv:2512.11798 [cs.CV] https://arxiv.org/abs/2512.11798 Peter Liepa. 2003. Filling holes in meshes. In Proceedings of the 2003 Eurographics/ACM SIGGRAPH symposium on Geometry processing . 200–205. Minmin Lin, Tianjia Shao, Youyi Zheng, Niloy Jyoti Mitra, and Kun Zhou. 2017. Re-covering functional mechanical assemblies from raw scans. IEEE transactions on visualization and computer graphics 24, 3 (2017), 1354–1367. Jiayi Liu, Denys Iliash, Angel X Chang, Manolis Savva, and Ali Mahdavi-Amiri. 2024. SINGAPO: Single Image Controlled Generation of Articulated Parts in Object. arXiv preprint arXiv:2410.16499 (2024). Jiayi Liu, Manolis Savva, and Ali Mahdavi-Amiri. 2025. Survey on Modeling of Human-made Articulated Objects. In Eurographics STAR (State of The Art Report), Computer Graphics Forum .Lin Lu, Andrei Sharf, Haisen Zhao, Yuan Wei, Qingnan Fan, Xuelin Chen, Yann Savoye, Changhe Tu, Daniel Cohen-Or, and Baoquan Chen. 2014. Build-to-Last: Strength to Weight 3D Printed Objects. ACM TOG 33, 4 (2014), 97:1–97:10. Ben Mildenhall, Pratul P. Srinivasan, Matthew Tancik, Jonathan T. Barron, Ravi Ra-mamoorthi, and Ren Ng. 2020. NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis. In ECCV .Niloy Mitra, Michael Wand, Hao Zhang, Daniel Cohen-Or, and Martin Bokeloh. 2013. Structure-aware shape processing. In Eurographics State-of-the-art Report (STAR) .Niloy J. Mitra, Leonidas Guibas, and Mark Pauly. 2007. Symmetrization. Niloy J Mitra, Yong-Liang Yang, Dong-Ming Yan, Wilmot Li, Maneesh Agrawala, et al .2010. Illustrating how mechanical assemblies work. ACM Transactions on Graphics-TOG 29, 4 (2010), 58. Luke Olsen, Faramarz F. Samavati, Mario Costa Sousa, and Joaquim A. Jorge. 2009. Sketch-based modeling: A survey. Computers & Graphics 33 (2009), 85–103. Issue 1. Romain Prévost, Emily Whiting, Sylvain Lefebvre, and Olga Sorkine-Hornung. 2013. Make it stand: balancing shapes for 3D fabrication. ACM TOG 32 (2013), article 81. Issue 4. Charles Ruizhongtai Qi, Li Yi, Hao Su, and Leonidas J Guibas. 2017. Pointnet++: Deep hierarchical feature learning on point sets in a metric space. Advances in neural information processing systems 30 (2017). Xiaowen Qiu, Jincheng Yang, Yian Wang, Zhehuan Chen, Yufei Wang, Tsun-Hsuan Wang, Zhou Xian, and Chuang Gan. 2025. Articulate AnyMesh: Open-vocabulary 3D Articulated Objects Modeling. arXiv preprint arXiv:2502.02590 (2025). Adriana Schulz, Ariel Shamir, David I. W. Levin, Pitchaya Sitthi-amorn, and Wojciech Matusik. 2014. Design and Fabrication by Example. ACM TOG 33 (2014). Issue 4. Lavanya Sita Tekumalla and Elaine Cohen. 2004. A hole-filling algorithm for triangular meshes. School of Computing, University of Utah, UUCS-04-019, UT, USA 2 (2004). Keneni W Tesema, Lyndon Hill, Mark W Jones, Muneeb I Ahmad, and Gary KL Tam. 2023. Point cloud completion: A survey. IEEE Transactions on Visualization and Computer Graphics 30, 10 (2023), 6880–6899. Nobuyuki Umentani, Takeo Igarashi, and Niloy J Mitra. 2015. Guided exploration of physically valid shapes for furniture design. Commun. ACM 58, 9 (2015), 116–124. Aditya Vora, Sauradip Nag, Kai Wang, and Hao Zhang. 2025. Articulate That Object Part (ATOP): 3D Part Articulation via Text and Motion Personalization. arXiv:2502.07278 [cs.CV] https://arxiv.org/abs/2502.07278 Penghao Wang, Siyuan Xie, Hongyu Yan, Xianghui Yang, Jingwei Huang, Chunchao Guo, and Jiayuan Gu. 2026. ArtLLM: Generating Articulated Assets via 3D LLM. 
+
+Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition 
+
+(2026). Yizhi Wang, Wallace Lira, Wenqi Wang, Ali Mahdavi-Amiri, , and Hao Zhang. 2024. Slice3D: Multi-Slice, Occlusion-Revealing, Single View 3D Reconstruction. In CVPR .Karl D.D. Willis, Pradeep Kumar Jayaraman, Hang Chu, Yunsheng Tian, Yifei Li, Daniele Grandi, Aditya Sanghi, Linh Tran, Joseph G. Lambourne, Armando Solar-Lezama, and Wojciech Matusik. 2022. JoinABLe: Learning Bottom-up Assembly of Parametric CAD Joints. In CVPR .Hongchi Xia, Entong Su, Marius Memmel, Arhan Jain, Raymond Yu, Numfor Mbiziwo-Tiapo, Ali Farhadi, Abhishek Gupta, Shenlong Wang, and Wei-Chiu Ma. 2025. DRAWER: Digital Reconstruction and Articulation With Environment Realism. In CVPR .Fanbo Xiang, Yuzhe Qin, Kaichun Mo, Yikuan Xia, Hao Zhu, Fangchen Liu, Minghua Liu, Hanxiao Jiang, Yifu Yuan, He Wang, et al . 2020. Sapien: A simulated part-based Functionalization via Structure Completion and Motion Rectification • 19 
+
+interactive environment. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition . 11097–11107. Jianfeng Xiang, Zelong Lv, Sicheng Xu, Yu Deng, Ruicheng Wang, Bowen Zhang, Dong Chen, Xin Tong, and Jiaolong Yang. 2025. Structured 3D Latents for Scalable and Versatile 3D Generation. In CVPR .Xingguang Yan, Liqiang Lin, Niloy J Mitra, Dani Lischinski, Daniel Cohen-Or, and Hui Huang. 2022. Shapeformer: Transformer-based shape completion via sparse representation. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition . 6239–6249. Zihao Yan, Fubao Su, Mingyang Wang, Ruizhen Hu, Hao Zhang, and Hui Huang. 2023. Interaction-Driven Active 3D Reconstruction with Object Interiors. ACM Transactions on Graphics (Special Issue of SIGGRAPH Asia) 42, 6 (2023). Yunhan Yang, Yufan Zhou, Yuan-Chen Guo, Zi-Xin Zou, Yukun Huang, Ying-Tian Liu, Hao Xu, Ding Liang, Yan-Pei Cao, and Xihui Liu. 2025. Omnipart: Part-aware 3d generation with semantic decoupling and structural cohesion. In Proceedings of the SIGGRAPH Asia 2025 Conference Papers . 1–12. Chongjie Ye, Yushuang Wu, Ziteng Lu, Jiahao Chang, Xiaoyang Guo, Jiaqing Zhou, Hao Zhao, and Xiaoguang Han. 2025. Hi3DGen: High-fidelity 3D Geometry Generation from Images via Normal Bridging. In Proceedings of the IEEE/CVF International Conference on Computer Vision (ICCV) . 25050–25061. Longwen Zhang, Ziyu Wang, Qixuan Zhang, Qiwei Qiu, Anqi Pang, Haoran Jiang, Wei Yang, Lan Xu, and Jingyi Yu. 2024. CLAY: A Controllable Large-scale Generative Model for Creating High-quality 3D Assets. ACM Transactions on Graphics (TOG) 
+
+43, 4 (2024), Article 120. Wei Zhao, Shuming Gao, and Hongwei Lin. 2007. A robust hole-filling algorithm for triangular mesh. The Visual Computer 23, 12 (2007), 987–997.

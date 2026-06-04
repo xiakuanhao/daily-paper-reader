@@ -1,0 +1,402 @@
+Title: Artiverse: A Diverse and Physically Grounded Dataset for Articulated Objects
+
+URL Source: https://arxiv.org/pdf/2605.24403v1
+
+Published Time: Tue, 26 May 2026 00:39:01 GMT
+
+Number of Pages: 17
+
+Markdown Content:
+# Artiverse: A Diverse and Physically Grounded Dataset for Articulated Objects 
+
+## Denys Iliash 1 Jiayi Liu 1 Egor Fokin 1 Qirui Wu 1
+
+## Ali Mahdavi-Amiri 1 Manolis Savva 1 Angel X. Chang 1,21Simon Fraser University 2Canada-CIFAR AI Chair, Amii 
+
+3dlg-hcvc.github.io/artiverse/ Functional Part Segmentation Textured Object Articulated Parts & Motion Joints          
+
+> Physical dimension:
+> 105 x 58 x 58 cm
+> Category: swivel_chair
+> Weight: 15.2 kg
+> seat
+> Material: foam
+> Density: 0.045 g/cm³
+> Weight: 0.81 kg
+> caster_connector
+> Material: plastic
+> Density: 1.4 g/cm³
+> Weight: 0.022 kg
+> Object Attributes
+> Part Attributes
+> Physical Properties
+> Category Hierarchy Data Annotations
+
+Figure 1. We introduce Artiverse, a physically grounded 3D dataset of articulated objects across diverse categories, richly annotated with functional parts, motion joints for articulation, and physical properties including metric scale, per-part material, and mass. 
+
+## Abstract 
+
+We present Artiverse, a diverse and physically grounded dataset of high-quality articulated 3D objects designed for realistic functional modeling and simulation. Artiverse con-tains 5.4K human-authored objects across a broad range of 88 categories, aggregated from multiple 3D static reposito-ries. Objects are annotated with functional parts, interior structures, realistic kinematic relationships and articulated joints including multi-DoF joints, and physical attributes such as metric scale, material, and mass. We develop a semi-automated annotation pipeline that combines few-shot segmentation, geometric reasoning, and multi-stage human verification to achieve high-quality and efficient annotation, reducing manual annotation time by over 30%. We demon-strate the value of Artiverse on tasks of part mobility anal-ysis, articulated object generation, and physics-based in-teraction. Artiverse provides a data resource to advance functional understanding for articulated objects. 
+
+## 1. Introduction 
+
+Objects are not merely static shapes. They are functional entities that serve a purpose in the world. A tabletop pro-vides support, a cup holds liquids, and a hook enables hang-ing items. Beyond these general purposes implied by ge-ometry, many everyday objects express their functionality through interaction: a drawer slides open to provide stor-age, a door swings to allow passage, and a faucet handle ro-tates to release water. Understanding these objects requires modeling their functional interactivity , which captures how objects are organized into movable parts, regions for inter-action, and exhibit physically plausible behavior. The notion of functional interactivity can be character-ized along three complementary dimensions. Functional parts capture the structural decomposition of objects into components that contribute to their function, encompassing both movable and interactable elements. Kinematic rela-tionships describe how articulated parts connect and move under joint constraints, and functional dependencies that en-able coupled behaviors (e.g., open the microwave door by pushing a button). Physical grounding and realism , such 1
+
+> arXiv:2605.24403v1 [cs.CV] 23 May 2026
+
+as metric scale, mass and material, as well as detailed ge-ometry and textures, ensure that articulated motions behave plausibly in simulation, faithfully reflecting the behavior of objects in the physical world. Despite substantial progress in 3D dataset construction, existing resources fall short in capturing this level of func-tional realism. Large-scale object repositories [5, 9, 10] provide diverse geometry but mostly contain static shapes. Articulated object datasets [34, 53] annotate part mobility but are limited in joint complexity (e.g., mostly single-DoF motions), diversity in part structure and category, and vi-sual realism (e.g., simplified texture and missing interior geometries). Physical properties are rarely modeled until recently, with ArtVIP [21] releasing physical digital repli-cas for 206 articulated objects, and PhysX-3D [4] annotat-ing physical attributes on PartNet mostly for rigid objects. Thus, there are limited assets with sufficient geometric qual-ity, diversity, and physical realism for studying functionally complete articulated objects at scale. To bridge this gap, we introduce Artiverse , a dataset of 5,402 human-authored articulated objects across 88 diverse categories, richly annotated with functional parts, articula-tions, and physical attributes. Objects are carefully filtered from multiple repositories (see Table 1). Artiverse advances articulation modeling by supporting complex motion joints (e.g, cylindrical, universal joints) and modeling both kine-matic and functional dependencies among parts and joints, enabling the study of chained and interdependent motions. To ensure functional realism, we complete interior struc-tures, scale objects to metric units, and estimate per-part mass. All assets are standardized in orientation and released in consistent formats (e.g., GLB and USD), making them readily usable in simulation environments. Building such a dataset at scale requires addressing the high annotation cost and the expertise needed for 3D geom-etry and kinematics. We therefore design a semi-automated annotation pipeline integrating few-shot segmentation mod-els and geometric reasoning to initialize proposals for seg-mentation, motion parameters, and physical attributes. Au-tomated proposals are validated and corrected by human an-notators in multiple stages throughout the pipeline, ensur-ing consistent and high-quality annotations, as illustrated in Figure 2. In practice, our pipeline reduces manual annota-tion time by 32.0% and 33.5% for segmentation and motion annotation respectively, with 50.12% of the automatic anno-tations free of human correction, demonstrating efficiency and scalability. Through its combination of kinematic complexity, geo-metric diversity, and physical grounding, Artiverse enables a broad range of research directions. It offers reusable as-sets to build interactive scenes and immersive virtual en-vironments for everyday activity understanding or interac-tive design. It provides a rich resource for learning-based methods to advance functional understanding of articulated objects. It supports generative modeling of articulated and physically grounded objects by providing denser coverage of the data distribution. It can be used to train and evaluate embodied agents in physics-based simulators to facilitate policy learning for interactive tasks such as object manipu-lation. In this paper, we illustrate some of these possibilities through benchmarks for part mobility analysis, experiments on generative modeling of articulated objects, and demon-strations of realistic interactions in simulation. In summary, we make the following contributions: • We release Artiverse, a diverse 3D dataset of human-authored articulated objects, sourced from multiple high-quality shape repositories, and richly annotated with functional parts, articulation, and physical properties. • We design a semi-automated annotation pipeline com-bining learning-based and geometric algorithms with hu-man verification to efficiently produce high-quality anno-tations at scale. • We show the value of Artiverse with benchmarks for part mobility analysis and generation of articulated objects, and demonstrations of realistic interactions in simulation. 
+
+## 2. Related work 
+
+Simulatable articulated assets. Existing articulated ob-ject datasets vary widely in geometry type, data source, an-notation granularity, and scale, as summarized in Table 1. Real scan datasets [34, 35, 39] reflect the realism of real-world objects but suffer from reconstruction noise and lim-ited scalability due to the per-part capture effort. More datasets are built on synthetic objects [15, 47, 56]. PartNet-Mobility [53] remains the most widely used. ACD [19] in-troduces more detailed objects and annotations but is lim-ited to openable objects. These datasets primarily focus on part mobility labels and overlook realistic textures or phys-ical attributes. Recent efforts begin to incorporate physical properties but remain limited in scale and coverage of artic-ulated objects, with ArtVIP [21] releasing 206 articulated objects, and PhysX-3D [4] mostly focus on rigid objects. Building on these efforts, Artiverse contributes a compre-hensive collection of articulated assets with broader cate-gory diversity, richer part structures, more complex motion patterns, and per-part materials and masses. 
+
+Data annotation pipelines. Annotating articulated assets is highly labor-intensive, requiring expertise to ensure ac-curate and consistent motion specification. Challenges in-clude identifying movable part boundaries, defining plausi-ble motion joints and ranges, and specifying coherent kine-matic hierarchies. Most existing efforts rely on fully man-ual annotation [15, 21, 34, 47, 53], which limits scalability to diverse objects and categories. Recently, PhysX-3D [4] proposed a human-in-the-loop pipeline that uses vision-language models (VLMs) to infer physical attributes from 2Dataset Type Data Source Tex Kin Fun Mat Met Mas # Obj # Part # Cat RBO [39] Scan Self-scanned ✓ ✗ ✗ ✗ ✓ ✗ 14 21 14 ReArt-48 [35] Scan Self-scanned ✓ ✗ ✗ ✗ ✓ ✗ 48 - 5AKB-48 [34] Scan Self-scanned ✓ ✗ ✗ ✗ ✓ ✓ 2,037 - 48 RPMNet [56] Synth ShapeNet [5], 3D Warehouse ✗ ✗ ✗ ✗ ✗ ✗ 969 1,420 43 Shape2Motion [47] Synth ShapeNet [5], 3D Warehouse ✗ ✗ ✗ ✗ ✗ ✗ 2,440 6,762 45 PartNet-Mobility [53] Synth PartNet [40], 3D Warehouse ✓ ✓ ✗ ✗ ✗ ✗ 2,346 11,753 46 GAPartNet [15] Both PartNet-Mobility [47], AKB-48 [34] ✓ ✗ ✗ ✗ ✗ ✗ 1,166 8,489 27 ACD [19] Synth ABO [6], 3D-Future [13], HSSD [24] ✓ ✓ ✗ ✗ ✗ ✗ 354 1,350 21 ArtVIP [21] Synth Artist-created digital twins ✓ ✓ ✓* ✗ ✓ ✓ 205 705 29            
+
+> Artiverse (ours) Synth ShapeNet [5], ABO [6], 3D-Future [13], HSSD [24], Objaverse [9, 10], TexVerse [58], 3DComPaT200 [2], PartNeXt [46], SSDB [12] ✓✓✓✓✓✓5,402 24,607 88
+
+Table 1. Comparison of existing datasets containing 3D articulated objects. Columns indicate: Tex tured objects, Kin ematic and Fun ctional dependencies, per-part Mat erials, Met ric scale, per-part Mas ses, and numbers of articulated obj ects, part s (before completion), and 
+
+cat egories. “-” indicates information not reported in the original paper, and “*” means partially available. Artiverse offers a comprehensive combination of functional part annotations, kinematic modeling, and physical attributes across diverse data sources and categories at scale. 
+
+2D part renderings based on the fine-grained PartNet [40] hierarchy. Without access to 3D geometry, purely 2D VLM-based annotation can be unreliable for tasks requiring spa-tial precision, such as segmenting parts on meshes and spec-ifying joint axes for articulation. To improve the accuracy and robustness of automatic proposals, we integrate multi-view few-shot models and geometry-based heuristics be-yond pure VLMs to exploit the full 3D structure of each model. This design allows our system to assist human an-notators with minimal intervention while maintaining high-quality, consistent annotations at scale. 
+
+Articulated object modeling and applications. Articu-lated assets support a spectrum of research directions by providing realistic priors for learning, standardized bench-marks for evaluation, and interactive components for scene generation [52, 57], simulation [23, 38], and embodied AI tasks [42, 48]. Approaches for part mobility analysis focus on understanding the movable part structures and their ar-ticulation patterns from static 3D shapes [16, 19, 47, 56] or 2D observations [20, 44], but achieving robustness across diverse objects remains challenging. Reconstruction meth-ods recover 3D articulated models from multi-view and/or multi-state images [11, 17, 31, 37, 49, 50], though handling occlusion and motion ambiguity remains an open problem. Generative methods learn structural and motion prior from 3D [14, 26, 29] or metadata [27, 32, 33, 51] to synthesize interactive parts, but are often constrained by limited di-versity and realism of available training data. Procedural methods synthesize articulated objects through parametric or functional recombination of parts [18, 22, 30, 43], though how to ensure the functional validity and consistency with real data distribution remains non-trivial. These advances highlight the growing demand for large-scale, realistic, and physically-grounded articulated datasets. 
+
+## 3. Data Annotation 
+
+3.1. Design Desiderata 
+
+The construction of Artiverse is guided by the following considerations shaping our data selection and annotation. 
+
+Object coverage. Artiverse focuses on human-made articu-lated objects for daily activities, such as furniture, tools, and appliances. We prioritize categories appearing frequently in human environments (e.g., household, office, and out-door) to ensure relevance for real-world applications. We organize the objects in three levels of semantic categories: super-category, main category, and sub-category. Super-categories are broad and general (e.g., appliance, lighting, kitchenware). Main categories are specific to the object function (e.g., toaster, window, dispenser). Sub-categories capture fine-grained distinctions in the usage context (e.g, office chair vs. bar stool). 
+
+Functional part specification. We define a unified tax-onomy of functional part labels that capture both articu-lated (e.g., levers, lids) and interaction-related (e.g., han-dles, backrest, shelves, racks) components. These labels are designed to be category-consistent and reflect the functional roles of parts in enabling articulation and interaction. 
+
+Annotation consistency. To maintain coherent semantics across the dataset, we use category-level templates that specify part labels, motion types and dependencies for each object family. The templates are defined by human experts and are flexible to accommodate extra information discov-ered by annotators. These templates guide both automated inference and human verification, ensuring consistent label-ing and complete articulation coverage. 
+
+3.2. Semi-automated Workflow 
+
+We design a semi-automated annotation workflow, which includes the steps of model selection and preprocessing, part segmentation, interior completion, motion annotation, physical property estimation, and multi-stage human verifi-31. Part Segmentation 
+
+> Human verification
+
+2. Interior Completion 
+
+> Partial
+> articulated parts
+> Missing
+> articulated parts
+> Missing
+> affordance parts
+> Interior
+> structure
+> completion
+
+3. Articulation               
+
+> Textured
+> model
+> Articulated parts
+> Joint type: revolute
+> Joint axis: [0.0 ,1.0 ,0.0 ]
+> Joint origin: [ 0.0 ,0.34 ,-0.11 ]
+> Limit: [-40 °,-40 °]
+> Joint type: continuous
+> Joint axis: [0.0 ,0.0 ,1.0 ]
+> Joint origin: [ 0.0 ,0.34 ,-0.05 ]blade
+> head
+> base
+> switch
+> Kinematic graph & joint parameters
+> …
+
+4. Physical Properties                     
+
+> Functional
+> dependency
+> switch
+> blade
+> Human verification
+> trigger
+> {
+> “part”: jar
+> “material”: plastic
+> “density”: 1.17 -1.22 g/cm³
+> },
+> {
+> “part”: jar
+> “material”: plastic
+> “density”: 1.20 g/cm³
+> “volume”: 615 cm³
+> “mass”: 0.74 kg
+> },
+> Mass estimation
+> Multi -view rendering Template guidance Geometric processing Procedural generation Material library Human experts
+> Segmentation proposals
+> Semantic Instance
+> Material m apping
+> per part type Volume computation
+
+Figure 2. Overview of the key modules in our semi-automated annotation framework. Each selected object progresses through four stages sequentially after preprocessing: 1) functional part segmentation, 2) optional interior completion for objects with missing internal structures, 3) annotation of articulation mechanisms, and 4) estimation of physical properties. Human verification is incorporated at the end of the segmentation and articulation stages to correct errors and ensure that accurate annotations are passed to subsequent modules. After a final verification at the end of the pipeline, the output is a fully annotated 3D articulated object ready for simulation. 
+
+cation in between. The key steps of the pipeline are illus-trated in Figure 2. In the following sections, we discuss how we design each key module. Please refer to the supplement for more implementation details. 
+
+3.2.1. Part Segmentation 
+
+Each object in Artiverse is decomposed into parts that are associated to an articulation hierarchy and interaction affor-dance. For every object category, human experts design a template listing possible part labels shared across instances in the category. These templates may be refined during the human verification stage if additional parts are discov-ered. Leveraging the template, our part annotation strategy follows a two-stage process: we first generate initial part proposals using learning-based models and geometric algo-rithms, and then refine them through human verification. 
+
+Initial proposals. Our part labels are designed to be se-mantically meaningful. However, unlike general semantic segmentation, part boundaries are determined by functional behavior rather than purely visual or semantic similarity, leading to subtle but critical distinctions. Therefore, it is essential to employ a segmentation model that can incorpo-rate contextual definitions of each label, making few-shot models [25, 36, 41, 45] a better fit than non-adaptable 3D segmentors [1, 7, 8, 59]. We opt for the state-of-the-art model ASIA [41] in our pipeline, as it supports label cus-tomization in a few-shot manner via visual exemplars. We train ASIA on groups of categories that share similar part structures and labels to minimize training redundancy. We manually annotate a dozen representative shapes in 3D and render part masks from multiple views to serve as training data. Once trained, ASIA produces label-aware part masks on multi-view images, reflecting our functional context. 
+
+Map proposals to 3D part instances. To project 2D seg-mentation results onto 3D meshes, we first precompute an oversegmentation based on the mesh’s topological con-nectivity. Each over-segment aggregates label votes from multi-view projections according to the number of covered pixels. Unlabeled internal surfaces are assigned part la-bels using a distance-based propagation that considers the physical proximity of sampled surface points. Once seman-tic segmentation converges, part instances are decomposed from each semantic group. We use a union-find algorithm to obtain disjoint connected sets of mesh segments, each forming an independent part instance, determined by local geometric continuity and spatial distance. 
+
+Human verification. At the end of the segmentation stage, human verification checks the accuracy of part instances and labels proposed by the automated process above. We develop a web interface for annotators to check whether corrections are required, and correct any mistakes with a 3D part annotation UI, refining part labels if needed (see the example interface in Figure 2). As the last step, human experts verify the annotations from each annotator to ensure clean and consistent part segmentation. 
+
+3.2.2. Interior Completion 
+
+For some categories such as appliances and furniture, the interior serves as a critical structure enabling the intended functionality. However, the vast majority of objects in static datasets lack sufficiently detailed interior geometry. To pro-vide assets that behave realistically in physical simulation, 4we complete the interiors of these objects where necessary. We focus on three types of interiors to complete. 
+
+Partial articulated parts. Some articulated parts are par-tially modeled, with interior geometry omitted because it is not visible when the part is in the resting state. This is-sue is typical for components exhibiting translational mo-tion, where hidden regions are revealed only during articu-lation. For example, many drawers are modeled with only the front panel, while the inner box is missing. We design a geometry-informed completion algorithm for such parts, extending the geometry consistently with the motion con-straints to ensure plausibility in full motion range. 
+
+Missing articulated parts. Certain appliances contain movable internal components that are entirely absent in many 3D assets. Examples include dishwashers with bas-kets for dishes, microwaves with rotating turntables, and re-frigerators with movable storage compartments. To address this, we implement a procedural algorithm that populates these missing elements by referencing similar parts from other objects within the same category, ensuring functional completeness and structural realism. 
+
+Missing interaction affordance parts. Furniture and ap-pliances that provide storage space are often modeled as hollow shells, resulting in unrealistic behavior when inter-acting with other objects. To restore functional realism, we add interior structures such as shelves, racks, and dividers that correspond to the intended use of the object, e.g., re-frigerator shelves for food placement or wardrobe racks for hanging clothes. These interior completions are generated procedurally following category-specific templates that en-sure geometric consistency and plausible spatial layout. 
+
+3.2.3. Motion Annotation 
+
+At this stage, models have verified part segmentations and complete geometry, including interiors. We follow a similar strategy as in part segmentation, where automated motion proposals are first generated and later verified by human ex-perts to ensure accuracy and physical plausibility. 
+
+Initial proposal. We design algorithms to predict the joint parameters, including joint type, motion axis, and joint lim-its. In particular, we establish general rules that use PCA-aligned oriented bounding boxes for each part and sampled points around contact regions to infer motion parameters for different motion types, constrained by geometric con-tact and collision relationships. Kinematic dependencies between articulated parts are then inferred based on spa-tial connectivity and dependency options defined in the per-category templates. The inference rules are reusable across categories and are registered for different part types, requir-ing only minor adjustments for specialized components. 
+
+Human verification. In the motion verification stage, hu-man annotators validate two key aspects: 1) whether the completed interior geometry is realistic; and 2) whether the proposed motions are physically plausible. We develop a Assets in PartNet -Mobilit y Assets in Artiverse  
+
+> Figure 3. Visual comparison of assets from Artiverse and PartNet-Mobility [53]. We manually assemble sub-scenes using assets from both datasets with the original object scales preserved. Arti-verse objects exhibit higher geometric fidelity, realistic textures, and consistent metric scale, resulting in assets that are visually richer and more suitable for realistic simulation and scene design.
+
+web-based interface that enables annotators to visualize and adjust articulations interactively, modify joint parameters, and edit kinematic graphs as needed (see Figure 2 for an example page). To improve efficiency, the interface sup-ports features such as motion copying between similar parts and instant motion previews, allowing rapid correction and validation of proposed motion parameters. 
+
+3.2.4. Physical Properties 
+
+To support physics-based simulation, we annotate objects with metric scale, and parts with materials and masses. 
+
+Metric scale . The metric scale is either obtained from the original data source or estimated during preprocessing. We ask LLMs to infer a reasonable range of physical dimen-sions for each sub-category, and then sample within the range to rescale the object accordingly. It is critical to es-timate metric scale in early stages of the pipeline, as our geometric algorithms for part instance decomposition and interior completion rely on this for robustness. 
+
+Per-part mass . Each part’s mass is estimated as the product of its approximated volume and the density sampled within the range of an estimated material. We predefine a list of material labels and query LLMs for a reasonable density range for each material. We assign each part label a de-fault material label as the initial proposal, and later verify it manually in the end. Accurate volume estimation is non-trivial for surface meshes, as our data is mixed with solid parts enclosed by shells and hollow parts lacking modeled thickness. Thus, we design different processing strategies for hollow and solid parts, guided by their semantic labels. For solid parts, we extract a volumetric mesh by tetrahderal-ization and compute the volume directly. For hollow parts, we offset the surface inwards along the normal to create a shell, and then tetrahedralize to approximate the volume. 5Category # Func. Parts # Arti. Parts # Joints Dataset # obj Total Avg # obj Total Avg Total Avg 1-DoF 2-DoF PM 2,346 46 51.0 14,100 6.0 11,753 5.0 11,753 0ArtVIP 205 29 7.1 1,784 8.8 705 3.4 705 0Artiverse 5,402 88 49.4 38,608 8.9 24,607 5.4 23,640 480 
+
+Table 2. Comparison of articulation annotation statistics. Arti-verse exhibits broader category coverage, richer functional part structure, and more complex articulation on average. 
+
+## 4. Artiverse 
+
+4.1. Data Statistics 
+
+Artiverse contains 5,402 human-made articulated objects sourced from 10 repositories, covering 20 super-categories, 61 main categories, and 88 sub-categories, encompassing a wide range of furniture, appliances, tools, and everyday household objects. Figure 4 summarizes the distribution of data sources, object counts per super-category, and differ-ent joint types. Table 2 reports a detailed breakdown of our annotation statistics in comparison with two prior datasets: PartNet-Mobility [53] (PM) and ArtVIP [21]. Artiverse provides broader category coverage with more objects over-all, more functional parts, and more varied and complex ar-ticulations per object. Together, these statistics highlight the diversity and functional complexity captured in Artiverse, which can benefit downstream applications. In Figure 3, we qualitatively compare our assets with PM by manually as-sembling sub-scenes, showing that Artiverse provides data with higher geometric fidelity, realistic textures, and consis-tent metric scale, resulting in assets that are visually richer and more suitable for realistic simulation and scene design. 
+
+4.2. Data Schema 
+
+Each object in Artiverse is represented as a textured 3D mesh enriched with a hierarchical annotation schema that captures its structural, functional, and physical properties. Annotations are organized in two levels: (1) the object level , which stores global metadata such as unique identi-fier, category labels, dataset source, and metric scale; (2) the 
+
+part level , which encodes articulated and interaction-related components, their semantic labels, motion parameters, ma-terial properties including label and density, and mass. All assets are released in multiple interoperable formats. The textured geometry is provided in glTF binary (GLB) for visualization and rendering, Universal Scene Descrip-tion (USD) and URDF for simulation compatibility, and JSON metadata for easy parsing and programmatic anal-ysis. Each object has a standardized orientation, consistent scale, and unified coordinate convention, enabling direct in-tegration into physics simulators. Section 5.3 showcases the usage of Artiverse assets in simulators. Super -categories  
+
+> Data Sources Joint Types
+
+Figure 4. We visualize the distribution of objects across super-categories and across data sources, and the frequency of different joint types. Artiverse spans a broad range of object families with balanced coverage and aggregates assets from multiple reposito-ries to increase model and category diversity. The distribution of joint types highlights the presence of common 1-DoF and complex multi-DoF joints (e.g., universal), reflecting motion diversity. 
+
+4.3. Annotation Efficiency 
+
+We evaluate the efficiency of our semi-automated annota-tion pipeline by comparing it against a fully manual anno-tation process for the two main annotation stages: part seg-mentation and motion annotation. For each category, we sample 5 representative objects and record the time used by annotators to complete each stage manually, and compare it with the human-correction time logged through our annota-tion interface. Using this protocol, our automatic proposals can save 32.0% and 33.5% of the manual annotation time for segmentation and motion annotation, respectively. In our semi-automated pipeline, the average human correction time is reduced to 1.5 minutes for part segmentation and 1.3 minutes for motion annotation. We also record that 50.12% of the parts on average do not require human adjustment afterwards. To ensure consistency across annotators, an ex-pert verification pass is performed on the corrected results, which adds an additional 0.8 minutes per object on average. These measurements show that our semi-automated pipeline achieves a substantial reduction in manual anno-tation effort, making it feasible to annotate thousands of ob-jects while maintaining high-quality and consistent outputs. The modular design of the pipeline also allows the integra-tion of improved automated components in the future, en-abling gains in scalability and annotation reliability. 6Segmentation Motion Eval Train P↑ R↑ F1 ↑ +M ↑ +MA ↑ +MAO ↑                          
+
+> PM PM 81.8 46.0 54.2 22.1 17.0 14.3
+> Artiverse 82.2 47.9 55.8 22.4 15.9 8.7 Artiverse PM 72.8 31.7 40.6 7.2 2.5 1.2 Artiverse 77.0 43.0 50.7 22.4 16.6 10.8
+
+Table 3. We benchmark the task of part mobility analysis with a recent method FPNGroupMot [19] in a cross-dataset evaluation between Artiverse and PartNet-Mobility (PM), training on each dataset respectively. The results show that training on Artiverse consistently outperforms training on PM in both segmentation and motion prediction metrics. This demonstrates that the superior di-versity and quality of Artiverse enhances model generalization. 
+
+## 5. Experiments 
+
+To demonstrate the utility and versatility of Artiverse, we evaluate its effectiveness across multiple downstream appli-cations that rely on 3D articulated objects. We focus on two representative benchmark tasks: part mobility analysis and 
+
+articulated object generation . These tasks capture comple-mentary aspects of reasoning and synthesis that both bene-fit from dataset scale and diversity. Part mobility analysis (Section 5.1) assesses how well a method can infer motion types, joint parameters, and articulated structures from geo-metric cues, reflecting the informativeness and precision of our articulation annotations. Articulated object generation (Section 5.2) evaluates the ability to synthesize function-ally consistent articulated shapes, highlighting the dataset’s diversity and annotation completeness. Finally, we demon-strate the simulation readiness of Artiverse assets through physics-based simulation (Section 5.3), illustrating their us-ability for embodied AI and interactive environments. 
+
+5.1. Part Mobility Analysis 
+
+Task definition. This task measures both geometric un-derstanding and the ability to recover motion patterns from static geometry. Given a static 3D shape, the goal is to de-compose the object into articulated part segmentation and predict the joint parameters associated with each part. 
+
+Setup. We use a recent method FPNGroupMot proposed in S2O [19] to benchmark the task performance trained on Artiverse against the prior dataset PartNet-Mobility [53] (PM). The models take as input a point cloud sampled from the object surface and output instance segmentation of ar-ticulated parts and their corresponding motion parameters, including motion type, joint axis, and origin. We split both datasets into train/val/test sets with an 80/10/10 ratio. The model is trained on each dataset respectively, and evaluated on both test sets to show the generalization capability. 
+
+Metrics. We break down the task evaluation into articu-lated part segmentation and motion prediction. We follow Reconstruction quality ↓ Collision Eval Methods RS-dgIoU AS-dgIoU RS-dcDist AS-dcDist ↓ AOR ↓                      
+
+> PM SG [32] 0.756 0.768 0.178 0.229 0.022
+> AA [27] 1.172 1.179 0.425 0.780 0.024 Artiverse SG [32] 0.810 0.822 0.105 0.158 0.009
+> AA [27] 1.250 1.258 0.385 0.856 0.042
+
+Table 4. We benchmark the task of image-conditioned articulated object generation with Articulate-Anything [27] that purely relies on VLMs, and an adapted version of SINGAPO [32] re-trained on Artiverse. Across both evaluation sets, SINGAPO achieves con-sistently higher performance, indicating the limitations of VLM priors for modeling 3D articulated structures and highlighting the benefit of Artiverse data in distribution modeling. 
+
+the evaluation metrics used in S2O. Specifically, we use pre-cision (P), recall (R), and F1 score as segmentation metrics with area-based instance matching macro-averaged over the object. For motion estimation, we report macro F1 scores with matches further refined by motion type (+M), motion type and axis (+MA) and origin (+MAO). 
+
+Discussion. The quantitative results are in Table 3. When benchmarking with PM, both methods achieve significantly better performance when trained on Artiverse than when trained on PM, demonstrating that the diversity and compre-hensive annotations of our dataset enhance generalization of existing models. However, when evaluated on the Artiverse test set, performance drops noticeably compared to prior benchmarks, indicating that the higher geometric fidelity, richer articulation patterns, and complex multi-DoF or de-pendent joints in Artiverse present new challenges. This suggests that while current approaches can exploit larger data for improved learning, they still struggle to reason over more complex and variable geometric and motion struc-tures. We believe Artiverse therefore not only serves as a stronger training resource but also establishes a more de-manding benchmark that exposes the limitations of existing methods and motivates the development of models capable of unified reasoning over articulation behaviors. 
+
+5.2. Articulated Object Generation 
+
+Task definition. The goal of articulated object generation is to synthesize new 3D shapes that are both geometrically realistic and functionally coherent, producing plausible ar-ticulated parts, motion joints, and their kinematic depen-dencies. We benchmark this task under a conditional gen-eration setting, where the model receives a single-view im-age of an object as input and generates corresponding ar-ticulated shapes that are structurally and geometrically con-sistent with the input. This setup provides a strong test of generalization, as it requires the model to infer hidden ge-ometry, articulation, and motion behavior in a constrained setting from limited visual information, particularly for in-the-wild or previously unseen inputs. 7Input Image Graph Articulated Structure Graph Articulated Structure 
+
+> SINGAPO Articulate -Anything Figure 5. Qualitative comparison on the task of image-conditioned generation of articulated objects by showing the generated kine-matic graph and structures. SINGAPO trained on Artiverse out-performs Articulate-Anything that relies on the VLM knowledge only across different categories.
+
+Setup. We benchmark two recent open-sourced methods on the image-conditioned generation task: SINGAPO [32] and Articulate-Anything [27]. SINGAPO learns high-level articulation structure from training data, while Articulate-Anything leverages VLMs and retrieval of objects and parts from a database. We report SINGAPO performance trained on Artiverse against PM to show the effect of the more diverse data in Artiverse. Articulate-Anything serves as a complementary baseline that shows how well a VLM prior can generalize articulation understanding without fine-tuning on annotated data. The original SINGAPO method leverages a diffusion model to generate part layout, kine-matic structure, and part labels to retrieve part meshes from the library to produce the final 3D geometry. We retrain SINGAPO on the full Artiverse, excluding objects with more than 32 parts, and evaluate on PM and our test split. 
+
+Metrics. We follow the evaluation setup from SINGAPO to evaluate the structural and geometric consistency of gen-erated objects against ground truth data. The metrics are defined using 3D bounding box IoU (gIoU) parts at rest-ing state (RS-) or across multiple articulated states (AS-) averaged over objects. Collision rate during articulation is measured using the averaged overlap ratio (AOR). 
+
+Discussion. The qualitative results are shown in Figure 5 and quantitative results are shown in Section 5.1. We ob-serve that the SINGAPO model trained on Artiverse gen-eralizes well overall across the test set. From the metrics of AS-gIoU and AOR, we see that Articulate-Anything still lags behind SINGAPO trained on Artiverse, indicating the limitation of VLM priors in capturing fine-grained articu-lation details without direct supervision. Overall, these re-sults suggest that Artiverse serves as a valuable resource for training generative models that can produce functionally plausible articulated objects, and that learning from struc-
+
+> Figure 6. Loading an example Artiverse asset into Genesis [3] to show realistic and accurate joint modeling.
+
+tured data priors remains crucial for detailed articulation synthesis. 
+
+5.3. Artiverse in Simulation 
+
+Artiverse provides simulation-ready articulated assets in both URDF and USD formats, enabling seamless integra-tion with a wide range of physics engines and robotics sim-ulators. To demonstrate the practical simulation readiness, physical realism, and articulation correctness of our assets, we load them directly into the Genesis [3] and train a policy to interact with the example assets. Figure 6 illustrates an interaction with a cabinet and successfully opens one of its drawers, showcasing accurate joint modeling. 
+
+## 6. Conclusion 
+
+We presented Artiverse, a comprehensive dataset of phys-ically grounded and articulated 3D objects. It collects human-made everyday objects across diverse categories, each annotated with detailed functional part structure, ar-ticulation mechanisms, and physical attributes such as ma-terial, mass, and metric scale. To construct the dataset effi-ciently, we developed a semi-automated annotation pipeline that integrates geometric reasoning, few-shot segmentation, and human verification in multiple stages. This pipeline provides a scalable and flexible framework for producing high-quality annotations across heterogeneous 3D assets. Through benchmarks on part mobility analysis and articu-lated object generation, we show that Artiverse improves the robustness and generalization of existing approaches while also revealing new challenges posed by complex multi-DoF joints and intricate kinematic relationships. We hope Artiverse will serve as a valuable resource for fu-ture research in functional 3D modeling, generative object design, and physically grounded reasoning, ultimately en-abling richer benchmarks and inspiring new directions in articulable object understanding. Looking ahead, we plan to steadily grow Artiverse in scale, diversity, and physical realism to support an ever wider range of applications. 8Acknowledgments 
+
+This work was funded in part by a CIFAR AI Chair, a Canada Research Chair, and NSERC Discovery grants, and enabled by support from the Digital Research Alliance of Canada. We thank Weikun Peng, Han-Hung Lee, and Tristan Engst for helpful discussions, and Yiming Zhang for web interface support. We thank our annotators for their dedication in ensuring the data quality: Arya Faghihy, Austin Wang, Daniel Chang, Derek Pun, Dingdong Yang, Dongchen Yang, George Katsadze, Han-Hung Lee, Ivan Tam, Jenna Lee, Jill Ference, Jiyeon Han, Junghun Byun, Max Vernikovskiy, Mingrui Zhao, Nina Dang, Qirui Wu, Saba Azzarouk, Simon Jin, Sonia Raychaudhuri, Stella Lin, Tommaso Galliena, Weikun Peng, Xiaohao Sun, Xingguang Yan, Yuefan Wu. 
+
+## References 
+
+[1] Ahmed Abdelreheem, Ivan Skorokhodov, Maks Ovsjanikov, and Peter Wonka. SATR: Zero-shot semantic segmentation of 3D shapes. In ICCV , pages 15166–15179, 2023. 4 [2] Mahmoud Ahmed, Xiang Li, Arpit Prajapati, and Mohamed Elhoseiny. 3DCoMPaT200: Language-grounded composi-tional understanding of parts and materials of 3d shapes. 
+
+arXiv preprint arXiv:2501.06785 , 2025. 3, 1 [3] Genesis Authors. Genesis: A generative and universal physics engine for robotics and beyond, 2024. 8 [4] Ziang Cao, Zhaoxi Chen, Linag Pan, and Ziwei Liu. PhysX-3D: Physical-grounded 3D asset generation. arXiv preprint arXiv:2507.12465 , 2025. 2 [5] Angel X Chang, Thomas Funkhouser, Leonidas Guibas, Pat Hanrahan, Qixing Huang, Zimo Li, Silvio Savarese, Manolis Savva, Shuran Song, Hao Su, et al. Shapenet: An information-rich 3D model repository. arXiv preprint arXiv:1512.03012 , 2015. 2, 3 [6] Jasmine Collins, Shubham Goel, Kenan Deng, Achlesh-war Luthra, Leon Xu, Erhan Gundogdu, Xi Zhang, Tomas F Yago Vicente, Thomas Dideriksen, Himanshu Arora, et al. ABO: Dataset and benchmarks for real-world 3D object un-derstanding. In CVPR , pages 21126–21136, 2022. 3 [7] Dale Decatur, Itai Lang, and Rana Hanocka. 3D highlighter: Localizing regions on 3D shapes via text descriptions. In 
+
+CVPR , pages 20930–20939, 2023. 4 [8] Dale Decatur, Itai Lang, Kfir Aberman, and Rana Hanocka. 3D paintbrush: Local stylization of 3D shapes with cascaded score distillation. In CVPR , pages 4473–4483, 2024. 4 [9] Matt Deitke, Dustin Schwenk, Jordi Salvador, Luca Weihs, Oscar Michel, Eli VanderBilt, Ludwig Schmidt, Kiana Ehsani, Aniruddha Kembhavi, and Ali Farhadi. Objaverse: A universe of annotated 3D objects. In CVPR , pages 13142– 13153, 2023. 2, 3 [10] Matt Deitke, Ruoshi Liu, Matthew Wallingford, Huong Ngo, Oscar Michel, Aditya Kusupati, Alan Fan, Christian Laforte, Vikram Voleti, Samir Yitzhak Gadre, et al. Objaverse-XL: A universe of 10M+ 3D objects. NeurIPS , 36, 2024. 2, 3 [11] Jianning Deng, Kartic Subr, and Hakan Bilen. PAOLI: Pose-free articulated object learning from sparse-view images. 
+
+arXiv preprint arXiv:2509.04276 , 2025. 3 [12] Matthew Fisher, Daniel Ritchie, Manolis Savva, Thomas Funkhouser, and Pat Hanrahan. Example-based synthesis of 3D object arrangements. ACM TOG , 31(6):1–11, 2012. 3 [13] Huan Fu, Rongfei Jia, Lin Gao, Mingming Gong, Binqiang Zhao, Steve Maybank, and Dacheng Tao. 3D-Future: 3D fur-niture shape with texture. International Journal of Computer Vision , 129:3313–3337, 2021. 3 [14] Daoyi Gao, Yawar Siddiqui, Lei Li, and Angela Dai. Me-shArt: Generating articulated meshes with structure-guided transformers. In CVPR , pages 618–627, 2025. 3 [15] Haoran Geng, Helin Xu, Chengyang Zhao, Chao Xu, Li Yi, Siyuan Huang, and He Wang. GAPartNet: Cross-category domain-generalizable object perception and manip-ulation via generalizable and actionable parts. In CVPR ,pages 7081–7091, 2023. 2, 3 [16] Pradyumn Goyal, Dmitry Petrov, Sheldon Andrews, Yizhak Ben-Shabat, Hsueh-Ti Derek Liu, and Evangelos Kaloger-akis. GEOPARD: Geometric pretraining for articulation pre-diction in 3D shapes. arXiv preprint arXiv:2504.02747 ,2025. 3 [17] Junfu Guo, Yu Xin, Gaoyi Liu, Kai Xu, Ligang Liu, and Ruizhen Hu. ArticulatedGS: Self-supervised digital twin modeling of articulated objects using 3d gaussian splatting. In CVPR , pages 27144–27153, 2025. 3 [18] Minghao Guo, Victor Zordan, Sheldon Andrews, Wojciech Matusik, Maneesh Agrawala, and Hsueh-Ti Derek Liu. Kinematic kitbashing for modeling functional articulated ob-jects. arXiv preprint arXiv:2510.13048 , 2025. 3 [19] Denys Iliash, Hanxiao Jiang, Yiming Zhang, Manolis Savva, and Angel X Chang. S2O: Static to openable enhancement for articulated 3D objects. arXiv preprint arXiv:2409.18896 ,2024. 2, 3, 7, 4 [20] Hanxiao Jiang, Yongsen Mao, Manolis Savva, and Angel X Chang. OPD: Single-view 3d openable part detection. In 
+
+ECCV , pages 410–426, 2022. 3 [21] Zhao Jin, Zhengping Che, Zhen Zhao, Kun Wu, Yuheng Zhang, Yinuo Zhao, Zehui Liu, Qiang Zhang, Xiaozhu Ju, Jing Tian, et al. ArtVIP: Articulated digital assets of visual realism, modular interaction, and physical fidelity for robot learning. arXiv preprint arXiv:2506.04941 , 2025. 2, 3, 6 [22] Abhishek Joshi, Beining Han, Jack Nugent, Yiming Zuo, Jonathan Liu, Hongyu Wen, Stamatis Alexandropoulos, Tao Sun, Alexander Raistrick, Gaowen Liu, et al. Infinigen-Sim: Procedural generation of articulated simulation assets. arXiv preprint arXiv:2505.10755 , 2025. 3 [23] Justin Kerr, Chung Min Kim, Mingxuan Wu, Brent Yi, Qianqian Wang, Ken Goldberg, and Angjoo Kanazawa. Robot see robot do: Imitating articulated object manipu-lation with monocular 4d reconstruction. arXiv preprint arXiv:2409.18121 , 2024. 3 [24] Mukul Khanna, Yongsen Mao, Hanxiao Jiang, Sanjay Haresh, Brennan Shacklett, Dhruv Batra, Alexander Clegg, Eric Undersander, Angel X Chang, and Manolis Savva. Habitat synthetic scenes dataset (HSSD-200): An analysis 
+
+9of 3D scene scale and realism tradeoffs for objectgoal navi-gation. In CVPR , pages 16384–16393, 2024. 3, 1 [25] Hyunjin Kim and Minhyuk Sung. PartSTAD: 2D-to-3D part segmentation task adaptation. In ECCV , pages 422–439, 2024. 4 [26] Jens U Kreber and Joerg Stueckler. Guiding diffusion-based articulated object generation by partial point cloud alignment and physical plausibility constraints. In ICCV , pages 3206– 3214, 2025. 3 [27] Long Le, Jason Xie, William Liang, Hung-Ju Wang, Yue Yang, Yecheng Jason Ma, Kyle Vedder, Arjun Krishna, Di-nesh Jayaraman, and Eric Eaton. Articulate-Anything: Auto-matic modeling of articulated objects via a vision-language foundation model. arXiv preprint arXiv:2410.13882 , 2024. 3, 7, 8 [28] Han-Hung Lee, Yiming Zhang, and Angel X Chang. Duoduo CLIP: Efficient 3D understanding with multi-view images. In ICLR , 2025. 1 [29] Jiahui Lei, Congyue Deng, Bokui Shen, Leonidas Guibas, and Kostas Daniilidis. Nap: Neural 3d articulation prior. 
+
+arXiv preprint arXiv:2305.16315 , 2023. 3 [30] Xinyu Lian, Zichao Yu, Ruiming Liang, Yitong Wang, Li Ray Luo, Kaixu Chen, Yuanzhen Zhou, Qihong Tang, Xudong Xu, Zhaoyang Lyu, et al. Infinite mobility: Scalable high-fidelity synthesis of articulated objects via procedural generation. arXiv preprint arXiv:2503.13424 , 2025. 3 [31] Jiayi Liu, Ali Mahdavi-Amiri, and Manolis Savva. PARIS: Part-level reconstruction and motion analysis for articulated objects. In ICCV , pages 352–363, 2023. 3 [32] Jiayi Liu, Denys Iliash, Angel X Chang, Manolis Savva, and Ali Mahdavi-Amiri. SINGAPO: Single image controlled generation of articulated parts in objects. arXiv preprint arXiv:2410.16499 , 2024. 3, 7, 8 [33] Jiayi Liu, Hou In Ivan Tam, Ali Mahdavi-Amiri, and Mano-lis Savva. CAGE: Controllable articulation generation. In 
+
+CVPR , pages 17880–17889, 2024. 3 [34] Liu Liu, Wenqiang Xu, Haoyuan Fu, Sucheng Qian, Qiaojun Yu, Yang Han, and Cewu Lu. AKB-48: A real-world articu-lated object knowledge base. In CVPR , pages 14809–14818, 2022. 2, 3 [35] Liu Liu, Han Xue, Wenqiang Xu, Haoyuan Fu, and Cewu Lu. Toward real-world category-level articulation pose esti-mation. IEEE Transactions on Image Processing , 31:1072– 1083, 2022. 2, 3 [36] Minghua Liu, Yinhao Zhu, Hong Cai, Shizhong Han, Zhan Ling, Fatih Porikli, and Hao Su. PartSLIP: Low-shot part segmentation for 3D point clouds via pretrained image-language models. In CVPR , pages 21736–21746, 2023. 4 [37] Yu Liu, Baoxiong Jia, Ruijie Lu, Junfeng Ni, Song-Chun Zhu, and Siyuan Huang. Building interactable replicas of complex articulated objects via gaussian splatting. ArXiv ,abs/2502.19459, 2025. 3 [38] Rundong Luo, Haoran Geng, Congyue Deng, Puhao Li, Zan Wang, Baoxiong Jia, Leonidas Guibas, and Siyuan Huang. PhysPart: Physically plausible part completion for interactable objects. In IEEE International Conference on Robotics and Automation (ICRA) , pages 12386–12393, 2025. 3 [39] Roberto Mart´ ın-Mart´ ın, Clemens Eppner, and Oliver Brock. The RBO dataset of articulated objects and interactions. The International Journal of Robotics Research , 38(9):1013– 1019, 2019. 2, 3 [40] Kaichun Mo, Shilin Zhu, Angel X Chang, Li Yi, Subarna Tripathi, Leonidas J Guibas, and Hao Su. PartNet: A large-scale benchmark for fine-grained and hierarchical part-level 3D object understanding. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition ,pages 909–918, 2019. 3 [41] Sai Raj Kishore Perla, Aditya Vora, Sauradip Nag, Ali Mahdavi-Amiri, and Hao Zhang. ASIA: Adaptive 3D segmentation using few image annotations. ArXiv ,abs/2509.24288, 2025. 4, 1 [42] Pengzhen Ren, Min Li, Zhen Luo, Xinshuai Song, Ziwei Chen, Weijia Liufu, Yixuan Yang, Hao Zheng, Rongtao Xu, Zitong Huang, et al. InfiniteWorld: A unified scalable sim-ulation framework for general visual-language robot interac-tion. arXiv preprint arXiv:2412.05789 , 2024. 3 [43] Jianhua Sun, Yuxuan Li, Jiude Wei, Longfei Xu, Nange Wang, Yining Zhang, and Cewu Lu. Arti-PG: A toolbox for procedurally synthesizing large-scale and diverse articulated objects with rich annotations. In ICCV , pages 6396–6405, 2025. 3 [44] Xiaohao Sun, Hanxiao Jiang, Manolis Savva, and Angel Chang. OPDMulti: Openable part detection for multiple ob-jects. In 2024 International Conference on 3D Vision (3DV) ,pages 169–178, 2024. 3 [45] Anh Thai, Weiyao Wang, Hao Tang, Stefan Stojanov, James M Rehg, and Matt Feiszli. 3 × 2: 3D object part seg-mentation by 2D semantic correspondences. In European Conference on Computer Vision , pages 149–166. Springer, 2024. 4 [46] Penghao Wang, Yiyang He, Xin Lv, Yukai Zhou, Lan Xu, Jingyi Yu, and Jiayuan Gu. PartNeXt: A next-generation dataset for fine-grained and hierarchical 3D part understand-ing. arXiv preprint arXiv:2510.20155 , 2025. 3 [47] Xiaogang Wang, Bin Zhou, Yahao Shi, Xiaowu Chen, Qin-ping Zhao, and Kai Xu. Shape2motion: Joint analysis of motion parts and attributes from 3d shapes. In CVPR , pages 8876–8884, 2019. 2, 3 [48] Xinjie Wang, Liu Liu, Yu Cao, Ruiqi Wu, Wenkang Qin, Dehui Wang, Wei Sui, and Zhizhong Su. EmbodiedGen: Towards a generative 3d world engine for embodied intel-ligence. ArXiv , abs/2506.10600, 2025. 3 [49] Yijia Weng, Bowen Wen, Jonathan Tremblay, Valts Blukis, Dieter Fox, Leonidas Guibas, and Stan Birchfield. Neural implicit representation for building digital twins of unknown articulated objects. In CVPR , pages 3141–3150, 2024. 3 [50] Di Wu, Liu Liu, Linli Zhou, Anran Huang, Liangtu Song, Qiaojun Yu, Qi Wu, and Cewu Lu. REArtGS: Recon-structing and generating articulated objects via 3D gaus-sian splatting with geometric and motion constraints. ArXiv ,abs/2503.06677, 2025. 3 [51] Ruiqi Wu, Xinjie Wang, Liu Liu, Chunle Guo, Jiaxiong Qiu, Chongyi Li, Lichao Huang, Zhizhong Su, and Ming-Ming Cheng. DIPO: Dual-state images controlled articulated ob-
+
+10 ject generation powered by diverse data. arXiv preprint arXiv:2505.20460 , 2025. 3 [52] Hongchi Xia, Entong Su, Marius Memmel, Arhan Jain, Ray-mond Yu, Numfor Mbiziwo-Tiapo, Ali Farhadi, Abhishek Gupta, Shenlong Wang, and Wei-Chiu Ma. DRAWER: Digi-tal reconstruction and articulation with environment realism. In Proceedings of the Computer Vision and Pattern Recogni-tion Conference , pages 21771–21782, 2025. 3 [53] Fanbo Xiang, Yuzhe Qin, Kaichun Mo, Yikuan Xia, Hao Zhu, Fangchen Liu, Minghua Liu, Hanxiao Jiang, Yifu Yuan, He Wang, et al. SAPIEN: A simulated part-based interactive environment. In Proceedings of the IEEE/CVF conference on computer vision and pattern recognition , pages 11097– 11107, 2020. 2, 3, 5, 6, 7, 1 [54] Jianfeng Xiang, Zelong Lv, Sicheng Xu, Yu Deng, Ruicheng Wang, Bowen Zhang, Dong Chen, Xin Tong, and Jiaolong Yang. Structured 3d latents for scalable and versatile 3d gen-eration. In CVPR , 2025. 4 [55] Xinhao Yan, Jiachen Xu, Yang Li, Changfeng Ma, Yun-han Yang, Chunshi Wang, Zibo Zhao, Zeqiang Lai, Yunfei Zhao, Zhuo Chen, and Chunchao Guo. X-part: high fi-delity and structure coherent shape decomposition. ArXiv ,abs/2509.08643, 2025. 4 [56] Zihao Yan, Ruizhen Hu, Xingguang Yan, Luanmin Chen, Oliver van Kaick, Hao Zhang, and Hui Huang. RPM-Net: Recurrent prediction of motion and parts from point cloud. 
+
+ACM Transactions on Graphics (Proceedings of SIGGRAPH Asia) , 38(6):240:1–240:15, 2019. 2, 3 [57] Yandan Yang, Baoxiong Jia, Peiyuan Zhi, and Siyuan Huang. PhyScene: Physically interactable 3d scene synthe-sis for embodied ai. In CVPR , pages 16262–16272, 2024. 3[58] Yibo Zhang, Li Zhang, Rui Ma, and Nan Cao. TexVerse: A universe of 3D objects with high-resolution textures. arXiv preprint arXiv:2508.10868 , 2025. 3 [59] Ziming Zhong, Yanyu Xu, Jing Li, Jiale Xu, Zhengxin Li, Chaohui Yu, and Shenghua Gao. Meshsegmenter: Zero-shot mesh semantic segmentation via texture synthesis. In ECCV ,pages 182–199, 2024. 4 
+
+11 Artiverse: A Diverse and Physically Grounded Dataset for Articulated Objects 
+
+# Supplementary Material 
+
+## A. Additional Statistics 
+
+In this section, we provide additional analysis of the data. 
+
+A.1. Kinematic Graph Diversity 
+
+Besides the part and joint counts presented in the main pa-per, another important diversity dimension is the diversity of kinematic graphs. Kinematic graphs can act as a proxy of the data complexity, for the categories that allow for var-ious graphs. We start by measuring a number of unique graphs, judg-ing by part connectivity, semantic labels and motion types. As the absolute counts are biased by overall and per cate-gory data scale, we opt to compute the probability of the occurrence of each graph and measure the entropy of this distribution. We proceed to compute the effective number (perplexity) of the graphs in the Artiverse and PartNet-Mobility distribu-tions. We find that the effective number of kinematic graphs in Artiverse is 1.5 times higher. Overall, besides the cate-gories that limit the graph diversity (i.e., scissors), Artiverse features more complex part arrangements. 
+
+A.2. Model Selection 
+
+Our dataset construction begins by sourcing high-quality, articulatable models across diverse categories. We col-lect and filter models from multiple repositories through a hybrid retrieval workflow that combines automated fea-ture analysis with human oversight. For well-structured datasets with fine-grained taxonomy, such as HSSD [24] and 3DComPaT200 [2], we directly remap the objects at the category level. For large repositories with noisy or in-consistent metadata, we adopt a retrieval-by-example strat-egy. We first manually select a small set of models for each sub-category with the help of metadata (e.g., data tags, de-scriptions, category). Then we run k-means algorithm on DuoDuoCLIP [28] embeddings to find representative an-chor models that serve as reference exemplars to expand more models in a semi-automated way. These anchors serve as visual exemplars that guide the retrieval of similar shapes from the model pool. We render multi-view turntable im-ages for every candidate model and extract visual embed-dings using DuoDuoCLIP. Similarity scores between candi-dates and anchors are computed to rank potential matches. To ensure category correctness and asset quality, we em-ploy a custom web interface for human-in-the-loop verifi-cation of the top-k retrieved candidates. Models that align with the intended sub-category and exhibit realistic geome-try and textures are retained. The resulting curated collec-tion forms a high-quality starting pool for the downstream annotation pipeline. 
+
+## B. Semi-automated Annotation Pipeline 
+
+In this section, we supply more implementation details of different steps in our data collection and annotation pipeline. 
+
+B.1. Data Preprocessing 
+
+After category-level selection, we preprocess all models to ensure normalization, consistent orientation, metric scale, and geometric uniqueness across the dataset. To standardize orientation, we convert all assets into a shared y-up coordinate frame and make them zero-centered. Most objects naturally follow a consistent front-facing di-rection due to common modeling conventions. For the re-maining minority, we apply axis-aligned rotations to align the canonical front-facing direction. For metric scaling, we preserve the physical dimensions provided by the original data sources whenever available. When scale information is missing, we infer a plausible size by sampling from a range of physical dimensions per sub-category. These ranges are obtained using GPT-4o reason-ing and then validated against the objects whose physical sizes are known, ensuring the predicted ranges remain real-istic and category-appropriate. To remove redundant models, we perform near-duplicate detection using DuoduoCLIP [28] feature similarity. We manually assess models with cosine similarity greater than 0.99 in the specialized interface. Additionally, we exclude models already present in PartNet-Mobility [53] to prevent overlap with existing articulated datasets. 
+
+B.2. Part Segmentation Proposal 
+
+Taking the selected and preprocessed models from previ-ous steps, we annotate functional parts guided by the per-category template (see an example template design in Fig-ure 10). Our method combines few-shot multi-view seg-mentation with geometry processing algorithms to produce high-quality part instance proposals that are subsequently verified by human annotators. The key steps are shown in Figure 7. 
+
+Few-shot semantic segmentation. For each category or group of similar categories (e.g., furniture), we manually annotate 5-15 representative objects with functional parts labels. Using these exemplars, we train the few-shot adap-tive segmentation model ASIA [41] on 16 rendered views per object. Each input image is overlaid with projected 3D 1part masks sorted by visibility, enabling the model to learn category-specific functional semantics. Once trained, ASIA is applied to the same 16 views for all objects within the cat-egory scope to obtain dense 2D semantic predictions. 
+
+Propagating 2D semantic regions to 3D. We precompute mesh over-segmentation based on triangle connectivity, and project 2D semantic predictions back to these segments. For each view, we iterate over visible segments and record the semantic labels and their pixel counts. Each segment is as-signed the semantic label with the highest aggregate pixel support across views. For the occluded segments that are invisible to all rendered views, we find its nearest labeled segment and inherit the corresponding semantic label. This proximity-based assignment ensures that interior or shad-owed regions receive consistent labels without requiring ex-haustive rendering. 
+
+Clustering segments into part instances. To derive instance-level parts, we cluster the over-segments within a subset for each semantic label, based on the distance between them. For each semantic label, we consider all pairs of segments within that label and compute the short-est triangle-triangle distance between them. These pairwise checks are highly parallelizable. Segments are considered connected if their minimum distance is below a threshold (e.g., 1 mm) We then apply a union-find algorithm to obtain disjoint connected subsets, each corresponding to a func-tional part instance. Part masks in multi -views   
+
+> 3D aggregation Instance Clustering Over -segments in multi -views
+> Multi -view RGB Images
+> Input Shape
+> Multi -view rendering
+> Template guidance
+> Geometric processing
+
+Figure 7. Key steps of proposing functional part segmentation. Given an input mesh, we 1) few-shot an adaptive segmentation model to predict masks on multi-view images for the parts pre-defined in the template; 2) propagate 2D semantic regions from multi-views to over-segments by assigning labels to mesh over-segments, including occluded regions, through visibility voting and proximity reasoning; and 3) cluster part instances into fi-nal part instances based on point-wise distanceb between over-segments. 
+
+B.3. Articulation Proposal 
+
+To generate articulated motion proposals, we design a set of geometric heuristics that infer joint parameters directly 
+
+Figure 8. Illustration of the contact region (highlighed in red points) we detected between two kinematically dependent parts (colored in grey and blue) to infer the motion joints. 
+
+from 3D geometry. Our goal is to build a general, reusable framework that works across diverse object categories while requiring minimal per-class specialization. 
+
+Motion type. In many cases, there is a single motion type for a particular semantic part. In the case of multiple possi-ble motion types, as determined by the templates, we either use geometric heuristics to disambiguate the case if possible or simply go for the one we expect to be the most commonly present in the distribution. 
+
+Motion axis. For motion axis, we derive its origin and di-rection by either relying on the coarse geometric cues (e.g, part centroid, bounding boxes) or from the fine-grained con-tact region between two kinematically dependent parts, de-pending on the motion and part type. For some articulated components (e.g., doors, drawers, buttons), the motion axis is naturally aligned with a charac-teristic dimension or face of the part bounding box. To ro-bustly capture these cues, we compute three types of bound-ing boxes: 1) AABB – axis-aligned bounding box obtained from minimum and maximum points of the part geometries; 2) POBB – PCA-oriented bounding box whose axes fol-low principal directions; 3) GOBB – gravity-aligned bound-ing box where the vertical axis fixed to gravity direction and horizontal axes from PCA on the part projected to the ground plane. We select the bounding box with the smallest volume as the primary geometric descriptor, except when the GOBB volume is within 5% of the minimum. In that case, we prefer GOBB because it typically aligns better with human-centric object orientation conventions. Certain joints require finer geometric reasoning, e.g., rotational joints located off-center (e.g., chair casters), or hinges defined by narrow attachment regions. For these cases, we identify the contact region between a part and its parent by sampling points from each part surface, comput-ing pairwise distances between the two point sets, and take the nearest points as the contact region. Figure 8 shows some examples of the contact region we detected and used for motion inference across different categories. If multi-ple contact regions are detected (e.g., two hinge mounts), the motion axis is inferred from the geometric relationship 2between these regions, for instance, by connecting region centroids. This strategy allows reliable axis placement even for small, highly localized joints. 
+
+Motion range estimation. Parts vary in pose and may be partially colliding due to modeling artifacts, making range inference non-trivial. We therefore simulate joint motion and monitor collision changes with some tolerance to iden-tify the joint limit at two ends. For rotational joints, we incrementally rotate the part in both directions. At each step, we record the number of col-lision points. A valid collision event is detected when the count shows a sustained ramp-up over multiple steps and exceeds the initial collision count by a threshold factor. We take the two collision bounds and derive a safe operational subrange (e.g., 80% of collision-to-collision span). For translational joints, we first detect the detachment distance by translating the part until collisions disappear. Then we sweep in the opposite direction to find the first col-lision boundary. These detachment-collision distances are post-processed with category rules to match realistic physi-cal limits. 
+
+Kinematic graph construction. After estimating motion parameters, we construct the kinematic graph describing parent-child relationships between articulated parts. For each part, we compute pairwise distances between sampled surface points and assign the closest valid parent according to the template constraints. This results in a complete and consistent kinematic hierarchy that reflects the articulation structure of the object. 
+
+B.4. Interior Completion 
+
+Many static 3D repositories provide only the outward ap-pearance of objects, leaving internal structures either par-tially modeled or entirely missing. To ensure functional completeness and realistic physical simulation, we perform interior completion for categories where internal geometry is essential for the following three scenarios. 
+
+Partial articulated parts. Some articulated components are modeled only partially in static datasets. A common example is a drawer, where the front panel exists but the drawer box is missing—leading to unrealistic behavior once articulation is introduced. For such cases, we complete the missing geometry using a heuristic adapted from prior work S2O [19]: we cast rays behind the drawer’s front panel to infer the enclosed volume and procedurally insert side pan-els, a bottom panel, and a back panel consistent with the enclosing cavity. 
+
+Missing articulated parts. Large appliances often rely on internal movable components that are not modeled in the original mesh but are essential for functional interactivity, e.g., baskets in dishwashers, turntables in microwaves, or containers in refrigerators. For categories requiring such internal articulated elements, we collect set of representa-tive instances from the existing assets to define the expected interior parts. Next, when processing other objects sharing the same category, we detect whether such elements already exist from upstream segmentation; if not, we procedurally insert interior articulated components by randomly retriev-ing geometry templates from annotated exemplars or syn-thesizing simple parametric versions aligned with the inter-nal cavity. 
+
+Missing interaction affordance parts. Many furniture and storage objects lack internal shelving or structural dividers, leading to hollow cavities that break realism and limit util-ity for more interactivity. For targeted categories (e.g., cab-inets, wardrobes, refrigerators), we check segmentation re-sults to determine whether interior components are present. If the interior is empty, we procedurally generate shelves, racks, or rails based on the object’s internal bounding vol-ume. These elements are aligned with the geometry of the enclosing body and follow category-specific placement patterns (e.g., horizontal shelves for wardrobes, horizontal racks for armoires, additional vertical dividers for cabinets). This structured interior completion pipeline ensures that objects are not only visually consistent but also functionally complete, enabling realistic articulated behavior and physi-cally plausible interaction in downstream simulations. 
+
+B.5. Manual verification details 
+
+Each data sample undergoes a total of 4 verification stages. Namely, segmentation correction, segmentation verifica-tion, motion correction, and final verification. We dedicate 2 steps to segmentation as we find it the most prone to hu-man errors. Correction is performed in the 3D annotation tool directly, while verification is performed in specialized UI where the expert annotators are being presented with a video for each part, with the part of interest highlighted and other parts semi-transparent, with the camera revolving around that part. Motion correction is also performed in 3D motion annotation tool. In the final verification, annotators are presented with the videos of each single part moving, both highlighted and textured. These objects also include the completed interiors, and material proposals, which users verify in this stage only. The recruited annotators are mostly grad and undergrad students recruited within the institution. Throughout all the annotation sessions, a total of 33 annotators have con-tributed. 18 of them, contributing more than 5 hours total. The overall annotation time across all the manual correction and verification steps is 400 hours. 
+
+B.6. Pipeline limitations 
+
+Most of the failure modes come from the geometry artifacts, such as: thin structures, duplicated surfaces, parts that are not modeled with separate connected components. Another limitation of the pipeline appears in the cases of complex 3kinematic chains such as folding chairs. In these cases, we adopt simplified kinematic model which might ignore or re-move some parts. Finally, our current representation does not allow modeling of deformable parts, which otherwise would contribute to the physical realism of the data. 
+
+## C. Experiments 
+
+In this section we provide additional implementation details of the experiments and provide more results. 
+
+C.1. Implementation details 
+
+For FPNGroupMot, we first pre-process our data to merge even the interactable parts, such as handles, into the artic-ulated parts. We extend the method with an extra axis pre-diction head that allows support for the universal joint. The metrics follow the same setup as in S2O [19], except we ig-nore semantic labels due to the mismatch between PM and Artiverse while aiming at cross-validation. We increase the batch size to 32 and the number of training epochs to 600, otherwise keeping the hyperparameters in accordance to the original paper. Training is conducted on 4 NVIDIA L40S GPUs for 20 hours on Artiverse and 13 hours on PM. Due to the flaw of the original design of label represen-tation, SINGAPO cannot be scaled well to the large number of parts. This fact significantly impacts the performance as semantic labels are used for retrieval. In order to setup a fair comparison, we enhance augment SINGAPO with gen-erative models with strong image-to-3D prior at inference time. In particular, the image is first passed through TREL-LIS [54] to obtain the initial 3D geometry. This geometry, combined with SINGAPO bounding boxes is then used to condition X-Part [55] for per-part generation. Furthermore, we extend SINGAPO with an extra axis and range attributes to support universal joints. We increase the batch size to 120 and perform training on 2 NVIDIA H200 GPUs for 18 hours. 
+
+C.2. Image to Articulated object generation 
+
+The qualitative comparison on image to articulated object task is presented in Figure 9. We find that Articulate Any-thing is heavily bottlenecked by retrieval, which is espe-cially problematic on our diverse data. While SINGAPO combined with geometry generation excels both at struc-tural understanding and geometry reconstruction. How-ever, we find that SINGAPO is limited by occasional mis-alignment of TRELLIS geometry with SINGAPO bounding boxes that are used to condition XPart. Input AA SINGAPO 
+
+> Figure 9. Qualitative results of Articulate Anything compared to SINGAPO + XPart on Artiverse. Articulate Anything is limited by retrieval quality while SINGAPO combined with XPart allows adapting to the input geometry, while predicting reliable object structures.
+
+4{"main_category": "fan", "gloss": "A household electrical appliance that produces airflow ...", "content": [{"name": "base", "gloss": "The bottom support structure of the fan that provides stability and houses electrical connections.", "kinematic": {"articulatable": false, "link_dependency": [], "joint_type": ["fixed"] }}, {"name": "pole", "gloss": "The vertical support column connecting the base to the head ...", "kinematic": {"articulatable": true, "link_dependency": ["base"], "joint_type": ["cylindrical", "fixed", "revolute", "prismatic"] }}, {"name": "head", "gloss": "The main assembly containing the motor and blades, mounted on the pole ...", "kinematic": {"articulatable": true, "link_dependency": ["pole"], "joint_type": ["revolute", "fixed", "universal"] }}, {"name": "blade_set", "gloss": "A set of rotating aerofoil components attached to the motor shaft ... ", "parts": [{"name": "blade", "gloss": "..." }, {"name": "rotor", "gloss": "..." }], "kinematic": {"articulatable": true, "link_dependency": ["head"], "joint_type": ["continuous"] }}, ... ]}
+
+Figure 10. An example of our designed template. 
+
+5aerosol can armoire bar stool blender bookcase bottle bucket camera 
+
+cap pen ceiling fan chest of drawers clasp knife coffee maker coffee table desk digital piano 
+
+dishwasher display display cabinet divider door dumpster electric clock electric fan 
+
+electric kettle eyeglasses faucet flashlight floor clock floor lamp game controller grill 
+
+guitar jewelry box kitchen pot laptop lidded bin lighter locker makeup mirror 
+
+mechanical pen memory stick microwave moka pot monitor arm nightstand oven pedal bin 
+
+piano picture frame pliers recliner chair refrigerator remote safe scissors 
+
+shopping cart sideboard sink cabinet skateboard soap dispenser spray bottle standing mirror stapler 
+
+storage bench storage box storage chest stovetop kettle stroller suitcase switch swivel chair 
+
+table lamp tabletop clock telescoping ladder toaster toilet tool box tool cabinet towel ring 
+
+tv stand wall cabinet wall clock washing machine wheelchair wheelie bin window wrench 
+
+Figure 11. Preview of all Artiverse categories. 
+
+6

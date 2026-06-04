@@ -1,0 +1,931 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-04T05:59:16.729943+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 17,
+    "deep_cap": 6,
+    "deep_selected": 13,
+    "quick_candidates": 10,
+    "quick_skim_target": 11,
+    "quick_selected": 10
+  },
+  "deep_dive": [
+    {
+      "id": "2605.16582v1",
+      "source": "arxiv",
+      "title": "ArtMesh: Part-Aware Articulated Mesh Fields with Motion-Consistent Dynamics",
+      "abstract": "We present ArtMesh, a mesh-native method for reconstructing articulated objects explicitly as connected triangle meshes with per-part rigid motion from multi-view images in start and end states. Existing 3D Gaussian Splatting pipelines for articulated reconstruction inherit the unstructured point-based geometry of their splatting base, which provides no surface topology for reasoning about part boundaries or enforcing motion consistency along the object's connectivity. ArtMesh instead builds on a mesh-based differentiable rendering backbone, enabling part-aware dynamics to act directly on the structured topology. To make the topology compatible with articulation, we introduce part-aware restricted Delaunay remeshing, producing connected submeshes whose triangles do not cross semantic part boundaries. The dynamic mesh field then optimizes articulation using bidirectional Vertex-wise Motion Consistency on transported mesh vertices and Pixel-wise Motion Consistency on rendered RGB-D observations. We introduce Articulate-100, a new benchmark of 100 articulated objects spanning 16 PartNet-Mobility categories. On this benchmark, ArtMesh outperforms prior 3DGS-based pipelines in joint parameter estimation and part-level geometric reconstruction, with the largest gains on objects with many movable parts.",
+      "authors": [
+        "Sylvia Yuan",
+        "Dan Wang",
+        "Ravi Ramamoorthi",
+        "Xinrui Cui"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-15T19:37:55+00:00",
+      "link": "https://arxiv.org/pdf/2605.16582v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "reconstructs articulated objects with per-part rigid motion and part-aware dynamics",
+      "llm_evidence_cn": "重建具有逐零件刚性运动和零件感知动力学的关节物体",
+      "llm_evidence": "重建具有逐零件刚性运动和零件感知动力学的关节物体",
+      "canonical_evidence": "重建具有逐零件刚性运动和零件感知动力学的关节物体",
+      "llm_tldr_en": "ArtMesh introduces a mesh-native method for articulated object reconstruction that enforces part boundaries and motion consistency by performing part-aware dynamics on structured mesh topology, achieving connected submeshes with per-part rigid motion from multi-view images.",
+      "llm_tldr_cn": "现有3D高斯泼溅关节重建缺乏表面拓扑，难以推理零件边界和运动一致性。ArtMesh提出基于网格的可微渲染主干，通过零件感知受限Delaunay重网格化生成连接子网格，直接在结构化拓扑上施加零件感知动力学，从多视图图像重建具有逐零件刚性运动的关节物体。实验表明该方法能明确捕捉零件边界并保证运动沿连接性一致，为关节物体重建提供了零件感知的显式网格表示。",
+      "llm_tldr": "现有3D高斯泼溅关节重建缺乏表面拓扑，难以推理零件边界和运动一致性。ArtMesh提出基于网格的可微渲染主干，通过零件感知受限Delaunay重网格化生成连接子网格，直接在结构化拓扑上施加零件感知动力学，从多视图图像重建具有逐零件刚性运动的关节物体。实验表明该方法能明确捕捉零件边界并保证运动沿连接性一致，为关节物体重建提供了零件感知的显式网格表示。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "methods for generating articulated 3D objects",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.19350v1",
+      "source": "arxiv",
+      "title": "CompoSE: Compositional Synthesis and Editing of 3D Shapes via Part-Aware Control",
+      "abstract": "Creating and editing high-quality 3D content remains a central challenge in computer graphics. We address this challenge by introducing CompoSE, a novel method for Compositional Synthesis and Editing of 3D shapes via part-aware control. Our method takes as input a set of coarse geometric primitives (e.g., bounding boxes) that represent distinct object parts arranged in a particular spatial configuration, and synthesizes as output part-separated 3D objects that support localized granular (i.e., compositional) editing of individual parts. The key insight that enables our method is our use of a diffusion transformer architecture that alternates between processing each part locally and aggregating contextual information across parts globally, and features a novel conditioning technique that ensures strong adherence to the user's input. Importantly, our method learns to infer part semantics and symmetries directly from the user's coarse layout guidance, and does not require part-level text prompts. We demonstrate that our method enables powerful part-level editing capabilities, including context-aware substitution, addition, deletion, and style-preserving resizing operations. We show through extensive experiments that our method significantly outperforms existing approaches on guided synthesis, as measured by objective metrics and LLM-based evaluations.",
+      "authors": [
+        "Habib Slim",
+        "Shariq Farooq Bhat",
+        "Mohamed Elhoseiny",
+        "Yifan Wang",
+        "Mike Roberts"
+      ],
+      "primary_category": "cs.GR",
+      "categories": [
+        "cs.GR",
+        "cs.LG"
+      ],
+      "published": "2026-05-19T04:39:48+00:00",
+      "link": "https://arxiv.org/pdf/2605.19350v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "part-aware control synthesizes part-separated 3D objects from coarse part boxes",
+      "llm_evidence_cn": "从粗零件框合成分离部件的3D对象，支持零件感知控制",
+      "llm_evidence": "从粗零件框合成分离部件的3D对象，支持零件感知控制",
+      "canonical_evidence": "从粗零件框合成分离部件的3D对象，支持零件感知控制",
+      "llm_tldr_en": "Proposes CompoSE, which generates part-separated 3D shapes from bounding boxes of parts using a diffusion transformer that alternates local and global processing, enabling compositional editing.",
+      "llm_tldr_cn": "针对高质量3D内容创建和编辑难题，提出CompoSE，接受表示零件配置的粗几何图元为输入，通过交替局部-全局处理的扩散Transformer合成零件分离的3D物体，支持对单个部件进行局部和组合编辑。",
+      "llm_tldr": "针对高质量3D内容创建和编辑难题，提出CompoSE，接受表示零件配置的粗几何图元为输入，通过交替局部-全局处理的扩散Transformer合成零件分离的3D物体，支持对单个部件进行局部和组合编辑。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "generating 3D models with separate parts",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.24304v1",
+      "source": "arxiv",
+      "title": "ArtSplat: Feed-Forward Articulated 3D Gaussian Splatting from Sparse Multi-State Uncalibrated Views",
+      "abstract": "Articulated object reconstruction from sparse-view images is an ill-posed problem that requires simultaneous inference of geometry and underlying articulation structure. Existing methods for articulated object reconstruction based on NeRF and 3D Gaussian Splatting (3DGS) typically rely on dense views or strong priors (e.g., depth maps, joint types, predefined number of joints) and require costly per-object optimization. In this paper, we propose ArtSplat, the first feed-forward framework for articulated 3D Gaussian Splatting. It reconstructs both geometry and joint parameters from sparse multi-view images across multiple articulation states in a single forward pass. To address the challenges of single-pass articulated reconstruction, we introduce a per-pixel joint map representation that enables the integration of joint parameter estimation into the feed-forward pipeline. We further propose a Cross-State Attention (CSA) mechanism with state tokens, which effectively captures discrete motion across input states. Experiments on 68 articulated objects from PartNet-Mobility, including both single- and multi-joint configurations, demonstrate that ArtSplat achieves competitive performance in both geometry and joint estimation, while being over 400 times faster than baselines.",
+      "authors": [
+        "Inseo Lee",
+        "Yoonji Kim",
+        "Eugene Sohn",
+        "Jiwoong Lee",
+        "Jungmin You",
+        "Joonseok Lee",
+        "Jin-Hwa Kim"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-05-23T00:31:47+00:00",
+      "link": "https://arxiv.org/pdf/2605.24304v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "reconstructs articulated objects with joint parameters from sparse multi-view images, generating articulated 3D objects",
+      "llm_evidence_cn": "从稀疏多视图图像重建关节物体和关节参数，生成关节3D物体",
+      "llm_evidence": "从稀疏多视图图像重建关节物体和关节参数，生成关节3D物体",
+      "canonical_evidence": "从稀疏多视图图像重建关节物体和关节参数，生成关节3D物体",
+      "llm_tldr_en": "ArtSplat is the first feed-forward framework for articulated 3D Gaussian Splatting, reconstructing both geometry and joint parameters from sparse multi-view images across articulation states in a single forward pass, eliminating costly per-object optimization.",
+      "llm_tldr_cn": "现有关节物体重建方法依赖密集视图或强先验且需逐物体优化。ArtSplat提出首个前馈关节3D高斯泼溅框架，从多个关节状态的稀疏多视图图像中单次前向传播即可同时重建几何和关节参数。模型无需逐物体微调，推理速度大幅提升，为关节物体重建提供了高效的前馈解决方案。",
+      "llm_tldr": "现有关节物体重建方法依赖密集视图或强先验且需逐物体优化。ArtSplat提出首个前馈关节3D高斯泼溅框架，从多个关节状态的稀疏多视图图像中单次前向传播即可同时重建几何和关节参数。模型无需逐物体微调，推理速度大幅提升，为关节物体重建提供了高效的前馈解决方案。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "methods for generating articulated 3D objects",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.28763v1",
+      "source": "arxiv",
+      "title": "CubePart: An Open-Vocabulary Part-Controllable 3D Generator",
+      "abstract": "Interactive 3D assets used in games and simulation are typically decomposed into specific semantic parts to support animation, physics, and scripted behaviors, yet most generative 3D models produce either monolithic meshes or arbitrary part decompositions that cannot be aligned with application-specific requirements. We present CubePart, a generative framework for open-vocabulary, part-controllable 3D mesh generation that exposes part structure as an explicit inference-time control signal. Given a global text prompt and a user-defined parts schema expressed as an open-ended list of part names, our method generates a set of meshes - one per schema element - that assemble into a coherent object while respecting the specified semantic structure. To enable this capability, we introduce a scalable data pipeline to construct a large open-vocabulary, part-labeled 3D dataset, along with a two-stage generative architecture that separates global shape synthesis from part-level decoding. We demonstrate that the resulting assets can be directly integrated into game engines and driven by animation and behavior scripts without manual post-processing. Project Page: https://cubepart.github.io/",
+      "authors": [
+        "Yiheng Zhu",
+        "Kangle Deng",
+        "Jean-Philippe Fauconnier",
+        "Inaki Navarro",
+        "Daiqing Li",
+        "Ava Pun",
+        "Yinan Zhang",
+        "Peiye Zhuang",
+        "Xiaoxia Sun",
+        "Maneesh Agrawala",
+        "Kiran Bhat",
+        "Tinghui Zhou"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-05-27T17:22:38+00:00",
+      "link": "https://arxiv.org/pdf/2605.28763v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Generates 3D meshes from text and part schema, assembling parts into coherent objects.",
+      "llm_evidence_cn": "根据文本和零件模式生成3D网格，组装零件为完整物体。",
+      "llm_evidence": "根据文本和零件模式生成3D网格，组装零件为完整物体。",
+      "canonical_evidence": "根据文本和零件模式生成3D网格，组装零件为完整物体。",
+      "llm_tldr_en": "CubePart is an open-vocabulary part-controllable 3D generator that takes a global text prompt and a user-defined parts list, and produces a set of meshes that assemble into a coherent object with specified semantic parts.",
+      "llm_tldr_cn": "针对可交互3D资产需按语义零件分解的挑战，CubePart提出开放词汇、零件可控的生成框架，接受全局文本和用户指定的零件列表，生成一组网格并组装成完整对象，实现推理时显式的零件结构控制，支持动画、物理等下游应用。",
+      "llm_tldr": "针对可交互3D资产需按语义零件分解的挑战，CubePart提出开放词汇、零件可控的生成框架，接受全局文本和用户指定的零件列表，生成一组网格并组装成完整对象，实现推理时显式的零件结构控制，支持动画、物理等下游应用。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "generating 3D models with separate parts",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.09620v1",
+      "source": "arxiv",
+      "title": "MiXR: Harvesting and Recomposing Geometry from Real-World Objects for In-Situ 3D Design",
+      "abstract": "Recent developments in 3D generative AI enable users to create bespoke 3D models from text or image prompts. However, these approaches provide limited control over spatial structure, making them ill suited for tasks requiring precise geometric composition. We present MiXR, an XR system for in-situ compositional modeling that enables users to create new 3D models by harvesting geometry from their environment. Users extract segments from captured objects and assemble new artifacts through direct 3D manipulation, while generative AI synthesizes a coherent model from the user-defined composition. This hybrid workflow allows users to define spatial structure explicitly while delegating geometric refinement to generative models, enabling them to specify spatial intent that is difficult to express through verbal prompts alone. In a controlled user study ($N=12$), participants using MiXR rated their designs as significantly closer to the target, felt more in control, and experienced lower cognitive workload compared to a generative composition baseline.",
+      "authors": [
+        "Faraz Faruqi",
+        "Demircan Tas",
+        "Arthur Caetano",
+        "Niccolò Meniconi",
+        "Oğuz Arslan",
+        "Misha Sra",
+        "Ruofei Du",
+        "Stefanie Mueller",
+        "Mustafa Doga Dogan"
+      ],
+      "primary_category": "cs.HC",
+      "categories": [
+        "cs.HC"
+      ],
+      "published": "2026-05-10T16:06:05+00:00",
+      "link": "https://arxiv.org/pdf/2605.09620v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "users extract segments from captured objects and assemble new artifacts, building 3D models from assembled parts",
+      "llm_evidence_cn": "用户从捕获物体中提取片段并组装新工件，从组装零件构建3D模型",
+      "llm_evidence": "用户从捕获物体中提取片段并组装新工件，从组装零件构建3D模型",
+      "canonical_evidence": "用户从捕获物体中提取片段并组装新工件，从组装零件构建3D模型",
+      "llm_tldr_en": "MiXR is an XR system for in-situ compositional modeling that allows users to harvest geometry from their environment, extract segments, and assemble them into new 3D models, with generative AI refining the composition, enabling precise geometric composition for tasks requiring spatial structure.",
+      "llm_tldr_cn": "现有3D生成AI对空间结构控制有限，不适合精确几何组合任务。MiXR提出XR系统，使用户能够从环境中采集几何体、提取片段并通过直接3D操作组装新模型，生成式AI负责从用户定义的组合中合成连贯模型。该混合工作流显式定义空间结构，将几何细化委托给生成模型，从而创建精确组装的3D模型。",
+      "llm_tldr": "现有3D生成AI对空间结构控制有限，不适合精确几何组合任务。MiXR提出XR系统，使用户能够从环境中采集几何体、提取片段并通过直接3D操作组装新模型，生成式AI负责从用户定义的组合中合成连贯模型。该混合工作流显式定义空间结构，将几何细化委托给生成模型，从而创建精确组装的3D模型。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "building 3D models from assembled parts",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.10438v1",
+      "source": "arxiv",
+      "title": "Beyond Spatial Compression: Interface-Centric Generative States for Open-World 3D Structure",
+      "abstract": "Current 3D tokenizers largely treat representation as spatial compression: compact codes reconstruct surface geometry, but leave component ownership and attachment validity implicit. In open-world assets with intersecting components, noisy topology, and weak canonical structure, this creates a representation mismatch: local shape, component identity, and assembly relations become entangled in a latent stream and are not natively addressable during decoding. We formulate an alternative view, interface-centric generative states, in which tokenization constructs an operational state rather than a passive compressed code. The state exposes local geometry, component ownership, and attachment validity as variables that can be queried, constrained, and repaired during decoding. We instantiate this formulation with Component-Conditioned Canonical Local Tokens (C2LT-3D), factorizing representation into canonical local geometry, partition-conditioned context, and relational seam variables. Each factor targets a distinct failure mode of compression-centric tokens: pose leakage, cross-component interference, or invalid local attachment. This exposed state supports attachment validation, latent structural repair, targeted intervention, and constrained serialization without a separate post-hoc structure recovery module. Trained on single-object CAD models and evaluated zero-shot on open-world multi-component assets, C2LT-3D improves structural robustness and shows that its latent variables remain actionable under adversarial attachment settings. These results suggest that open-world 3D generative representations should be evaluated not only by reconstruction fidelity, but by whether their discrete states remain operational for assembly-level structural reasoning.",
+      "authors": [
+        "Xiang Chen",
+        "Alexander Binder"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CV"
+      ],
+      "published": "2026-05-11T12:09:28+00:00",
+      "link": "https://arxiv.org/pdf/2605.10438v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "represents component-level 3D structure with attachment relations",
+      "llm_evidence_cn": "表示部件级三维结构及附着关系",
+      "llm_evidence": "表示部件级三维结构及附着关系",
+      "canonical_evidence": "表示部件级三维结构及附着关系",
+      "llm_tldr_en": "Proposes interface-centric tokenization for 3D assets that captures part boundaries and how they connect, enabling generation of structured multi-part objects.",
+      "llm_tldr_cn": "当前3D标记化方法将几何压缩为隐式编码，忽略部件归属和装配关系。本文提出以接口为中心的生成状态，将局部几何、部件归属和附着有效性作为显式变量。实验表明，该方法在复杂多部件资产上实现了更结构化的生成，推动了开放世界中零件感知建模。",
+      "llm_tldr": "当前3D标记化方法将几何压缩为隐式编码，忽略部件归属和装配关系。本文提出以接口为中心的生成状态，将局部几何、部件归属和附着有效性作为显式变量。实验表明，该方法在复杂多部件资产上实现了更结构化的生成，推动了开放世界中零件感知建模。",
+      "llm_tags": [
+        "query:part-aware:composite"
+      ],
+      "matched_query_tag": "query:part-aware:composite",
+      "matched_query_text": "Papers central to 查找类似ArticulateAnything、X-Part、CubePart等关于零件感知生成的文章, especially work that connects or combines: generating 3D models with separate parts; methods for generating articulated 3D objects; decomposing 3D shapes into parts; segmenting 3D objects into semantic parts; building 3D models from assembled parts; assembling 3D parts into complete objects; How to generate articulated 3D parts from single images?; Approaches for decomposing 3D shapes into semantic parts.",
+      "matched_requirement_id": "req-composite-part-aware",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.15187v1",
+      "source": "arxiv",
+      "title": "Articraft: An Agentic System for Scalable Articulated 3D Asset Generation",
+      "abstract": "A bottleneck in learning to understand articulated 3D objects is the lack of large and diverse datasets. In this paper, we propose to leverage large language models (LLMs) to close this gap and generate articulated assets at scale. We reduce the problem of generating an articulated 3D asset to that of writing a program that builds it. We then introduce a new agentic system, Articraft, that writes such programs automatically. We design a programmatic interface and harness to help the LLM do so effectively. The LLM writes code against a domain-specific SDK for defining parts, composing geometry, specifying joints, and writing tests to validate the resulting assets. The harness exposes a restricted workspace and interface to the LLM, validates the resulting assets, and returns structured feedback. In this way, the LLM is not distracted by details such as authoring a URDF file or managing a complex software environment. We show that this produces higher-quality assets than both state-of-the-art articulated-asset generators and general-purpose coding agents. Using Articraft, we build Articraft-10K, a curated dataset of over 10K articulated assets spanning 245 categories, and show its utility both for training models of articulated assets and in downstream applications such as robotics simulation and virtual reality.",
+      "authors": [
+        "Matt Zhou",
+        "Ruining Li",
+        "Xiaoyang Lyu",
+        "Zhaomou Song",
+        "Zhening Huang",
+        "Chuanxia Zheng",
+        "Christian Rupprecht",
+        "Andrea Vedaldi",
+        "Shangzhe Wu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR",
+        "cs.RO"
+      ],
+      "published": "2026-05-14T17:59:18+00:00",
+      "link": "https://arxiv.org/pdf/2605.15187v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "generates articulated 3D assets by programming parts and joints",
+      "llm_evidence_cn": "通过编程定义零件和关节生成可活动的三维资产",
+      "llm_evidence": "通过编程定义零件和关节生成可活动的三维资产",
+      "canonical_evidence": "通过编程定义零件和关节生成可活动的三维资产",
+      "llm_tldr_en": "Proposes Articraft, an agentic system that uses LLMs to automatically write programs for generating articulated 3D assets. Defines an SDK for parts, joints, and testing. Scales up asset creation for learning articulated object understanding.",
+      "llm_tldr_cn": "针对可活动三维对象学习缺乏大规模数据集的问题，提出Articraft智能体系统，利用大语言模型自动编写程序生成活动资产。定义领域专用SDK，让LLM编码零件、几何组装、关节设定和测试，实现可扩展的资产生成。",
+      "llm_tldr": "针对可活动三维对象学习缺乏大规模数据集的问题，提出Articraft智能体系统，利用大语言模型自动编写程序生成活动资产。定义领域专用SDK，让LLM编码零件、几何组装、关节设定和测试，实现可扩展的资产生成。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "methods for generating articulated 3D objects",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.18010v1",
+      "source": "arxiv",
+      "title": "Functionalization via Structure Completion and Motion Rectification",
+      "abstract": "Acquisition and creation of 3D assets have been largely view- or appearance-driven. As a result, existing digital 3D models often lack the requisite structural components to function as intended, such as joints, supports, interiors, or interaction elements. At the same time, even human-annotated motions are frequently error-prone, leading to physically implausible behavior. We introduce object functionalization, a novel task aimed at transforming visually plausible but non-functional 3D models into functional and physically operable ones. We formulate functionalization as a graph completion problem over a new functional graph representation, where labeled nodes represent object parts, labeled edges encode functional and contact relations, and movable nodes carry motion attributes, so that structural functional deficiencies manifest as missing nodes or incorrect edges. We develop a neural Graph Functionalizer (GraFu) to complete an incomplete graph representing a non-functional 3D object. The completed graph then drives a geometry realization stage that instantiates predicted connectors and structural elements in 3D, with the compelling side effect of rectifying erroneous human-annotated and predicted motions. To support training and evaluation, focusing on furniture as a rich and challenging target category, we introduce FurFun-233, a dataset of 233 paired non-functional and functionalized furniture models. On PartNet-Mobility (\"zero-shot\") and HSSD test sets, our method matches state-of-the-art methods in motion prediction accuracy while substantially improving functionality in terms of collision and connectivity.",
+      "authors": [
+        "Mingrui Zhao",
+        "Sai Raj Kishore Perla",
+        "Kai Wang",
+        "Sauradip Nag",
+        "Duc Anh Nguyen",
+        "Jiayi Peng",
+        "Ruiqi Wang",
+        "Angel X. Chang",
+        "Manolis Savva",
+        "Ali Mahdavi-Amiri",
+        "Hao Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-05-18T08:05:07+00:00",
+      "link": "https://arxiv.org/pdf/2605.18010v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "transforms 3D models into functional ones by adding joints via graph completion on part graph",
+      "llm_evidence_cn": "通过图补全在零件图上添加关节，将3D模型转化为功能性铰接模型",
+      "llm_evidence": "通过图补全在零件图上添加关节，将3D模型转化为功能性铰接模型",
+      "canonical_evidence": "通过图补全在零件图上添加关节，将3D模型转化为功能性铰接模型",
+      "llm_tldr_en": "Proposes object functionalization to turn non-functional 3D models into physically operable ones by completing structural parts and rectifying motions using a functional graph representation.",
+      "llm_tldr_cn": "现有3D模型常缺少关节等功能结构，本文提出对象功能化任务，通过新的功能图表示和图补全方法，自动添加零件间的结构和运动关系，将非功能性模型转换为物理可操作的铰接模型，实验表明该方法能有效补全结构和矫正运动，为3D资产赋予真实功能。",
+      "llm_tldr": "现有3D模型常缺少关节等功能结构，本文提出对象功能化任务，通过新的功能图表示和图补全方法，自动添加零件间的结构和运动关系，将非功能性模型转换为物理可操作的铰接模型，实验表明该方法能有效补全结构和矫正运动，为3D资产赋予真实功能。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "methods for generating articulated 3D objects",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.19587v1",
+      "source": "arxiv",
+      "title": "SceneCode: Executable World Programs for Editable Indoor Scenes with Articulated Objects",
+      "abstract": "Indoor scene synthesis underpins embodied AI, robotic manipulation, and simulation-based policy evaluation, where a useful scene must specify not only what the environment looks like, but also how its objects are structured. Existing pipelines, however, typically represent generated content as static meshes and inherit articulation only from curated asset libraries, which limits object-level controllability and prevents new interactable assets from being produced on demand. We address this gap by formulating physically interactable indoor scene synthesis as programmatic world generation, and present SceneCode, a framework that compiles a natural language prompt into an executable, code-driven indoor world rather than a collection of opaque meshes. A room-level agentic backbone first turns the prompt into a structured house layout and emits per-object AssetRequests through a planner--designer--critic loop. Each request is then routed to one of five code-generation strategies and converted into a synthesized part-wise Blender Python programs that are validated through an execution-guided repair-and-refine loop. The resulting programs are compiled into simulation-ready assets, and exported as SDF for physics simulation. A persistent scene-state registry links object requests, executable programs, rendered geometry, and simulation assets, turning scene assembly into a traceable and locally editable world-building process. We evaluate SceneCode across scene-level synthesis, object-level asset quality, human judgment, and downstream robot interaction. Results show that executable world programs improve prompt-faithful indoor scene generation and produce assets with cleaner mesh structure, and simulator-loadable articulation metadata. Project page: https://scene-code.github.io/.",
+      "authors": [
+        "Puyi Wang",
+        "Yuhao Wang",
+        "Linjie Li",
+        "Zhengyuan Yang",
+        "Kevin Qinghong Lin",
+        "Yangguang Li",
+        "Yu Cheng"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-05-19T09:31:04+00:00",
+      "link": "https://arxiv.org/pdf/2605.19587v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "compiles natural language into executable code that defines indoor scenes with articulated objects",
+      "llm_evidence_cn": "将自然语言编译为可执行代码，定义带有关节物体的室内场景",
+      "llm_evidence": "将自然语言编译为可执行代码，定义带有关节物体的室内场景",
+      "canonical_evidence": "将自然语言编译为可执行代码，定义带有关节物体的室内场景",
+      "llm_tldr_en": "SceneCode generates physically interactable indoor scenes with articulated objects by compiling prompts into executable code, enabling on-demand creation of new interactable assets.",
+      "llm_tldr_cn": "针对现有室内场景生成仅产生静态网格、依赖资产库关节的问题，SceneCode将自然语言提示编译为可执行的世界程序，直接生成包含可交互关节物体的室内场景。该方法不仅保持对象级可控性，还允许按需生成新的交互资产。实验证明，相较于传统方法，它在场景交互性和生成灵活性上具有优势，为机器人和具身AI提供了更有用的仿真环境。",
+      "llm_tldr": "针对现有室内场景生成仅产生静态网格、依赖资产库关节的问题，SceneCode将自然语言提示编译为可执行的世界程序，直接生成包含可交互关节物体的室内场景。该方法不仅保持对象级可控性，还允许按需生成新的交互资产。实验证明，相较于传统方法，它在场景交互性和生成灵活性上具有优势，为机器人和具身AI提供了更有用的仿真环境。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "methods for generating articulated 3D objects",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.21572v1",
+      "source": "arxiv",
+      "title": "PhysX-Omni: Unified Simulation-Ready Physical 3D Generation for Rigid, Deformable, and Articulated Objects",
+      "abstract": "Simulation-ready physical 3D assets have emerged as a promising direction owing to their broad applicability in downstream tasks. However, most existing 3D generation methods either neglect physical properties or are limited to a single asset category, e.g., rigid, deformable, or articulated objects. To address these limitations, we introduce PhysX-Omni, a unified framework for simulation-ready physical 3D generation across diverse asset types. Specifically, we develop a novel and efficient geometry representation tailored for Vision-Language Models, which directly encodes high-resolution 3D structures without compression, significantly improving generation performance. In addition, we construct the first general simulation-ready 3D dataset, PhysXVerse, covering diverse indoor and outdoor categories. Furthermore, to comprehensively and flexibly evaluate both generative and understanding capabilities in the wild, we propose PhysX-Bench, which encompasses six key attributes: geometry, absolute scale, material, affordance, kinematics, and function description. Extensive experiments with conventional metrics and PhysX-Bench show that PhysX-Omni performs strongly in both generation and understanding. Moreover, additional studies further validate the potential of PhysX-Omni for applications in simulation-ready scene generation and robotic policy learning. We believe PhysX-Omni can significantly advance a wide range of downstream applications, particularly in embodied AI and physics-based simulation.",
+      "authors": [
+        "Ziang Cao",
+        "Yinghao Liu",
+        "Haitian Li",
+        "Runmao Yao",
+        "Fangzhou Hong",
+        "Zhaoxi Chen",
+        "Liang Pan",
+        "Ziwei Liu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-05-20T17:59:01+00:00",
+      "link": "https://arxiv.org/pdf/2605.21572v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Unified generation of physical 3D assets including articulated objects, crucial for part-aware generation tasks.",
+      "llm_evidence_cn": "统一生成包含关节物体的物理3D资产，对零件感知生成至关重要。",
+      "llm_evidence": "统一生成包含关节物体的物理3D资产，对零件感知生成至关重要。",
+      "canonical_evidence": "统一生成包含关节物体的物理3D资产，对零件感知生成至关重要。",
+      "llm_tldr_en": "PhysX-Omni is a unified framework for generating simulation-ready physical 3D assets across rigid, deformable, and articulated categories, using a novel geometry representation for vision-language models.",
+      "llm_tldr_cn": "针对现有3D生成方法忽视物理属性或仅支持单一资产类的局限性，本文提出PhysX-Omni统一框架，能够生成涵盖刚体、可变形和关节物体等多类型的仿真就绪物理3D资产。通过设计一种新颖的高效几何表示，直接编码高分辨率3D结构并与视觉语言模型衔接，同时构建首个通用仿真资产数据集，实验证明该方法在多种物理资产生成上性能领先，为物理仿真和交互式应用提供高质量数字内容。",
+      "llm_tldr": "针对现有3D生成方法忽视物理属性或仅支持单一资产类的局限性，本文提出PhysX-Omni统一框架，能够生成涵盖刚体、可变形和关节物体等多类型的仿真就绪物理3D资产。通过设计一种新颖的高效几何表示，直接编码高分辨率3D结构并与视觉语言模型衔接，同时构建首个通用仿真资产数据集，实验证明该方法在多种物理资产生成上性能领先，为物理仿真和交互式应用提供高质量数字内容。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "methods for generating articulated 3D objects",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.24403v1",
+      "source": "arxiv",
+      "title": "Artiverse: A Diverse and Physically Grounded Dataset for Articulated Objects",
+      "abstract": "We present Artiverse, a diverse and physically grounded dataset of high-quality articulated 3D objects designed for realistic functional modeling and simulation. Artiverse contains 5.4K human-authored objects across a broad range of 88 categories, aggregated from multiple 3D static repositories. Objects are annotated with functional parts, interior structures, realistic kinematic relationships and articulated joints including multi-DoF joints, and physical attributes such as metric scale, material, and mass. We develop a semi-automated annotation pipeline that combines few-shot segmentation, geometric reasoning, and multi-stage human verification to achieve high-quality and efficient annotation, reducing manual annotation time by over 30%. We demonstrate the value of Artiverse on tasks of part mobility analysis, articulated object generation, and physics-based interaction. Artiverse provides a data resource to advance functional understanding for articulated objects.",
+      "authors": [
+        "Denys Iliash",
+        "Jiayi Liu",
+        "Egor Fokin",
+        "Qirui Wu",
+        "Ali Mahdavi-Amiri",
+        "Manolis Savva",
+        "Angel X. Chang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-23T05:19:05+00:00",
+      "link": "https://arxiv.org/pdf/2605.24403v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "dataset of articulated 3D objects with functional parts, kinematic relationships, physical attributes",
+      "llm_evidence_cn": "包含带功能部件和运动学关系的铰接物体数据集",
+      "llm_evidence": "包含带功能部件和运动学关系的铰接物体数据集",
+      "canonical_evidence": "包含带功能部件和运动学关系的铰接物体数据集",
+      "llm_tldr_en": "Artiverse provides 5.4K human-authored articulated 3D objects across 88 categories, annotated with functional parts and kinematic joints for realistic simulation.",
+      "llm_tldr_cn": "针对现有铰接物体数据集在功能性、物理属性和类别覆盖上的局限，本文提出了Artiverse，一个包含88类、5400个人工创作的铰接3D物体数据集，每个物体标注了功能部件、内部结构、真实运动学关节及物理属性。通过半自动标注流程，结合少样本分割与几何推理，标注效率提升30%以上。该数据集为铰接物体的生成、理解与物理仿真提供了高质量资源，推动了零件感知建模研究。",
+      "llm_tldr": "针对现有铰接物体数据集在功能性、物理属性和类别覆盖上的局限，本文提出了Artiverse，一个包含88类、5400个人工创作的铰接3D物体数据集，每个物体标注了功能部件、内部结构、真实运动学关节及物理属性。通过半自动标注流程，结合少样本分割与几何推理，标注效率提升30%以上。该数据集为铰接物体的生成、理解与物理仿真提供了高质量资源，推动了零件感知建模研究。",
+      "llm_tags": [
+        "query:part-aware:composite"
+      ],
+      "matched_query_tag": "query:part-aware:composite",
+      "matched_query_text": "Papers central to 查找类似ArticulateAnything、X-Part、CubePart等关于零件感知生成的文章, especially work that connects or combines: generating 3D models with separate parts; methods for generating articulated 3D objects; decomposing 3D shapes into parts; segmenting 3D objects into semantic parts; building 3D models from assembled parts; assembling 3D parts into complete objects; How to generate articulated 3D parts from single images?; Approaches for decomposing 3D shapes into semantic parts.",
+      "matched_requirement_id": "req-composite-part-aware",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.26182v1",
+      "source": "arxiv",
+      "title": "BrickAnything: Geometry-Conditioned Buildable Brick Generation with Structure-Aware Tokenization",
+      "abstract": "Generating physically buildable brick structures from 3D shapes requires more than geometric reconstruction: the output must also satisfy discrete part constraints and structural stability. Existing brick generation methods either rely on heuristic optimization, which can break down when the target 3D shape does not admit a feasible structure under predefined constraints, or generate brick sequences without explicitly modeling the underlying 3D geometry and assembly relations. In this work, we present BrickAnything, a geometry-conditioned autoregressive framework for generating buildable brick structures from diverse 3D representations. BrickAnything uses point clouds as a unified geometric interface and predicts brick sequences that reconstruct the target shape under assembly constraints. To model structural dependencies among bricks, we introduce a structure-aware tree tokenization, which represents brick structures through local attachment relations. This formulation makes sequence generation more consistent with the physical construction process, and reduces invalid intermediate states. We further introduce preference-based alignment post-training, validity-constrained decoding and adaptive rollback to improve buildability objectives such as stability and geometric fidelity. Extensive experiments demonstrate that BrickAnything produces geometrically faithful and physically realizable brick structures, and that the proposed tokenization effectively reduces rollback and regeneration compared with conventional ordering strategies.",
+      "authors": [
+        "Zhengyang Ni",
+        "Feng Yan",
+        "Yu Guo",
+        "Fei Wang"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI",
+        "cs.GR"
+      ],
+      "published": "2026-05-25T07:33:25+00:00",
+      "link": "https://arxiv.org/pdf/2605.26182v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "generates brick assemblies with part constraints",
+      "llm_evidence_cn": "生成满足部件约束的积木装配体",
+      "llm_evidence": "生成满足部件约束的积木装配体",
+      "canonical_evidence": "生成满足部件约束的积木装配体",
+      "llm_tldr_en": "BrickAnything is an autoregressive framework that generates brick sequences to build 3D structures, ensuring physical stability and assembly feasibility.",
+      "llm_tldr_cn": "现有积木生成方法忽略几何与装配关系。BrickAnything提出几何条件自回归框架，以点云为输入，预测积木序列。实验表明，该方法生成的积木结构可物理搭建，且符合离散部件约束，为从三维形状到可搭建模型的自动化提供了解决方案。",
+      "llm_tldr": "现有积木生成方法忽略几何与装配关系。BrickAnything提出几何条件自回归框架，以点云为输入，预测积木序列。实验表明，该方法生成的积木结构可物理搭建，且符合离散部件约束，为从三维形状到可搭建模型的自动化提供了解决方案。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "building 3D models from assembled parts",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.28579v1",
+      "source": "arxiv",
+      "title": "MUSE: Benchmarking Manufacturable, Functional, and Assemblable Text-to-CAD Generation",
+      "abstract": "Large language models (LLMs) have recently advanced text-driven 3D generation, yet Text-to-CAD remains far from supporting industrial product design. Existing benchmarks focus primarily on generating single-part CAD models and evaluate them using geometric similarity metrics that fail to capture functionality, manufacturability, and assemblability. To address this gap, we introduce MUSE, a Text-to-CAD benchmark focused on complex, editable boundary representation (B-Rep) assemblies. MUSE pairs practical design instances with structured Design Specifications and evaluates generated models through a three-stage protocol: code check, geometric check, and design-intent alignment. The final stage uses design-specific rubrics to assess functionality, manufacturability, and assemblability, moving beyond shape matching toward practical design quality. To enable scalable evaluation, we use a rubric-based visual language model (VLM) judge and validate its reliability through human annotation. Experiments on closed-source and open-source LLMs reveal a clear failure cascade from executable code to valid geometry and finally to engineering-ready design, with even the strongest models achieving limited success on fine-grained engineering criteria. Together, MUSE provides a realistic benchmark and evaluation framework for advancing Text-to-CAD from geometric generation toward true engineering design. Our project website, including the leaderboard, dataset, and code, is available at https://dong7313.github.io/muse-benchmark/.",
+      "authors": [
+        "Xiaoyu Dong",
+        "Zhi Li",
+        "Xiao-Ming Wu"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-05-27T15:01:59+00:00",
+      "link": "https://arxiv.org/pdf/2605.28579v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "evaluates assembly of multiple CAD parts",
+      "llm_evidence_cn": "评估生成CAD装配体的装配性",
+      "llm_evidence": "评估生成CAD装配体的装配性",
+      "canonical_evidence": "评估生成CAD装配体的装配性",
+      "llm_tldr_en": "MUSE introduces a benchmark for Text-to-CAD that evaluates functional and assemblable multi-part CAD models, addressing the gap in industrial product design.",
+      "llm_tldr_cn": "现有文本到CAD基准主要关注单部件模型，忽视功能性与可装配性。MUSE提出面向复杂装配体的基准，通过设计规范和装配体检查评估生成模型。实验表明，MUSE能有效衡量生成CAD模型的制造与装配可行性，推动了工业级文本到CAD的发展。",
+      "llm_tldr": "现有文本到CAD基准主要关注单部件模型，忽视功能性与可装配性。MUSE提出面向复杂装配体的基准，通过设计规范和装配体检查评估生成模型。实验表明，MUSE能有效衡量生成CAD模型的制造与装配可行性，推动了工业级文本到CAD的发展。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "building 3D models from assembled parts",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2605.17131v1",
+      "source": "arxiv",
+      "title": "A Systematic Survey on Deep Learning Architectures for Point Cloud Classification and Segmentation",
+      "abstract": "Point cloud stands as the most widely adopted format for representing 3D shapes and scenes due to its simplicity and geometric fidelity. However, its inherent unordered and irregular nature, exacerbated by sensor noise and occlusions, introduces unique challenges for machine learning based methodologies. To combat these issues, diverse strategies have been developed, including converting to a format that has orderliness, extracting local geometry, and permutation-invariant or self-attention-based processing. In this paper, our focus is directed towards deep learning models for three fundamental tasks in 3D vision: point cloud classification, part segmentation, and semantic segmentation. We begin by formally defining point cloud data, followed by an in-depth discussion on its structural characteristics. Then, we categorize notable works based on their backbone structure and evaluate their performance on popular benchmarks. Beyond empirical comparison, we offer insights into architectural innovations and limitations. We also outline open challenges and promising future directions for 3D point cloud understanding.",
+      "authors": [
+        "Minhas Kamal",
+        "Hiranya Garbha Kumar",
+        "Balakrishnan Prabhakaran"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.LG"
+      ],
+      "published": "2026-05-16T19:37:41+00:00",
+      "link": "https://arxiv.org/pdf/2605.17131v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "survey covers part segmentation methods for point clouds",
+      "llm_evidence_cn": "综述涵盖点云零件分割方法",
+      "llm_evidence": "综述涵盖点云零件分割方法",
+      "canonical_evidence": "综述涵盖点云零件分割方法",
+      "llm_tldr_en": "Systematically surveys deep learning architectures for point cloud classification, part segmentation, and semantic segmentation. Reviews diverse strategies for unordered data. Provides comprehensive comparison of methods.",
+      "llm_tldr_cn": "本综述聚焦点云深度学习模型，系统梳理了分类、零件分割和语义分割三大任务。针对点云无序不规则特性，总结了多种特征提取与处理策略，全面比较了不同方法，为研究提供了基准参考。",
+      "llm_tldr": "本综述聚焦点云深度学习模型，系统梳理了分类、零件分割和语义分割三大任务。针对点云无序不规则特性，总结了多种特征提取与处理策略，全面比较了不同方法，为研究提供了基准参考。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "segmenting 3D objects into semantic parts",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.08293v1",
+      "source": "arxiv",
+      "title": "Distill, Diffuse, and Semanticize (DDS): Annotation-Free 3D Scene Understanding Based on Multi-Granularity Distillation and Graph-Diffusion-Based Segmentation",
+      "abstract": "3D semantic scene understanding has broad applications in digital twins, autonomous driving, smart agriculture, and embodied perception. However, dense point-wise annotation for point clouds is extremely expensive, making fully supervised 3D semantic learning difficult to scale. Recent annotation-free methods can discover semantic regions without manual 3D labels, but they often suffer from weak object-level consistency, inefficient global grouping, and category-agnostic segmented regions. We propose an annotation-free 3D scene semantic understanding method based on multi-granularity distillation and graph-diffusion-based segmentation. The proposed method first leverages structured visual knowledge guidance and superpoint graph diffusion to perform efficient global semantic propagation, alleviating the problem of inconsistent region-level semantics. It then conducts semantic inference through segmentation-cluster association, assigning interpretable category names to segmented 3D regions and improving the overall effectiveness of annotation-free 3D semantic understanding. Extensive experiments on real-world datasets demonstrate the effectiveness of the proposed framework. Compared with the advanced existing annotation-free baselines, our method improves oAcc, mAcc, and mIoU by 5.9%, 8.1%, and 2.4% at most, respectively. These results highlight the promise of the proposed framework for scalable annotation-free 3D scene understanding, especially in real-world scenarios requiring both object segmentation and semantic recognition.",
+      "authors": [
+        "Yijing Wang",
+        "Ruonan Li",
+        "Qilin Wang",
+        "Rongqiang Zhao",
+        "Jie Liu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-08T09:39:59+00:00",
+      "link": "https://arxiv.org/pdf/2605.08293v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "annotation-free 3D semantic segmentation of scenes into semantic regions, a method for segmenting 3D objects into semantic parts",
+      "llm_evidence_cn": "无标注的3D语义分割，将场景分割为语义区域，是分割3D对象为语义零件的方法",
+      "llm_evidence": "无标注的3D语义分割，将场景分割为语义区域，是分割3D对象为语义零件的方法",
+      "canonical_evidence": "无标注的3D语义分割，将场景分割为语义区域，是分割3D对象为语义零件的方法",
+      "llm_tldr_en": "DDS proposes an annotation-free 3D scene semantic understanding method using multi-granularity distillation and graph-diffusion-based segmentation, achieving semantic segmentation without manual labels, which can be adapted for part segmentation.",
+      "llm_tldr_cn": "全监督3D语义学习因点云标注昂贵难以扩展。DDS提出基于多粒度蒸馏和图扩散分割的无标注3D场景理解方法，利用2D视觉语言模型知识蒸馏和基于图的扩散过程发现语义区域，无需人工3D标注即可实现语义分割。该方法在多个场景理解基准上取得有竞争力的性能，为3D分割提供了免标注方案。",
+      "llm_tldr": "全监督3D语义学习因点云标注昂贵难以扩展。DDS提出基于多粒度蒸馏和图扩散分割的无标注3D场景理解方法，利用2D视觉语言模型知识蒸馏和基于图的扩散过程发现语义区域，无需人工3D标注即可实现语义分割。该方法在多个场景理解基准上取得有竞争力的性能，为3D分割提供了免标注方案。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "segmenting 3D objects into semantic parts",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.16807v1",
+      "source": "arxiv",
+      "title": "DecoRec: Decomposed 3D Scene Reconstruction from Single-View Images via Object-Level Diffusion",
+      "abstract": "In this paper, we introduce \\textit{DecoRec}, a novel system designed to elevate single-view 2D images to a decomposed 3D scene mesh. Current methods for single-view scene reconstruction typically rely on object retrieval or the regression of coarse 3D voxels or surfaces, leading to inaccuracies in capturing the appearance and geometry of the input image. The lack of high-quality large-scale scene-level datasets further complicates direct 3D scene generation from single-view images. To achieve high-quality 3D scene generation from a single-view image, DecoRec takes advantage of recent diffusion-based single-view object reconstruction methods to reconstruct individual objects separately. Subsequently, a refinement pipeline is proposed to effectively merge these reconstructed objects, enhancing appearance and geometry through a differentiable rendering technique and diffusion-guided refinement. Our results demonstrate that DecoRec facilitates high-quality single-view scene reconstruction in both geometry and novel synthesis, offering significant benefits for downstream applications like room interior design.",
+      "authors": [
+        "Yuhan Ping",
+        "Yuan Liu",
+        "Xiaoxiao Long",
+        "Peng Wang",
+        "Junhui Hou",
+        "Jianyi Zheng",
+        "Jia Pan",
+        "Xin Li",
+        "Cheng Lin"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-16T04:23:48+00:00",
+      "link": "https://arxiv.org/pdf/2605.16807v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "decomposes single-view image into separate objects and reconstructs individually, a form of decomposing 3D shapes into parts",
+      "llm_evidence_cn": "将单视图图像分解为独立对象并分别重建，是3D形状分解的一种形式",
+      "llm_evidence": "将单视图图像分解为独立对象并分别重建，是3D形状分解的一种形式",
+      "canonical_evidence": "将单视图图像分解为独立对象并分别重建，是3D形状分解的一种形式",
+      "llm_tldr_en": "DecoRec uses diffusion-based single-view object reconstruction to reconstruct individual objects from a single image, then assembles them into a decomposed 3D scene mesh, enabling high-quality scene generation by decomposing into object-level parts.",
+      "llm_tldr_cn": "现有单视图场景重建方法难以准确捕获外观和几何，且缺乏大规模场景数据集。DecoRec利用扩散基单视图物体重建方法将单个物体分别重建，然后通过细化管线将它们组装成分解式3D场景网格。该方法将场景分解为对象级零件进行重建，提高了重建质量，为单视图场景生成提供了分解-组装新范式。",
+      "llm_tldr": "现有单视图场景重建方法难以准确捕获外观和几何，且缺乏大规模场景数据集。DecoRec利用扩散基单视图物体重建方法将单个物体分别重建，然后通过细化管线将它们组装成分解式3D场景网格。该方法将场景分解为对象级零件进行重建，提高了重建质量，为单视图场景生成提供了分解-组装新范式。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "Approaches for decomposing 3D shapes into semantic parts",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2605.18645v1",
+      "source": "arxiv",
+      "title": "Articulation in Prime: Primitive-Based Articulated Object Understanding from a Single Casual Video",
+      "abstract": "Retrieving the 3D kinematics of articulated objects from monocular video is a fundamental challenge in computer vision. Existing methods rely on complex video setups or cues such as long-term point tracking or wide-baseline matching, but are frequently brittle under severe occlusions, rapid camera ego-motion, or weak local features. Learning-based methods, meanwhile, struggle to generalize beyond their training categories. We propose a category-agnostic optimization framework that treats articulated object understanding as a primitive-fitting problem. Geometric primitives serve as a proxy representation that avoids the pitfalls of unstable point tracks; a novel mechanism organizes them into coherent parts constrained by revolute and prismatic joints. Our formulation jointly optimizes part segmentation and joint parameters, recovering complex kinematics from a single casually captured video. A visibility-aware procedure handles partial observations and occlusions inherent to real-world data. We also propose the AiP-synth and AiP-real benchmarks, featuring significant camera motion and heavy occlusions, and outperform existing methods. Project page: https://aartykov.github.io/Articulation-in-Prime/",
+      "authors": [
+        "Arslan Artykov",
+        "Tom Ravaud",
+        "Nicolás Violante-Grezzi",
+        "Vincent Lepetit"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-18T16:52:41+00:00",
+      "link": "https://arxiv.org/pdf/2605.18645v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "understands articulated objects by fitting primitives to parts",
+      "llm_evidence_cn": "通过基元拟合部件来理解铰接物体",
+      "llm_evidence": "通过基元拟合部件来理解铰接物体",
+      "canonical_evidence": "通过基元拟合部件来理解铰接物体",
+      "llm_tldr_en": "Proposes a category-agnostic framework that fits geometric primitives to video to recover articulated object kinematics, handling occlusions and unknown categories.",
+      "llm_tldr_cn": "单目视频中的铰接物体三维运动学恢复面临遮挡和泛化挑战。本文提出类别无关的优化框架，将铰接物体视为基元拟合问题，通过几何基元组织成部件并约束旋转关节。实验表明，该方法在复杂场景下鲁棒地恢复部件级铰接结构，无需类别先验。",
+      "llm_tldr": "单目视频中的铰接物体三维运动学恢复面临遮挡和泛化挑战。本文提出类别无关的优化框架，将铰接物体视为基元拟合问题，通过几何基元组织成部件并约束旋转关节。实验表明，该方法在复杂场景下鲁棒地恢复部件级铰接结构，无需类别先验。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "methods for generating articulated 3D objects",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.11967v1",
+      "source": "arxiv",
+      "title": "H2G: Hierarchy-Aware Hyperbolic Grouping for 3D Scenes",
+      "abstract": "Hierarchical 3D grouping aims to recover scene groups across multiple granularities, from fine object parts to complete objects, without relying on semantic labels or a fixed vocabulary. The main challenge is to transform 2D foundation-model cues into coherent hierarchy supervision and embed that hierarchy in a 3D representation. We propose H2G, a hyperbolic affinity field for hierarchical 3D grouping. Our method derives semantically organized tree supervision by interpreting foundation-model affinities through Dasgupta's objective for similarity-based hierarchical clustering. This supervision is distilled into a single Lorentz hyperbolic feature field, whose geometry is well suited for tree-like branching structures. A hierarchy-aware objective aligns the field with fine-level assignments, coarse object structure, compact feature clusters, and LCA (Lowest Common Ancestor) ordering. This formulation represents multiple grouping levels in one feature space, enabling semantic hierarchical grouping grounded in 2D foundation-model knowledge.",
+      "authors": [
+        "ByungHa Ko",
+        "Youngmin Lee",
+        "Dong Hwan Kim"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-12T11:19:57+00:00",
+      "link": "https://arxiv.org/pdf/2605.11967v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Hierarchical 3D grouping from fine object parts to complete objects, enabling part decomposition without fixed vocabulary.",
+      "llm_evidence_cn": "从精细物体零件到完整物体的层次化3D分组，实现无固定词汇的零件分解。",
+      "llm_evidence": "从精细物体零件到完整物体的层次化3D分组，实现无固定词汇的零件分解。",
+      "canonical_evidence": "从精细物体零件到完整物体的层次化3D分组，实现无固定词汇的零件分解。",
+      "llm_tldr_en": "H2G proposes a hyperbolic affinity field for hierarchical 3D grouping, recovering scene groups from parts to objects without semantic labels, using tree-structured supervision from 2D foundation models.",
+      "llm_tldr_cn": "针对现有3D分组方法依赖语义标签且难以捕获从精细零件到完整物体的多粒度层次结构的问题，H2G提出层次感知双曲分组方法，通过解读2D基础模型的亲和度构建树形语义监督，并蒸馏至单一洛伦兹双曲特征场，利用其内在的树状几何特性实现层次化分组。实验表明，该方法无需固定词汇即可在3D场景中准确恢复零件与物体层级，为开放词汇理解和机器人交互提供了结构化表示。",
+      "llm_tldr": "针对现有3D分组方法依赖语义标签且难以捕获从精细零件到完整物体的多粒度层次结构的问题，H2G提出层次感知双曲分组方法，通过解读2D基础模型的亲和度构建树形语义监督，并蒸馏至单一洛伦兹双曲特征场，利用其内在的树状几何特性实现层次化分组。实验表明，该方法无需固定词汇即可在3D场景中准确恢复零件与物体层级，为开放词汇理解和机器人交互提供了结构化表示。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "decomposing 3D shapes into parts",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2605.18193v1",
+      "source": "arxiv",
+      "title": "Best Segmentation Buddies for Image-Shape Correspondence",
+      "abstract": "Finding correspondences is a fundamental and extensively researched problem in computer vision and graphics. In this work, we examine the underexplored task of estimating segmentation-to-segmentation correspondence between images in the wild and untextured 3D shapes. This task is highly challenging due to substantial differences in appearance, geometry, and viewpoint. Our approach bridges the cross-modality gap by linking pixels in the image segment to vertices in the corresponding semantic part of the 3D shape. To achieve this, we first distill deep visual features from a 2D vision model onto the 3D shape surface, allowing for the computation of feature similarity between image pixels and shape vertices. Then, we identify Best Segmentation Buddies, vertices whose most similar image pixel lies within the image segmentation region, enabling the reliable discovery of vertices in semantically corresponding shape parts. Finally, we leverage distilled 3D features from the 2D image segmentation model to segment the shape directly in 3D, bootstrapping the correspondence process. We demonstrate the generality and robustness of our approach across a wide range of image-shape pairs, showcasing accurate and semantically meaningful correspondences. Our project page is at https://threedle.github.io/bsb/.",
+      "authors": [
+        "Itai Lang",
+        "Dongwei Lyu",
+        "Dale Decatur",
+        "Rana Hanocka"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-05-18T10:32:48+00:00",
+      "link": "https://arxiv.org/pdf/2605.18193v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Establishes part-level correspondences between image segments and semantic parts on 3D shapes.",
+      "llm_evidence_cn": "建立图像分割块与3D形状语义零件之间的对应。",
+      "llm_evidence": "建立图像分割块与3D形状语义零件之间的对应。",
+      "canonical_evidence": "建立图像分割块与3D形状语义零件之间的对应。",
+      "llm_tldr_en": "The paper tackles image-to-shape segmentation correspondence by distilling 2D features onto 3D shapes and finding best matching vertices for each image segment, enabling part-level alignment across modalities.",
+      "llm_tldr_cn": "针对跨模态图像与无纹理3D形状间建立分割级对应关系的挑战，该工作提出Best Segmentation Buddies方法，先将2D视觉模型深度特征蒸馏到3D形状表面，然后通过特征相似性为每个图像分割块找到形状上最匹配的顶点，实现像素到语义零件的对应。实验表明，该方法能准确对齐自然图像与3D形状的零件区域，为形状检索、语义分割等跨模态任务提供了有效的零件级对应基础。",
+      "llm_tldr": "针对跨模态图像与无纹理3D形状间建立分割级对应关系的挑战，该工作提出Best Segmentation Buddies方法，先将2D视觉模型深度特征蒸馏到3D形状表面，然后通过特征相似性为每个图像分割块找到形状上最匹配的顶点，实现像素到语义零件的对应。实验表明，该方法能准确对齐自然图像与3D形状的零件区域，为形状检索、语义分割等跨模态任务提供了有效的零件级对应基础。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "segmenting 3D objects into semantic parts",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2605.27351v1",
+      "source": "arxiv",
+      "title": "Feedforward 3D Editing Learns from Semantic-Part Transformation",
+      "abstract": "3D editing is a fundamental capability for scalable 3D content creation. While image editing has rapidly evolved toward large-scale feedforward generative paradigms, 3D AI generation remains dominated by training-free editing pipelines. A central challenge of feedforward 3D editing lies in the lack of high-quality paired supervision. Editable 3D assets require simultaneous preservation of geometry, multi-view consistency, structural coherence, and localized edit controllability. Existing 3D editing datasets often rely on independently generated assets, image-mediated reconstruction or narrow edit taxonomies, leading to inaccurate localization, weak preservation, blurred edit boundaries, and limited semantic consistency. In this work, we introduce a new perspective: scalable feedforward 3D editing should be learned from semantic-part transformations. Based on this insight, we propose Pxform, a high-quality 3D editing dataset with over 100K consistent before/after editing pairs across seven edit types. Instead of treating objects as unstructured shapes, our pipeline grounds edits directly in semantic 3D parts. Built upon Pxform, we further propose PartFlow, a feedforward 3D editing network that injects source-aware latent control into pretrained 3D generative priors. PartFlow introduces mask-aware velocity preservation and render-space consistency supervision to jointly improve edit fidelity and source preservation, while requiring no 3D edit mask during inference. Extensive experiments demonstrate that high-quality semantic-part supervision substantially improves scalable 3D editing, enabling PartFlow to achieve state-of-the-art performance on both geometric and appearance editing benchmarks.",
+      "authors": [
+        "Jiawei Weng",
+        "Saining Zhang",
+        "Zhenxin Diao",
+        "Peishuo Li",
+        "Henghaofan Zhang",
+        "Junhao Chen",
+        "Hao Zhao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-26T17:51:59+00:00",
+      "link": "https://arxiv.org/pdf/2605.27351v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "uses semantic-part transformation for feedforward 3D editing with part-level control",
+      "llm_evidence_cn": "利用语义部件变换实现前馈3D编辑，提供零件级控制",
+      "llm_evidence": "利用语义部件变换实现前馈3D编辑，提供零件级控制",
+      "canonical_evidence": "利用语义部件变换实现前馈3D编辑，提供零件级控制",
+      "llm_tldr_en": "Introduces a feedforward 3D editing approach that learns from semantic-part transformations, enabling high-quality, localized edits while preserving structure.",
+      "llm_tldr_cn": "现有3D编辑缺少高质量配对监督，本文提出基于语义部件变换的前馈3D编辑方法，通过构建新的视角，利用部件级变换数据训练，实现结构一致、局部可控的3D编辑，推动了大模型式前馈3D生成。",
+      "llm_tldr": "现有3D编辑缺少高质量配对监督，本文提出基于语义部件变换的前馈3D编辑方法，通过构建新的视角，利用部件级变换数据训练，实现结构一致、局部可控的3D编辑，推动了大模型式前馈3D生成。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "generating 3D models with separate parts",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.16990v1",
+      "source": "arxiv",
+      "title": "DreamEdit3D: Personalization of Multi-View Diffusion Models for 3D Editing",
+      "abstract": "While 2D diffusion models have achieved remarkable success in identity-preserving personalization, extending this capability to 3D assets remains a significant challenge due to the complexities of multi-view consistency and spatial control. Inspired by these 2D advancements, we present a novel personalization method for text-guided 3D editing that enables compositional, object-level control through natural language. Given a 3D input, we render orthogonal views and extract object-level segmentation masks to isolate semantic components. We then learn distinct token embeddings for each component through a tailored two-phase optimization strategy: multi-view textual inversion with attention alignment, followed by full fine-tuning of multi-view diffusion model. During inference, these disentangled tokens seamlessly compose with editing prompts to generate multi-view consistent images, which are subsequently lifted into high-fidelity textured 3D meshes. Extensive evaluations across diverse editing scenarios demonstrate that our method successfully transfers the flexibility of 2D personalization to 3D, achieving state-of-the-art edit faithfulness and identity preservation compared to existing baselines.",
+      "authors": [
+        "Jinxin Ai",
+        "Matthias Nießner",
+        "Ziya Erkoç"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-16T13:21:22+00:00",
+      "link": "https://arxiv.org/pdf/2605.16990v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "extracts object-level segmentation masks to isolate semantic components for personalized editing",
+      "llm_evidence_cn": "提取物体级分割掩码隔离语义组件，实现个性化编辑",
+      "llm_evidence": "提取物体级分割掩码隔离语义组件，实现个性化编辑",
+      "canonical_evidence": "提取物体级分割掩码隔离语义组件，实现个性化编辑",
+      "llm_tldr_en": "DreamEdit3D personalizes multi-view diffusion models for 3D editing by decomposing objects into semantic components via segmentation and learning distinct token embeddings per component.",
+      "llm_tldr_cn": "针对3D资产生成个性化编辑的挑战，提出DreamEdit3D，通过渲染正交视图并提取分割掩码将对象分解为语义组件，然后为每个组件学习独特的文本嵌入，实现组合式、对象级的文本引导3D编辑。",
+      "llm_tldr": "针对3D资产生成个性化编辑的挑战，提出DreamEdit3D，通过渲染正交视图并提取分割掩码将对象分解为语义组件，然后为每个组件学习独特的文本嵌入，实现组合式、对象级的文本引导3D编辑。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "segmenting 3D objects into semantic parts",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.01940v1",
+      "source": "arxiv",
+      "title": "SCAPO: Self-Supervised Category-Level Articulated Pose Estimation from a Single 3D Observation",
+      "abstract": "Existing methods for category-level object articulation from a single 3D observation often rely on dense supervision, multi-frame inputs, or CAD templates, and still struggle to disentangle geometry from articulation or to recover explicit joint parameters. We propose SCAPO, a self-supervised framework that estimates canonical geometry, rigid part segmentation, and joint pivots, axes, and articulation states from a single RGB-D observation without ground-truth labels or category-specific models. Our SCAPO first uses an SE(3)-equivariant vector-neuron autoencoder to factor out global pose and align diverse instances into a shared canonical space. On this aligned shape, a joint-aware blend-skinning module is then designed to model part motion. We learn this representation through cycle reconstruction between observed and canonical shapes and cross-space alignment with a learnable canonical template that decouples shared category geometry from instance-specific residual shape. Experiments on synthetic and real articulated-object datasets show that our SCAPO recovers consistent part structure and accurate articulation parameters and outperforms all self-supervised baselines.",
+      "authors": [
+        "Can Zhang",
+        "Gim Hee Lee"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-01T09:04:49+00:00",
+      "link": "https://arxiv.org/pdf/2606.01940v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "estimates rigid part segmentation and joint parameters from single RGB-D",
+      "llm_evidence_cn": "从单张RGB-D图像估计刚性零件分割和关节参数",
+      "llm_evidence": "从单张RGB-D图像估计刚性零件分割和关节参数",
+      "canonical_evidence": "从单张RGB-D图像估计刚性零件分割和关节参数",
+      "llm_tldr_en": "Proposes SCAPO, a self-supervised method for category-level articulation estimation from a single RGB-D observation. Recovers part segmentation, joint pivots, axes, and states without labels. Uses vector neuron autoencoder and blend skinning.",
+      "llm_tldr_cn": "本文提出SCAPO，一种无需标注的自监督框架，从单张RGB-D观测中估计规范几何、刚性零件分割以及关节参数。采用SE(3)等变向量神经元自编码器对齐形状，并引入关节感知混合蒙皮模块，实现了零件级解耦。",
+      "llm_tldr": "本文提出SCAPO，一种无需标注的自监督框架，从单张RGB-D观测中估计规范几何、刚性零件分割以及关节参数。采用SE(3)等变向量神经元自编码器对齐形状，并引入关节感知混合蒙皮模块，实现了零件级解耦。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "methods for generating articulated 3D objects",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "8plus"
+    },
+    {
+      "id": "2605.24243v1",
+      "source": "arxiv",
+      "title": "GIBLy: Improving 3D Semantic Segmentation through an Architecture-Agnostic Lightweight Geometric Inductive Bias Layer",
+      "abstract": "In 3D scene understanding, deep learning models rely on large models and extensive training to capture basic geometric structures that are present in the 3D data. However, existing methods lack explicit mechanisms to incorporate geometric information, such as learnable primitive shapes, often necessitating large models and more training data which in turn increases cost and can limit generalization. We introduce GIBLy, a lightweight geometric inductive bias layer that integrates learnable geometric priors into 3D segmentation pipelines. GIBLy enhances existing architectures -- whether MLP-based, convolution-based, or transformer-based -- by providing features aligned with simple geometric shapes (and thus human-interpretable) that improve segmentation performance with minimal computational overhead. We validate our approach across multiple 3D semantic segmentation benchmarks, demonstrating consistent performance gains, including up to +11.5% mIoU on TS40K with PTV3, while adding only 58K extra parameters. Our results highlight the benefit of explicitly encoding geometric structure to support accurate and efficient 3D scene understanding, with a lightweight add-on layer",
+      "authors": [
+        "Diogo Lavado",
+        "Alessandra Micheletti",
+        "Clàudia Soares"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "stat.ML"
+      ],
+      "published": "2026-05-22T21:42:05+00:00",
+      "link": "https://arxiv.org/pdf/2605.24243v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "enhances 3D semantic segmentation with geometric priors",
+      "llm_evidence_cn": "增强3D语义分割的几何先验",
+      "llm_evidence": "增强3D语义分割的几何先验",
+      "canonical_evidence": "增强3D语义分割的几何先验",
+      "llm_tldr_en": "GIBLy is a lightweight layer that injects geometric inductive bias into any 3D segmentation architecture, improving part segmentation by providing features aligned with primitive shapes.",
+      "llm_tldr_cn": "现有3D分割方法缺乏显式几何信息，需要大模型和大量数据。GIBLy提出一种轻量级几何归纳偏置层，可集成到任意架构中，通过可学习几何先验增强特征。实验表明，GIBLy在多个3D分割任务上提升了性能，减少了对大数据的依赖。",
+      "llm_tldr": "现有3D分割方法缺乏显式几何信息，需要大模型和大量数据。GIBLy提出一种轻量级几何归纳偏置层，可集成到任意架构中，通过可学习几何先验增强特征。实验表明，GIBLy在多个3D分割任务上提升了性能，减少了对大数据的依赖。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "segmenting 3D objects into semantic parts",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

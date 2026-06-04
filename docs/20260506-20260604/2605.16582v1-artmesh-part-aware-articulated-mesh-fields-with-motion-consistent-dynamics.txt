@@ -1,0 +1,979 @@
+Title: ArtMesh: Part-Aware Articulated Mesh Fields with Motion-Consistent Dynamics
+
+URL Source: https://arxiv.org/pdf/2605.16582v1
+
+Published Time: Tue, 19 May 2026 00:39:12 GMT
+
+Number of Pages: 16
+
+Markdown Content:
+# ArtMesh: Part-Aware Articulated Mesh Fields with Motion-Consistent Dynamics 
+
+## Sylvia Yuan 1,* , Dan Wang 1,* , Ravi Ramamoorthi 1, Xinrui Cui 2,† 1University of California San Diego 2University of North Texas 
+
+> *
+
+Equal Contribution †Corresponding Author Email: xinrui.cui@unt.edu 
+
+Figure 1. ArtMesh reconstructs articulated objects as part-aware connected triangle meshes with per-part rigid motion. (a) Given multi-view observations at two articulation states, our method jointly recovers (i) a part-aware mesh field via per-part restricted Delaunay remeshing that prevents triangles from crossing part boundaries, and (ii) a motion-consistent articulation field trained with a forward– backward cycle of consistency losses, so that the forward articulation (R+ 
+
+> k
+
+, P + 
+
+> k
+
+, T + 
+
+> k
+
+) and its analytic inverse (R− 
+
+> k
+
+, P − 
+
+> k
+
+, T − 
+
+> k
+
+) share gradi-ents. (b) Reconstructed start-state meshes transformed to the end state via learned articulation, with predicted joint axes (red arrows; lengths not meaningful) on representative objects from Articulate-100 , our benchmark spanning diverse PartNet-Mobility categories. ArtGS and GaussianArt require post-hoc TSDF fusion to recover meshes from their Gaussians; ArtMesh produces the displayed mesh directly. (c) 
+
+Quantitative comparison on Articulate-100 across joint articulation parameters (axis angle, axis position, and part motion errors) and per-part Chamfer distances on static and movable parts. (d) Geometry at the optimization output: ArtGS and GaussianArt produce unstructured Gaussians with inter-primitive gaps and density variation across part boundaries, requiring post-hoc processing for mesh recovery; ArtMesh produces a connected, opaque triangle mesh directly usable in simulators and downstream tasks. More examples can be found in Fig. 6 and demo video. 
+
+## Abstract 
+
+We present ArtMesh, a mesh-native method for recon-structing articulated objects explicitly as connected trian-gle meshes with per-part rigid motion from multi-view im-ages in start and end states. Existing 3D Gaussian Splat-ting pipelines for articulated reconstruction inherit the un-structured point-based geometry of their splatting base, 
+
+> arXiv:2605.16582v1 [cs.CV] 15 May 2026
+
+which provides no surface topology for reasoning about part boundaries or enforcing motion consistency along the object’s connectivity. ArtMesh instead builds on a mesh-based differentiable rendering backbone, enabling part-aware dynamics to act directly on the structured topology. To make the topology compatible with articulation, we in-troduce part-aware restricted Delaunay remeshing, produc-ing connected submeshes whose triangles do not cross se-mantic part boundaries. The dynamic mesh field then op-timizes articulation using bidirectional Vertex-wise Motion Consistency on transported mesh vertices and Pixel-wise Motion Consistency on rendered RGB-D observations. We introduce Articulate-100, a new benchmark of 100 articu-lated objects spanning 16 PartNet-Mobility categories. On this benchmark, ArtMesh outperforms prior 3DGS-based pipelines in joint parameter estimation and part-level geo-metric reconstruction, with the largest gains on objects with many movable parts. 
+
+## 1. Introduction 
+
+Reconstructing articulated objects from images, recovering part-level geometry, joint motion, and an explicit surface asset, is a core problem for building digital twins used in robotics, embodied AI, AR/VR, and physical simulation. Despite rapid progress in neural rendering, reconstructing articulated objects as usable 3D assets remains challenging. Implicit neural representations [3, 15, 23, 29, 31, 32, 35–37, 40] can produce high-quality renderings, but the optimized object is a volumetric field rather than an explicit mesh. A surface must be extracted after training through isosurfac-ing, which is decoupled from the optimization and can lose angular structures, sharp boundaries, and joint topology. Recent 3D Gaussian splatting [17] improves optimization speed and visual fidelity, but represents an object as an un-structured set of ellipsoidal primitives, and 3DGS-based ar-ticulated reconstruction pipelines [9, 18, 22, 26, 33, 41, 43] inherit this point-based geometry (Fig. 1(d), Fig. 2). Such primitives lack triangle connectivity, surface topology, or an intrinsic notion of part boundaries. Consequently, ob-taining a mesh requires a separate post-hoc conversion step, such as TSDF fusion from rendered depth maps [26, 33], which may introduce holes, smoothing artifacts, and am-biguous connectivity near joints. These artifacts are es-pecially harmful for articulated objects: even a single in-correct connection across a drawer seam, hinge, or sliding boundary can corrupt both the recovered geometry and the estimated motion. A second challenge is motion learning. Articulated re-construction requires estimating 3D kinematic parameters, such as joint axes, pivots, and translations. However, stan-dard image-space losses provide only indirect supervision. Small photometric errors can correspond to large joint-axis GT Ours ArtGS GaussianArt State 0 State 1  
+
+> Figure 2. Qualitative comparison of reconstructed surfaces. ArtGS and GaussianArt yield unstructured Gaussians with inter-primitive gaps, uneven density at part boundaries, and fragmented coverage on thin or texture-less regions; recovering a mesh requires post-hoc TSDF fusion of rendered depth maps, which inherits these artifacts and adds smoothing and topological errors. ArtMesh op-timizes a connected, opaque triangle mesh end-to-end; the surface shown is the same one used during training, with no conversion step. More surface structure comparison can be found in Fig. 6 and our demo video. Minor color differences between ground truth and predicted renders reflect Blender-rendered meshes rather than rasterizer output.
+
+errors, while visually similar or textureless parts can pro-duce ambiguous correspondences. Prior methods often rely on 2D feature matching [33], canonical Gaussian match-ing [26], or soft mixtures of part-level motions [9, 33] to relate different articulation states. However, these cues are fragile on common articulated objects with repeated draw-ers, flat panels, weak texture, and adjacent parts with sim-ilar appearance. Without an explicit part-aware surface on which motion can act, supervision can leak across neigh-boring components and cause different rigid parts to share incorrect motion. We present ArtMesh , a mesh-native method for recon-structing articulated objects from multi-view RGB-D ob-servations and semantic maps captured at two articulation states (Fig. 1). ArtMesh represents an object as explicit part-aware triangle meshes linked by per-part rigid motions. Unlike implicit or Gaussian-based pipelines, the surface op-timized during training is the same surface exported at test time (Fig. 1(b)). The key idea of ArtMesh is to make geometry, topol-ogy, and articulation mutually constrained. First, inspired by MeshSplatting [10], we reconstruct each observed state with a mesh-native differentiable rasterizer and attach ge-ometry, appearance, opacity, and semantic part information to mesh vertices. Unlike static global-level MeshSplatting, we extend to part-aware articulated dynamic mesh fields to simultaneously reconstruct the dynamic geometry, appear-ance, and articulation parameters. Specifically, we harden the part assignments and perform part-aware restricted De-launay remeshing (Fig. 1(a-1)) within each semantic part. This produces connected per-part submeshes and removes triangles that cross part boundaries. As a result, each mov-able component can be transformed as a rigid mesh. Second, we introduce an articulation dynamic field (Fig. 1(a-2)) that assigns each part a rigid motion between the two states. The forward motion maps vertices from the start state to the end state, and the backward motion is de-fined as the analytic inverse of the same transform. This in-verse parameterization ties both directions to a single physi-cal articulation and prevents the forward and backward mo-tions from drifting apart. Third, we optimize the articulation with articulation-aware motion consistency learning (Sec. 3.2). We apply consistency at two complementary levels. Vertex-wise mo-tion consistency transports each mesh vertex through its part motion and compares it with the same-part surface and at-tributes in the other state. Pixel-wise motion consistency renders the transported mesh from target-state cameras and compares the rendering with the target images. The vertex-wise term gives explicit 3D supervision on the articulated mesh; the pixel-wise term supplies dense multi-view evi-dence for the same motion field. They align the recovered articulation with both the reconstructed surface and the ob-served images. To evaluate articulated reconstruction beyond simple two-part examples, we introduce Articulate-100 (Sec. 4), a benchmark of 100 articulated objects sampled from PartNet-Mobility [42] across 16 categories and a wide range of part counts. This benchmark stresses multi-part objects where topology, part separation, and motion consistency be-come increasingly important. On Articulate-100, ArtMesh achieves the best aggregate performance on joint-axis esti-mation and part-level geometry reconstruction, and shows the strongest gains on objects with three or more parts. Our contributions are: • Part-aware articulated mesh representation (Sec. 3.1) : we reconstruct articulated objects as explicit per-part triangle submeshes linked by rigid joints, producing a directly usable mesh asset rather than relying on post-hoc conversion from implicit fields or Gaussian primitives. To make the topol-ogy compatible with articulation, we introduce part-aware restricted Delaunay remeshing, which dynamically remeshes within each semantic part and removes cross-part triangles that would otherwise deform incorrectly under rigid motion. • Motion-consistency articulation learning (Sec. 3.2) : we optimize per-part rigid motion by proposed bidirectional vertex-wise and pixel-wise motion consistency, with the backward motion implemented as the analytic inverse of the forward motion. • Articulate-100 benchmark (Sec. 4) : we introduce a 100-object benchmark spanning 16 PartNet-Mobility [42] cat-egories and diverse part count. Experiments show that ArtMesh achieves strong joint estimation and part-level ge-ometry reconstruction (Fig. 1(c)), with the larger gains on objects with more parts, while producing explicit per-part meshes and joints suitable for simulation pipelines. 
+
+## 2. Related Work 
+
+Geometric representations for articulated objects . Implicit methods built on NeRF [29] or SDFs [37] – A-SDF [31], CLA-NeRF [36], NARF [32], PARIS [23], DigitalTwinArt-[40], Ditto [15], LEIA [35], and Articulate-Your-NeRF [3] – output volumetric fields requiring post-hoc isosurfacing that decouples the mesh from optimization and is lossy on thin structures. Following 3D Gaussian Splatting [17], ArtGS [26], GaussianArt [33], Splart [22], Part2GS [43], ArticulatedGS [9], ReArtGS [41], and ScrewSplat [18] re-place this field with explicit Gaussians under part-aware or screw-theoretic formulations. All inherit unstructured point-based geometry: primitives near part boundaries over-lap or leave gaps, surfaces are ill-defined, and connectivity topology is absent, so mesh recovery again requires lossy post-processing. ArtMesh departs from both by reconstruct-ing a connected triangle mesh end-to-end. 
+
+Mesh-native differentiable reconstruction . A separate line pursues differentiable rendering with explicit surfaces. Early mesh rasterizers [16, 25] established mesh-level gra-dients. Later work either converts splatting representations into meshes [7, 8, 12, 44, 46] or renders mesh-like primi-tives directly: Triangle Splatting [11] revives triangles but produces an unconnected soup, while MeshSplatting [10], our direct predecessor, yields connected manifold meshes via a restricted Delaunay step. ArtMesh adopts MeshSplat-ting’s backbone and adapts its Delaunay step per part , so topology respects the piecewise-rigid structure. 
+
+Feedforward and language-driven articulation estima-tion . Orthogonal approaches treat articulation as a pre-diction problem: regressing motion parameters, masks, or URDF assets from single-image or category-level in-put [1, 4–6, 14, 24, 27, 28, 30, 34, 38, 39, 45], or leverag-ing vision-language models to generate URDFs and affor-dances [13, 19–21]. These are fast at inference but bounded by training categories, with geometry typically coarse or re-trieved from a mesh library. ArtMesh targets the comple-mentary per-object regime, where fidelity matters more than generalization and the surface is recovered directly from ob-servations. 
+
+## 3. Method 
+
+Framework overview. As illustrated in Fig. 3, ArtMesh reconstructs an articulated object from multi-view observa-tions captured at two states t1, t 2 ∈ { 0, 1}. The framework recovers an explicit part-aware mesh for each state and the per-part rigid motions that govern the articulation dynam-ics. Figure 3. Overview of our framework. Given multi-view RGB-D observations of an articulated object at two states t1, t 2 ∈ { 0, 1}, we reconstruct a pair of part-aware triangle meshes in correspondence and the per-part rigid articulation that relates them. The Part-Aware Mesh Field (Sec. 3.1) represents each state-t space Ωt as a connected mesh whose vertex set V (t) ⊂ Ωt is partitioned into per-part clusters {Vk (t)}Kk=0 via part-aware restricted Delaunay triangulation (Fig. 4(a)) that prevents triangles from straddling part boundaries. The Articulation Dynamic Field assigns each part k a forward rigid motion (R+ 
+
+> k
+
+, P + 
+
+> k
+
+, T + 
+
+> k
+
+) and its analytic inverse (R− 
+
+> k
+
+, P − 
+
+> k
+
+, T − 
+
+> k
+
+), mapping 
+
+Vk (t1) to Vk (t2). The Articulation-aware Motion Consistency Loss (Sec. 3.2) Lmotion ties the two meshes together: each vertex x(t1) is transported to ˆx(t2) in Ωt2 , where its color and opacity are compared against barycentric interpolation over the closest same-part triangle in V (t2). The analytic inverse supervises the backward direction. 
+
+Figure 4. Method components. (a) Part-Aware Restricted De-launay: after hardening part weights, cross-part triangles (pur-ple, dashed) are dropped and restricted Delaunay is run per clus-ter, yielding F ⋆(t) = S 
+
+> k
+
+F ⋆k (t) — manifold within each part, free of cross-part triangles. (b) Differentiable Render: front-to-back alpha compositing of N faces at pixel p, where the n-th face contributes cn αn(p) attenuated by front-face transmittance (Eqs. (11), (12)). (c) Articulate-Informed Dynamic Represen-tation: each part is mapped to its counterpart state by rotation R+
+
+> k
+
+about pivot P + 
+
+> k
+
+(red), then translation T + 
+
+> k
+
+(Eq. (15)). (d) Two-Phase Training: the reconstruction phase (iter 0 → s1) optimizes 
+
+(xi, c i, σ i, w i), then runs Part-Aware rDel and a short recovery stage; the articulation phase (iter s1 → T ) freezes geometry and optimizes only (R+, P +, T +).
+
+ArtMesh contains three components. First, the Part-Aware Articulated Mesh Field (Fig. 3(a)) represents each state-t surface in its static space Ωt as a triangle mesh with per-vertex position, radiance, opacity, and part weights. We harden the part weights and perform restricted Delau-nay remeshing independently within each semantic part, producing per-part submeshes with no cross-part triangles. Second, the Articulation Dynamic Field (Fig. 3(b)) assigns each part a forward rigid transform (R+ 
+
+> k
+
+, P + 
+
+> k
+
+, T + 
+
+> k
+
+) (rotation 
+
+R+ 
+
+> k
+
+∈ SO(3) , pivot P + 
+
+> k
+
+∈ R3, and translation T + 
+
+> k
+
+∈ R3)from t1 to t2 and an analytic inverse transform from t2 to t1,thereby linking the corresponding part meshes across states with a single consistent motion. Third, Articulation-Aware Motion Consistency Learning (Fig. 3(c)) optimizes these motions using bidirectional supervision. The vertex-wise loss transports vertices through the predicted part motion and matches them to the same-part target surface, while the pixel-wise loss renders the transported mesh from target-state cameras and compares it with the observed RGB im-ages. These components make geometry, part topology, and articulation mutually constrained. The mesh field pro-vides an explicit surface on which part-wise motion can act, while the bidirectional motion-consistency losses supervise the recovered joints directly through both 3D vertex motion and multi-view rendering. 
+
+3.1. Part-Aware Articulated Mesh Field 
+
+Given multi-view RGB-D observations and semantic maps at two states t1 and t2, we reconstruct the part-aware mesh field for each state: 
+
+M(t) = ( V (t), F (t)) , t ∈ { t1, t 2}. (1) The face set F (t) ⊂ V (t) × V (t) × V (t) specifies the trian-gle connectivity over the vertices. Each vertex vi(t) ∈ V (t)stores a 3D position, view-dependent radiance coefficients, opacity, and part logits: 
+
+vi(t) = ( xi(t), c i(t), σ i(t), s i(t)) , (2) where xi(t) ∈ R3, ci(t) denotes spherical-harmonic color coefficients, σi(t) ∈ [0 , 1] is opacity, and si(t) ∈ RK+1 
+
+are logits over K + 1 rigid components, including one static base part and K movable parts. The soft part weights are: 
+
+wi(t) = softmax( si(t)) , (3) and after the reconstruction stage we harden them as 
+
+pi(t) = arg max  
+
+> k∈{ 0,...,K }
+
+wi,k (t). (4) The hardened labels partition the vertices into part-specific sets: 
+
+Vk(t) = {vi(t) ∈ V (t) : pi(t) = k} , V (t) = SKk=0 Vk(t).
+
+(5) The articulation field (Fig.4 (a)) assigns each part k ∈{0, . . . , K } a forward rigid motion consisting of a rota-tion R+ 
+
+> k
+
+∈ SO(3) , a pivot P + 
+
+> k
+
+∈ R3, and a translation 
+
+T + 
+
+> k
+
+∈ R3. Given the hardened part assignment p(vi) = arg max k wi,k , the forward deformation that maps a vertex from state t1 to state t2 is 
+
+xi(t2) = R+
+
+> p(vi)
+
+ xi(t1) − P +
+
+> p(vi)
+
+ + P + 
+
+> p(vi)
+
++ T +
+
+> p(vi)
+
+. (6) For revolute joints, a non-identity R+ 
+
+> k
+
+with T + 
+
+> k
+
+= 0 encodes a pure hinge; for prismatic joints, R+ 
+
+> k
+
+= I and T + 
+
+> k
+
+encodes a slider. 
+
+3.1.1. Part-aware restricted Delaunay remeshing. 
+
+Global remeshing is suitable for static scenes but unsafe for articulated objects. Triangles may connect vertices from different parts and shear when those parts move indepen-dently. To make the topology compatible with articulation, we adapt restricted Delaunay remeshing [2] to the articu-lated setting by running it independently within each artic-ulated part, eliminating cross-part triangles that deform in-correctly under rigid motion. Given the hardened part labels, we first split the face set by part: 
+
+Fk(t) = {f = ( i, j, l ) ∈ F (t) : pi(t) = pj (t) = pl(t) = k} .
+
+(7) Faces whose vertices belong to different parts are discarded to cleanly segment the part meshes and reduce part weight prediction ambiguities. We then run restricted Delaunay remeshing separately on each part: 
+
+F ⋆k (t) = rDel ( Vk(t), F k(t)) , k = 0 , . . . , K. (8) The final topology is the union of all remeshed part topolo-gies: 
+
+F ⋆(t) = 
+
+> K
+
+[
+
+> k=0
+
+F ⋆k (t), M⋆(t) = ( V (t), F ⋆(t)) . (9) This operation changes only connectivity. Vertex positions, colors, opacities, and part labels remain attached to their original vertices. As a result, M⋆(t) is composed of con-nected per-part submeshes, and contains no triangle span-ning two rigid parts. This topology is the key structural constraint used by the motion-consistency losses. 
+
+3.1.2. Differentiable mesh rendering. 
+
+For each camera m ∈ C t at state t, we have a ground-truth RGB image Im(t), depth map Dm(t), and semantic part map Sm(t). We optimize each state’s mesh with a differen-tiable mesh renderer R. For a training camera Πtm at state 
+
+t, it produces RGB, depth, and part-mask predictions: 
+
+ ˆIm(t), ˆDm(t), ˆSm(t)
+
+
+
+= R  M⋆(t), Πtm
+
+ . (10) For RGB rendering, faces overlapping a pixel are ordered front-to-back (Fig. 4(b)). Let f1, . . . , f N be the ordered faces contributing to pixel p, and let 
+
+αn(p) = σnϕn(p), ϕn(p) = 
+
+
+
+ReLU 
+
+ ψn(p)
+
+ψn(sn)
+
+ γ
+
+(11) denote the contribution of face fn, where ϕn(p) is the smooth triangle window function, ψn is the signed distance field of the projected triangle fn, sn is its incenter, γ is a sharpness exponent, and σn is the face opacity obtained from its vertices. The rendered color is accumulated by al-pha compositing: 
+
+ˆI(p) = 
+
+> N
+
+X
+
+> n=1
+
+cnαn(p)
+
+> n−1
+
+Y
+
+> r=1
+
+(1 − αr (p)) , (12) where cn is the view-dependent face color obtained by barycentric interpolation of the vertex color coefficients. Depth and part logits are accumulated using the same trans-mittance weights. 
+
+3.1.3. State-wise mesh reconstruction. 
+
+Before estimating articulation, each state mesh is optimized against its own observations. The reconstruction objective is         
+
+> Lrec =P
+> t∈{ t1,t 2}1
+> |C t|
+> P
+> m∈C tℓrec
+> ˆIm(t),ˆDm(t),ˆSm(t); Im(t), D m(t), S m(t)
+> 
+> ,
+
+(13) where Ct is the set of training cameras at state t and m in-dexes a camera in Ct. The per-view loss is 
+
+ℓrec =λrgb ˆI − I 1
+
++ λssim 
+
+
+
+1 − SSIM( ˆI, I )
+
+
+
++ λdepth ˆD − D 1,ΩD
+
++ λpart CE( ˆS, S ).
+
+(14) Here ΩD denotes valid depth pixels, and S is the seman-tic part map. The part-mask term supervises the part logits 
+
+si(t) whose hardened labels pi(t) later define the per-part mesh topology. Training proceeds in two stages. In the reconstruction stage, we optimize vertex positions, radiance, opacity, and part logits for each state. We then harden part assignments, apply the per-part restricted Delaunay remeshing in Eq. (8), and run a short reconstruction stage with fixed topology to refine vertex positions and appearance after remeshing. In the articulation stage, the part-aware meshes M⋆(t1) and 
+
+M⋆(t2) are fixed, and only the per-part rigid motion param-eters (Fig. 4 (c)) are optimized using the vertex-wise and pixel-wise motion-consistency losses defined in Sec. 3.2. 
+
+3.2. Articulation-aware Motion Consistency Learn-ing 
+
+A single photometric loss per state cannot fully constrain the articulation between two reconstructed meshes. The attributes attached to vertices in M(t1) and M(t2) are supervised by their own state-specific observations, but moving-part geometry and appearance may drift across states. Moreover, optimizing the articulation only along one direction does not guarantee that the implied inverse motion also explains the opposite-state observations. Therefore, we introduce a bidirectional motion-consistency objective with two complementary components (Fig. 3(c)). The first com-ponent, vertex-wise motion consistency, directly constrains the transported mesh vertices in 3D. The second one, pixel-wise motion consistency, constrains the same part-wise mo-tion through differentiable rendering. Both components share the same forward rigid transforms and analytic inverse transforms, preventing the forward and backward directions from drifting. 
+
+3.2.1. Vertex-wise Motion Consistency. 
+
+The first half of our motion consistency learning acts di-rectly on triangle vertices. Instead of matching the two re-constructed states only via image-space supervision, we ex-plicitly transport each vertex by the rigid motion of its as-signed part and require the transported vertex to be consis-tent with the corresponding surface in the other articulation state. Let pi ∈ { 0, . . . , K } denote the hardened part label of vertex vi. For each part k, we write the forward motion from state t1 to state t2 as an affine rigid transform (Fig. 4(c)) 
+
+g+ 
+
+> k
+
+(x) = R+
+
+> k
+
+ x − P +
+
+> k
+
+ + P + 
+
+> k
+
++ T + 
+
+> k
+
+= R+ 
+
+> k
+
+x + b+ 
+
+> k
+
+. (15) where 
+
+b+ 
+
+> k
+
+= −R+ 
+
+> k
+
+P + 
+
+> k
+
++ P + 
+
+> k
+
++ T + 
+
+> k
+
+. (16) Equivalently, in homogeneous coordinates, 
+
+G+ 
+
+> k
+
+=
+
+R+ 
+
+> k
+
+b+
+
+> k
+
+0 1
+
+
+
+, ¯x =
+
+x
+
+1
+
+
+
+. (17) Thus, the forward transported position of vertex vi ∈
+
+Vpi (t1) is 
+
+ˆx 1→2 
+
+> i
+
+= g+ 
+
+> pi
+
+(xi(t1)) = R+ 
+
+> pi
+
+xi(t1) + b+ 
+
+> pi
+
+. (18) The backward motion (R− 
+
+> k
+
+, T − 
+
+> k
+
+, P − 
+
+> k
+
+) that maps state t2
+
+back to state t1 is not independently learned. It is the ana-lytic inverse of the forward affine transform: 
+
+G− 
+
+> k
+
+= ( G+ 
+
+> k
+
+)−1 =
+
+(R+ 
+
+> k
+
+)⊤ −(R+ 
+
+> k
+
+)⊤b+
+
+> k
+
+0 1
+
+
+
+. (19) Therefore, 
+
+g− 
+
+> k
+
+(y) = ( R+ 
+
+> k
+
+)⊤(y − b+ 
+
+> k
+
+) = R− 
+
+> k
+
+y + b− 
+
+> k
+
+, (20) with 
+
+R− 
+
+> k
+
+= ( R+ 
+
+> k
+
+)⊤, b− 
+
+> k
+
+= −(R+ 
+
+> k
+
+)⊤b+ 
+
+> k
+
+. (21) If written in pivot form with P − 
+
+> k
+
+= P + 
+
+> k
+
+, the inverse transla-tion is 
+
+T − 
+
+> k
+
+= −(R+ 
+
+> k
+
+)⊤T + 
+
+> k
+
+. (22) This inverse parameterization ensures that the forward and backward directions optimize the same physical motion in-stead of two independently drifting transforms. For each transported vertex ˆx 1→2 
+
+> i
+
+, we search only within the same part pi. Let 
+
+f 1→2 
+
+> i
+
+= arg min     
+
+> f∈F⋆pi(t2)
+
+d ˆx 1→2 
+
+> i
+
+, f  (23) be the closest triangle in the target-state submesh of the same part, and let β 1→2 
+
+> ij
+
+be the barycentric weights of the closest point on this triangle. We interpolate the target ver-tex attributes (Fig. 3(c)) as 
+
+˜a 1→2 
+
+> i
+
+= X 
+
+> j∈f1→2
+> i
+
+β 1→2 
+
+> ij
+
+aj (t2), aj (t) = ( cj (t), σ j (t)) .
+
+(24) The forward vertex-wise motion-consistency loss is then                 
+
+> L1→2vtx =1
+> |V(t1)|
+> X
+> vi∈V(t1)
+> η1→2
+> i
+> h
+> λcci(t1)−˜c1→2
+> i
+> 22+λσσi(t1)−˜σ1→2
+> i
+> 2i
+> ,
+
+(25) where η 1→2 
+
+> i
+
+is a validity indicator that removes matches whose closest-point distance exceeds a threshold, and the color and opacity terms enforce appearance consistency un-der the rigid part motion. The backward direction is defined symmetrically. For each vertex vj ∈ V (t2), we transport it back to state t1 using inverse motion: 
+
+ˆx 2→1 
+
+> j
+
+= g− 
+
+> pj
+
+(xj (t2)) . (26) We then find the closest same-part triangle in F ⋆pj (t1), in-terpolate the corresponding target attributes, and compute 
+
+L2→1vtx similarly to Eq. 25. This term directly supervises the articulated motion in 3D triangle vertex space. Because the closest-surface search is restricted to the same semantic part and the mesh has been remeshed with per-part restricted Delaunay triangulation, the vertex-wise consistency signal cannot leak across joints or pull neighboring rigid parts to-ward a shared motion. 
+
+3.2.2. Pixel-wise Motion Consistency. 
+
+The pixel-wise motion-consistency supervises the same part-wise affine motion with differentiable rendering. With the renderer R, applying the forward part motions to the state t1 mesh gives the articulated source mesh         
+
+> ˆM1→2=G+(M(t1)) =
+> ˆx1→2
+> i, c i(t1), σ i(t1)vi∈V(t1), F ⋆(t1)
+> 
+> ,
+
+(27) where each vertex position is transformed by the affine mo-tion of its assigned part as in Eq. (18). For a camera Πt2
+
+> m
+
+observing state t2, we render 
+
+ˆI 1→2 
+
+> m
+
+= R
+
+ ˆM1→2, Πt2
+
+> m
+
+
+
+, (28) where ˆI denotes the rendered RGB image. The forward pixel-wise motion-consistency loss compares the rendered observations with the true ones at state t2:
+
+L1→2pix = 1
+
+|C t2 |
+
+X
+
+> m∈C t2
+
+ℓpix 
+
+ ˆI 1→2 
+
+> m
+
+, I m(t2)
+
+
+
+, (29) with 
+
+ℓpix =λrgb ˆI − I 1
+
++ λssim 
+
+
+
+1 − SSIM( ˆI, I )
+
+
+
+. (30) The backward pixel-wise motion-consistency term is de-fined analogously. The inverse motion G− is applied to the state-t2 mesh to produce ˆM2→1, which is then ren-dered from state-t1 cameras Πt1 
+
+> m
+
+and compared against the true state-t1 observations Im(t1) to form L2→1pix , with the same per-view loss ℓpix as in Eq. (29). The total pixel-wise motion-consistency loss is 
+
+LPMC = L1→2pix + L2→1pix . (31) This loss provides dense pixel-level supervision for the same part-wise affine motion used in the vertex-wise term. Because both directions share the same rigid transform through the analytic inverse, the optimizer cannot fit one di-rection by introducing an inconsistent reverse motion. The final motion-consistency objective is 
+
+Lmotion = λVMC LVMC + λPMC LPMC . (32) In the reconstruction phase we recover one canonical surface M(t) alone: positions, SH color, opacity, and part Category Distribution   
+
+> Figure 5. Sample data from the Articulate-100 benchmark and category distribution. Each data sample is composed of start-and end-state RGBD images along with segmentation masks and ground truth articulation information.
+
+weights are all updated. In the articulation phase the canon-ical geometry and topology are frozen and the part weights are hardened; only the articulation field is optimized. The two phases (Fig. 4 (d)) share a single end-to-end optimizer, but use the freeze to prevent articulation signals from cor-rupting canonical geometry that has already converged. The exact iteration budgets are given in Supplementary A. 
+
+## 4. Articulate-100 Benchmark 
+
+We construct Articulate-100 (Fig. 5), a benchmark of 100 articulated objects randomly sampled from PartNet-Mobility [42] across 16 categories: Box , Eyeglasses ,
+
+Faucet , Foldingchair , Knife , Laptop , Oven , Pen , Pliers , Re-frigerator , StorageFurniture , Suitcase , Table , Toilet , Trash-Can , and Window . The distribution is dominated by Ta-ble (34) and StorageFurniture (42), reflecting the predom-inance of these categories in PartNet-Mobility itself, while still covering 14 additional categories ranging from single-joint objects to multi-part articulated furniture to expose how each method scales with articulation complexity. In addition, Fig. 13 in supplementary shows more sample ob-jects from the dataset and the distribution of object cate-gories and part numbers. We will release this dataset for future research upon publication. 
+
+## 5. Experiments 
+
+5.1. Benchmarks and Implementation Details 
+
+Articulate-100. We construct Articulate-100 as introduced in Sec. 4. 
+
+PARIS. For comparability with prior work and real-world evaluation, we additionally use the PARIS benchmark [23], containing 10 synthetic and 2 real articulated objects with two-part articulation (one revolute or prismatic joint). 
+
+Baselines. On Articulate-100, we compare ArtMesh against the two available articulated 3DGS pipelines: 
+
+ArtGS [26] and GaussianArt [33]. On PARIS we include the original PARIS [23] method. Both ArtMesh and Gaus-sianArt require part-segmentation input; to isolate motion and geometry modeling from segmentation quality, we feed GT Ours ArtGS GaussianArt State 0 State 1 State 0 State 1 State 0 State 1 Figure 6. Qualitative comparison of reconstructed surfaces. ArtGS and GaussianArt yield collections of unstructured 3D Gaus-sians with visible inter-primitive gaps, uneven density across part boundaries, and fragmented coverage on thin or texture-less re-gions; recovering a usable mesh from either pipeline requires post-hoc TSDF fusion of rendered depth maps, which inherits these artifacts and adds further smoothing and topological errors. ArtMesh optimizes a connected, opaque triangle mesh end-to-end with the differentiable rasterizer, so the surface shown is the same one used during training, with no conversion step. 
+
+ground-truth semantic maps to both rather than Gaussia-nArt’s Art-SAM predictions. 
+
+Metrics. We report five metrics: Axis Ang (◦), angu-lar deviation between predicted and ground-truth joint axes; 
+
+Axis Pos (0.1 m), Euclidean distance between predicted and ground-truth axis origins (revolute joints only); Part Mo-tion (◦ for revolute, m for prismatic), joint-state error; CD-s (mm), Chamfer Distance on static parts; and CD-m (mm), Chamfer Distance on movable parts. Chamfer Distances are computed on 10,000 uniformly sampled points from pre-dicted and ground-truth meshes. GT Ours ArtGS GaussianArt Joint Axis 
+
+Figure 7. Qualitative comparisons on representative multi-part ob-jects from Articulate-100. ArtMesh directly outputs part-aware articulated meshes, while GaussianArt and ArtGS need post-processing mesh reconstruction methods to obtain meshes from Gaussian outputs. See Fig. 11 for state-0 meshes and additional samples and our demo video for more results. 
+
+5.2. Qualitative Results on Gaussian- vs. Mesh-Splatting Geometry Representation 
+
+Beyond joint and part-level metrics, the form of the re-constructed surface itself matters for downstream use in simulators, physics engines, and graphics pipelines. Fig-ure 6 contrasts the surfaces produced by the three meth-ods. The Gaussian-based pipelines, ArtGS [26] and Gaus-sianArt [33], optimize an unstructured cloud of discon-nected primitives and rely on TSDF fusion of rendered depth maps to recover a triangle mesh after training; the resulting surfaces show visible inter-primitive gaps, density variation along part boundaries, and degraded geometry on thin or texture-less regions, with TSDF smoothing introduc-ing additional discrepancies between what was optimized and what is exported. ArtMesh resolves both issues by opti-mizing a connected mesh end-to-end: the surface used dur-ing training and the surface delivered to downstream tasks are identical. 
+
+5.3. Results on Articulate-100 
+
+Qualitative results. Fig. 7 and Fig. 11 show qualitative com-parisons on representative multi-part objects. ArtGS pro-duces ambiguous part groupings and misaligned joints once the part count exceeds three, which manifests as fractured movable meshes and incorrect learned motion. Gaussia-nArt recovers reasonable static geometry but its predicted axes drift on objects with many similarly-shaped parts (e.g., multi-drawer storage units). ArtMesh produces clean part separations and correctly aligned axes. 
+
+Quantitative results. Table 1 reports per-bucket and ag-Table 1. Quantitative results on Articulate-100 benchmark. Best ,Second.                                                                                          
+
+> 2 Parts (34) 3 Parts (20) 4-5 Parts (31) 6+ Parts (15) All (100) Axis Ang ↓ArtGS 2.72 11.32 13.42 21.19 10.53 GaussianArt 53.25 32.49 19.73 24.87 34.45 Ours 2.02 4.30 2.93 6.83 3.48
+> Axis Pos ↓ArtGS 0.00 0.05 0.19 0.30 0.11 GaussianArt 0.00 0.15 0.83 0.29 0.33 Ours 0.04 0.03 0.01 0.03 0.03
+> Part Motion ↓ArtGS 0.32 4.96 3.71 8.36 3.50
+> GaussianArt 25.52 14.76 9.42 12.86 16.48 Ours 5.82 2.12 2.32 3.42 3.63 CD-s ↓ArtGS 22.37 22.39 24.92 25.03 23.56 GaussianArt 22.91 24.23 26.27 25.64 24.63 Ours 17.95 18.86 19.66 20.11 18.98
+> CD-m ↓ArtGS 34.17 157.51 195.35 318.18 151.41 GaussianArt 57.48 31.73 24.94 32.02 38.43 Ours 11.09 15.74 15.27 22.40 15.01
+
+gregate results on Articulate-100. On the 2-part bucket, ArtMesh and ArtGS are competitive: ArtGS attains slightly lower Part Motion error, while ArtMesh achieves lower Axis Ang error and substantially lower Chamfer Distances on both static and movable parts. The gap widens sharply as part count grows, with ArtMesh outperforming both baselines across metrics on multipart objects. The fail-ure patterns of ArtGS and GaussianArt match the limita-tions each paper identifies, amplified by our broader cate-gory mix. ArtGS uses center-based part assignment from spectral clustering over Gaussians flagged “dynamic” via a Chamfer-distance threshold [26]; this degrades when parts share motion direction or overlap spatially — the case for multi-drawer storage and multi-leaf tables, which dominate our 3+part buckets. GaussianArt, even with correct part labels, lacks part-aware motion learning: its per-Gaussian transform is a weighted blend of global motion bases as-signed via arg max over blending weights only at the end of the soft stage [33], so when movable parts are adjacent and visually similar to the static body, the blended motion can lock in an axis belonging to neither. ArtMesh avoids this through bidirectional image, color, and opacity consistency losses applied to locked per-state meshes after per-part re-stricted Delaunay (Sec. 3.1). 
+
+5.4. Results on PARIS 
+
+We additionally evaluate on PARIS [23], a small benchmark of 12 objects (10 synthetic, 2 real) all with two parts — where ArtMesh’s advantages (scaling to high part counts, structural isolation of per-part motion) are least exercised. Results are in Table 2 and Figure 8. On the synthetic split, ArtGS and ArtMesh are competitive on motion parameters; GaussianArt fails on revolute with near-orthogonal axis pre-dictions, the same cross-part blending failure observed on Articulate-100. ArtMesh attains the best Chamfer Distances on both static and movable parts, reflecting its structured mesh representation. On the more challenging real split, ArtMesh achieves the best Axis Ang, Part Motion, and Chamfer Distances on revolute objects and remains com-GT Ours ArtGS GaussianArt PARIS State 0 State 1 State 0 State 1 
+
+Figure 8. Results on PARIS [23], included for comparability with prior work. PARIS is a benchmark (12 objects, all two-part) where ArtMesh’s advantages in scaling to high part counts are least ex-ercised.The minor color difference in ground truth and predicted mesh render is due to the results presented being blender rendered reconstructed meshes, not the rasterizer output. Table 2. Paris benchmark results. Best , Second.                                                                                                    
+
+> Axis Ang ↓Axis Pos ↓Part Motion ↓CD-s ↓CD-m ↓
+> Syn (10) Rev (8) Pri (2) Rev (8) Pri (2) Rev (8) Pri (2) Rev (8) Pri (2) Rev (8) Pri (2) PARIS 2.78 17.68 2.28 0.00 64.27 0.34 27.26 31.90 74.95 129.14 ArtGS 0.03 0.04 0.00 0.00 0.03 0.00 25.84 24.15 18.65 21.12 GaussianArt 90.00 0.04 0.00 0.00 45.62 0.00 21.40 27.92 69.50 16.82 Ours 0.74 0.45 0.02 0.00 0.68 0.00 19.27 20.88 11.86 14.76
+> Real (2) Rev (1) Pri (1) Rev (1) Pri (1) Rev (1) Pri (1) Rev (1) Pri (1) Rev (1) Pri (1) PARIS 3.35 12.17 0.10 0.00 3.85 1.22 80.82 147.39 149.43 370.55 ArtGS 2.05 3.84 0.49 0.00 1.90 0.04 30.74 43.98 28.81 66.90
+> GaussianArt 90.00 2.27 0.00 0.00 43.00 0.04 42.82 53.61 168.98 111.57 Ours 1.00 3.74 0.14 0.00 1.26 0.05 21.86 32.63 17.88 83.79
+
+Table 3. Results on Articulate-100 benchmark. Best are in bold .
+
+Full Model w/o V-Color. w/o V-Opacity. w/o BackwardPass. w/o PartAware. Axis Ang ↓ 3.48 5.87 6.49 10.25 7.02 Axis Pos ↓ 0.03 0.04 0.04 0.06 0.03 
+
+Part Motion ↓ 3.63 5.39 5.49 5.81 4.95 CD-s ↓ 18.98 18.96 18.99 18.94 18.58 
+
+CD-m ↓ 15.01 21.91 19.86 29.06 19.30 
+
+petitive with ArtGS on prismatic. 
+
+5.5. Ablation Studies 
+
+We ablate four components on the full Articulate-100 benchmark; see Table 3 and Fig. 9. (1) Vertex-wise color consistency. Disabling it raises Axis Ang and CD-m: as the strongest cross-state appearance cue, removal weakens correspondence on weakly textured parts. (2) Vertex-wise opacity consistency. Removal causes comparable motion degradation and smaller geometry effects, primarily disam-GT Full Model w/o V-Color w/o BackwardPass w/o PartAware State 0 State 1 State 0 State 1 w/o V-Opacity Figure 9. Ablation of four components of ArtMesh on the Articulate-100 benchmark: (i) the color consistency term across forward and backward motion training; (ii) the analogous opac-ity consistency term; (iii) the backward pass of motion parame-ter training (backward color, opacity, and image losses); and (iv) the part-aware restricted Delaunay construction for the fine and coarse consistency graphs. See Table 3. Textured Untextured 
+
+Figure 10. ArtMesh reconstructions imported into NVIDIA Om-niverse Isaac Sim to construct a simulation-friendly scene. 
+
+biguating which triangles move together as a rigid part. (3) 
+
+Backward pass. The most damaging ablation, hurting Axis Ang, Part Motion, and CD-m. Bidirectional supervision makes the motion field self-consistent; without it, errors propagate into wrong axes and noisier movable meshes. (4) 
+
+Part-aware restricted Delaunay. Replacing it with global Delaunay degrades Axis Ang and CD-m while leaving CD-s essentially unchanged, indicating its main role is preventing consistency losses from pulling vertices across joints. 
+
+5.6. Application in Simulation 
+
+A practical motivation for part-aware mesh reconstruction is direct use in physics and robot simulators. From a trained ArtMesh model, we export each per-part submesh as a Uni-versal Robot Description Format (URDF) link (visual and collision geometry) and each (R+ 
+
+> k
+
+, P + 
+
+> k
+
+, T + 
+
+> k
+
+) as a revolute or prismatic joint, with axis and pivot read directly from the optimized parameters. The URDF loads as-is into NVIDIA Omniverse Isaac Sim and supports physically plausible in-teraction (drawer pulls, door swings, lid openings) with no manual cleanup, making ArtMesh reconstructions drop-in digital twins for robot learning, embodied AI, and AR/VR (Fig. 10). 
+
+## 6. Conclusion 
+
+We presented ArtMesh, a method for reconstructing ar-ticulated objects as connected triangle meshes with per-part rigid motion from multi-view images in start and end states. Three design choices drive its performance: per-part restricted Delaunay remeshing that prevents triangles from crossing part boundaries, color and opacity consis-tency losses that supervise articulation through 3D vertex correspondences rather than 2D feature matches, and a bidi-rectional cycle whose analytic inverse eliminates the chiral-ity ambiguity of single-direction fitting. On Articulate-100, ArtMesh outperforms prior 3DGS-based pipelines on both joint estimation and part-level geometry, with the largest gains on objects with many movable parts. Extending cy-cle training to multi-state sequences or video would recover continuous articulation trajectories and disambiguate ex-treme motions where two-state supervision is weak. Mesh surface quality and smoothness remain a limitation that we aim to improve in future work. More broadly, the resulting simulator-ready meshes help close the gap between object reconstruction and the explicit geometry pipelines used in robotics and simulation. GT Ours ArtGS GaussianArt GT Ours ArtGS GaussianArt Object 1 Object 2 Object 3 State 0 State 1 Joint Axis Figure 11. Qualitative comparisons on representative multi-part objects from Articulate-100. Full figure containing state 0 reconstructed meshes of Fig. 7 and more result samples. References 
+
+[1] Zoey Chen, Aaron Walsman, Marius Memmel, Kaichun Mo, Alex Fang, Karthikeya Vemuri, Alan Wu, Dieter Fox, and Abhishek Gupta. Urdformer: A pipeline for constructing articulated simulation environments from real-world images, 2024. 3 [2] Siu-Wing Cheng, Tamal Krishna Dey, Jonathan Shewchuk, and Sartaj Sahni. Delaunay mesh generation . CRC Press Boca Raton, 2013. 5 [3] Jianning Deng, Kartic Subr, and Hakan Bilen. Articulate your nerf: Unsupervised articulated object modeling via con-ditional view synthesis. arXiv preprint arXiv:2406.16623 ,2024. 2, 3 [4] Mingju Gao, Yike Pan, Huan ang Gao, Zongzheng Zhang, Wenyi Li, Hao Dong, Hao Tang, Li Yi, and Hao Zhao. Partrm: Modeling part-level dynamics with large cross-state reconstruction model, 2025. 3 [5] Haoran Geng, Helin Xu, Chengyang Zhao, Chao Xu, Li Yi, Siyuan Huang, and He Wang. Gapartnet: Cross-category domain-generalizable object perception and manip-ulation via generalizable and actionable parts. arXiv preprint arXiv:2211.05272 , 2022. [6] Haoran Geng, Songlin Wei, Congyue Deng, Bokui Shen, He Wang, and Leonidas Guibas. Sage: Bridging semantic and actionable parts for generalizable articulated-object manipu-lation under language instructions, 2023. 3 [7] Antoine Gu´ edon and Vincent Lepetit. Sugar: Surface-aligned gaussian splatting for efficient 3d mesh reconstruc-tion and high-quality mesh rendering. CVPR , 2024. 3 [8] Antoine Gu´ edon, Diego Gomez, Nissim Maruani, Bingchen Gong, George Drettakis, and Maks Ovsjanikov. Milo: Mesh-in-the-loop gaussian splatting for detailed and efficient sur-face reconstruction. ACM Transactions on Graphics , 2025. 3[9] Junfu Guo, Yu Xin, Gaoyi Liu, Kai Xu, Ligang Liu, and Ruizhen Hu. Articulatedgs: Self-supervised digital twin modeling of articulated objects using 3d gaussian splatting. 
+
+arXiv preprint arXiv:2503.08135 , 2025. 2, 3 [10] Jan Held, Sanghyun Son, Renaud Vandeghen, Daniel Re-bain, Matheus Gadelha, Yi Zhou, Anthony Cioppa, Ming C. G Lin, Marc Van Droogenbroeck, and Andrea Tagliasac-chi. Meshsplatting: Differentiable rendering with opaque meshes. arXiv , 2025. 2, 3, 14 [11] Jan Held, Renaud Vandeghen, Adrien Deliege, Abdul-lah Hamdi, Anthony Cioppa, Silvio Giancola, Andrea Vedaldi, Bernard Ghanem, Andrea Tagliasacchi, and Marc Van Droogenbroeck. Triangle splatting for real-time radi-ance field rendering. arXiv , 2025. 3 [12] Binbin Huang, Zehao Yu, Anpei Chen, Andreas Geiger, and Shenghua Gao. 2d gaussian splatting for geometrically accu-rate radiance fields. In SIGGRAPH 2024 Conference Papers .Association for Computing Machinery, 2024. 3 [13] Siyuan Huang, Haonan Chang, Yuhan Liu, Yimeng Zhu, Hao Dong, Peng Gao, Abdeslam Boularias, and Hongsheng Li. A3vlm: Actionable articulation-aware vision language model. arXiv preprint arXiv:2406.07549 , 2024. 3 [14] Hanxiao Jiang, Yongsen Mao, Manolis Savva, and Angel X Chang. Opd: Single-view 3d openable part detection. In 
+
+Computer Vision–ECCV 2022: 17th European Conference, Tel Aviv, Israel, October 23–27, 2022, Proceedings, Part XXXIX , pages 410–426. Springer, 2022. 3 [15] Zhenyu Jiang, Cheng-Chun Hsu, and Yuke Zhu. Ditto: Building digital twins of articulated objects from interaction. In arXiv preprint arXiv:2202.08227 , 2022. 2, 3 [16] Hiroharu Kato, Yoshitaka Ushiku, and Tatsuya Harada. Neu-ral 3d mesh renderer. In Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition (CVPR) , 2018. 3[17] Bernhard Kerbl, Georgios Kopanas, Thomas Leimk¨ uhler, and George Drettakis. 3d gaussian splatting for real-time radiance field rendering, 2023. 2, 3 [18] Seungyeon Kim, Junsu Ha, Young Hun Kim, Yonghyeon Lee, and Frank C Park. Screwsplat: An end-to-end method for articulated object recognition. arXiv preprint arXiv:2508.02146 , 2025. 2, 3 [19] Long Le, Jason Xie, William Liang, Hung-Ju Wang, Yue Yang, Yecheng Jason Ma, Kyle Vedder, Arjun Krishna, Di-nesh Jayaraman, and Eric Eaton. Articulate-anything: Auto-matic modeling of articulated objects via a vision-language foundation model. arXiv preprint arXiv:2410.13882 , 2024. 3[20] Xiaoqi Li, Mingxu Zhang, Yiran Geng, Haoran Geng, Yux-ing Long, Yan Shen, Renrui Zhang, Jiaming Liu, and Hao Dong. Manipllm: Embodied multimodal large language model for object-centric robotic manipulation, 2023. [21] Zhe Li, Xiang Bai, Jieyu Zhang, Zhuangzhe Wu, Che Xu, Ying Li, Chengkai Hou, and Shanghang Zhang. Urdf-anything: Constructing articulated objects with 3d multi-modal language model, 2025. 3 [22] Shengjie Lin, Jiading Fang, Muhammad Zubair Irshad, Vi-tor Campagnolo Guizilini, Rares Andrei Ambrus, Greg Shakhnarovich, and Matthew R. Walter. Splart: Articula-tion estimation and part-level reconstruction with 3d gaus-sian splatting, 2025. 2, 3 [23] Jiayi Liu, Ali Mahdavi-Amiri, and Manolis Savva. Paris: Part-level reconstruction and motion analysis for articulated objects. In Proceedings of the IEEE/CVF International Con-ference on Computer Vision , pages 352–363, 2023. 2, 3, 7, 9[24] Jiayi Liu, Denys Iliash, Angel X Chang, Manolis Savva, and Ali Mahdavi-Amiri. SINGAPO: Single image controlled generation of articulated parts in object. arXiv preprint arXiv:2410.16499 , 2024. 3 [25] Shichen Liu, Tianye Li, Weikai Chen, and Hao Li. Soft ras-terizer: A differentiable renderer for image-based 3d reason-ing, 2019. 3 [26] Yu Liu, Baoxiong Jia, Ruijie Lu, Junfeng Ni, Song-Chun Zhu, and Siyuan Huang. Building interactable replicas of complex articulated objects via gaussian splatting. In The Thirteenth International Conference on Learning Represen-tations , 2025. 2, 3, 7, 8, 9 [27] Ruijie Lu, Yu Liu, Jiaxiang Tang, Junfeng Ni, Yuxiang Wang, Diwen Wan, Gang Zeng, Yixin Chen, and Siyuan Huang. Dreamart: Generating interactable articulated ob-jects from a single image, 2025. 3 [28] Zhao Mandi, Yijia Weng, Dominik Bauer, and Shuran Song. Real2code: Reconstruct articulated objects via code genera-tion, 2024. 3 [29] Ben Mildenhall, Pratul P. Srinivasan, Matthew Tancik, Jonathan T. Barron, Ravi Ramamoorthi, and Ren Ng. Nerf: Representing scenes as neural radiance fields for view syn-thesis. In ECCV , 2020. 2, 3 [30] Kaichun Mo, Leonidas Guibas, Mustafa Mukadam, Abhinav Gupta, and Shubham Tulsiani. Where2act: From pixels to actions for articulated 3d objects. In International Confer-ence on Computer Vision (ICCV) , 2021. 3 [31] Jiteng Mu, Weichao Qiu, Adam Kortylewski, Alan L. Yuille, Nuno Vasconcelos, and Xiaolong Wang. A-SDF: learning disentangled signed distance functions for articulated shape representation. pages 12981–12991, 2021. 2, 3 [32] Atsuhiro Noguchi, Xiao Sun, Stephen Lin, and Tatsuya Harada. Neural articulated radiance field. In International Conference on Computer Vision , 2021. 2, 3 [33] Licheng Shen, Saining Zhang, Honghan Li, Peilin Yang, Zi-hao Huang, Zongzheng Zhang, and Hao Zhao. Gaussianart: Unified modeling of geometry and motion for articulated ob-jects, 2025. 2, 3, 7, 8, 9, 14 [34] Xiaohao Sun, Hanxiao Jiang, Manolis Savva, and An-gel Xuan Chang. Opdmulti: Openable part detection for multiple objects. arXiv preprint arXiv:2303.14087 , 2023. 3[35] Archana Swaminathan, Anubhav Gupta, Kamal Gupta, Shishira R. Maiya, Vatsal Agarwal, and Abhinav Shrivas-tava. Leia: Latent view-invariant embeddings for implicit 3d articulation, 2024. 2, 3 [36] Wei-Cheng Tseng, Hung-Ju Liao, Yen-Chen Lin, and Min Sun. Cla-nerf: Category-level articulated neural radiance field. In ICRA , 2022. 3 [37] Peng Wang, Lingjie Liu, Yuan Liu, Christian Theobalt, Taku Komura, and Wenping Wang. Neus: Learning neural implicit surfaces by volume rendering for multi-view reconstruction. 
+
+arXiv preprint arXiv:2106.10689 , 2021. 2, 3 [38] Xiaogang Wang, Bin Zhou, Yahao Shi, Xiaowu Chen, Qin-ping Zhao, and Kai Xu. Shape2motion: Joint analysis of motion parts and attributes from 3d shapes. IEEE Confer-ence on Computer Vision and Pattern , XX(XX):to appear, 2019. 3 [39] Yijia Weng, He Wang, Qiang Zhou, Yuzhe Qin, Yueqi Duan, Qingnan Fan, Baoquan Chen, Hao Su, and Leonidas J. Guibas. Captra: Category-level pose tracking for rigid and articulated objects from point clouds. In Proceedings of the IEEE International Conference on Computer Vision (ICCV) ,pages 13209–13218, 2021. 3 [40] Yijia Weng, Bowen Wen, Jonathan Tremblay, Valts Blukis, Dieter Fox, Leonidas Guibas, and Stan Birchfield. Neural implicit representation for building digital twins of unknown articulated objects. In CVPR , 2024. 2, 3 [41] Di Wu, Liu Liu, Zhou Linli, Anran Huang, Liangtu Song, Qiaojun Yu, Qi Wu, and Cewu Lu. Reartgs: Reconstruct-ing and generating articulated objects via 3d gaussian splat-ting with geometric and motion constraints. arXiv preprint arXiv:2503.06677 , 2025. 2, 3 [42] Fanbo Xiang, Yuzhe Qin, Kaichun Mo, Yikuan Xia, Hao Zhu, Fangchen Liu, Minghua Liu, Hanxiao Jiang, Yifu Yuan, He Wang, Li Yi, Angel X. Chang, Leonidas J. Guibas, and Hao Su. SAPIEN: A simulated part-based interactive envi-ronment. In The IEEE Conference on Computer Vision and Pattern Recognition (CVPR) , 2020. 3, 7 [43] Tianjiao Yu, Vedant Shah, Muntasir Wahed, Ying Shen, Kiet A. Nguyen, and Ismini Lourentzou. Part 2gs: Part-aware modeling of articulated objects using 3d gaussian splatting, 2026. 2, 3 [44] Zehao Yu, Torsten Sattler, and Andreas Geiger. Gaussian opacity fields: Efficient adaptive surface reconstruction in unbounded scenes. ACM Transactions on Graphics , 2024. 3 [45] Sylvia Yuan, Ruoxi Shi, Xinyue Wei, Xiaoshuai Zhang, Hao Su, and Minghua Liu. Larm: A large articulated-object re-construction model. arXiv preprint arXiv:2511.11563 , 2025. 3[46] Baowen Zhang, Chuan Fang, Rakesh Shrestha, Yixun Liang, Xiaoxiao Long, and Ping Tan. Rade-gs: Rasterizing depth in gaussian splatting, 2024. 3 A. Training Details 
+
+Scheduling details We train each object for a total of 
+
+T = 4 × 10 4 iterations, evenly split into a reconstruction phase ( s1 = 2 ×10 4) and an articulation phase ( s2 = 2 ×10 4). The reconstruction phase optimizes the meshes M(t1) and 
+
+M(t2) at both states t1, t 2 ∈ { 0, 1} and their attributes un-der the per-state image loss only; densification and the two upsampling steps both complete with at least 2000 iterations of adaptation time before the phase boundary to leave the mesh in a stable state. At around half iteration steps we run the per-part restricted Delaunay step [10], freeze the canon-ical vertex positions and topology, harden the part affini-ties via argmax, and initialize the articulation field: per-part axis directions of R+ 
+
+> k
+
+are seeded from PCA of each mov-able part’s vertices, and pivots P + 
+
+> k
+
+are computed from part geometry. The articulation phase schedules the four cycle components relative to the articulation step as follows. The forward pixel-wise motion-consistency loss L1→2pix is active from articulation step onward. The backward pixel-wise motion-consistency loss L2→1pix is delayed, which lets the forward direction commit to an axis before the inverse trans-port starts enforcing agreement. At the beginning of the second half of articulation stage we resolve the rotation-vs-translation type decision (discussed in joint-type handling below), and activate the vertex-wise half of the consistency objective: L1→2vtx and L2→1vtx .
+
+Loss weights The motion-consistency weights are 
+
+λVMC = λPMC = 5 × 10 −2 in all our experiments. The per-pixel image losses use λrgb = 1 − λssim with 
+
+λssim = 0 .2, matching the reconstruction-phase image loss. The reconstruction-phase loss in Eq. (14) uses λrgb = 0 .8,
+
+λssim = 0 .2, λdepth = 0 .5.
+
+Learning rates Articulation uses constant (non-decayed) per-group learning rates throughout the articulation phase: 
+
+ηR = 8 × 10 −3 for rotation parameters of R+ 
+
+> k
+
+(axis direc-tion and magnitude), ηT = 1 ×10 −3 for translation T + 
+
+> k
+
+, and 
+
+0.1 ηT = 1 × 10 −4 for joint pivots P + 
+
+> k
+
+. The part-weight logits si use ηw = 5 ×10 −3 while soft. Per-vertex SH co-efficients ci(t) use ηc = 1 .6×10 −3 and per-vertex opacity 
+
+σi(t) uses ησ = 3 × 10 −2, both inherited from the recon-struction phase; vertex positions xi(t) decay exponentially from 2×10 −4 to 2×10 −6 over the reconstruction phase and are frozen thereafter. 
+
+Joint-type handling We do not assume the joint type at the start of training. The decision between revolute and prismatic is resolved via a head-to-head competition dur-ing the first half of the articulation phase. At the start of articulation we clone the per-part articulation parame-ters into two parallel candidate sets: a revolute candidate 
+
+(R+,rot  
+
+> k
+
+, P +,rot  
+
+> k
+
+) with T +,rot  
+
+> k
+
+= 0 , and a prismatic candidate 
+
+T +,trans  
+
+> k
+
+with R+,trans  
+
+> k
+
+= I and no pivot. Each candidate set has its own optimizer and is updated on alternating it-erations: even iterations render the mesh M(t1) articulated to M(t2) using only the revolute candidate (Eq. 15 of the main paper with T + 
+
+> k
+
+= 0 ), odd iterations render using only the prismatic candidate ( R+ 
+
+> k
+
+= I), and in both cases su-pervision comes from the standard photometric loss L1→2pix 
+
+against state-t2 ground truth. The main articulation parame-ters (R+ 
+
+> k
+
+, T + 
+
+> k
+
+, P + 
+
+> k
+
+) remain frozen at their initialization dur-ing this alternation phase, waiting to be replaced by the win-ning candidate. Quaternions are renormalized after each ro-tation step, and an exponential moving average of the per-side photometric loss is maintained for diagnostics. At the midpoint of the articulation phase we run a per-part bake-off on state-t2 training cameras: for each part k, we render once with only the revolute candidate active on part k (all other parts identity) and once with only the prismatic candidate active on part k, mask the photometric loss by the state-t2
+
+semantic map restricted to part k, and average across end-state views to obtain Lrot  
+
+> k
+
+and Ltrans  
+
+> k
+
+. The masked, per-part comparison gives a cleaner signal than a global loss would, since each part is judged only on the pixels it actually owns. Part k is classified as revolute if Lrot  
+
+> k
+
+≤ L trans  
+
+> k
+
+and prismatic otherwise; the winning candidate is merged into the main articulation field and the Adam moments of (R+ 
+
+> k
+
+, T + 
+
+> k
+
+, P + 
+
+> k
+
+)
+
+are reset to zero so that the subsequent unified optimiza-tion starts from a clean second-moment estimate. From this point on, the constraints described above (zeroed T +
+
+> k
+
+for revolute parts, zeroed R+ 
+
+> k
+
+and P + 
+
+> k
+
+for prismatic parts) are enforced by masking the corresponding gradients before each optimizer step. After the parallel joint type optimiza-tion described in the methods section, for joints classified as prismatic, their rotation R+ 
+
+> k
+
+is set to identity and their pivot P + 
+
+> k
+
+is zeroed and frozen, and optimization continues only on T + 
+
+> k
+
+. For parts classified as revolute, their transla-tion T + 
+
+> k
+
+is zeroed and frozen, and optimization continues only on (R+ 
+
+> k
+
+, P + 
+
+> k
+
+). This thresholding constrains each joint to behave as exactly one kinematic primitive and prevents the articulation field from oscillating between rotation and translation explanations during the remainder of training. 
+
+Hardware and runtime Each object is trained on a sin-gle NVIDIA A10 GPU. Each run takes approximately 30 minutes of wall-clock time end-to-end, varying with total part number in each object. 
+
+Segmentation Learning. Predicting part segmentation from images is orthogonal to our contribution and has been addressed in previous work: GaussianArt [33], for instance, fine-tunes a vision foundation model (Art-SAM) to pro-duce multi-view-consistent part masks for articulated ob-jects. Our pipeline is compatible with any such segmenta-tion frontend, and for a fair comparison across methods that differ in their segmentation quality, we use ground-truth la-bels throughout the main experiments. GT Ours State 0 State 1 
+
+> Figure 12. Failure case under heavy occlusion. When a movable part is largely hidden in both observed states (e.g., a small drawer occluded by other drawers with similar motion patterns), ArtMesh can recover an inaccurate motion axis or fail to separate the part cleanly from its neighbors.
+
+## B. Articulate100 Benchmark 
+
+Figure 13 shows sample objects from the dataset and presents the distribution of object categories and part num-bers. Each object is rendered in Blender at two motion states, with the starting state sampled from [0 .60 , 0.80] and the ending state from [0 .20 , 0.40] on the normalized 1-DoF range (0 = fully closed, 1 = fully open). For each state we sample 100 training views and 20 test views on a spherical region around the object at 800 × 800 resolution, yielding posed RGB-D observations together with ground-truth mo-tion parameters and part segmentation. 
+
+## C. Categorical Results on Articulate-100 
+
+Table 4 shows the per-category results on Articulate-100. Our method achieves the strongest overall performance on Articulate-100, ranking first on the aggregate score for four of the five metrics and a close second on the remaining one (Part Motion). The gains are most pronounced on the geometric reconstruction metrics, where we improve over the strongest baseline by roughly an order of magnitude on movable-part chamfer distance and outperform both base-lines uniformly across every category on static chamfer dis-tance. The axis estimation results highlight a key robustness advantage: while ArtGS achieves near-perfect axis recovery on categories it handles well, it fails more often on other cases, and GaussianArt exhibits similar instability across most categories. Our method, in contrast, remains close to the ground truth across nearly all categories, trading a small amount of peak accuracy on the easiest cases for sub-stantially more reliable behavior overall. The part-motion results reveal the remaining failure mode — high variance driven by a small number of outlier instances in a few cate-gories — but the typical per-category performance demon-strates considerably more consistent motion estimation than either baseline. 
+
+## D. Failure Case Analysis and Limitations 
+
+When a part is visible from only a small number of views in either state, this evidence becomes sparse and our opti-mization is correspondingly under-constrained. Two fail-ure modes arise in practice. First, a movable part that is largely occluded in both states (for instance, a small drawer between two other drawers with similar motion patterns) leaves the consistency losses with too few corresponded vertices to reliably estimate its rigid motion; the recovered axis can drift in direction or position by a noticeable mar-gin. Figure 12 shows a representative case. Both modes ultimately reflect the underlying ambiguity in the input ob-servations rather than a limitation of the optimization it-self, and could in principle be mitigated by acquiring denser viewpoints around occluded regions, or articulation states that vary for each movable part; we leave a systematic study of input-acquisition strategies for articulated reconstruction to future work. Part Number Distribution Object Category Distribution Figure 13. Benchmark overview. For each sample object, we provide RGB, depth, segmentation, and articulation annotations, alongside the part-count and object-category distributions of the dataset. Table 4. Per-category results on Articulate-100 benchmark. Best results are in bold , second best are underlined. 
+
+Metric Method Box Eyegl. Fauc. Foldch. Knife Lapt. Oven Pen Plier. Refrig. StorFur. Suitc. Table Toilet Trash. Wind. All (2) (1) (1) (1) (1) (3) (1) (2) (1) (2) (42) (2) (34) (3) (2) (2) (100) Axis Ang ↓
+
+ArtGS 0.01 45.10 0.44 90.00 75.44 0.03 0.04 0.11 0.96 0.02 9.51 0.76 9.39 33.34 0.03 9.97 10.53 GaussianArt 67.74 45.92 90.00 90.00 50.44 90.00 45.09 0.22 90.00 47.00 41.86 27.17 12.19 27.04 78.88 33.92 34.45 Ours 1.61 26.32 1.36 1.78 20.95 1.16 1.83 2.07 0.76 1.57 3.26 3.10 2.83 12.23 1.26 1.11 3.48 
+
+Axis Pos ↓
+
+ArtGS 0.05 0.01 0.00 0.00 2.00 0.01 0.01 0.00 0.01 0.00 0.10 0.41 0.00 1.30 0.01 0.00 0.11 GaussianArt 0.05 0.05 0.00 0.00 0.88 0.00 0.00 0.00 0.00 0.48 0.45 0.01 0.07 0.28 0.09 4.35 0.33 Ours 0.01 0.10 0.01 0.03 0.23 0.08 0.06 0.00 0.03 0.02 0.03 0.11 0.00 0.05 0.01 0.04 0.03 
+
+Part Motion ↓
+
+ArtGS 0.07 8.50 0.35 9.21 52.17 0.12 0.05 0.00 0.44 0.05 3.63 19.09 1.76 9.36 0.03 0.13 3.50 
+
+GaussianArt 57.58 13.88 46.33 9.21 65.99 53.76 12.91 0.00 26.59 35.34 20.60 11.35 2.47 9.62 36.48 25.91 16.48 Ours 2.02 11.22 1.11 0.53 40.25 1.26 1.29 0.00 0.39 1.86 5.16 5.50 0.27 3.95 1.16 23.02 3.63 CD-s ↓
+
+ArtGS 15.64 7.95 15.87 57.44 11.16 12.17 28.64 18.13 14.42 19.51 25.94 29.19 22.18 32.08 27.58 11.65 23.55 GaussianArt 16.45 7.42 15.44 14.87 11.78 16.62 32.35 17.81 13.16 21.85 28.69 29.78 22.98 25.71 30.98 10.20 24.63 Ours 12.91 5.32 11.12 10.16 10.06 11.97 22.21 11.07 11.44 17.55 22.14 23.38 18.27 16.31 23.10 8.28 18.98 
+
+CD-m ↓
+
+ArtGS 11.31 521.29 10.82 101.15 270.30 11.72 620.68 161.95 16.94 12.78 310.26 347.67 294.81 491.53 277.41 624.94 289.77 GaussianArt 61.61 35.01 31.50 24.56 53.91 74.92 31.92 8.64 113.38 41.72 49.35 27.84 21.26 23.24 63.61 27.73 38.43 Ours 9.28 5.76 6.95 9.17 17.88 9.82 9.37 11.17 13.32 8.11 17.64 13.51 15.32 11.57 6.94 7.42 15.01

@@ -1,0 +1,331 @@
+Title: DecoRec: Decomposed 3D Scene Reconstruction from Single-View Images via Object-Level Diffusion
+
+URL Source: https://arxiv.org/pdf/2605.16807v1
+
+Published Time: Tue, 19 May 2026 00:39:02 GMT
+
+Number of Pages: 12
+
+Markdown Content:
+> MANUSCRIPT SUBMITTED TO IEEE TVCG 1
+
+# DecoRec: Decomposed 3D Scene Reconstruction from Single-View Images via Object-Level Diffusion 
+
+Yuhan Ping, Yuan Liu, Xiaoxiao Long, Peng Wang, Junhui Hou, Jianyi Zheng, Jia Pan, Xin Li, Cheng Lin †
+
+Abstract —In this paper, we introduce DecoRec , a novel system designed to elevate single-view 2D images to a decomposed 3D scene mesh. Current methods for single-view scene reconstruction typically rely on object retrieval or the regression of coarse 3D voxels or surfaces, leading to inaccuracies in capturing the appearance and geometry of the input image. The lack of high-quality large-scale scene-level datasets further complicates direct 3D scene generation from single-view images. To achieve high-quality 3D scene generation from a single-view image, DecoRec takes advantage of recent diffusion-based single-view object reconstruction methods to reconstruct individual objects separately. Subsequently, a refinement pipeline is proposed to effectively merge these reconstructed objects, enhancing appear-ance and geometry through a differentiable rendering technique and diffusion-guided refinement. Our results demonstrate that DecoRec facilitates high-quality single-view scene reconstruction in both geometry and novel synthesis, offering significant benefits for downstream applications like room interior design. 
+
+Index Terms —3D scene generation, scene understanding, op-timization, generative models. 
+
+I. I NTRODUCTION 
+
+# RECONSTRUCTING 3D indoor scenes is a crucial task for room interior design. Typically, a design process begins with creating 2D designs, which are then transformed into 3D models through 3D modeling. A finely crafted 3D model not only offers superior visual representation but also facilitates design analysis. Recent advancements in 2D image diffusion models [1] have significantly aided designers by automatically generating 2D designs from simple text prompts, allowing them to concentrate on creative tasks without the burden of tedious drawing. However, converting these 2D designs into precise 3D models remains a challenging and time-consuming task. Many computer graphics or vision researchers have tried to automate this single-view 3D reconstruction problem, but the 3D reconstruction quality is still far from satisfactory. 
+
+Yuhan Ping, Yuan Liu, Xiaoxiao Long, Peng Wang and Jia Pan are with the Department of Computer Science, the University of Hong Kong. Emails: 
+
+{csyhping, yuanly, xxlong, totoro97 }@connect.hku.hk, jpan@cs.hku.hk Junhui Hou is with the Department of Computer Science, City University of Hong Kong. Email: jh.hou@cityu.edu.hk Jianyi Zheng is with the Faculty of Humanities and Arts, Macau University of Science and Technology. Email: jyzheng@must.edu.mo Xin Li is with the Department of Computer Science and Engineering, Texas A&M University. Email: xinli@tamu.edu Cheng Lin is with the Department of Computer Science and Engineering, Macau University of Science and Technology. Email: chlin@connect.hku.hk 
+
+† Corresponding author (a)  Input Image  (b) Mask Image  (c) Our 3D Scene (rendering) 
+
+> (f) Scene Editing (e) Our 3D Scene (mesh) (d) Our 3D Scene (mesh)
+
+Fig. 1. Given a single viewpoint photo of an indoor scene or an image of an interior space design draft (a) and the corresponding object masks (b), our method DecoRec generates the corresponding 3D scene (c-e), which allows explicit control of each 3D object for scene editing, as shown in (f). 
+
+Some works [2]–[4] address this problem by regressing se-mantic voxels or surfaces from single-view images by neural networks, which can produce completed scene meshes but with low quality in both geometry and appearances. Other works [5]–[8] take advantage of large-scale 3D model datasets as a database to retrieve the most similar objects in the database. These retrieval-based methods enable decomposed and high-quality 3D reconstruction of the scene if the objects are contained in the database. However, when there are no exactly matched objects in the database, these methods fail to reconstruct these objects with fidelity. Recent advance-ments [9]–[13] on diffusion models for single-view reconstruc-tion have enabled high-quality reconstruction of single objects. However, these methods are trained on the object-level dataset Objaverse [14] and are not applicable to scene reconstruction due to the lack of 3D scene-level data. Thus, how to accurately reconstruct 3D scenes from single-view images is still an open problem. In this paper, we present a new system called DecoRec to lift a single-view image into a decomposed 3D scene. To address the problem of reconstructing a complex indoor scene from just a single-view image, DecoRec essentially consists of a Segmentation-Reconstruction-Refinement (SRR) pipeline. Given an indoor scene image, the image can be captured from real world, rendered from synthetic data, or designed by stylized artists, we first apply the image segmentation method [15] to segment the input image into several object masks and a background region. Then, for each segmented object mask, we run a single-view object reconstruction algo-
+
+0000–0000/00$00.00 © 2021 IEEE  
+
+> arXiv:2605.16807v1 [cs.CV] 16 May 2026 MANUSCRIPT SUBMITTED TO IEEE TVCG 2
+
+(b)  w/ refinement (a) w/o refinement  
+
+> Fig. 2. Refinement comparison. Single-view reconstruction method cannot provide accurate results. With our refinement, our method can achieve high-quality scene reconstruction.
+
+rithm [16] to reconstruct a coarse mesh from the given single-view image. Finally, in the refinement stage, we adjust the poses, appearances, and geometry of all coarse object meshes by inverse rendering [17] and diffusion-based refinement [18]. This allows us to reconstruct a set of decomposed high-quality 3D meshes for the whole scene. As shown in Fig. 1, our reconstruction results not only facilitate free-viewpoint rendering in the reconstructed scene but also can be easily edited by replacing or removing objects. Essentially, we find that simply reconstructing each object from the object masks using single-view reconstruction meth-ods does not lead to accurate and high-quality reconstruction, as shown in Fig. 2. Our refinement significantly increases the fidelity of the reconstructed meshes with the input image and the visual quality of novel viewpoints. Specifically, in our refinement stage, we rely on a single-view depth esti-mation to roughly estimate the location of each object and place the reconstructed object meshes in their corresponding location. Then, we apply the differentiable mesh rendering to further refine the poses, appearances, and geometry of these coarse meshes. To further improve the visual quality of novel viewpoints deviating from the input image, we adopt the diffusion model InstructPix2Pix [18]. The InstructPix2Pix model gradually biases the rendered novel-view images to the appearances of the input image to improve the visual quality. We conduct experiments on both generated 2D interior room designs from text-to-image models and images from the Internet. All results show that our method outperforms existing single-view scene reconstruction methods by a large margin in terms of visual quality and fidelity. We further demonstrate applications like editing the reconstructed 3D scenes to help designers improve their efficiency in 2D interior design. In summary, our major contributions are listed as follows.  
+
+> •
+
+We propose a novel pipeline that lifts a 3D decomposed scene from a single RGB image. We integrate and uti-lize several pre-training modules and propose refinement strategies to achieve the overall task objectives.  
+
+> •
+
+We develop a two-stage coarse-to-refine framework to improve both the geometry quality of 3D objects in the scene and the rendering quality of novel view synthesis.  
+
+> •
+
+Qualitative and quantitative experiments show that our method outperforms existing methods on both real-world and synthetic scene data. II. R ELATED WORK 
+
+Scene reconstruction is a well-studied task in the computer vision community. Previous works mainly concentrate on reconstructing a 3D scene from multiview images [19] or depth sensors [20]. Our paper only requires a single-view image as input to reconstruct the whole scene. 
+
+A. Single-view Scene Reconstruction 
+
+Single-view 3D scene reconstruction is an ill-posed prob-lem, which strongly relies on the priors [21] to reconstruct reasonable 3D geometry. Early-stage works [2]–[4], [22]–[28] mainly directly regress the geometry of the scene from the images. These methods represent the scene with occupancy voxels [2], [3], [24]–[26], surfaces [4], [23], [28], primi-tives [22] and Radiance Field [27]. Recent works [29]–[31] have similar pipelines as [4] but focus on improving the object reconstruction quality, but they are still limited and fail to recognize and reconstruct unseeded objects in the scene. Many of these works [2], [3], [25], [26], [32], [33] focus on the semantic-related completion task. These regression-based methods often have difficulty in generalizing to unseen data and the geometry reconstruction is usually not very accurate but just shows the spatial locations of objects. To get a more accurate geometry reconstruction and better textures, another branch of works [5]–[8], [34], [35] resorts to object retrieval to find the most similar object in a large-scale database. Such retrieval-based reconstruction methods are able to get a detailed high-quality 3D reconstruction of the objects in the scene. However, when there are some unseen scene objects in the object database, these methods often fail to correctly reconstruct the scene with fidelity. In comparison with these works, our method relies on a diffusion-based single-view object reconstruction method [16] to show strong general-ization ability and reconstruct high-quality textured meshes. Two concurrent works [36], [37] also adopt the diffusion-based single-view reconstruction method. [36] adopts a similar pipeline as ours but our method has an essential refinement stage to improve the visual quality and the consistency with the input image. [37] adopts a new distillation-based single-view reconstruction algorithm to generate multiple objects while our method does not require distillation but feeds the image into a single-view reconstruction to directly get 3D meshes. 
+
+B. Novel-view Synthesis from Single-view 
+
+Some works [38]–[49] also implicitly reconstruct a scene from a single-view image for novel-view-synthesis(NVS). These methods are mainly based on the prior from the single-view depth estimation [44] or diffusion models [45]. [46] trains a multi-view diffusion model from a large-scale multiview dataset which can perform mutl-view sampling from the input image and achieve novel view synthesis based on NeRF [50] scene representation, [49] implements a similar idea but uses MANUSCRIPT SUBMITTED TO IEEE TVCG 3Input image 𝐼𝐼      
+
+> Mask ℳ
+> Result
+> Initialization Coarse
+> Lifting
+> Object images
+> Depth map 𝒟𝒟
+> Normal map 𝒩𝒩
+> Coarse result
+> Mask
+> Refinement
+> Color
+> Refinement
+> Novel view
+> Refinement
+> Refinement
+> Fig. 3. Overview of our pipeline. Given an input image and object masks, our method first performs a coarse decomposition and reconstruction for both objects and background. Then, we refine the foreground objects and background, including mask, color, and novel view refinement, to achieve high-quality 3D scene reconstruction for both consistent novel view synthesis and high-quality 3D geometry.
+
+3D Gaussian Splatting(3DGS) [51] as the scene representa-tion. [47] extends novel views by inpainting RGB and depth image pairs to reconstruct a 3DGS scene representation. [48] also achieves novel view synthesis but it aims at multi-view segmentation and perceptual inpainting. Novel-view-synthesis does not require reconstructing the scene explicitly into 3D surfaces, while our method not only enables NVS but also reconstructs decomposed 3D meshes for the scene. 
+
+C. 3D Scene Generation 
+
+Our method can be regarded as scene generation from a single-view image, which also relates to the 3D scene generation methods. Some works [52]–[60] concentrate on generating a layout or a scene graph from a text prompt or other user inputs and then generating decomposed 3D meshes for each component. To generate a scene, another branch of works [61]–[70] first generate an image or a panorama and then reconstruct the scene from the generated image or panorama. Almost all of these methods are mainly designed for the text-to-scene generation task and these methods mainly focus on the first step to generate a layout or a high-quality panorama. Instead, our method mainly concentrates on gener-ating a decomposed 3D scene from an image, which can be incorporated with a text-to-image model for scene generation. 
+
+D. Single-view Object Reconstruction 
+
+Recent developments in diffusion models [9]–[13], [71]– [77] have enabled high-quality 3D object reconstruction from single-view images. Most of these methods are trained on the Objaverse [14], [78] dataset. The main trend of these methods is to utilize the multiview diffusion [10], [79] to generate multiview consistent images and then reconstruct the 3D models from the generated multiview consistent images. However, directly applying such object reconstruction methods to single-view scene reconstruction is not feasible, which produces unrealistic and incorrect reconstruction results. Our method is based on these object reconstruction methods and tackles each object separately. III. P ROPOSED METHOD 
+
+Fig. 3 provides an outline of our approach named DecoRec. We begin by taking the input image associated with object masks to generate depth and normal maps. Then, we utilize a single-view estimation technique to derive coarse meshes for individual objects and perform background inpainting for a fully realized background mesh. Finally, we refine the coarse object meshes and the background meshes to get an improved overall reconstruction outcome. In what follows, we will detail each module. 
+
+A. Initialization 
+
+Let I denote the input image, and the associated object masks can be divided into a background mask Mb and a collection of foreground masks {M (i) 
+
+> f
+
+|i = 1 , ..., N } encom-passing all N objects. Initially, we utilize a single-view depth and normal estimation technique called GeoWizard [80], denoted as G, to derive a depth map D normalized in [0 , 1] 
+
+and a normal map N from I. Note that the estimated depth map D is affine-invariant with unknown scale s and shift t,we have to recover a metric depth map ˆD = D × s + t from it. We first compute a normal map ˆN from the estimated depth map D by a least square fitting operation, then minimize the difference between ˆN and N to optimize s and t.
+
+B. Coarse Lifting 
+
+In this stage, we aim to reconstruct both the foreground objects and backgrounds from the images, the object masks, and the depth map. 
+
+1) Coarse object reconstruction : Taking an object mask, we first crop the region of the object and mask out the background to get a single foreground object I(i) 
+
+> f
+
+. Then, we feed I(i) 
+
+> f
+
+to a single-view 3D reconstruction method called Convolution Reconstruction Model (CRM) [16]. CRM first generates multiview images and so-called canonical coordinate maps (CCMs) from the I(i) 
+
+> f
+
+. Then, a CNN is applied to regress a triplane-based SDF representation from the multiview im-ages and CCMs. A colored mesh Fi can be extracted from the triplane SDF. The reconstructed mesh is coarsely aligned with the input image. For each object mask, we repeat this CRM-based reconstruction pipeline to reconstruct every object in this scene. Though CRM produces a reasonable reconstruction for these objects, the coarse meshes often show blurry textures and unaligned geometry. We will refine the geometry, appearances, and poses of this coarse reconstruction in our refinement. MANUSCRIPT SUBMITTED TO IEEE TVCG 4Partial pointcloud     
+
+> Depth map �𝒟𝒟 𝑏𝑏 Background 𝐵𝐵
+> Background 𝐼𝐼 𝑏𝑏
+> Inpainting
+> Poisson
+> Fig. 4. Background reconstruction. We reconstruct a complete background mesh from the mask-removed partial point cloud.
+
+2) Background reconstruction : As shown in Fig. 4, by removing all the depth of the foreground objects in D, we can get a partial point cloud of the scene. To make it more com-plete, we first apply an inpainting network called LaMa [81] to fill the holes of these foreground objects to get a complete background image Ib. Then, we again apply the GeoWizard to estimate a background depth map ˆDb again and align the scale of this background depth map with the partial foreground depth map. Finally, a Poisson surface reconstruction algorithm is applied to the background depth points to extract a colored mesh B for the background of this scene. 
+
+C. Refinement 
+
+Given the reconstructed coarse meshes for the background and the foreground objects, we perform a joint refinement of their geometry, spatial positioning, orientation, and surface appearance. This is accomplished through a dual-optimization strategy. First, we employ differentiable mesh rendering to en-force pixel-level consistency between the reconstructed scene and the original input image. Second, we introduce a diffusion-based novel-view refinement stage; this process enhances the visual fidelity of synthesized perspectives while ensuring they remain semantically and structurally consistent with the source observation. 
+
+1) Differentiable rendering : For every coarse object mesh 
+
+Fi, we associate a trainable affine transformation Ai with it to transform it to a more accurate shape and location Ai ◦Fi. We utilize the differentiable rendering framework NvDiffRast [17] 
+
+η to render all the foreground and background meshes by 
+
+{ ˆM (i) 
+
+> f
+
+}, ˆD, ˆI = η({A i ◦ Fi}, B, π in ), (1) where { ˆM (i) 
+
+> f
+
+} are the set of rendered masks for all foreground objects, ˆD is the rendered depth map, ˆI is the rendered images from all the foreground and background meshes, and πin 
+
+means the camera pose for the input image. Then, we compute the following losses to optimize the appearances and geometry of all meshes as well as all the object poses. 
+
+ℓinv = ℓmask + ℓrgb + ℓdepth , ℓmask = X
+
+> i
+
+∥ ˆMi − Mi∥22,ℓrgb = ∥ ˆI − I∥22, ℓdepth = ∥ ˆD − D∥22.
+
+(2) Input         
+
+> image ‘’ 𝑎𝑎𝑎𝑎 𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒𝑒 𝑟𝑟𝑟𝑟𝑟𝑟 𝑒𝑒
+> 𝑤𝑤𝑤𝑤 𝑒𝑒 𝑤 𝑎𝑎 𝑐𝑐 𝑤𝑎𝑎𝑤𝑤𝑟𝑟
+> 𝑎𝑎𝑎𝑎𝑎𝑎
+> 𝑎𝑎 𝑠𝑠 𝑒𝑒𝑎𝑎𝑐𝑐 𝑠𝑠 𝑟𝑟 𝑜𝑜 𝑏𝑏 𝑟𝑟𝑟𝑟𝑠𝑠𝑠𝑠 .‘’
+> InstructPix2Pix
+> Novel view rendering 𝐼𝐼 𝑝𝑝
+> Prompt 𝓎𝓎
+> Novel
+> view
+> Edited novel view image  ̃ 𝐼𝐼 𝑝𝑝
+> Novel view
+> refinement
+> Input image 𝐼𝐼
+> Noise
+> Fig. 5. Illustration of the diffusion-based novel-view refinement. We utilize a diffusion model to improve both the visual quality and consistency with the input image of novel-view rendering images.
+
+To minimize the above loss, the trainable parameters here include the vertex-wise colors, vertex locations of all these meshes, and also the affine transformations Ai. The mask loss 
+
+ℓmask and depth loss ℓdepth act like anchors to regularize the locations and size of each object. Without a depth loss, the object can incorrectly shrink its size and move closer to the camera but still satisfy the mask and rendered colors. The color loss ℓrgb constrains the colors of these meshes to be consistent with the input image. 
+
+2) Diffusion-based novel-view refinement : We further im-prove the rendering quality of novel-view synthesis from these foreground and background meshes. We achieve this novel-view refinement with the diffusion prior from the diffu-sion model InstructPix2Pix [18]. InstructPix2Pix takes a text prompt y and a condition image Ic as input and generates an image, which is a modified version of Ic according to the text prompt y. In our pipeline, we do not aim to revise the image but want to improve the visual quality of novel-view images and their consistency with the input image. Details of the novel-view refinement are shown in Fig. 5. Specifically, given a rendered novel-view Ip images from meshes Ip = η({A i ◦ Fi}, B, π new ) on a new viewpoint πnew 
+
+using our differentiable renderer η on the pose, we will use the InstructPix2Pix model to refine it by a diffusion-guided loss. For the InstructPix2Pix model, we take the input image 
+
+I as the conditional image Ic = I. Then, some text prompts are generated on the input image I by OpenCLIP [82], which serves as the text prompt y. Subsequently, we do not generate images from scratch because this would simply lead to the same generation results as I. Instead, we follow [83] to add 
+
+t-level noise to the rendered image Ip and then feed the noisy version to the InstructPix2Pix model to regenerate a noise-free image ˜Ip. Finally, we compute the diffusion loss by 
+
+ℓdiff = ∥Ip − ˜Ip∥2, (3) We apply ℓdiff to optimize the meshes’ appearances to improve the visual quality of rendered novel images. MANUSCRIPT SUBMITTED TO IEEE TVCG 5
+
+IV. E XPERIMENTS 
+
+A. Experiment Settings 1) Implementation details : Our work is mainly imple-mented with Pytorch [84] on an Nvidia GeForce RTX 4090 GPU. In the subsequent description of the implementation de-tails, we use corresponding official default parameters, except those declared on purpose. The segmentation masks are pro-vided by SegDrawer 1 built on SAM [15]. The masked object images are preprocessed to be centered with a grey back-ground ( R:127 , G :127 , B :127 ). We use CRM [16] to generate the 3D model for segmented objects with the preprocessed masked images. For background reconstruction, we utilize the LaMa [81] in-painting network, we use the model named 
+
+big -lama and we set the dilate kernel size as 30 for better results. We employ GeoWizard [80] for depth estimation; we set the ensemble size to 3 and the domain to indoor . We use NvDiffRast [17] for differential rendering, and we use its cuda 
+
+initialization. Novel view editing is performed by Instruct-Pix2Pix [18], we use a diffusion step of 10 , and we follow [83] to add t-level noise to the rendered image. The text prompt for describing the scene is generated by OpenCLIP [82], we use the model named coca V iT -L-14 with pretrained keys mscoco f inetuned laion 2B-s13 B-b90 k. For the opti-mization procedure, we use the Adam optimizer [85] with a learning rate 1e−3. There are approximately 7500 iterations for the optimization procedure, and we use an edit rate of every 10 iterations for novel view optimization. The camera pose for the input image is set to the origin and facing the z-axis. The focal length is estimated from the diagonal length of the image. For novel viewpoints in the refinement stage, we implement a spiral trajectory like NeRF [50] by sampling novel camera poses that differ from the original camera pose in three dimensions, 0.4× scene range on the x-axis, 0.4× scene range on the y-axis and 0.16 × scene range on the z-axis. 
+
+2) Datasets : We test our method on both real-world scenes and synthetic scenes. Real-world scene data are mainly ac-quired from ShutterStock 2 and Google Images, while syn-thetic scene data are extracted from 3D-Front [86] and 3D-Future [87] which contain high-quality indoor scenes and decomposed furniture models. Due to the texture missing issue for walls and floors in the original datasets, we also use some textures from ambientCG 3. 8 real-world scenes and 11 synthetic scenes are used in the evaluation. To demonstrate the generalizability of our method, we also test our method on stylized scenes. 8 stylized scenes are collected from Dribbble 4.We include all our test cases and corresponding results in the qualitative comparison and result gallery in later sections. 
+
+3) Metrics : For quantitative measurement, we report sev-eral image and geometry quality metrics widely used in novel view synthesis problems, including (1) PSNR, (2) SSIM, (3) LPIPS [88], (4) Chamfer Distance, and (5) F-Score. For PSNR and SSIM, we utilize the implementation in scikit-image [89], and for LPIPS, we use its official implementation. For F-Score, 
+
+> 1https://github.com/lujiazho/SegDrawer
+> 2https://www.shutterstock.com/
+> 3https://ambientcg.com/
+> 4https://dribbble.com/
+
+we use a CD < 0.1 threshold. For CD, we measure each reconstructed object and report the average results. For real-world scenes, we evaluate the CLIP Score [90] by comparing the input view between input images and reconstructed scenes. 
+
+4) Baseline methods : We compare our method with sev-eral baseline methods, including Poisson [91], CRM [16], AdaMPI [44], ROCA [6], Total3D [4], InstPIFu [30], SSR [31], Uni3D [33] and Gen3DSR [36]. Poisson is a traditional 3D reconstruction method that reconstructs the mesh from the point cloud which is extracted from the depth map used in our pipeline. CRM utilizes generative models to perform image-to-3D conversion, and we use the input scene images as the input to CRM. AdaMPI achieves view synthesis from single-view images with adaptive multiplane images, which do not reconstruct 3D meshes. Thus, we mainly compare the novel view synthesis quality with AdaMPI. ROCA is a retrieval-based method for single-view scene reconstruction. We use the official codes and datasets of ROCA for retrieval. Total3D, InstPIFu, and SSR all detect and reconstruct 3D objects from single-view images and predict their poses. Uni3D integrates panoptic segmentation from single-view images and recon-structs the scene with semantics. Gen3DSR is a concurrent method that is similar to our coarse stage. 
+
+B. Comparisons with Baselines 
+
+The qualitative comparisons of real-world and synthetic scenes are shown in Fig. 6 and Fig. 7. We also provide a result gallery with all scenes that we tested and corresponding re-sults, as shown in Fig. 13, Fig. 14 and Fig. 15. The quantitative comparisons are shown separately since some baselines are not designed for novel view synthesis or object reconstruction, as shown in Tab. I and Tab. II. CRM utilizes generative models to convert 2D images to 3D meshes. However, since it is only trained on the object datasets, CRM cannot produce reasonable results for the single-view scene reconstruction. Poisson is a traditional reconstruction method that conducts meshes from estimated single-view depth. Though it is able to reconstruct the input view with high fidelity, it cannot guess the unseen parts and strongly relies on the quality of the monocular depth map, producing distorted surfaces as shown in the figure. AdaMPI achieves novel view synthesis from MPIs but still suffers from distortion on novel viewpoints, especially for regions with thin structures. Besides, without a 3D mesh as its geometry, AdaMPI has no abilities or flexibility to perform scene editing. ROCA retrieves CAD models for each object in the dataset, and the retrieval results rely highly on the datasets. If a similar object does not exist in the database, the resulting objects will be incorrect in both semantics and appearances. Total3D, InstPIFu, and SSR heavily rely on the 2D detection results. If an object is out of the category of the 2D detector, these methods fail in 3D reconstruction. The results of Uni3D contain severe distortion if the semantic segmentation is not accurate. Gen3DSR is a concurrent compositional generation method that adopts a similar pipeline as our coarse stage. However, our method contains an essential refinement stage to improve the visual quality, showing more consistency with the input and geometry details than Gen3DSR. Our method MANUSCRIPT SUBMITTED TO IEEE TVCG 6CRM  Poisson  ROCA Input  AdaMPI  Gen3DSR Total3D  InstPIFu  Uni3D SSR  Our 
+
+Fig. 6. Qualitative comparison with other methods on the real-world dataset. From top to bottom, we show one novel-view rendering and the corresponding 3D geometries. Our method outperforms in both view synthesis and 3D geometry qualities. Some obvious structure distortions are marked in red and geometry differences are marked in yellow. CRM  Poisson  ROCA Input  AdaMPI  Gen3DSR Total3D  InstPIFu  Uni3D SSR  Our 
+
+Fig. 7. Qualitative comparison with other methods on the synthetic dataset. From top to bottom, we show two novel views and the corresponding 3D geometries. Our method outperforms in both view synthesis and 3D geometry qualities. Some obvious structure distortions are marked in red and geometry differences are marked in yellow. TABLE I QUANTITATIVE NOVEL VIEW SYNTHESIS RESULTS ON THE SYNTHETIC DATASET . O UR METHOD PRODUCES BETTER RENDERING QUALITY , AS INDICATED BY PSNR, SSIM, AND LPIPS, THAN ALL BASELINE METHODS . CLIP S CORE IS ALSO PROVIDED FOR THE REAL -WORLD DATASET .PSNR ↑ SSIM ↑ LPIPS ↓ CLIP-S ↑
+
+Poisson 19.3205 0.6571 0.2188 0.9627 CRM 13.9334 0.6149 0.5270 0.6425 AdaMPI 21.9959 0.7489 0.1852 0.9850 
+
+Gen3DSR 20.1648 0.7277 0.2056 0.8502 Our 23.2017 0.7919 0.1502 0.9724 
+
+clearly outperforms all baselines by reconstructing plausible and accurate scenes from the given input image. Our method can generate high-quality 3D geometry, enabling the rendering of consistent novel-view images and advanced scene editing operations. 
+
+C. Lifting Stylized Scenes 
+
+To fully demonstrate the generalization ability of our method, we also collect some stylized scenes by designers from Dribble. Since other baselines struggled to provide reasonable results given such special input, we only compare 
+
+TABLE II QUANTITATIVE OBJECT RECONSTRUCTION RESULTS ON THE SYNTHETIC DATASET . O UR METHOD PRODUCES BETTER RECONSTRUCTION QUALITY ,CD AND F-S CORE , THAN ALL BASELINE METHODS .CD-O ↓ F-Score ↑
+
+Poisson 0.1281 45.1023 CRM 0.1708 24.3121 ROCA 0.1551 29.9654 Total3D 0.1802 34.6879 InstPIFu 0.1479 39.2105 Uni3D 0.4295 16.8127 SSR 0.1368 39.4872 Gen3DSR 0.1349 53.7818 Our 0.1071 63.2835 
+
+our method with Gen3DSR [36]. Qualitative results are shown in Fig. 8. Our method generates scenes with finer details and textures on both objects and backgrounds. The reconstructed objects’ details are obviously sharper and more accurate than Gen3DSR. The performance indicates our method has a strong generalization capability. 
+
+D. Ablation Study 1) Loss functions : To fully demonstrate the design of our method, we conducted ablation studies based on different MANUSCRIPT SUBMITTED TO IEEE TVCG 7
+
+combinations of losses we mentioned in the Method section. We denote “Full model” as our work with all losses. “w/o mask loss” means without the mask loss ℓmask . “w/o color loss” means without the color loss ℓrgb . “w/o diff loss” means without the diffusion loss ℓdiff .The ablation results are shown in Fig. 9. In “w/o mask loss” (Fig. 9(b)), the object positions are not aligned precisely with the corresponding mask on the input image. Similarly, without color loss (Fig. 9(c)), the position of objects can be optimized, but the colors of the surfaces are not consistent with the input images. Moreover, there is an overall blurring of textures. In “w/o diff loss” (Fig. 9(d)), there are obvious black silhouettes around objects, and the reconstruction results are not accurate. Simply optimizing the input images leads to deteriorated results on novel view renderings, which can only be resolved by refining the novel view images. Our full method provides accurate and plausible scene reconstruction with all necessary designed losses, as shown in Fig. 9(a). 
+
+2) Change modules : Our method has no specific require-ment on the object reconstruction and depth estimation mod-els. We chose CRM and GeoWizard because these methods show great power in corresponding tasks. Our method has a flexibility that supports replacing modules like the object reconstruction and depth estimation models. We have added additional results using other SOTA methods at this stage. For the object reconstruction model, we use Hunyuan3D-2 [92]–[94]. For the depth estimation model, we use DepthPro [95]. The result is shown in subsection G of the Experiment section, Fig. 11. By changing to newly developed models, the coarse result’s quality is improved, but they still deviate from the input image(the shape, color, position and orientation of objects), so a refinement stage proposed by our method still makes a great improvement to get a better result. Input  Gen3DSR  Our  
+
+> Fig. 8. Qualitative comparison with Gen3DSR on stylized inputs.
+
+3) Coarse and refinement stages : The proposed refinement stage is a significant design in our method. To better demon-strate the effectiveness and novelty of the refinement stage, we present additional results comparing the coarse and refinement stages, as shown in Fig. 12. It is obvious that the coarse stage can provide a roughly aligned scene, but the shape, position and color of objects are not accurate. With our proposed refinement stage, we can optimize a better 3D scene with correct geometry, location and appearance. When changing the object reconstruction and depth estimation modules with more advanced models like Hunyuan3D-2 [92]–[94] and Depthpro [95], the quality of the coarse scene improves but still differs from the input image. The improvement introduced by the refinement stage is still significant, as shown in Fig. 11. 
+
+E. Editing the Scene 
+
+As discussed above, our method can lift a 2D image into a decomposed 3D scene, which means we have both high-quality renderings and the corresponding 3D geome-tries. Consequently, unlike those methods that perform view synthesis only, such as AdaMPI, we have the 3D meshes as the backbone so that our method provides the ability to achieve scene editing, such as modifying colors and replacing or removing objects from the scene. An editing example is shown in Fig. 10. From Fig. 10(b) to (d), we demonstrate object deletion, color modification, and object movement, which shows a high flexibility of scene editing. 
+
+F. More Analysis 1) More scene types : Our proposed method can gener-ate plausible 3D scenes for a wide range of input images, including real-world, synthetic and stylized scenes. To fully demonstrate the generality of our proposed method, we con-duct additional experiments on more types of scenes as shown in Fig. 16. We show more scene types like kitchen, dining room, and bathroom. Besides, our method is not inherently limited to indoor scenes, we also show table top and even outdoor scenes. Furthermore, we have included comprehensive qualitative comparisons in the earlier sections, and we present some extreme angles for these results in the supplementary materials. While we do not anticipate significant deviations in the camera perspective during optimization, this is mainly because the extreme viewpoints are not represented in the pretrained models. Results show that our method can generate plausible 3D scenes across a wide range of scene types and still has good quality from extreme camera angles. Our current goal is to primarily lift indoor scenes from a single image. In future work, we will expand our method to accommodate a more general concept of scenes. 
+
+2) More comparisons with Gen3DSR : To enable a more in-depth comparison, we conduct additional comparisons with Gen3DSR on multiple dimensions. Firstly, we give Gen3DSR the same mask image as our method because the default segmentation method in Gen3DSR sometimes cannot provide correct masks for all foreground objects (i.e., second row in Fig. 15, the plant on the left is not segmented by Gen3DSR). The result is shown in Fig. 17. By using the same mask as our MANUSCRIPT SUBMITTED TO IEEE TVCG 8(a)  full model  (b) w/o mask loss  (c) w/o color loss  (d) w/o diff loss 
+
+CLIP Score: 0.9829  CLIP Score: 0.9726  CLIP Score: 0.9673  CLIP Score: 0.9719 
+
+> Fig. 9. Ablation studies on different loss settings. Without any designed losses, it will cause issues like texture blurring, structure distortion, and black borders.
+
+(b) Delete  (d) Move (c) Change color (a)  Original Result               
+
+> Fig. 10. Flexibility of scene editing. Our method enables decomposed 3D lifting of 2D images and thus, users can perform different editing operations including deleting, color changing, and moving. Input Coarse Scene Our
+> Fig. 11. Additional results with implementation of Hunyuan3D-2 and DepthPro. (b) w/ refinement (a) w/o refinement
+> CLIP Score: 0.9710
+> CLIP Score: 0.9725
+> CLIP Score: 0.9857
+> CLIP Score: 0.9829
+> Fig. 12. More comparisons between coarse and refinement stages.
+
+method, Gen3DSR can segment the plant on the left correctly. However, it is obvious that the mesh quality of our method outperforms Gen3DSR with more geometric details and better shapes. Secondly, we also show the background reconstruction quality between Gen3DSR and our method because the back-ground is also essential in 3D scenes as shown in Fig. 18. We give Gen3DSR the same mask as our method. Gen3DSR reconstructs the background by implementing an MLP to extract the SDF of the background and expects the network to interpolate the missing areas. If the scene contains many objects and only a little area of the background is visible, it fails to cover the hole region and cannot interpolate correct colors as shown in Fig. 18 middle and bottom rows. While our method leverages an inpainting model to fill the holes, the occluded area can be completed with reasonable and plausible content to get a satisfying background. Besides, even in normal scenes like the top row in Fig. 18, our method can provide a background with more details that align with the input. 
+
+G. Inference Time 
+
+Our method is implemented on a single Nvidia GeForce RTX 4090 GPU. For an input image with resolution 1200*800, the background inpainting by LaMa takes about 3 seconds. The mesh reconstruction stage takes about 43 seconds for each object using CRM, about 1-3 minutes using Hunyuan3D (specifically, about 34 seconds for shape generation, about 35-200 seconds for texture generation). The mesh reconstruc-tion time increases linearly with the number of segmenta-tion results, similar to existing compositional methods like Gen3DSR. The mesh reconstruction procedure can be further accelerated by implementing parallelization if more GPU resources are available. The background reconstruction takes about 25 seconds if using GeoWizard for depth estimation, about 55 seconds if using DepthPro (the major difference is that GeoWizard predicts a normal map but DepthPro doesn’t, we have to compute the normal map from DepthPro’s depth map using Open3D). The refinement stage takes about 5-10 minutes, depending on the complexity of the scene. We will work on improving the time efficiency in our future work. 
+
+H. Limitations 
+
+Despite its effectiveness, our approach has certain limi-tations that provide avenues for future research. Currently, the pipeline does not explicitly model surface materials or environmental illumination. Consequently, it lacks the ability to render accurate view-dependent effects, such as specular highlights or physically consistent shadows, especially during MANUSCRIPT SUBMITTED TO IEEE TVCG 9CRM  Poisson  ROCA Input  AdaMPI  Gen3DSR Total3D  InstPIFu  Uni3D SSR  Our 
+
+Fig. 13. Result gallery of qualitative comparison with other methods. CRM  Poisson  ROCA Input  AdaMPI  Gen3DSR Total3D  InstPIFu  Uni3D SSR  Our 
+
+Fig. 14. Result gallery of qualitative comparison with other methods. MANUSCRIPT SUBMITTED TO IEEE TVCG 10 CRM  Poisson  ROCA Input  AdaMPI  Gen3DSR Total3D  InstPIFu  Uni3D SSR  Our 
+
+Fig. 15. Result gallery of qualitative comparison with other methods. Input  Gen3DSR   
+
+> Our
+> Input Novel View Rendering Mesh
+> Kitchen
+> Dining
+> room
+> Bathroom
+> Table Top
+> Outdoor
+
+Fig. 16. Result of our method on more types of scenes, including kitchen, dining room, bathroom, table top and even door scenes. Input  Gen3DSR  Our 
+
+Fig. 17. Comparison with Gen3DSR by giving the same mask as our method. 
+
+scene editing. Integrating material synthesis and lighting esti-mation from single-view images would likely resolve these artifacts. Furthermore, while the 3D reconstruction module partially mitigates object-to-object occlusions, some mask shapes remain incomplete, please refer to the supplementary for details. We intend to address this in future work by incorporating diffusion-based 2D or 3D inpainting techniques to achieve more robust occlusion handling. Input  Gen3DSR  Our 
+
+Fig. 18. Comparisons of background reconstruction results. The middle and bottom rows show scenes with many foreground objects and only a little area of the background is visible. 
+
+V. C ONCLUSION 
+
+In this paper, we introduced a novel framework, namely DecoRec, for lifting decomposed 3D scenes from single-view indoor images. DecoRec integrates individual object recon-struction with background depth estimation and inpainting to establish a coarse 3D representation. To achieve high-fidelity results, we employed a multi-stage refinement process that optimizes object placement and appearance through a combi-nation of mask, color, and diffusion-based losses. Specifically, we leveraged the InstructPix2Pix model within our diffusion loss to enhance rendering quality across novel viewpoints. Comprehensive evaluations on both synthetic and real-world datasets demonstrate the superior effectiveness and robustness of our method. ACKNOWLEDGMENTS 
+
+This research is partially supported by the Natural Science Foundation of China under Grant 62422118 and the Hong Kong Research Grants Council under Grants 11219324 and N CityU1114/2. REFERENCES [1] R. Rombach, A. Blattmann, D. Lorenz, P. Esser, and B. Ommer, “High-resolution image synthesis with latent diffusion models,” in CVPR , 2022. [2] A.-Q. Cao and R. De Charette, “Monoscene: Monocular 3d semantic scene completion,” in CVPR , 2022. [3] S. Popov, P. Bauszat, and V. Ferrari, “Corenet: Coherent 3d scene reconstruction from a single rgb image,” in ECCV , 2020. MANUSCRIPT SUBMITTED TO IEEE TVCG 11 
+
+[4] Y. Nie, X. Han, S. Guo, Y. Zheng, J. Chang, and J. J. Zhang, “To-tal3dunderstanding: Joint layout, object pose and mesh reconstruction for indoor scenes from a single image,” in CVPR , 2020. [5] K. Yan, F. Luan, M. Haˇ san, T. Groueix, V. Deschaintre, and S. Zhao, “Psdr-room: Single photo to scene using differentiable rendering,” in 
+
+SIGGRAPH Asia 2023 , 2023. [6] C. G¨ umeli, A. Dai, and M. Nießner, “Roca: Robust cad model retrieval and alignment from a single image,” in CVPR , 2022. [7] W. Kuo, A. Angelova, T.-Y. Lin, and A. Dai, “Patch2cad: Patchwise embedding learning for in-the-wild shape retrieval from a single image,” in ICCV , 2021. [8] Q. Wu, D. Ritchie, M. Savva, and A. X. Chang, “Generalizing single-view 3d shape retrieval to occlusions and unseen objects,” arXiv preprint arXiv:2401.00405 , 2023. [9] B. Poole, A. Jain, J. T. Barron, and B. Mildenhall, “Dreamfusion: Text-to-3d using 2d diffusion,” arXiv preprint arXiv:2209.14988 , 2022. [10] Y. Liu, C. Lin, Z. Zeng, X. Long, L. Liu, T. Komura, and W. Wang, “Syncdreamer: Generating multiview-consistent images from a single-view image,” arXiv preprint arXiv:2309.03453 , 2023. [11] R. Liu, R. Wu, B. Van Hoorick, P. Tokmakov, S. Zakharov, and C. Vondrick, “Zero-1-to-3: Zero-shot one image to 3d object,” in CVPR ,2023. [12] R. Shi, H. Chen, Z. Zhang, M. Liu, C. Xu, X. Wei, L. Chen, C. Zeng, and H. Su, “Zero123++: a single image to consistent multi-view diffusion base model,” arXiv preprint arXiv:2310.15110 , 2023. [13] X. Long, Y.-C. Guo, C. Lin, Y. Liu, Z. Dou, L. Liu, Y. Ma, S.-H. Zhang, M. Habermann, C. Theobalt et al. , “Wonder3d: Single image to 3d using cross-domain diffusion,” arXiv preprint arXiv:2310.15008 , 2023. [14] M. Deitke, D. Schwenk, J. Salvador, L. Weihs, O. Michel, E. VanderBilt, L. Schmidt, K. Ehsani, A. Kembhavi, and A. Farhadi, “Objaverse: A universe of annotated 3d objects,” in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , 2023, pp. 13 142–13 153. [15] A. Kirillov, E. Mintun, N. Ravi, H. Mao, C. Rolland, L. Gustafson, T. Xiao, S. Whitehead, A. C. Berg, W.-Y. Lo et al. , “Segment anything,” in CVPR , 2023. [16] Z. Wang, Y. Wang, Y. Chen, C. Xiang, S. Chen, D. Yu, C. Li, H. Su, and J. Zhu, “Crm: Single image to 3d textured mesh with convolutional reconstruction model,” arXiv preprint arXiv:2403.05034 , 2024. [17] S. Laine, J. Hellsten, T. Karras, Y. Seol, J. Lehtinen, and T. Aila, “Modular primitives for high-performance differentiable rendering,” 
+
+ACM Transactions on Graphics , vol. 39, no. 6, 2020. [18] T. Brooks, A. Holynski, and A. A. Efros, “Instructpix2pix: Learning to follow image editing instructions,” in CVPR , 2023. [19] J. L. Sch¨ onberger, E. Zheng, M. Pollefeys, and J.-M. Frahm, “Pixel-wise view selection for unstructured multi-view stereo,” in European Conference on Computer Vision (ECCV) , 2016. [20] S. Izadi, D. Kim, O. Hilliges, D. Molyneaux, R. Newcombe, P. Kohli, J. Shotton, S. Hodges, D. Freeman, A. Davison et al. , “Kinectfusion: real-time 3d reconstruction and interaction using a moving depth cam-era,” in Proceedings of the 24th annual ACM symposium on User interface software and technology , 2011, pp. 559–568. [21] J. Ho, A. Jain, and P. Abbeel, “Denoising diffusion probabilistic models,” 
+
+Advances in neural information processing systems , vol. 33, pp. 6840– 6851, 2020. [22] K. Mazur, G. Bae, and A. J. Davison, “Superprimitive: Scene recon-struction at a primitive level,” arXiv preprint arXiv:2312.05889 , 2023. [23] M. Dahnert, J. Hou, M. Nießner, and A. Dai, “Panoptic 3d scene reconstruction from a single rgb image,” Advances in Neural Information Processing Systems , vol. 34, pp. 8282–8293, 2021. [24] R. Li, T. Fischer, M. Segu, M. Pollefeys, L. Van Gool, and F. Tombari, “Know your neighbors: Improving single-view reconstruction via spatial vision-language reasoning,” arXiv preprint arXiv:2404.03658 , 2024. [25] J. Yao and J. Zhang, “Depthssc: Depth-spatial alignment and dynamic voxel resolution for monocular 3d semantic scene completion,” arXiv preprint arXiv:2311.17084 , 2023. [26] J. Yao, C. Li, K. Sun, Y. Cai, H. Li, W. Ouyang, and H. Li, “Ndc-scene: Boost monocular 3d semantic scene completion in normalized device coordinates space,” in 2023 IEEE/CVF International Conference on Computer Vision (ICCV) . IEEE Computer Society, 2023, pp. 9421– 9431. [27] A.-Q. Cao and R. de Charette, “Scenerf: Self-supervised monocular 3d scene reconstruction with radiance fields,” in Proceedings of the IEEE/CVF International Conference on Computer Vision , 2023, pp. 9387–9398. [28] Z. Li, X. Lyu, Y. Ding, M. Wang, Y. Liao, and Y. Liu, “Rico: Regularizing the unobservable for indoor compositional reconstruction,” in Proceedings of the IEEE/CVF International Conference on Computer Vision , 2023, pp. 17 761–17 771. [29] C. Zhang, Z. Cui, Y. Zhang, B. Zeng, M. Pollefeys, and S. Liu, “Holistic 3d scene understanding from a single image with implicit representa-tion,” in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , 2021, pp. 8833–8842. [30] H. Liu, Y. Zheng, G. Chen, S. Cui, and X. Han, “Towards high-fidelity single-view holistic reconstruction of indoor scenes,” in European Con-ference on Computer Vision . Springer, 2022, pp. 429–446. [31] Y. Chen, J. Ni, N. Jiang, Y. Zhang, Y. Zhu, and S. Huang, “Single-view 3d scene reconstruction with high-fidelity shape and texture,” in 
+
+2024 International Conference on 3D Vision (3DV) . IEEE, 2024, pp. 1456–1467. [32] T. Chu, P. Zhang, Q. Liu, and J. Wang, “Buol: A bottom-up framework with occupancy-aware lifting for panoptic 3d scene reconstruction from a single image,” in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , 2023, pp. 4937–4946. [33] X. Zhang, Z. Chen, F. Wei, and Z. Tu, “Uni-3d: A universal model for panoptic 3d scene reconstruction,” in Proceedings of the IEEE/CVF International Conference on Computer Vision , 2023, pp. 9256–9266. [34] F. Chu, Y. Cong, and R. Chen, “Open: Occlusion-invariant perception network for single image-based 3d shape retrieval,” IEEE Transactions on Circuits and Systems for Video Technology , 2024. [35] D. Gao, D. Rozenberszki, S. Leutenegger, and A. Dai, “Diffcad: Weakly-supervised probabilistic cad model retrieval and alignment from an rgb image,” arXiv preprint arXiv:2311.18610 , 2023. [36] A. Dogaru, M. ¨Ozer, and B. Egger, “Generalizable 3d scene recon-struction via divide and conquer from a single view,” arXiv preprint arXiv:2404.03421 , 2024. [37] Y. Chen, T. Wang, T. Wu, X. Pan, K. Jia, and Z. Liu, “Comboverse: Compositional 3d assets creation using spatially-aware diffusion guid-ance,” arXiv preprint arXiv:2403.12409 , 2024. [38] X. Li, Z. Cao, H. Sun, J. Zhang, K. Xian, and G. Lin, “3d cinemagraphy from a single image,” in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , 2023, pp. 4595–4605. [39] C. Bao, Y. Zhang, B. Yang, T. Fan, Z. Yang, H. Bao, G. Zhang, and Z. Cui, “Sine: Semantic-driven image-based nerf editing with prior-guided editing field,” in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , 2023, pp. 20 919–20 929. [40] C. Wang, Y.-P. Wang, and D. Manocha, “Lolep: Single-view view syn-thesis with locally-learned planes and self-attention occlusion inference,” in Proceedings of the IEEE/CVF International Conference on Computer Vision , 2023, pp. 10 841–10 851. [41] G. Wang, P. Wang, Z. Chen, W. Wang, C. C. Loy, and Z. Liu, “Perf: Panoramic neural radiance field from a single panorama,” arXiv preprint arXiv:2310.16831 , 2023. [42] C. Zhang, C. Lin, K. Liao, L. Nie, and Y. Zhao, “As-deformable-as-possible single-image-based view synthesis without depth prior,” IEEE Transactions on Circuits and Systems for Video Technology , 2023. [43] G. Pu, P.-S. Wang, and Z. Lian, “Sinmpi: Novel view synthesis from a single image with expanded multiplane images,” in SIGGRAPH Asia 2023 Conference Papers , 2023, pp. 1–10. [44] Y. Han, R. Wang, and J. Yang, “Single-view view synthesis in the wild with learned adaptive multiplane images,” in ACM SIGGRAPH 2022 Conference Proceedings , 2022, pp. 1–8. [45] J. Chung, S. Lee, H. Nam, J. Lee, and K. M. Lee, “Luciddreamer: Domain-free generation of 3d gaussian splatting scenes,” arXiv preprint arXiv:2311.13384 , 2023. [46] R. Gao, A. Holynski, P. Henzler, A. Brussee, R. Martin-Brualla, P. Srini-vasan, J. T. Barron, and B. Poole, “Cat3d: Create anything in 3d with multi-view diffusion models,” arXiv preprint arXiv:2405.10314 , 2024. [47] J. Shriram, A. Trevithick, L. Liu, and R. Ramamoorthi, “Realmdreamer: Text-driven 3d scene generation with inpainting and depth diffusion,” 
+
+arXiv preprint arXiv:2404.07199 , 2024. [48] A. Mirzaei, T. Aumentado-Armstrong, K. G. Derpanis, J. Kelly, M. A. Brubaker, I. Gilitschenski, and A. Levinshtein, “Spin-nerf: Multiview segmentation and perceptual inpainting with neural radiance fields,” in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition , 2023, pp. 20 669–20 679. [49] S. Szymanowicz, J. Y. Zhang, P. Srinivasan, R. Gao, A. Brussee, A. Holynski, R. Martin-Brualla, J. T. Barron, and P. Henzler, “Bolt3d: Generating 3d scenes in seconds,” arXiv preprint arXiv:2503.14445 ,2025. [50] B. Mildenhall, P. P. Srinivasan, M. Tancik, J. T. Barron, R. Ramamoorthi, and R. Ng, “Nerf: Representing scenes as neural radiance fields for view MANUSCRIPT SUBMITTED TO IEEE TVCG 12 
+
+synthesis,” Communications of the ACM , vol. 65, no. 1, pp. 99–106, 2021. [51] B. Kerbl, G. Kopanas, T. Leimk¨ uhler, and G. Drettakis, “3d gaussian splatting for real-time radiance field rendering.” ACM Trans. Graph. ,vol. 42, no. 4, pp. 139–1, 2023. [52] J. Tang, Y. Nie, L. Markhasin, A. Dai, J. Thies, and M. Nießner, “Diffuscene: Denoising diffusion models for gerative indoor scene synthesis,” in Proceedings of the ieee/cvf conference on computer vision and pattern recognition , 2024. [53] G. Zhai, E. P. ¨Ornek, S.-C. Wu, Y. Di, F. Tombari, N. Navab, and B. Busam, “Commonscenes: Generating commonsense 3d indoor scenes with scene graphs,” Advances in Neural Information Processing Systems ,vol. 36, 2024. [54] C. Lin and Y. Mu, “Instructscene: Instruction-driven 3d indoor scene synthesis with semantic graph prior,” arXiv preprint arXiv:2402.04717 ,2024. [55] G. Zhang, Y. Wang, C. Luo, S. Xu, J. Peng, Z. Zhang, and M. Zhang, “Furniscene: A large-scale 3d room dataset with intricate furnishing scenes,” arXiv preprint arXiv:2401.03470 , 2024. [56] G. Zhai, E. P. ¨ Ornek, D. Z. Chen, R. Liao, Y. Di, N. Navab, F. Tombari, and B. Busam, “Echoscene: Indoor scene generation via information echo over scene graph diffusion,” arXiv preprint arXiv:2405.00915 ,2024. [57] Z. Wu, Y. Li, H. Yan, T. Shang, W. Sun, S. Wang, R. Cui, W. Liu, H. Sato, H. Li et al. , “Blockfusion: Expandable 3d scene generation using latent tri-plane extrapolation,” arXiv preprint arXiv:2401.17053 ,2024. [58] Q. Zhang, C. Wang, A. Siarohin, P. Zhuang, Y. Xu, C. Yang, D. Lin, B. Zhou, S. Tulyakov, and H.-Y. Lee, “Scenewiz3d: Towards text-guided 3d scene composition,” arXiv preprint arXiv:2312.08885 , 2023. [59] G. Gao, W. Liu, A. Chen, A. Geiger, and B. Sch¨ olkopf, “Graphdreamer: Compositional 3d scene synthesis from scene graphs,” arXiv preprint arXiv:2312.00093 , 2023. [60] I. Hwang, H. Kim, and Y. M. Kim, “Text2scene: Text-driven in-door scene stylization with part-aware details,” in Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition ,2023, pp. 1890–1899. [61] J. Zhang, X. Li, Z. Wan, C. Wang, and J. Liao, “Text2nerf: Text-driven 3d scene generation with neural radiance fields,” IEEE Transactions on Visualization and Computer Graphics , 2024. [62] S. Zhou, Z. Fan, D. Xu, H. Chang, P. Chari, T. Bharadwaj, S. You, Z. Wang, and A. Kadambi, “Dreamscene360: Unconstrained text-to-3d scene generation with panoramic gaussian splatting,” arXiv preprint arXiv:2404.06903 , 2024. [63] H. Li, H. Shi, W. Zhang, W. Wu, Y. Liao, L. Wang, L.-h. Lee, and P. Zhou, “Dreamscene: 3d gaussian-based text-to-3d scene generation via formation pattern sampling,” arXiv preprint arXiv:2404.03575 , 2024. [64] H. Ouyang, K. Heal, S. Lombardi, and T. Sun, “Text2immersion: Generative immersive scene with 3d gaussians,” arXiv preprint arXiv:2312.09242 , 2023. [65] J. Schult, S. Tsai, L. H¨ ollein, B. Wu, J. Wang, C.-Y. Ma, K. Li, X. Wang, F. Wimbauer, Z. He et al. , “Controlroom3d: Room generation using semantic proxy rooms,” arXiv preprint arXiv:2312.05208 , 2023. [66] C. Fang, X. Hu, K. Luo, and P. Tan, “Ctrl-room: Controllable text-to-3d room meshes generation with layout constraints,” arXiv preprint arXiv:2310.03602 , 2023. [67] F. Zhang, Y. Zhang, Q. Zheng, R. Ma, W. Hua, H. Bao, W. Xu, and C. Zou, “3d-scenedreamer: Text-driven 3d-consistent scene generation,” 
+
+arXiv preprint arXiv:2403.09439 , 2024. [68] W. Mao, Y.-P. Cao, J.-W. Liu, Z. Xu, and M. Z. Shou, “Showroom3d: Text to high-quality 3d room generation using 3d priors,” arXiv preprint arXiv:2312.13324 , 2023. [69] Y. Ma, D. Zhan, and Z. Jin, “Fastscene: Text-driven fast 3d indoor scene generation via panoramic gaussian splatting,” arXiv preprint arXiv:2405.05768 , 2024. [70] Q. Wang, W. Li, C. Mou, X. Cheng, and J. Zhang, “360dvd: Controllable panorama video generation with 360-degree video diffusion model,” 
+
+arXiv preprint arXiv:2401.06578 , 2024. [71] Y. Shi, P. Wang, J. Ye, M. Long, K. Li, and X. Yang, “Mvdream: Multi-view diffusion for 3d generation,” arXiv preprint arXiv:2308.16512 ,2023. [72] P. Wang and Y. Shi, “Imagedream: Image-prompt multi-view diffusion for 3d generation,” arXiv preprint arXiv:2312.02201 , 2023. [73] Y. Lu, J. Zhang, S. Li, T. Fang, D. McKinnon, Y. Tsin, L. Quan, X. Cao, and Y. Yao, “Direct2. 5: Diverse text-to-3d generation via multi-view 2.5 d diffusion,” arXiv preprint arXiv:2311.15980 , 2023. [74] H. Jun and A. Nichol, “Shap-e: Generating conditional 3d implicit functions,” arXiv preprint arXiv:2305.02463 , 2023. [75] Z.-X. Zou, Z. Yu, Y.-C. Guo, Y. Li, D. Liang, Y.-P. Cao, and S.-H. Zhang, “Triplane meets gaussian splatting: Fast and generalizable single-view 3d reconstruction with transformers,” arXiv preprint arXiv:2312.09147 ,2023. [76] S. Li, C. Li, W. Zhu, B. Yu, Y. Zhao, C. Wan, H. You, H. Shi, and Y. Lin, “Instant-3d: Instant neural radiance field training towards on-device ar/vr 3d reconstruction,” in Proceedings of the 50th Annual International Symposium on Computer Architecture , 2023, pp. 1–13. [77] J. Tang, J. Ren, H. Zhou, Z. Liu, and G. Zeng, “Dreamgaussian: Generative gaussian splatting for efficient 3d content creation,” arXiv preprint arXiv:2309.16653 , 2023. [78] M. Deitke, R. Liu, M. Wallingford, H. Ngo, O. Michel, A. Kusupati, A. Fan, C. Laforte, V. Voleti, S. Y. Gadre et al. , “Objaverse-xl: A uni-verse of 10m+ 3d objects,” Advances in Neural Information Processing Systems , vol. 36, 2024. [79] S. Tang, F. Zhang, J. Chen, P. Wang, and F. Yasutaka, “Mvdiffusion: Enabling holistic multi-view image generation with correspondence-aware diffusion,” arXiv preprint 2307.01097 , 2023. [80] X. Fu, W. Yin, M. Hu, K. Wang, Y. Ma, P. Tan, S. Shen, D. Lin, and X. Long, “Geowizard: Unleashing the diffusion priors for 3d geometry estimation from a single image,” arXiv preprint arXiv:2403.12013 , 2024. [81] R. Suvorov, E. Logacheva, A. Mashikhin, A. Remizova, A. Ashukha, A. Silvestrov, N. Kong, H. Goka, K. Park, and V. Lempitsky, “Resolution-robust large mask inpainting with fourier convolutions,” 
+
+arXiv preprint arXiv:2109.07161 , 2021. [82] G. Ilharco, M. Wortsman, N. Carlini, R. Taori, A. Dave, V. Shankar, H. Namkoong, J. Miller, H. Hajishirzi, A. Farhadi, and L. Schmidt, “Openclip,” Jul. 2021. [Online]. Available: https://doi.org/10.5281/ zenodo.5143773 [83] A. Haque, M. Tancik, A. A. Efros, A. Holynski, and A. Kanazawa, “Instruct-nerf2nerf: Editing 3d scenes with instructions,” in Proceedings of the IEEE/CVF International Conference on Computer Vision , 2023, pp. 19 740–19 750. [84] A. Paszke, S. Gross, F. Massa, A. Lerer, J. Bradbury, G. Chanan, T. Killeen, Z. Lin, N. Gimelshein, L. Antiga et al. , “Pytorch: An imperative style, high-performance deep learning library,” Advances in neural information processing systems , vol. 32, 2019. [85] D. P. Kingma and J. Ba, “Adam: A method for stochastic optimization,” 
+
+arXiv preprint arXiv:1412.6980 , 2014. [86] H. Fu, B. Cai, L. Gao, L.-X. Zhang, J. Wang, C. Li, Q. Zeng, C. Sun, R. Jia, B. Zhao et al. , “3d-front: 3d furnished rooms with layouts and semantics,” in Proceedings of the IEEE/CVF International Conference on Computer Vision , 2021, pp. 10 933–10 942. [87] H. Fu, R. Jia, L. Gao, M. Gong, B. Zhao, S. Maybank, and D. Tao, “3d-future: 3d furniture shape with texture,” International Journal of Computer Vision , vol. 129, pp. 3313–3337, 2021. [88] R. Zhang, P. Isola, A. A. Efros, E. Shechtman, and O. Wang, “The unreasonable effectiveness of deep features as a perceptual metric,” in 
+
+CVPR , 2018. [89] S. Van der Walt, J. L. Sch¨ onberger, J. Nunez-Iglesias, F. Boulogne, J. D. Warner, N. Yager, E. Gouillart, and T. Yu, “scikit-image: image processing in python,” PeerJ , vol. 2, p. e453, 2014. [90] S. Zhengwentai, “clip-score: CLIP Score for PyTorch,” https://github. com/taited/clip-score, March 2023, version 0.2.1. [91] M. Kazhdan, M. Bolitho, and H. Hoppe, “Poisson surface recon-struction,” in Proceedings of the fourth Eurographics symposium on Geometry processing , vol. 7, 2006. [92] T. H. Team, “Hunyuan3d 2.0: Scaling diffusion models for high resolu-tion textured 3d assets generation,” 2025. [93] ——, “Hunyuan3d 1.0: A unified framework for text-to-3d and image-to-3d generation,” 2024. [94] ——, “Hunyuan3d 2.5: Towards high-fidelity 3d assets generation with ultimate details,” 2025. [Online]. Available: https://arxiv.org/abs/2506. 16504 [95] A. Bochkovskii, A. Delaunoy, H. Germain, M. Santos, Y. Zhou, S. R. Richter, and V. Koltun, “Depth pro: Sharp monocular metric depth in less than a second,” in International Conference on Learning Representations , 2025. [Online]. Available: https: //arxiv.org/abs/2410.02073
