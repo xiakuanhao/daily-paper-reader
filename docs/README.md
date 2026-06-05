@@ -6,34 +6,40 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-04
-- 运行时间：2026-06-04 22:01:25 UTC
+- 最新运行日期：2026-06-05
+- 运行时间：2026-06-05 20:49:37 UTC
 - 运行状态：成功
-- 本次总论文数：4
-- 精读区：3
-- 速读区：1
+- 本次总论文数：6
+- 精读区：4
+- 速读区：2
 
 ### 今日简报（AI）
-今日聚焦3D角色生成双星：从单图秒建真人化身，到骨骼运动自动匹配模型，动画管线迎来端到端革命。  
-两项9分研究分别打通了人体三维重建与驱动，核心结论是：高保真、跨骨架、免训练的通用生成已成现实。  
-若你正用Blender或Unity做角色动画，务必速览这两篇，它们能省掉90%的绑定与微调时间。
-- 详情：[/202606/04/README](/202606/04/README)
+积木装配与3D功能感知双双突破：让多模态大模型学会搭乐高，同时教会AI看懂物体部件用途。  
+最值得留意的是MLLM操控多样积木的零样本泛化能力，以及任务驱动的分层功能分割如何提升交互理解。  
+下一步不妨试试用自然语言指挥AI拼搭专属积木，或对家中物品做一次功能区域标注。
+- 详情：[/202606/05/README](/202606/05/README)
 
 ### 精读区论文标签
-1. [MotionDreamer: Universal Skeletal Motion Generation for 3D Rigged Shapes](/202606/04/2606.01518v1-motiondreamer-universal-skeletal-motion-generation-for-3d-rigged-shapes)  
+1. [Brick-Composer: Using MLLMs for Assembly with Diverse Bricks](/202606/05/2606.05445v1-brick-composer-using-mllms-for-assembly-with-diverse-bricks)  
+   标签：评分：10.0/10、query:part-aware
+   evidence：Brick-Composer研究多模态大语言模型组装多样化积木以构建物体，直接对应组装3D零件
+2. [T-FunS3D: Task-Driven Hierarchical Open-Vocabulary 3D Functionality Segmentation](/202606/05/2606.05975v1-t-funs3d-task-driven-hierarchical-open-vocabulary-3d-functionality-segmentation)  
    标签：评分：9.0/10、query:part-aware
-   evidence：为具有关节部件的绑定三维形状生成骨架动画
-2. [HumanNOVA: Photorealistic, Universal and Rapid 3D Human Avatar Modeling from a Single Image](/202606/04/2606.02573v1-humannova-photorealistic-universal-and-rapid-3d-human-avatar-modeling-from-a-single-image)  
+   evidence：开放词汇三维功能分割
+3. [PAR3D: A Unified 3D-MLLM with Part-Aware Representation for Scene Understanding](/202606/05/2606.06485v1-par3d-a-unified-3d-mllm-with-part-aware-representation-for-scene-understanding)  
    标签：评分：9.0/10、query:part-aware
-   evidence：从单张图像生成铰接3D人物化身
-3. [Category-Level 3D Correspondence in Camera Space via Morphable Object Priors](/202606/04/2605.28257v1-category-level-3d-correspondence-in-camera-space-via-morphable-object-priors)  
+   evidence：用于三维物体零件的定位与分割的零件感知多模态大语言模型
+4. [SOCO: Benchmarking Semantic Object Correspondence in Vision Foundation Models](/202606/05/2605.31597v2-soco-benchmarking-semantic-object-correspondence-in-vision-foundation-models)  
    标签：评分：8.0/10、query:part-aware
-   evidence：从单张图像预测实例间的三维部件对应
+   evidence：评估物体部件在实例间的匹配，是语义部件分割的关键方面
 
 ### 速读区论文标签
-1. [SOCO: Benchmarking Semantic Object Correspondence in Vision Foundation Models](/202606/04/2605.31597v1-soco-benchmarking-semantic-object-correspondence-in-vision-foundation-models)  
+1. [3DCodeBench: Benchmarking Agentic Procedural 3D Modeling Via Code](/202606/05/2606.01057v1-3dcodebench-benchmarking-agentic-procedural-3d-modeling-via-code)  
    标签：评分：6.0/10、query:part-aware
-   evidence：跨实例和类别匹配物体部件的基准
+   evidence：通过代码组装进行程序化三维建模的基准测试
+2. [UniCAD: A Unified Benchmark and Universal Model for Multi-Modal Multi-Task CAD](/202606/05/2606.05058v1-unicad-a-unified-benchmark-and-universal-model-for-multi-modal-multi-task-cad)  
+   标签：评分：6.0/10、query:part-aware
+   evidence：UniCAD基准与模型用于CAD任务，涉及生成可由多个零件组装的3D模型
 
 
 <div class="dpr-home-promo-card">

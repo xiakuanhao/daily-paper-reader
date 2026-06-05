@@ -1,0 +1,260 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-05T20:40:04.812603+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 4,
+    "deep_cap": 6,
+    "deep_selected": 4,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2606.05445v1",
+      "source": "arxiv",
+      "title": "Brick-Composer: Using MLLMs for Assembly with Diverse Bricks",
+      "abstract": "We dream of AI agents that can read arbitrary designs and construct real-world objects from reusable building blocks. As a first step toward this vision, we study whether multimodal large language models (MLLMs) possess the visual grounding and spatial reasoning capabilities required for brick assembly. We formulate brick assembly as a sequential decision-making problem, where each step involves two subtasks: brick selection, identifying the target brick from candidate components, and brick pose estimation, predicting where and how the selected brick should be placed. To support this study, we introduce BC-Bench (Brick Construction Benchmark), the first benchmark for evaluating MLLMs on assembly with diverse bricks. Experiments show that current state-of-the-art MLLMs remain far from reliable builders, struggling with fine-grained brick selection and failing at precise pose estimation. To bridge this gap, we propose Brick-Composer, a learning framework that equips MLLMs with assembly skills through three complementary signals: Human Design Sparks, which provide affordance-rich construction demonstrations; World Feedback, which grounds predicted actions in visual and physical consequences; and Synthetic Experience, which scales learning beyond existing object designs. Brick-Composer improves brick selection accuracy by over three times, substantially reduces pose estimation errors, and raises strict step-level assembly success from less than 1% to around 15%. After training, a Qwen-3-8B can correctly compose up to 42% of the steps for a complete object, suggesting that MLLMs can acquire assembly capabilities through targeted, physically grounded learning.",
+      "authors": [
+        "Jiateng Liu",
+        "Bingxuan Li",
+        "Zhenhailong Wang",
+        "Rushi Wang",
+        "Kaiwen Hong",
+        "Cheng Qian",
+        "Jiayu Liu",
+        "Denghui Zhang",
+        "Katherine Driggs-Campbell",
+        "Manling Li",
+        "Heng Ji"
+      ],
+      "primary_category": "cs.AI",
+      "categories": [
+        "cs.AI"
+      ],
+      "published": "2026-06-03T21:08:06+00:00",
+      "link": "https://arxiv.org/pdf/2606.05445v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Brick-Composer studies MLLMs for assembling diverse bricks into objects, a direct instance of assembling 3D parts",
+      "llm_evidence_cn": "Brick-Composer研究多模态大语言模型组装多样化积木以构建物体，直接对应组装3D零件",
+      "llm_evidence": "Brick-Composer研究多模态大语言模型组装多样化积木以构建物体，直接对应组装3D零件",
+      "canonical_evidence": "Brick-Composer研究多模态大语言模型组装多样化积木以构建物体，直接对应组装3D零件",
+      "llm_tldr_en": "Brick-Composer formulates brick assembly as a sequential decision-making problem for MLLMs and introduces BC-Bench, the first benchmark for evaluating visual grounding and spatial reasoning in part assembly.",
+      "llm_tldr_cn": "本文探索AI智能体利用可复用积木块根据设计构建现实物体的能力，将积木组装形式化为顺序决策问题，包括积木选择与位姿估计两个子任务。为支持研究，引入了首个评估多模态大语言模型积木组装能力的基准BC-Bench。实验表明当前最先进的MLLM在视觉定位和空间推理上仍有不足，为零件组装研究提供了基础和方向。",
+      "llm_tldr": "本文探索AI智能体利用可复用积木块根据设计构建现实物体的能力，将积木组装形式化为顺序决策问题，包括积木选择与位姿估计两个子任务。为支持研究，引入了首个评估多模态大语言模型积木组装能力的基准BC-Bench。实验表明当前最先进的MLLM在视觉定位和空间推理上仍有不足，为零件组装研究提供了基础和方向。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "assembling 3D parts into complete objects",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.05975v1",
+      "source": "arxiv",
+      "title": "T-FunS3D: Task-Driven Hierarchical Open-Vocabulary 3D Functionality Segmentation",
+      "abstract": "Open-vocabulary 3D functionality segmentation enables robots to localize functional object components in 3D scenes. It is a challenging task that requires spatial understanding and task interpretation. Current open-vocabulary 3D segmentation methods primarily focus on object-level recognition, while scene-wide part segmentation methods attempt to segment the entire scene exhaustively, making them highly resource-intensive and time consuming. Balancing segmentation performance in terms of granularity, accuracy, and speed remains a challenge. As one step towards alleviating this, we introduce T-FunS3D, a task-driven hierarchical open-vocabulary 3D functionality segmentation method that provides actionable perception for robotic applications. Our method takes as input the 3D point cloud and posed RGB-D images of an indoor scene. We construct an open-vocabulary scene graph by extracting instances and their visual embeddings in the environment. Given a task description, T-FunS3D identifies the most relevant instances in the scene graph and locates their functional components leveraging a vision-language model. Experiments on the SceneFun3D dataset demonstrate that T-FunS3D is comparable to state-of-the-art in open-vocabulary 3D functionality segmentation, while achieving faster runtime and reduced memory usage.",
+      "authors": [
+        "Jingkun Feng",
+        "Reza Sabzevari"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-06-04T10:16:39+00:00",
+      "link": "https://arxiv.org/pdf/2606.05975v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Open-vocabulary 3D functionality segmentation of object components",
+      "llm_evidence_cn": "开放词汇三维功能分割",
+      "llm_evidence": "开放词汇三维功能分割",
+      "canonical_evidence": "开放词汇三维功能分割",
+      "llm_tldr_en": "T-FunS3D introduces a task-driven hierarchical open-vocabulary 3D functionality segmentation method that enables robots to localize functional object components in 3D scenes efficiently.",
+      "llm_tldr_cn": "针对现有三维分割方法在粒度、精度和速度上难以平衡的问题，T-FunS3D提出了一种任务驱动的分层开放词汇三维功能分割方法，通过将任务指令与空间感知相结合，能够高效地分割场景中物体的功能性部件。实验表明，该方法在机器人操作任务中提供了可操作的感知能力，为三维语义部件分割提供了一种实用且高效的解决方案。",
+      "llm_tldr": "针对现有三维分割方法在粒度、精度和速度上难以平衡的问题，T-FunS3D提出了一种任务驱动的分层开放词汇三维功能分割方法，通过将任务指令与空间感知相结合，能够高效地分割场景中物体的功能性部件。实验表明，该方法在机器人操作任务中提供了可操作的感知能力，为三维语义部件分割提供了一种实用且高效的解决方案。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "segmenting 3D objects into semantic parts",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.06485v1",
+      "source": "arxiv",
+      "title": "PAR3D: A Unified 3D-MLLM with Part-Aware Representation for Scene Understanding",
+      "abstract": "Recent advances in 3D multimodal large language models (3D-MLLMs) have enabled unified solutions for 3D scene understanding tasks, including visual question answering, captioning, and referring segmentation. However, existing 3D-MLLMs remain largely object-centric, limiting their ability to model fine-grained part structures that are essential for embodied interaction with 3D environments. In this work, we present PAR3D, a unified part-aware 3D-MLLM framework that enables models to understand, reason about, and ground both objects and their parts in 3D scenes. To enable training and evaluation of part-aware 3D scene understanding, we introduce ScenePart, a synthetic 3D scene dataset with part-level annotations and language instructions. We further develop Part-Aware 3D Representation Learning to enrich 3D visual representations with fine-grained part-level semantics, and propose Hierarchical Segmentation Query Generation to ground part targets via hierarchical object-part queries. Extensive experiments show that our method substantially improves part-level question answering and referring segmentation, while also achieving strong performance across object-level vision-language tasks.",
+      "authors": [
+        "Shaohui Dai",
+        "Yansong Qu",
+        "You Shen",
+        "Shengchuan Zhang",
+        "Liujuan Cao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-04T17:59:04+00:00",
+      "link": "https://arxiv.org/pdf/2606.06485v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "part-aware 3D-MLLM for grounding and segmenting object parts",
+      "llm_evidence_cn": "用于三维物体零件的定位与分割的零件感知多模态大语言模型",
+      "llm_evidence": "用于三维物体零件的定位与分割的零件感知多模态大语言模型",
+      "canonical_evidence": "用于三维物体零件的定位与分割的零件感知多模态大语言模型",
+      "llm_tldr_en": "PAR3D introduces a unified part-aware 3D multimodal LLM that understands, reasons about, and grounds both objects and their parts in 3D scenes, enabling fine-grained scene understanding for embodied interaction.",
+      "llm_tldr_cn": "现有三维多模态大语言模型主要关注物体级表示，难以建模细粒度零件结构。PAR3D提出统一零件感知框架，结合ScenePart数据集，使模型能在三维场景中理解、推理并定位物体及其零件。实验证明该方法在零件级场景理解上有效，为具身交互提供了关键支持。",
+      "llm_tldr": "现有三维多模态大语言模型主要关注物体级表示，难以建模细粒度零件结构。PAR3D提出统一零件感知框架，结合ScenePart数据集，使模型能在三维场景中理解、推理并定位物体及其零件。实验证明该方法在零件级场景理解上有效，为具身交互提供了关键支持。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "segmenting 3D objects into semantic parts",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2605.31597v2",
+      "source": "arxiv",
+      "title": "SOCO: Benchmarking Semantic Object Correspondence in Vision Foundation Models",
+      "abstract": "Measuring structured object understanding in vision foundation models remains challenging due to inconsistent evaluation protocols and limited part-level supervision. Semantic correspondence (SC) evaluates this capability by testing whether object parts can be matched across instances and categories under large variations in appearance, viewpoint, and geometry. To enable a systematic SC evaluation, we introduce SOCO, a new benchmark for Semantic Object Correspondence that introduces a taxonomy of correspondence types and provides consistent, functionally meaningful keypoint annotations across 100 categories and over 1M correspondence pairs. In addition, SOCO includes keypoint language descriptions, enabling the evaluation of large vision-language models (LVLMs) and their fine-grained part-level understanding. Comprehensive experiments reveal that (i) vision foundation backbones encode strong semantic structure but transfer correspondences poorly across related categories and only partially capture object-part position, (ii) LVLMs are stronger at text-prompted part localization than at visual-reference cross-image matching, exposing a gap between language-grounded localization and fine-grained visual correspondence, and (iii) correspondence performance predicts performance on dense downstream tasks, including segmentation, tracking, 3D pose estimation, and 3D detection, more strongly than ImageNet classification. Together, these findings position SOCO as a benchmark for structured, part-level representation quality in vision and multimodal foundation models.",
+      "authors": [
+        "Olaf Dünkel",
+        "Basavaraj Sunagad",
+        "Haoran Wang",
+        "David T. Hoffmann",
+        "Christian Theobalt",
+        "Adam Kortylewski"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-29T17:58:48+00:00",
+      "link": "https://arxiv.org/pdf/2605.31597v2",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Evaluates object part matching across instances, a key aspect of semantic part segmentation.",
+      "llm_evidence_cn": "评估物体部件在实例间的匹配，是语义部件分割的关键方面",
+      "llm_evidence": "评估物体部件在实例间的匹配，是语义部件分割的关键方面",
+      "canonical_evidence": "评估物体部件在实例间的匹配，是语义部件分割的关键方面",
+      "llm_tldr_en": "SOCO introduces a benchmark for evaluating semantic object correspondence in vision foundation models, providing consistent part-level keypoint annotations across 100 categories and 1M pairs to systematically assess part-level understanding.",
+      "llm_tldr_cn": "现有视觉基础模型对结构化物体理解能力的评估缺乏一致的协议和部件级监督。该工作提出了SOCO基准，为100个类别和超过100万对数据提供功能一致的部件关键点标注和语言描述，支持系统性地评估语义物体对应能力，从而促进部件级理解的模型发展。",
+      "llm_tldr": "现有视觉基础模型对结构化物体理解能力的评估缺乏一致的协议和部件级监督。该工作提出了SOCO基准，为100个类别和超过100万对数据提供功能一致的部件关键点标注和语言描述，支持系统性地评估语义物体对应能力，从而促进部件级理解的模型发展。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "segmenting 3D objects into semantic parts",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.01057v1",
+      "source": "arxiv",
+      "title": "3DCodeBench: Benchmarking Agentic Procedural 3D Modeling Via Code",
+      "abstract": "Procedural 3D modeling through code is emerging as a versatile paradigm, offering deterministic, engine-ready, and precisely editable assets that neural 3D generators inherently lack. Authoring such procedural content, however, demands deep expertise in 3D software APIs, parametric design, and code-level geometric reasoning. In this paper, we propose 3DCodeBench, a systematic benchmark for evaluating vision-language model (VLM) agents for procedural 3D generation in 3D modeling software. Specifically, 3DCodeBench evaluates how effectively 12 advanced VLMs can serve as procedural 3D modelers by translating text and image references into procedural code for 3D modeling software. Recognizing that automated metrics may not fully capture the perceptual quality of 3D shapes, we build 3DCodeArena, a ranking platform based on pairwise human preferences over generated 3D outputs. From extensive evaluations and results, we observe that: (1) Failures mostly arise from API mismatches, while successful renders still suffer from disconnected or floating 3D geometric components. (2) Test-time scaling, such as higher thinking budgets and multi-turn refinement, improves performance overall. Our findings highlight a critical need for high-quality procedural coding data to advance commercial VLMs. Furthermore, effective procedural 3D modeling requires a robust execution environment that provides high-fidelity feedback for iterative refinement. We release 3DCodeBench, including the curated large-scale dataset of multimodal (text/image) prompts, procedural code, 3D object triplets, evaluation protocol, and the public 3DCodeArena platform as a foundational toolkit for exploring VLM-based procedural 3D modelers.",
+      "authors": [
+        "Yipeng Gao",
+        "Lei Shu",
+        "Genzhi Ye",
+        "Xi Xiong",
+        "Ameesh Makadia",
+        "Meiqi Guo",
+        "Laurent Itti",
+        "Jindong Chen"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI",
+        "cs.GR",
+        "cs.LG"
+      ],
+      "published": "2026-05-31T06:59:49+00:00",
+      "link": "https://arxiv.org/pdf/2606.01057v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "benchmark for procedural 3D modeling via code assembly",
+      "llm_evidence_cn": "通过代码组装进行程序化三维建模的基准测试",
+      "llm_evidence": "通过代码组装进行程序化三维建模的基准测试",
+      "canonical_evidence": "通过代码组装进行程序化三维建模的基准测试",
+      "llm_tldr_en": "3DCodeBench evaluates VLM agents on generating procedural 3D models by translating text/image into code, enabling part-aware assembly and editing in 3D modeling software.",
+      "llm_tldr_cn": "程序化三维建模通过代码提供可编辑的零件级资产，但要求深厚专业知识。3DCodeBench提出系统性基准，评估视觉语言模型智能体将文本和图像转换为三维建模软件程序代码的能力。实验揭示了现有模型在生成可组装三维模型上的局限，为自动零件感知生成提供了评测工具。",
+      "llm_tldr": "程序化三维建模通过代码提供可编辑的零件级资产，但要求深厚专业知识。3DCodeBench提出系统性基准，评估视觉语言模型智能体将文本和图像转换为三维建模软件程序代码的能力。实验揭示了现有模型在生成可组装三维模型上的局限，为自动零件感知生成提供了评测工具。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "building 3D models from assembled parts",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.05058v1",
+      "source": "arxiv",
+      "title": "UniCAD: A Unified Benchmark and Universal Model for Multi-Modal Multi-Task CAD",
+      "abstract": "Computer-Aided Design (CAD) underpins modern engineering and manufacturing by enabling the creation of precise, editable 3D models. However, CAD research typically studies tasks in isolation, and multi-modal, multi-task learning for CAD is hindered by the absence of a unified benchmark. To address this gap, we introduce UniCAD, a comprehensive benchmark for multi-modal CAD learning that covers point-to-CAD reconstruction, text/image-to-CAD generation, and CAD question answering across diverse input modalities. Alongside the benchmark, we present UniCAD-MLLM, a universal multi-modal large language model that ingests text, images, sketches, and point clouds and performs these heterogeneous tasks in an end-to-end fashion within a single framework. Extensive experiments on the UniCAD and Fusion360 benchmarks demonstrate that UniCAD-MLLM achieves state-of-the-art performance across all tasks, outperforming existing task-specific and multi-task baselines. We will release the dataset, code, and pretrained models to accelerate future research.",
+      "authors": [
+        "Jingyuan Chen",
+        "Sheng Jin",
+        "Haopeng Sun",
+        "Wentao Liu",
+        "Chen Qian"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-03T16:20:57+00:00",
+      "link": "https://arxiv.org/pdf/2606.05058v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "UniCAD benchmark and model for CAD tasks, which involve generating 3D models that can be assembled from parts",
+      "llm_evidence_cn": "UniCAD基准与模型用于CAD任务，涉及生成可由多个零件组装的3D模型",
+      "llm_evidence": "UniCAD基准与模型用于CAD任务，涉及生成可由多个零件组装的3D模型",
+      "canonical_evidence": "UniCAD基准与模型用于CAD任务，涉及生成可由多个零件组装的3D模型",
+      "llm_tldr_en": "UniCAD introduces a unified benchmark and a universal MLLM for multi-modal multi-task CAD, covering reconstruction, generation, and QA, facilitating part-based 3D model creation.",
+      "llm_tldr_cn": "针对CAD研究中任务孤立、缺少统一基准的问题，本文提出UniCAD，一个覆盖点云重建、图文生成和问答的多模态多任务CAD基准，并开发了通用多模态大语言模型UniCAD-MLLM。该模型能够端到端处理文本、图像、草图和点云输入，执行异构CAD任务，为零件级3D模型生成提供了统一框架。",
+      "llm_tldr": "针对CAD研究中任务孤立、缺少统一基准的问题，本文提出UniCAD，一个覆盖点云重建、图文生成和问答的多模态多任务CAD基准，并开发了通用多模态大语言模型UniCAD-MLLM。该模型能够端到端处理文本、图像、草图和点云输入，执行异构CAD任务，为零件级3D模型生成提供了统一框架。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "assembling 3D parts into complete objects",
+      "matched_requirement_id": "req-6",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
