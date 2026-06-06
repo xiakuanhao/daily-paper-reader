@@ -1,0 +1,142 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-06T21:03:27.295458+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2606.03921v1",
+      "source": "arxiv",
+      "title": "GARDEN: Gravity-Aligned Reconstruction of Disentangled ENvironments from RGB images",
+      "abstract": "Converting multi-view RGB observations into simulation-ready 3D environments remains challenging because current reconstruction pipelines produce monolithic scene representations without explicit physical structure. They are typically defined up to an arbitrary global rotation and entangle rigid foreground objects with background geometry, which hinders stable physical interaction. Existing solutions often recover interactivity by replacing reconstructed objects with retrieved CAD assets, but this introduces a slow retrieval-and-replacement stage and weakens scene-specific geometric fidelity. We propose GARDEN, an RGB-only framework that reformulates reconstruction as physically-grounded scene factorization and outputs a structured hybrid scene representation. The key idea is to use gravity as a universal physical prior: we first align the reconstruction to a unified Gravity-View frame to resolve gauge ambiguity, then recover object-centric rigid meshes with accurate 6-DoF placement, and finally remove duplicate object geometry from the background through conditional 3D point classification. The resulting representation combines explicit rigid bodies with a decoupled background, enabling direct physics simulation while preserving visual realism. Experiments on both simulated and real multi-view scenes show that GARDEN improves object placement reliability, disentanglement quality, and rendering-simulation efficiency compared with retrieval-based baselines.",
+      "authors": [
+        "Jiahao Sun",
+        "Dingkun Wei",
+        "Zehong Shen",
+        "Hongyu Zhou",
+        "Yujun Shen",
+        "Liang Li"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-02T17:13:01+00:00",
+      "link": "https://arxiv.org/pdf/2606.03921v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "factorizes scenes into rigid objects and background, outputting structured hybrid environments",
+      "llm_evidence_cn": "将场景分解为刚性物体和背景，输出结构化混合环境，实现可组装的3D模型",
+      "llm_evidence": "将场景分解为刚性物体和背景，输出结构化混合环境，实现可组装的3D模型",
+      "canonical_evidence": "将场景分解为刚性物体和背景，输出结构化混合环境，实现可组装的3D模型",
+      "llm_tldr_en": "GARDEN reformulates multi-view RGB reconstruction as physically-grounded scene factorization, producing disentangled rigid objects and background for simulation-ready environments, avoiding CAD retrieval.",
+      "llm_tldr_cn": "针对传统重建管线产生的整体式场景缺乏显式物理结构、无法直接用于交互的问题，GARDEN将多视图RGB重建重新定义为基于物理的场景分解，输出分解后的刚性物体与背景混合表示。实验证明该方法无需CAD替换即可保留场景特异性几何，实现可组装的仿真环境，为从图像构建可交互的零件化三维场景提供了有效途径。",
+      "llm_tldr": "针对传统重建管线产生的整体式场景缺乏显式物理结构、无法直接用于交互的问题，GARDEN将多视图RGB重建重新定义为基于物理的场景分解，输出分解后的刚性物体与背景混合表示。实验证明该方法无需CAD替换即可保留场景特异性几何，实现可组装的仿真环境，为从图像构建可交互的零件化三维场景提供了有效途径。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "building 3D models from assembled parts",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.03877v1",
+      "source": "arxiv",
+      "title": "MLP Splatting: Object-Centric Neural Fields",
+      "abstract": "3D representations are fundamental to scene rendering, understanding, and interaction. Recent approaches, such as 3D Gaussian Splatting and Neural Radiance Fields, achieve impressive photorealistic novel-view synthesis, but lack the ability to easily decompose scene elements into a few primitives, requiring additional segmentation or grouping for object-level manipulation. We present MLP-Splatting, a method that enables scene decomposition via a few expressive light-field primitives while providing photorealistic novel-view synthesis.   MLP-Splatting models each primitive as an independent compact MLP with localized spatial support that predicts radiance and opacity. In contrast to low-level Gaussian primitives or a single global radiance field, our neural primitives provide greater expressive capacity while remaining spatially localized. Rendering is performed through efficient sparse volumetric compositing over ray-primitive interactions.   Our primitives are supervised using RGB supervision alone, which yields primitives that represent local scene regions often corresponding to objects or object parts, enabling interactive object-level editing without segmentation masks by selecting a handful of primitives. Our method, augmented with optional semantic feature distillation, enables open-vocabulary scene interaction and open-set instant segmentation. Compared to state-of-the-art methods, we achieve substantially lower memory usage (1/15$\\times$) and faster rendering (3$\\times$), as we show in our experiments compared to semantic 3DGS methods. Project Page: https://shinjeongkim.com/mlp-splatting",
+      "authors": [
+        "Shinjeong Kim",
+        "Yuzhou Cheng",
+        "Xin Kong",
+        "Paul H. J. Kelly",
+        "Andrew J. Davison"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-02T16:46:16+00:00",
+      "link": "https://arxiv.org/pdf/2606.03877v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Decomposes scenes into a few expressive light-field primitives (neural MLPs) for object-level manipulation.",
+      "llm_evidence_cn": "将场景分解为少量具有表现力的光场基元（神经MLP），用于物体级操控。",
+      "llm_evidence": "将场景分解为少量具有表现力的光场基元（神经MLP），用于物体级操控。",
+      "canonical_evidence": "将场景分解为少量具有表现力的光场基元（神经MLP），用于物体级操控。",
+      "llm_tldr_en": "MLP-Splatting decomposes 3D scenes into a few expressive light-field primitives (neural MLPs) for object-level manipulation and photorealistic rendering, providing a step toward part-aware 3D representation.",
+      "llm_tldr_cn": "针对现有3D表示难以分解为独立基元的问题，MLP Splatting提出使用少量紧凑的MLP来建模场景，每个MLP具有局部空间支持，直接预测辐射度和不透明度；该方法在实现逼真新视图合成的同时，无需额外分割即可实现场景内物体的分离与编辑，为零件感知的3D建模提供了灵活的基元表示。",
+      "llm_tldr": "针对现有3D表示难以分解为独立基元的问题，MLP Splatting提出使用少量紧凑的MLP来建模场景，每个MLP具有局部空间支持，直接预测辐射度和不透明度；该方法在实现逼真新视图合成的同时，无需额外分割即可实现场景内物体的分离与编辑，为零件感知的3D建模提供了灵活的基元表示。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "decomposing 3D shapes into parts",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.00439v1",
+      "source": "arxiv",
+      "title": "Physical Object Understanding with a Physically Controllable World Model",
+      "abstract": "A central challenge in visual intelligence is learning the physical structure of scenes from raw videos: how regions form objects and the laws that govern their interactions. Solving these tasks requires world models capable of inferring distributional states of the world from partial observations - capabilities that current architectures do not provide. We introduce a new class of probabilistic world models that support estimation of the probability of any visual variable, such as appearance and dynamics, conditioned on any other variables. Here, we identify that these models can be trained efficiently with autoregressive sequence modeling, yielding world models from which rich object understanding emerges. First, we demonstrate that our model captures the physical laws governing how objects move by generating multiple plausible future states of the world through sequential inference. Then, by analyzing motion correlations across these futures, we extract objects and articulated object subparts. Having discovered these objects, we show that our world model can manipulate them in 3D. Finally, we demonstrate how physical relationships between objects can be computed from the world model, enabling applications such as Visual Jenga.",
+      "authors": [
+        "Rahul Venkatesh",
+        "Klemen Kotar",
+        "Lilian Naing Chen",
+        "Wanhee Lee",
+        "Gia Ancone",
+        "Seungwoo Kim",
+        "Luca Thomas Wheeler",
+        "Jared Watrous",
+        "Honglin Chen",
+        "Daniel Bear",
+        "Stefan Stojanov",
+        "Daniel LK Yamins"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-30T00:10:32+00:00",
+      "link": "https://arxiv.org/pdf/2606.00439v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "learns physical structure of scenes, decomposing objects from videos",
+      "llm_evidence_cn": "从视频中学习场景的物理结构，分解出物体",
+      "llm_evidence": "从视频中学习场景的物理结构，分解出物体",
+      "canonical_evidence": "从视频中学习场景的物理结构，分解出物体",
+      "llm_tldr_en": "Proposes a probabilistic world model trained with autoregressive sequence modeling to infer object structure and dynamics from raw video, enabling scene decomposition and physical understanding.",
+      "llm_tldr_cn": "针对现有架构无法从部分观测中推断物体结构的问题，本文提出一种概率世界模型，通过自回归序列建模高效训练，可从原始视频中学习场景的物理组成，实现物体分解与交互理解。实验表明该模型能捕捉物体级理解，为3D形状分解提供可迁移的方法基础。",
+      "llm_tldr": "针对现有架构无法从部分观测中推断物体结构的问题，本文提出一种概率世界模型，通过自回归序列建模高效训练，可从原始视频中学习场景的物理组成，实现物体分解与交互理解。实验表明该模型能捕捉物体级理解，为3D形状分解提供可迁移的方法基础。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "decomposing 3D shapes into parts",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
