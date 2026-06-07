@@ -1,0 +1,94 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-07T20:46:35.930973+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2606.00967v1",
+      "source": "arxiv",
+      "title": "Flexible Control of 3D CT Generation via Text and Semantically-Defined Segmentation Prompts",
+      "abstract": "Generative models for volumetric medical images have found many applications in medical imaging, ranging from data augmentation to serving as priors for inverse problems. For these applications, generating high-resolution 3D images with strong controllability is essential but remains highly challenging. Existing approaches typically control generation either through radiology reports used as text prompts or through full image segmentation. While text-based prompting is flexible, it provides limited spatial control over the location, shape, and boundary of abnormalities. In contrast, segmentation-based methods receive precise spatial guidance but are restrictive in requiring full-organ annotations. In this work, we propose a flexible multimodal framework for controllable volumetric image generation that supports input from radiology reports and segmentation prompts (both optional). Our approach allows users to provide segmentation of a specific anatomy or abnormality without requiring full-organ annotations. The semantic meaning of the segmentation mask is specified through an accompanying text description, resulting in a highly flexible and scalable conditioning mechanism. We develop a memory-efficient architecture based on a modified diffusion transformer that jointly processes image and segmentation tokens. The model further incorporates gated attention to effectively attend to long radiology reports. Experiments demonstrate that our method achieves state-of-the-art perceptual and semantic scores (e.g., 24% relative improvement in mean FID), generates high-resolution anatomically consistent CT volumes, and improves data efficiency when used for data augmentation. Radiologists' evaluation further confirms strong alignment between generated and real medical images.",
+      "authors": [
+        "Weicheng Dai",
+        "Chenyu Wang",
+        "Andy Li",
+        "Shantanu Ghosh",
+        "Kayhan Batmanghelich"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-05-31T02:55:05+00:00",
+      "link": "https://arxiv.org/pdf/2606.00967v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "generates 3D CT volumes with flexible control via text and segmentation prompts, modeling separate anatomical parts",
+      "llm_evidence_cn": "通过文本和分割提示灵活控制3D CT生成，建模分离的解剖部位",
+      "llm_evidence": "通过文本和分割提示灵活控制3D CT生成，建模分离的解剖部位",
+      "canonical_evidence": "通过文本和分割提示灵活控制3D CT生成，建模分离的解剖部位",
+      "llm_tldr_en": "Proposes flexible 3D CT generation using text and semantically-defined segmentation prompts to control spatial structure of abnormalities and organs.",
+      "llm_tldr_cn": "针对3D医学图像生成中文本提示空间控制弱、全分割标注限制大的问题，提出灵活控制框架，联合文本和语义分割提示，使生成模型能精确控制异常区域的位置、形状和边界。实验表明该方法在生成高分辨率3D CT时兼具灵活性与空间精度，为可控医学图像生成提供新方案。",
+      "llm_tldr": "针对3D医学图像生成中文本提示空间控制弱、全分割标注限制大的问题，提出灵活控制框架，联合文本和语义分割提示，使生成模型能精确控制异常区域的位置、形状和边界。实验表明该方法在生成高分辨率3D CT时兼具灵活性与空间精度，为可控医学图像生成提供新方案。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "generating 3D models with separate parts",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.05515v1",
+      "source": "arxiv",
+      "title": "BRepCLIP: Contrastive Multimodal Pretraining on BRep Primitives for CAD Understanding",
+      "abstract": "Learning representations of CAD models is a largely open problem. While 3D representation learning has flourished around point clouds and meshes, the native format of CAD - boundary representations BReps, which encodes exact parametric surfaces, curves, and their topology, has received little attention as a representation learning substrate. We introduce BRepCLIP, the first framework to align BRep geometry with language and image embeddings through contrastive pretraining. We model each CAD object as a sequence of face and edge tokens with separate discrete vocabularies for surface and curve geometry, augmented with spatial and semantic descriptors that capture surface types (e.g., cylindrical, torus, NURBS) and curve primitives (e.g., line, arc, B-spline). A transformer encoder aggregates these tokens into a global BRep embedding, aligned with CLIP's text and image encoders via a joint contrastive objective. BRepCLIP generates more discriminative and semantically grounded embeddings than existing point-based alternatives, improving Top-1 retrieval over OpenShape by 40.4%, 22.0%, and 23.9% on ABC, CADParser, and Automate, respectively, and improving zero-shot classification on FabWave by 15% in Top-1 score. We further demonstrate its utility as a CAD-aware similarity metric for evaluating text and image-conditioned CAD generation, establishing the importance of structure-aware pretraining for multimodal CAD understanding. Project page is available at https://muhammadusama100.github.io/BrepClip2026/",
+      "authors": [
+        "Muhammad Usama",
+        "Didier Stricker",
+        "Mohammad Sadil Khan",
+        "Muhammad Zeshan Afzal"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-03T23:41:23+00:00",
+      "link": "https://arxiv.org/pdf/2606.05515v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "models CAD objects as sequences of face/edge primitives, capturing part decomposition",
+      "llm_evidence_cn": "将CAD对象建模为面/边基元序列，捕捉零件分解",
+      "llm_evidence": "将CAD对象建模为面/边基元序列，捕捉零件分解",
+      "canonical_evidence": "将CAD对象建模为面/边基元序列，捕捉零件分解",
+      "llm_tldr_en": "Proposes contrastive pretraining on BRep primitives to align CAD geometry with language and images, enabling part-aware representation learning for downstream tasks like segmentation and generation.",
+      "llm_tldr_cn": "针对CAD原生BRep表示未充分利用的问题，提出BRepCLIP框架，将CAD对象建模为面与边令牌序列，利用面型和曲线型等语义描述符，通过对比学习对齐几何、语言和图像，实现零件感知的表示学习，可为下游零件分割与生成任务提供支撑。",
+      "llm_tldr": "针对CAD原生BRep表示未充分利用的问题，提出BRepCLIP框架，将CAD对象建模为面与边令牌序列，利用面型和曲线型等语义描述符，通过对比学习对齐几何、语言和图像，实现零件感知的表示学习，可为下游零件分割与生成任务提供支撑。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "decomposing 3D shapes into parts",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

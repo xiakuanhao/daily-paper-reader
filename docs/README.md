@@ -6,31 +6,28 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-06
-- 运行时间：2026-06-06 21:08:59 UTC
+- 最新运行日期：2026-06-07
+- 运行时间：2026-06-07 20:49:06 UTC
 - 运行状态：成功
-- 本次总论文数：3
+- 本次总论文数：2
 - 精读区：1
-- 速读区：2
+- 速读区：1
 
 ### 今日简报（AI）
-今日速览3D视觉前沿，精读一篇8分高分论文与两篇物体理解新作，聚焦从单图重建可解耦环境。  
-最值得关注GARDEN方法，无需多视图即可从RGB图像中恢复重力对齐、独立可控的3D场景与物体，大幅简化虚实融合编辑。  
-普通读者可优先体验此类重力对齐重建带来的直观3D编辑，或将物体为中心的神经场思想融入自己的合成数据流程。
-- 详情：[/202606/06/README](/202606/06/README)
+今日精读：用文本与语义分割提示灵活操控3D CT影像生成；速读：通过BRep基元对比学习让AI读懂CAD图纸。  
+最值关注：分割提示首次让3D医学影像生成实现“指哪改哪”，而CAD多模态预训练为工业设计理解带来新的通用范式。  
+想尝试建议从分割提示复现入手，医疗与工业场景的落地机会非常明确。
+- 详情：[/202606/07/README](/202606/07/README)
 
 ### 精读区论文标签
-1. [GARDEN: Gravity-Aligned Reconstruction of Disentangled ENvironments from RGB images](/202606/06/2606.03921v1-garden-gravity-aligned-reconstruction-of-disentangled-environments-from-rgb-images)  
+1. [Flexible Control of 3D CT Generation via Text and Semantically-Defined Segmentation Prompts](/202606/07/2606.00967v1-flexible-control-of-3d-ct-generation-via-text-and-semantically-defined-segmentation-prompts)  
    标签：评分：8.0/10、query:part-aware
-   evidence：将场景分解为刚性物体和背景，输出结构化混合环境，实现可组装的3D模型
+   evidence：通过文本和分割提示灵活控制3D CT生成，建模分离的解剖部位
 
 ### 速读区论文标签
-1. [MLP Splatting: Object-Centric Neural Fields](/202606/06/2606.03877v1-mlp-splatting-object-centric-neural-fields)  
+1. [BRepCLIP: Contrastive Multimodal Pretraining on BRep Primitives for CAD Understanding](/202606/07/2606.05515v1-brepclip-contrastive-multimodal-pretraining-on-brep-primitives-for-cad-understanding)  
    标签：评分：7.0/10、query:part-aware
-   evidence：将场景分解为少量具有表现力的光场基元（神经MLP），用于物体级操控。
-2. [Physical Object Understanding with a Physically Controllable World Model](/202606/06/2606.00439v1-physical-object-understanding-with-a-physically-controllable-world-model)  
-   标签：评分：6.0/10、query:part-aware
-   evidence：从视频中学习场景的物理结构，分解出物体
+   evidence：将CAD对象建模为面/边基元序列，捕捉零件分解
 
 
 <div class="dpr-home-promo-card">
