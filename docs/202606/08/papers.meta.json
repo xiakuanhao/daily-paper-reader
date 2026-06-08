@@ -1,0 +1,39 @@
+{
+  "label": "2026-06-08",
+  "date": "2026-06-08",
+  "generated_at": "2026-06-08T21:12:14",
+  "count": 2,
+  "papers": [
+    {
+      "paper_id": "202606/08/2606.07024v1-guidecad-a-lightweight-multimodal-framework-for-3d-cad-model-generation-via-prefix-embedding",
+      "section": "deep",
+      "title_en": "GuideCAD: A Lightweight Multimodal Framework for 3D CAD Model Generation via Prefix Embedding",
+      "authors": "Minseong Kim, Jinyeong Park, Sungho Park, Jibum Kim",
+      "date": "2026-06-05",
+      "pdf": "https://arxiv.org/pdf/2606.07024v1",
+      "score": "10.0",
+      "evidence": "通过构建序列生成具有分离零件的三维CAD模型",
+      "tldr": "当前3DCAD多模态生成需大量计算资源。GuideCAD利用前缀嵌入将图像转为可融入预训练语言模型的提示，以少量参数融合视觉文本信息。Transformer解码器据此预测构建序列生成模型，参数量降至微调法的四分之一，训练效率提升一倍。该工作为资源受限场景下的3DCAD生成提供了一个轻量高效解决方案。",
+      "tags": "query:part-aware",
+      "abstract_en": "Multi-modal approaches used for 3D CAD generation require substantial computational resources, necessitating efficient training. To address this, we propose GuideCAD, which leverages semantically rich visual-textual representations having only a small number of trainable parameters to generate 3D CAD models. Specifically, GuideCAD uses a mapping network that converts image embeddings into prefix embeddings, enabling a pretrained large language model to integrate visual and textual information. As a result, a transformer-based decoder predicts the construction sequence using the visual-textual embeddings in order to generate the 3D CAD model. For experimental evaluation, we construct a new dataset, referred to as GuideCAD, which consists of text-image pairs. Each pair includes a text prompt that represents a 3D CAD construction sequence and its corresponding 3D CAD image. Our experimental results show that GuideCAD generates comparably high-quality 3D CAD models while using approximately four times fewer parameters and achieving twice the training efficiency compared to fine-tuning approaches. We have released the source code and dataset for our method at: https://github.com/mskimS2/GuideCAD",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/08/2606.07280v1-geometric-aware-hypergraph-reasoning-for-novel-class-discovery-in-point-cloud-segmentation",
+      "section": "quick",
+      "title_en": "Geometric-Aware Hypergraph Reasoning for Novel Class Discovery in Point Cloud Segmentation",
+      "authors": "Zihao Zhang, Aming Wu, Yang Li, Yahong Han, Jialie Shen",
+      "date": "2026-06-05",
+      "pdf": "https://arxiv.org/pdf/2606.07280v1",
+      "score": "7.0",
+      "evidence": "利用超图推理进行点云语义分割，直接适用于将三维物体分割为语义部件。",
+      "tldr": "点云分割中新类发现任务面临已知类与新类复杂关系建模不足的问题，现有方法依赖成对关联，忽略高阶关系和几何信息。本文提出超图推理框架，建模类间高阶关联，并设计几何感知原型增强空间几何信息传播。在SemanticKITTI和SemanticPOSS数据集上实验表明，方法显著提升新类分割准确率。该工作为开放环境下的点云理解引入了协同推理与几何增强的新思路。",
+      "tags": "query:part-aware",
+      "abstract_en": "Novel class discovery in point cloud segmentation aims to transfer knowledge from known classes to automatically identify and segment unlabeled novel classes in point clouds. Existing methods mainly rely on pairwise associations for class assignment and novel class reasoning, which limits their ability to capture complex relationships among known and novel classes and may lead to inaccurate semantic segmentation. To address this issue, we introduce a hypergraph-based framework that models high-order associations among classes and enables collaborative reasoning from known classes to novel classes beyond traditional pairwise relations. Moreover, existing methods tend to focus on semantic feature extraction while paying insufficient attention to geometric information in point clouds. To better exploit spatial structure, we propose Geometric-Aware Prototypes to enhance the representation of class-level geometric cues. By propagating geometric information through hyperedges, the proposed method improves the understanding of spatial distributions across classes and leads to more accurate segmentation. Experiments on the SemanticKITTI and SemanticPOSS datasets demonstrate the effectiveness and superiority of our method.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
