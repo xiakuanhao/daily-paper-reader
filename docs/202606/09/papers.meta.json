@@ -1,0 +1,69 @@
+{
+  "label": "2026-06-09",
+  "date": "2026-06-09",
+  "generated_at": "2026-06-09T21:11:46",
+  "count": 4,
+  "papers": [
+    {
+      "paper_id": "202606/09/2606.06685v1-rigpapr-rig-based-animation-of-static-neural-point-clouds-from-a-fixed-viewpoint-video",
+      "section": "deep",
+      "title_en": "RigPAPR: Rig-Based Animation of Static Neural Point Clouds from a Fixed-Viewpoint Video",
+      "authors": "Shichong Peng, Yanshu Zhang, Ke Li",
+      "date": "2026-06-04",
+      "pdf": "https://arxiv.org/pdf/2606.06685v1",
+      "score": "9.0",
+      "evidence": "从单目视频中恢复可重新摆姿势的骨骼绑定3D资产，直接处理关节问题",
+      "tldr": "静态神经点云重建后，若用直接线性混合蒙皮（LBS）驱动其动画，每个高斯点保持固定形状无法弯曲，导致关节边界产生间隙和尖刺伪影，基于网格代理的方法同样受限。RigPAPR采用邻近注意点渲染（PAPR），点云无预设形状，通过自动骨骼绑定和LBS从单视点视频驱动，渲染时从变形点合成像素，自然适应关节运动。在合成和真实主体上，新视图PSNR超基线3dB以上，关节边界渲染更干净，为从固定视点视频生成可重新姿势的3D资产提供了有效方案。",
+      "tags": "query:part-aware",
+      "abstract_en": "Static neural point reconstructions capture a subject at high fidelity from posed images. Given such a reconstruction, we aim to animate it to follow a monocular fixed-viewpoint driving video of the subject, whether captured or produced by image-to-video (I2V) generation, and to recover a rigged, re-posable 3D asset. Existing methods deform Gaussian splats through direct linear blend skinning (LBS) or mesh proxies, both of which are prone to joint-boundary artifacts under articulation, even with per-primitive corrections. We trace the artifact to the representation: each splat carries an individual shape calibrated in the canonical pose to tile with its neighbours. Under rigid LBS, each splat moves with its bone but cannot bend, so the canonical tiling breaks at joint boundaries into gaps and spikes. Proximity attention point rendering (PAPR) instead carries no per-primitive shape; each pixel is recomposed at render time from the deformed primitives' positions, so the surface re-forms naturally with the articulation. We present RigPAPR, which auto-rigs a static PAPR cloud and drives it under direct LBS from a single fixed-viewpoint video, without mesh proxy, pose-dependent correction, or category template. On synthetic subjects, RigPAPR matches the strongest baseline at the supervised view and exceeds mesh-based and Gaussian-splatting baselines at novel views by 3+dB PSNR, with cleaner joint-boundary renderings of both synthetic and real subjects.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/09/2606.08957v1-rethinking-3d-shape-generation-diffusion-over-superquadrics",
+      "section": "deep",
+      "title_en": "Rethinking 3D Shape Generation: Diffusion over Superquadrics",
+      "authors": "Zhiyang Liu, Wanze Li, Yuwei Wu, Chengran Yuan, Jiawei Sun, Rui Zheng, Marcelo H Ang",
+      "date": "2026-06-08",
+      "pdf": "https://arxiv.org/pdf/2606.08957v1",
+      "score": "9.0",
+      "evidence": "在超二次曲面上扩散生成由类零件基元组成的三维形状。",
+      "tldr": "现有的3D形状扩散模型大多在体素、SDF网格、网格或点云等高基数空间去噪，计算和内存开销庞大，难以扩展到高分辨率与强可控性。本文重新思考扩散表示，将扩散过程从稠密几何迁移到紧凑的几何基元上，即用少量超二次曲面参数化形状。每个形状仅需7KB参数，极大降低扩散状态维度与每步计算/内存，在0.6秒内即可生成形状，且能无分辨率限制地解码点云、支持部件级编辑与基于约束的设计。在标准基准上取得了有竞争力的表面保真度和分布性能，为高效、可扩展、可控的三维形状生成提供了全新范式。",
+      "tags": "query:part-aware",
+      "abstract_en": "Diffusion models have advanced 3D shape generation, yet most methods still denoise in high-cardinality spaces (e.g., voxel/SDF grids, meshes, or point clouds), which is computationally and memory intensive and makes it difficult to scale in terms of both higher resolution and stronger controllability. We rethink the diffusion representation and propose to move diffusion from dense geometry to compact geometric primitives, representing each shape as a small set of superquadrics. Instead of operating on thousands to millions of geometric representation values, we leverage 7KB superquadric parameters (pose, size, and shape), drastically reducing diffusion-state dimensionality and per-step compute/memory. Our diffusion-over-superquadrics improves scalability by supporting broader capabilities (e.g., resolution-free point-cloud decoding, part-level editing, and constraint-based design) and achieving competitive surface-fidelity and distributional performance on standard benchmarks after point-cloud decoding, while enabling efficient generation within 0.6s per shape for most conditions.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/09/2606.08103v1-revisiting-articulated-parts-perception-in-robot-manipulation",
+      "section": "deep",
+      "title_en": "Revisiting Articulated Parts Perception in Robot Manipulation",
+      "authors": "Xiaoqian Wu, Yejie Guo, Xiaoyang Chen, Lixin Yang, Cewu Lu, Yong-Lu Li",
+      "date": "2026-06-06",
+      "pdf": "https://arxiv.org/pdf/2606.08103v1",
+      "score": "8.0",
+      "evidence": "处理盒子、把手、门等关节部件的感知，提出几何主结构表示",
+      "tldr": "围绕铰接部件感知，现有方法或依赖高成本姿态标注，或受噪声可供性影响，难以兼具精度与泛化。为此，本文创新地提出几何基元结构(GPS)，以简洁几何元素抽象部件运动学，配套VR标注系统大幅提升效率，仅需一分钟即可完成单物体标注。基于此构建的VR-GPS数据集涵盖234个物体、6类部件、41K帧，训练出的模型仅需单张RGB-D图像即可预测GPS。在9个真实物体上，即便未进行任何微调，启发式操作策略仍取得73%平均成功率，覆盖270种不同初始状态，操纵对象包括抽屉、门、把手等。代码、数据与VR标注工具均已开源。这表明GPS表示具有良好的泛化性与实用性，为机器人学习操作铰接物体提供了数据高效的新途径。",
+      "tags": "query:part-aware",
+      "abstract_en": "We are surrounded by various objects with movable, articulated parts, e.g., box, handle, door. An accurate and generalizable perception of articulated parts is essential to enhance robotic manipulation capabilities. Building on this need, recent efforts in articulated parts perception have followed two main directions: One line of work uses pose-based representation, which requires high manual cost; in parallel, affordance-based methods extract future object motion from point tracking without additional manual efforts, but suffer from low-quality data. In this paper, we propose a new representation of articulated parts, Geometric Primary Structure (GPS), an abstraction of the part geometry structure to balance scalability and quality. For efficient and scalable data collection, GPS is integrated with a portable Virtual Reality (VR) device and requires only one minute to annotate one object sequence. This direct human annotation provides higher quality than the estimated affordance. With this efficient VR-GPS system, we collect 41K frames for 234 objects across six part classes, and train a generalizable GPS model with a single RGB-D object image as input. For object manipulation, we deploy a heuristic policy based on GPS prediction. Without any in-domain fine-tuning, our method achieves an 73% success rate, covering 270 initial states for 9 objects. Our code, data and reusable tool are available at https://enlighten0707.github.io/gps.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/09/2606.03420v1-phaf-personalized-hand-avatars-in-a-flash",
+      "section": "quick",
+      "title_en": "PHAF-Personalized Hand Avatars in a Flash",
+      "authors": "Meghana Shankar, Akanxit Upadhyay, Anmol Namdev, Green Rosh KS, Pawan Prasad BH",
+      "date": "2026-06-02",
+      "pdf": "https://arxiv.org/pdf/2606.03420v1",
+      "score": "7.0",
+      "evidence": "生成具有精确关节的个人化手部化身",
+      "tldr": "传统手部化身构建需大量图像和耗时优化，难以满足实时个性化需求。PHAF仅需手掌和手背两张图像，通过语义引导网格对齐和稠密纹理提取快速生成纹理，并用视图修复网络确保多视角连续性。生成的化身基于参数化手部模型，能泛化至新视角并兼容标准图形引擎，实现精确姿态驱动。在视觉保真度相当的前提下，纹理生成速度提升30倍，并可直接部署于边缘设备。该方案大幅降低了高质量手部化身的成本，为实用AR/VR手部交互应用铺平道路。",
+      "tags": "query:part-aware",
+      "abstract_en": "We present PHAF-Personalized Hand Avatars in a Flash, a personalized photo-realistic hand avatar which provides high quality multi-view renders from just two images (dorsal and palmar views).Unlike slow optimization-based techniques, PHAF generates fast personalized textures for real-time deployment on edge devices. Our approach combines semantic guided mesh alignment and densified texture extraction to transfer high-frequency details efficiently. A view-based inpainting network refines textures ensuring smooth, continuous appearance. PHAF generalizes to novel viewpoints and leverages a parametric hand model for accurate articulations, making it compatible with standard graphics engines. Experiments show it is comparable to existing methods in visual fidelity while drastically reducing texture generation time by 30 times, enabling practical AR/VR applications.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

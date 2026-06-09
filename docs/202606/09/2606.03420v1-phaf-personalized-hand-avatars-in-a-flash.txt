@@ -1,0 +1,364 @@
+Title: PHAF-Personalized Hand Avatars in a Flash
+
+URL Source: https://arxiv.org/pdf/2606.03420v1
+
+Published Time: Wed, 03 Jun 2026 00:57:07 GMT
+
+Number of Pages: 9
+
+Markdown Content:
+# PHAF: Personalized Hand Avatars in a Flash ∗
+
+# Meghana Shankar 
+
+Samsung R&D Institue Bangalore Bangalore, Karnataka, India 
+
+# Akanxit Upadhyay 
+
+Samsung R&D Institue Bangalore Bangalore, Karnataka, India 
+
+# Anmol Namdev 
+
+Samsung R&D Institue Bangalore Bangalore, Karnataka, India 
+
+# Green Rosh KS 
+
+Samsung R&D Institue Bangalore Bangalore, Karnataka, India 
+
+# Pawan Prasad BH 
+
+Samsung R&D Institue Bangalore Bangalore, Karnataka, India Input Images  Output 3D Hand Model  Articulations 
+
+(b) Outputs from our method (a) Rendering issues 
+
+(c) PHAF (Ours) mesh rendering with Natural Texture 
+
+Sota  2
+
+(d) DinoV2 [25] score over time 
+
+Texture less mesh 
+
+No natural texture 
+
+Holes and artifacts    
+
+> 0.4
+> 0.5
+> 0.6
+> 0.7
+> 0.8
+> 0.9
+> 1
+> PHAF (Ours)
+> UHM
+> HARP
+> OHTA
+> Dino V2 Scores
+> 2 mins 10 mins 30 mins 60 mins
+
+Figure 1: a) Rendering issues in existing HMDs - poor texture (row 1,2), holes (row 3 - red arrows). (b) Given 2 views of a target hand, our method (PHAF) synthesizes high visual fidelity renders under 2 minutes, preserving high frequency texture details. (c) High-quality renders, natural outputs from PHAF. (d) PHAF achieves comparable DinoV2 scores in significantly less time. 
+
+## Abstract 
+
+We present PHAF (Personalized Hand Avatars in a Flash ), a per-sonalized photo-realistic hand avatar which provides high qual-ity multi-view renders from just two images (dorsal and palmar views).Unlike slow optimization-based techniques, PHAF gener-ates fast personalised textures for real-time deployment on edge devices. Our approach combines semantic guided mesh alignment and densified texture extraction to transfer high-frequency details efficiently. A view-based inpainting network refines textures en-suring smooth, continuous appearance. PHAF generalizes to novel viewpoints and leverages a parametric hand model for accurate articulations, making it compatible with standard graphics engines. 
+
+> ∗
+
+Produces the permission block, and copyright information 
+
+This work is licensed under a Creative Commons Attribution 4.0 International License. 
+
+ICVGIP 2025, Mandi, India 
+
+© 2025 Copyright held by the owner/author(s). ACM ISBN 979-8-4007-1930-1/25/12 https://doi.org/10.1145/3774521.3774571 
+
+Experiments show it is comparable to existing methods in visual fidelity while drastically reducing texture generation time by 30 ×,enabling practical AR/VR applications. 
+
+## CCS Concepts 
+
+• Computing methodologies → Mesh models .
+
+## Keywords 
+
+3D hands, mesh, VR rendering, Personalised Avatars 
+
+ACM Reference Format: 
+
+Meghana Shankar, Akanxit Upadhyay, Anmol Namdev, Green Rosh KS, and Pawan Prasad BH. 2025. PHAF: Personalized Hand Avatars in a Flash. In Indian Conference on Computer Vision, Graphics, and Image Processing (ICVGIP 2025), December 17–20, 2025, Mandi, India. ACM, New York, NY, USA, 9 pages. https://doi.org/10.1145/3774521.3774571 
+
+## 1 Introduction 
+
+Recent advancements in augmented and virtual reality (AR/VR) have led to a surge in VR head mounted devices (HMD) and appli-cations, with a growing emphasis on personalization to enhance 
+
+> arXiv:2606.03420v1 [cs.CV] 2 Jun 2026 ICVGIP 2025, December 17–20, 2025, Mandi, India
+
+user engagement in virtual environments. Immersive technology, by definition, aims to fully immerse users in a digital world, making the experience as perceptually realistic as possible. A critical aspect of this immersion is the user’s ability to interact naturally with virtual objects, where the hands serve as the primary interface. Recent HMDs combine hand tracking with hand mesh rendering to enable the users to interact with the VR world using virtual hands. However, these methods often render simplistic hand meshes with minimal texture, impacting the realism of the interaction as shown in Fig. 1(a - row 1,2). Personalizing hand avatars to match the user’s real world appearance has shown to significantly icrease engage-ment. The users feel a stronger sense of presence when they see their own hand features replicated in the virtual space [ 40 ]. There has also been methods which aims to provide a more natural experi-ence to the users by overlaying a cut-out of the user’s hand onto the VR environment. However, as shown in Fig. 1(a - row 3), such meth-ods tend to generate artifacts due to erroneous segmentation of the user’s hand, limiting realistic immersion. Further, this approach requires high resolution RGB cameras to be turned on during in-teraction, resulting in increased battery usage and over-heating. Hence, there is a need to generate articulatable and photo-realistic hand avatars with minimal RGB camera usage. This enables power saving along with seamless interaction experience for the users. Real-time generation of photo-realistic, animatable hand avatars remains an open challenge due to the complexity of hand geometry, articulation, and texture variation. Methods such as HandAvatar [ 38 ] and LISA [ 4] proposed implicit modelling using Neural Ra-diance Fields (NeRF) [ 23 ] to encode hands as continuous neural functions. It enables photo-realistic novel-view synthesis without explicit mesh reconstruction. However these methods suffer from lack of control as pose and shape manipulation is non-trivial and each new pose requires expensive optimization, thus limiting prac-tical applications. Recent methods such as Neural Volumes [ 20 ] im-prove dynamic scene modelling but still struggles with fine-grained deformations of the hand. They are also computationally expensive as rendering requires querying neural networks per pixel, prevent-ing real time performance. To overcome the challenges of implicit representations, recent methods [ 15 , 19 , 35 , 40 , 47 ] proposes ge-ometry and texture refinement of explicit parametric hand models such as MANO [ 34 ] and NIMBLE [ 44 ]. For Example UHM [ 19 ]and Harp [ 40 ] use phone scan videos to generate texture maps to create personalised avatars of the user. Though these methods generate high-fidelity custom textured models, they employ an iterative optimization approach using differential rendering, which adds significant time overheads and are slow for practical applications. Other methods such as HTML[ 35 ] and BiTT [ 15 ] use trained para-metric appearance model for fast hand model generation. However, they often fail to generalize to unseen skin tones. Despite significant advancements in hand modelling, we identify critical gaps between highly photo-realistic appearance generation and real-time applicability in AR/VR applications. We propose PHAF, an optimization-free method that generates high-quality textures in under 2 minutes, making it practical for AR/VR applications. Our method generates high quality, articu-latable hand avatars from a pair of palmar and dorsal images of the hand (Fig. 1 (b)). We propose a novel densified texture extrac-tion module to directly transfer dense textures from the provided images to a parametric hand model. Our novel formulation elimi-nates the need for expensive iterative optimization, achieving 30 
+
+× improvement in run-time. We also propose a novel semantic guided geometric alignment module and a view based inpainting module to ensure that the generated texture map accurately fits the parametric models without artefacts. As shown in Fig. 1 (b, c), our method generates high-fidelity hand avatars with detailed texture, outperforming the state-of-the-art methods. Further, it can be seen that our method generates hand avatar ∼ 30 × faster compared to state of the art with comparable quality (Fig. 1(d)). Our main contributions are summarized as follows: 
+
+• We propose PHAF, a fast hand texture generation method with high frequency texture details, enabling practical de-ployment in AR/VR applications with only 2 views. 
+
+• We develop a texture synthesis approach by combining a semantically controlled geometric alignment with densified texture extraction to transfer hand appearance features to a parametric mesh. 
+
+• We further refine our texture using a view guided controlled inpainting network to render high quality novel and multi-view renders. 
+
+• Our framework is end-to-end developed for free-pose per-sonalised photo-realistic hand avatars. We demonstrate that our approach achieves superior visual fidelity to existing methods with significantly reduced time for texture genera-tion. 
+
+## 2 Related Works 
+
+Parametric Foundations and Neural Hand Representations .Parametric and musculoskeletal hand models [ 10 , 21 , 32 , 36 ] pro-vide a structured foundation for realistic articulation. Nimble [44] introduced a physically based representation with bones and mus-cles, enabling anatomically plausible motion with texture assets embedding. Extensions such as HTML [ 35 ] and Handy [ 6] com-bine these deformable geometries with texture mapping, offering consistent articulation with plausible appearance. However, such pipelines often depend on pre-scanned data or slow per-instance optimization to achieve personalization. Neural methods [ 13 , 29 , 30 ] have augmented these geometric frameworks with learned volumetric appearance. Works like Hand-NeRF [ 9 ] and HandOcc [ 12 ] produce striking photo-realism by encoding both geometry and view-dependent texture. Despite their fidelity, NeRF-style pipelines [ 22 , 28 , 39 ], remain computationally demanding and ill-suited for real-time AR/VR on edge devices. Hy-brid strategies attempt to lower this barrier, HARP [ 40 ]captures de-tail from short RGB sequences, OHTA [ 47 ] and similar approaches achieves personalization from a single image. Yet, both methods still involve either iterative refinement or reliance on implicit priors, which can limit adaptability and speed. S2Hand [ 3 ] and AMVUR [ 14 ] presented a method to reconstruct both the appearance and geometry of a single hand from a single image. Nevertheless, their appearance is in blurred textures, omitting detail texture appear-ance. Avatar systems such as XHand [ 7 ] address runtime constraints by prioritizing fast motion. While effective for expressive animation, they require dense capture (multi-view or temporal) to maintain PHAF: Personalized Hand Avatars in a Flash ICVGIP 2025, December 17–20, 2025, Mandi, India 
+
+texture fidelity, making lightweight deployment challenging. On the other hand, DINAR [ 37 ] integrates neural textures with the explicit model for enhanced photo-realism but fall short in generating high-fidelity hand. 
+
+High-Fidelity Texture Reconstruction and Generative In-painting . Parallel to these advances in geometry, a substantial body of work has focused on the appearance side reconstructing photo-realistic textures from limited inputs. HiFiHR [ 48 ] demon-strates that high-frequency realism can be recovered from single RGB image but uses an iterative render-and-compare loop which makes it slow. DART [ 8 ] expands personalization to include ac-cessories, while UHM [ 19 ] streamlines capture to a single scan, though often at the cost of time. HandAvatar [ 38 ] enables free-pose rendering but can require lengthy capture sequences to achieve consistent textures. BITT addresses self-occlusion and interaction handling but at the cost of generalization. To handle occluded or missing regions in sparse imagery, edge-aware projection and learning-based inpainting have proven valu-able. EASI-Tex [ 31 ] refines projection boundaries for cleaner texture transfer, while Paint-it [ 41 ] and Paint3D [ 42 ] leverage generative and diffusion-based models for texture synthesis, offering stylis-tic flexibility but not necessarily domain-specific detail preserva-tion. Broader texture-generation frameworks Mesh2Tex [ 2 ], Uni-TEX [ 18 ], TEXTure [ 33 ], FlashTex [ 5 ], Pix2Surf [ 17 ], as well as garment-oriented methods like Learning to Transfer Texture from Clothing Images to 3D Humans [ 24 ], FabricDiffusion [ 43 ], and Gar-ment3DGen [ 26 ], highlight the potential of generative pipelines for complex surface texturing. Yet these methods largely target rigid or semi-rigid objects and seldom address the combination of skin realism, articulation, and real-time constraints required for hands. 
+
+## 3 Proposed Methodology 3.1 Overview 
+
+The PHAF pipeline, illustrated in Fig. 2, begins with paired frontal and dorsal hand images as input and produces high visual fidelity renders for real-time articulations. At the core of our approach is a semantic-aware geometric alignment system that precisely maps image pixels to their corresponding mesh vertices through the un-derlying parametric model. We also leverage the model’s geometry to obtain densified texture features and transfer it to a UV texture image. We address the inevitable missing texture regions through a specialized hand-specific Unet-based inpainting model [ 11 ] trained exclusively on high-fidelity hand imagery. This neural inpainting stage fills missing regions and actively enhances texture details, recovering subtle high-frequency features that might be partially obscured in the original captures, while maintaining compatibility with standard animation pipelines. 
+
+## 3.2 Semantic guided alignment 
+
+Precise texture mapping onto 3D hand meshes is essential for achieving realistic and personalized avatars. Traditionally, methods perform texture optimization via multi-view differential render-ing, carefully matching color consistency across views. However, these approaches often assume that pixels sampled after rasteri-zation inherently align semantically—i.e., correspond to the cor-rect anatomical regions on the mesh. Hence they need multiple Hand Texture Extraction  
+
+> Semantic Guided
+> Alignment
+> Frontal
+> View
+> Dorsal
+> View
+> Densified Texture
+> Extraction
+> Renderer
+> Controlled Texture
+> Inpainting Network
+> UV Texture
+> Image
+> Mesh Pose( θ)
+> Camera Parameters
+> Personalised Avatar
+> (Output)
+> (Inputs)
+> Articulation and Texture
+> Refinement
+
+Figure 2: Our PHAF pipeline generates multi-view renders from just two images using novel semantic guided alignment module and densified texture extraction phase. The final missing textures are inpainted using a UNet based textured Inpainting network. 
+
+iterations to correct the colours. To overcome this, we introduce semantic-guided alignment prior to texture sampling. By identifying semantically relevant control points—such as fin-gertips, creases, and knuckle markers—on both the image segmen-tation mask and projected mesh silhouette, we establish accurate correspondences. These correspondences drive a Thin Plate Spline (TPS) [ 45 ] warping, ensuring the mesh is registered precisely to the image domain. With this warp, texture sampling captures anatom-ically correct pixels, preserving semantic fidelity in regions with critical identity markers like tattoos or moles. Our novel semantic-guided geometric alignment module ad-dresses 3 key aspects: (1) Unlike rigid alignment in [ 40 ] and [ 19 ], our method preserves local texture details through non-rigid de-formation, hence overcoming iterative optimisation to get semanti-cally correct textures, (2) Compared to neural warping approaches, we maintain explicit control over deformation through physically meaningful constraints and (3) Semantic guidance ensures align-ment respects anatomical structures rather than just geometric features. Fig. 3 (a) illustrates our pipeline for Semantic guided alignment of the mesh with the hand image. For each image 𝐼 ∈ R(𝐻𝑥𝑊 𝑥 3) ,we extract two complementary representations: 21 hand keypoints 
+
+𝐾 𝑖𝑚𝑔 using an existing hand keypoint detector and precise binary segmentation mask 𝑆 𝑖𝑚𝑔 generated from a segmentation model. These semantic features capture both the structural topology and detailed contour information of the subject’s hand. Concurrently, we initialize a MANO [ 34 ] parametric hand mesh 
+
+𝑀 (𝑉 , 𝐹, 𝐽 ), where 𝑉 , 𝐹 , and 𝐽 represents vertices, faces and joints respectively. It is then projected onto the image plane using esti-mated camera parameters. The projected mesh provides two crucial alignment references i.e. 2D keypoints 𝐾 𝑚𝑒𝑠ℎ obtained by projecting MANO’s 3D skeleton, and a rendered silhouette mask 𝑆 𝑚𝑒𝑠ℎ . We for-mulate the core alignment challenge as the positional discrepancy between image and mesh features. ICVGIP 2025, December 17–20, 2025, Mandi, India Renderer     
+
+> Segmentation
+> network
+> Keypoint
+> Detector
+> Mesh
+> Regressor
+> Camera
+> (F,P)
+> Image Mask
+> Render
+> Mask
+> Source Control
+> Points
+> Destination
+> Control
+> Points
+> Image
+> Keypoints
+> Render
+> Keypoints
+> Mesh Projection
+> Thin Plate
+> Spline (TPS)
+> Transform
+> Aligned
+> Mesh
+> Dense Warping
+> Field Hand
+> Image
+> Warp
+> Image
+> Image Mask
+> Reference
+> Points
+> Mesh Mask
+> Reference Points
+> Mano
+> (V,F,J)
+> Mesh
+> Rasterizer
+> Uplift to 3D
+> Extract Vertex
+> Colours
+> Generate UV
+> Texture Image
+> Subdivide
+> Mano Mano -5x
+> Mano UV
+> Map Mano -5x
+> UV Map
+> Sample Image colours
+> at pixel coordinates Barycentric
+> Interpolation
+> Texture Image
+> Subdivide
+
+(a) Semantic -guided Alignment  (b) Densified Texture Extraction 
+
+Figure 3: Our semantic guided alignment along with densified texture extraction extracts UV texture image from High density Mesh (Mano 5x). The texture images with high frequency visual fidelity is then used in real time rendering with a lower dimension mesh for fast rendering and the missing textures are inferred at runtime with our inpainting network. Semantic Guided Geometric Alignment of Meshes  
+
+> Initial Alignment Our Final Alignment
+
+Figure 4: We showcase our semantic alignment feature, the incorrect mesh projection is corrected with our geometric alignment by warping the image to pass through the control points around the finger tips to have precise semantic match-ing for texture extraction. 
+
+𝜖 𝑎𝑙𝑖𝑔𝑛 = 1
+
+𝑛 ∑︁ 
+
+𝐾 𝑖𝑚𝑔 − 𝐾 𝑚𝑒𝑠ℎ 2
+
+(1) where n = 21 keypoints. Instead of aligning all the keypoints ( 𝑘 𝑖𝑚𝑔 𝑝 , 𝑘 𝑚𝑒𝑠ℎ 𝑝 ),which results in higher time complexity, we choose a set of 14 control points for aligning 𝑆 𝑖𝑚𝑔 and 𝑆 𝑚𝑒𝑠ℎ precisely at those points. These are the 5 finger tips, wrist keypoint and the DIP (distal interphalngeal) keypoints just below the tips.These points offer better alignment of semantic features than other points as confirmed with our experi-ments. As we want to align the silhouettes, these points are then extrapolated to the edges of the mesh contours as control points. As we want 𝑆 𝑖𝑚𝑔 to align with 𝑆 𝑚𝑒𝑠ℎ , we denote 𝑋 𝑝 as the source control points and 𝑌 𝑝 as the destination control points lying on 
+
+𝑆 𝑖𝑚𝑔 and 𝑆 𝑚𝑒𝑠ℎ respectively We then establish anchored control point pairs 𝐶 𝑝 = (𝑋 𝑝 , 𝑌 𝑝 )
+
+where each control point 𝑋 𝑝 corresponds to the image keypoint and 𝑌 𝑝 its mesh counterpart, and we employ a classic thin-plate spline (TPS) [ 45 ] model to define the warp 𝑓 : R2 → R2 . The TPS [45 ] model combines a global affine component with a sum of radial basis functions centred at the control points: 
+
+𝑓 (𝑍 ) = 𝐴 ∗ 𝑍 + 𝑡 +
+
+> 𝐾
+
+∑︁ 
+
+> 𝑝 =1
+
+ 𝑤 𝑝 𝜙  || 𝑍 − 𝐶 𝑝 ||  (2) where 𝜙 (𝑟 ) = 𝑟 2𝑙𝑜𝑔𝑟 2. The unknown Affine parameters 𝐴 ,𝑡 and kernel weights 𝑤 𝑝 are solved by closed form linear equations. 𝑍 is the query pixel coordinate. Hence 𝑓 (𝑍 ) gives the TPS [ 45 ] warper outputs, which is the corresponding location in the warped image output for a query point 𝑍 . Hence this function smoothly inter-polates the learned nonrigid alignment from the defined control correspondences as seen from the Fig. 4. 
+
+## 3.3 Densified Texture Extraction for High-Fidelity Hand Avatars 
+
+Low-dimensional meshes with limited vertices cannot capture suffi-cient color detail when projected onto images, because each vertex samples only one color and large triangles lead to coarse, blurred textures. As its known that vertex colors get only one color per vertex and color is then interpolated inside the triangles, it causes loss of fine texture detail where the geometry is sparse. To over-come this, we densify the mesh by subdividing the base topology, thereby increasing vertex count and enabling more granular sam-pling of image pixels during rasterization. More vertices translate directly to more sampled colors and improved high-frequency con-tent capture during texture projection. Hence densification of mesh allows for richer, perceptually accurate texture extraction critical for personalized hand avatars. PHAF: Personalized Hand Avatars in a Flash ICVGIP 2025, December 17–20, 2025, Mandi, India 
+
+Figure 5: Extracted UV Texture images of the subjects: The un-wrapped texture images consists of missing textures around the hand sides and in-between fingers due to occluded views. 
+
+We first take the low-resolution MANO [ 34 ] mesh and apply a 5× subdivision scheme to obtain a very dense ∼ 700K vertices structure. The subdivision process follows: 
+
+𝑉 𝑑𝑒𝑛𝑠𝑒 = 𝑆𝑆 (𝑉 𝑀𝐴𝑁 𝑂 ) (3) where 𝑆𝑆 is the subdivision operator applied iteratively to refine the mesh topology, 𝑉 𝑀𝐴𝑁 𝑂 and 𝑉 𝑑𝑒𝑛𝑠𝑒 represents the vertices of MANO and subdivided MANO respectively. With the densified mesh 𝑉 𝑑𝑒𝑛𝑠𝑒 and the warped input image 𝐼 , we perform per-vertex color sampling using fragment shader-based rendering. To extract vertex colors, each vertex 𝑣 𝑖 ∈ 𝑉 𝑑𝑒𝑛𝑠𝑒 is projected onto 𝐼 via the previously estimated camera matrix 𝑃 = 𝐾 [𝑅 |𝑡 ].
+
+𝑈 𝑖 
+
+𝑉 𝑖 
+
+
+
+= 𝜋 (𝑃𝑣 𝑖 ) (4) where 𝜋 denotes perspective division, (𝑈 𝑖 , 𝑉 𝑖 ) represents the image coordinates onto which 𝑣 𝑖 is projected. A fragment shader processes each triangle, interpolating UV coordinates and fetching the corresponding RGB value from Im-age 𝐼 . For each triangular face 𝑓 = (𝑉 𝑎 , 𝑉 𝑏 , 𝑉 𝑐 ), we compute the interpolated color 𝐶 𝑓 using barycentric weights (𝛼, 𝛽, 𝛾 ):
+
+𝐶 𝑓 = 𝛼𝐶 (𝑉 𝑎 ) + 𝛽𝐶 (𝑉 𝑏 ) + 𝛾𝐶 (𝑉 𝑐 ) (5) This ensures consistent colouring across the dense mesh, with natural transitions aligned to the image’s photo-metric structure. However, this high-vertex-count mesh—while accurate—poses chal-lenges for real-time rendering. To maintain performance, we trans-fer the dense coloration to a texture image that can be sampled by a low-resolution MANO [ 34 ] mesh. While we do not have direct UV coordinates for the subdivision vertices, we utilize the fact that sub-division preserves topological mapping. By treating the UV layout of the low-resolution mesh as a 2D plane embedded in 3D where the MANO UV coordinates 𝑈𝑉 𝑀𝐴𝑁 𝑂 ∈ R2 are lifted to 3D space by appending a zero z-coordinate. where 𝑈𝑉 3𝐷 = (𝑈𝑉 𝑢 , 𝑈𝑉 𝑣 , 0).We then apply the same categorical subdivision to this UV plane. This creates a refined UV grid that mirrors the high-resolution mesh’s vertex topology but resides in UV space,ensuring a bijective mapping between high-res 3D vertices and UV coordinates. Using UVdense, we unwrap the vertex colors onto a 1024x1024 texture image. The result is a continuous, high definition texture image 
+
+𝑇 (𝑢, 𝑣 ) representing the dense surface coloration baked from the aligned RGB image. Fig. 5 shows some of our extracted UV texture images. This texture image can then be sampled by a low resolution mesh which allows for high frequency texture renders. 
+
+## 3.4 Controlled Inpainting for Side and Inter-Finger Texture Completion 
+
+We address texture gaps—particularly on mesh sides and between fingers by applying controlled inpainting using a Residual Atten-tion U-Net, inspired by [ 11 ]. This architecture introduces residual blocks for stabilizing training and mitigating vanishing gradients, alongside attention units to focus computation on structurally crit-ical masked regions. Instead of naive interpolation, our model is trained on real data simulating missing textures. We create training inputs by performing morphological erosion at hand mask con-tours and overlaying random elliptical black blotches, mimicking occluded or unprojected areas. The network is optimized with a composite loss: 
+
+𝐿 𝑡𝑜𝑡𝑎𝑙 = 𝜆 1𝐿 𝐿 1 + 𝜆 2𝐿 𝐿 2 + 𝜆 3𝐿 𝐶𝑂𝑆 + 𝜆 4𝐿 𝐻𝑆𝑉 (6) where 𝐿 𝐿 1 and 𝐿 𝐿 2 penalizes absolute and squared color differ-ences respectively. 𝐿 𝐶𝑂𝑆 enforces perceptual feature alignment via cosine similarity, and 𝐿 𝐻𝑆𝑉 ensures hue consistency in the color space. The residual blocks mitigate vanishing gradients, while atten-tion mechanisms reduce blurring, critical for high-resolution hand textures. Our experiments confirm that the HSV loss significantly reduces color drift, and the elliptical mask augmentation improves robustness to real-world occlusions. This controlled inpainting pipeline yields semantically coherent, high-fidelity texture completion, ensuring anatomically consistent transitions across occluded regions. The attention mechanism pre-cisely targets challenging areas, while residual pathways uphold structural consistency, delivering realistic side and inter-finger tex-tures for personalized hand avatars. 
+
+## 4 Experiments 4.1 Experimental Setup and Data Sources 
+
+To evaluate our pipeline, we begin by extracting initial MANO [ 34 ]mesh parameters and camera poses using the InterWild [ 25 ] hand modeling applied to input images. This yields pose, shape, and camera intrinsics and extrinsics suitable for projecting our mesh reliably in alignment with the image domain. Concurrently, we detect 21 hand keypoints using MediaPipe Hands and compute segmentation masks via the Segment Anything Model (SAM) [ 16 ]on the same input frames. These two semantic inputs form the foundation for our contour aware TPS [ 45 ] alignment stage.Using the recovered mesh parameters and camera pose, we rasterize the ICVGIP 2025, December 17–20, 2025, Mandi, India 
+
+MANO [ 34 ] mesh into image space to generate a mesh silhouette mask 𝑀 𝑚𝑒𝑠ℎ . This mask provides ground truth geometry projection which we use in combination with SAM [ 16 ] masks in the alignment step, ensuring the warped image mask matches the rendered mesh silhouette to sub pixel precision. 
+
+Lab-Captured Multi-View Hand Scans : We captured our own sample data of 15 subjects, 5 poses each, 50K images, with High-resolution (12MP) RGB phone captures with diversity in skin tones, gender and accessories. We use this to train our inpainting network and to evaluate the visual fidelity of the photo-realistic avatars. 
+
+HARP [ 40 ] Dataset : We used all 5 sequences shared by the re-searches which include Subject_1, smile, smile_black, dimlight and tattoo .We use this data to evaluate the quantitative and qualitative performance of the photorealistic avatars. 
+
+Hands11K [ 1 ] Dataset : 11k Hands dataset, a collection of 11,076 hand images (1600 x 1200 pixels) of 190 subjects, of varying ages between 18 - 75 years old. Each hand was photographed from both dorsal and palmar sides with a uniform white background with metadata on subject ID, gender age , skin color etc but we discard the metadata and use only the images for our training. 
+
+## 4.2 Training the Inpainting network 
+
+In order to enable robust hole filling and artifacts removal, we trained the U-Net based inpainting network described in Section 3.4. We combined Hands11k [1], HARP [40] and our Lab captured hand scans to form a dataset of ∼ 45K hand images along with their corruption masks and trained the network in a self-supervised manner. The dataset was randomly divided into training and testing sets of ∼ 40K and ∼ 5K images respectively. Based on varied sets of experiments, we identified suitable weightage for each term in the loss function defined in Equation 6, and those were 𝜆 1 = 1.0,
+
+𝜆 2 = 0.5, 𝜆 3 = 0.3 and 𝜆 4 = 0.3. The model was trained for 80 Epochs on an Nvidia RTX A6000 GPU. We also evaluated the model on the testing set consisting of ∼ 5k images both Quantitatively as well as Qualitatively. In terms of quantitative evaluation, we got a PSNR of 28 .32 , SSIM of 0.968 and an LPIPS of 0.0623 . Fig. 6 showcases the results of our qualitative evaluations. (a) 
+
+(b) 
+
+Figure 6: Qualitative results for the evaluation of the trained Inpainting network. Row (a) is the input to the network which is having several artifacts. Row (b) shows the inpainted results from the network. 
+
+## 4.3 Evaluation Metrics 
+
+To evaluate realism and personalization of generated hand tex-tures we adopt ViTScore [ 46 ] and DINOv2 [ 27 ] cosine similarity as our principal metrics. These are built on Vision Transformer [46 ] embeddings and designed to capture image semantic similarity and outperforms classical pixel/structure-based measures such as PSNR, SSIM etc for semantic tasks. While LPIPS, though perceptu-ally motivated, lacks the specificity to differentiate unique identity markers. Input  
+
+> ViT Attention
+> Heatmap
+> DinoV2 Attention
+> Heatmap
+
+Figure 7: DinoV2 [ 27 ] and ViT [ 46 ] heatmaps shows that these metrics attend to user specific identifiers which are crucial for personalised hand avatar 
+
+Beyond raw scores, a key advantage of transformer-based embed-dings is interpretability: attention heatmaps from ViT/DINO models consistently localize discriminative patches and can be visualized to verify that the metric attends to user-specific cues (e.g., tattoos, moles, creases)—i.e., personalized identifiers that conventional met-rics overlook. Fig. 7 presents attention heatmaps from both DINOv2 [ 27 ] and ViT [ 46 ] generated at intermediate self-attention heads. This targeted localization underscores the strength of transformer-based embeddings in capturing fine-grained, identity-relevant tex-ture details—capabilities that traditional metrics like SSIM, PSNR, or LPIPS cannot offer. 
+
+## 4.4 Quantitative Evaluation 
+
+We evaluate our method, PHAF, against three state-of-the-art per-sonalized hand texture techniques using the HARP [ 40 ] dataset for benchmarking, this data features video scans of five subjects—four with distinct skin markers (e.g., tattoos) and one without any mark-ers. HARP [ 40 ] reconstructs personalized hand avatars from short monocular RGB videos using an explicit mesh-based model with vertex displacement, normal, and albedo maps, coupled with a shadow-aware differentiable renderer. UHM [ 19 ] adapts a Univer-sal Hand Model via a quick phone scan, producing high-fidelity, animatable avatars through a combined tracking-and-modeling pipeline . OHTA [ 47 ] — a single-image neural rendering approach PHAF: Personalized Hand Avatars in a Flash ICVGIP 2025, December 17–20, 2025, Mandi, India 
+
+Table 1: Quantitative results against state-of-the-art methods using ViT [ 46 ] and DINOv2 [ 27 ] scores. Our method significantly outperforms other methods at similar runtime 
+
+Time since optimization started 2 mins 10 mins 30 mins 60 mins Methods ViT Score ↑ DINOv2 Score ↑ ViT Score ↑ DINOv2 Score ↑ ViT Score ↑ DINOv2 Score ↑ ViT Score ↑ DINOv2 Score ↑
+
+UHM [19] 0.712 0.636 0.859 0.761 0.892 0.805 0.932 0.899 HARP [40] 0.665 0.439 0.688 0.499 0.799 0.827 0.896 0.952 
+
+OHTA [47] - - - - - - 0.491 0.765 
+
+PHAF (Ours) 0.864 0.922 - - - - - -HARP [24]  
+
+> (1.5 Hours)
+> PHAF (Ours)
+> (2 Mins )
+> UHM [13]
+> (2 Hours)
+> Ground
+> Truth
+> OHTA [28]
+> (1 Hour)
+
+Figure 8: Qualitative comparisons of the proposed PHAF with UHM [19], HARP [40] and OHTA [47]. PHAF achieves 
+
+that attempts one-shot avatar creation but struggles to capture fine person-specific texture details. Using our transformer-based metrics (ViTScore [ 46 ] and DI-NOv2 [ 27 ] cosine similarity) as shown in Table 1, PHAF achieves comparable semantic texture similarity to HARP [ 40 ] and UHM [19 ], even though our pipeline runs in just ∼ 2 minutes, versus ∼ 1hour for the video-based methods, representing a 30 × speed-up. Also, PHAF significantly outperforms all the methods at similar run-time (2 mins). OHTA [ 47 ] fails to achieve acceptable results even after extended processing ( ≥ 1 hour), particularly for subjects with prominent skin markers. These findings underscore PHAF’s balance of efficiency, accuracy, and personalization, outperform-ing one-shot implicit methods and matching video-optimization techniques—with a 30x reduced time cost. 
+
+## 4.5 Qualitative Evaluation 
+
+We qualitatively compare our hand-textured avatar-PHAF against leading personalized hand avatar methods—UHM (Universal Hand Model) and HARP, both using video input, as well as OHTA, a state-of-the-art neural rendering approach from a single image. (a)  (b) 
+
+Figure 9: (a) shows the input Palmar and Dorsal images. (b) shows various articulation of the generated textured meshes using PHAF. 
+
+UHM achieves high fidelity via short phone scans and explicit mesh adaptations; HARP reconstructs personalized geometry and appearance from a short monocular video through optimizable mesh-based models and differentiable rendering; OHTA generates ICVGIP 2025, December 17–20, 2025, Mandi, India 
+
+animatable hand avatars from one image using data-driven implicit priors. In Fig. 8, our avatar demonstrates perceptually superior texture fidelity: fine details such as tattoos and unique skin markers appear distinctly and consistently—details that are often blurred or absent in the comparative methods. The sampling from a ∼ 700k vertex dense mesh helps to preserve details beyond what baseline methods achieve using normal maps and vertex displacements. Notably, our method completes the entire pipeline in approximately 2 minutes, in stark contrast to the ∼ 1-hour runtime of the video-based methods, offering a 30 × acceleration without compromising visual realism. Fig. 9 illustrates articulated mesh renderings. Since our pipeline leverages the standard MANO [ 34 ] mesh, it supports diverse hand articulations and integrates seamlessly with existing research infras-tructures—eliminating the need for custom geometry as required by other approaches. 
+
+## 5 Ablation Studies 
+
+To assess the role of geometric density in high-fidelity hand tex-ture synthesis, we conduct an ablation study by subdividing the MANO [ 34 ] upto 5 ×, which produced significantly higher DINOv2 [ 27 ] cosine similarity and ViTScore [ 46 ] values as can be seen in Table 2. We attribute this to denser meshes projecting more pixels per surface region, thereby enabling extraction of high-frequency texture details such as subtle skin patterns as shown in Fig. 10. How-ever, densification increases computational cost, texture generation time doubles (from ∼ 38s to ∼ 76s, as shown in Table. 2 Col 4) due to finer fragment processing. The trade-off is justified as distinc-tive markers must remain sharp. These results confirm that mesh densification amplifies perceptual quality and improves semantic similarity scoring, validating its integration in our workflow. We also evaluated the impact of Thin Plate Spline (TPS) [ 45 ]warping for mesh–image alignment during texture extraction. We compared 4 configurations: No alignment, control anchors with 6 points, 14 points and 18 points. Employing 14 control points yielded the most precise registration between the mesh and hand image, ensuring anatomical features like fingernail tips align correctly, though processing time roughly tripled relative to the unaligned baseline. This was needed as proper projection alignment is crucial for accurate texture capture; without it, misplacements can occur, for example, nails may not appear at fingertip positions, resulting in unnatural artifacts. Fig. 11 illustrates this effect, showing how TPS [45 ] alignment mitigates misregistration and permits extraction of high-fidelity, identity-consistent texture details. However as the number of control points become big, the warping space becomes highly nonlinear resulting in twisting artefacts in the warped image, hence the texture on the hand appears distorted, this reflects as low semantic scores as shown in the Table. 3 Row 4. 
+
+Table 2: Ablation Study: Texture Fidelity with increased den-sification Densification ViT [46] Score DINOv2 [27] Score Time (in sec)              
+
+> Dense 1x 0.739 0.595 76.26 Dense 3x 0.810 0.717 40.38 Dense 5x 0.891 0.896 38.98 Palmar View Dense 1x Dense 3x Dense 5x
+
+Figure 10: Impact of mesh resolution. A dense mesh results in higher fidelity outputs (circle regions). (a) Without alignment  (b) With Control point alignment 
+
+Figure 11: Control point alignment (b) results in a much better textured mesh, with less holes compared to the output without alignment (a). Table 3: Ablation Study: Texture Fidelity with number of control points Control Points ViT [46] Score DINOv2 [27] Score Time             
+
+> No Control Points 0.705 0.773 28.838 6 Control Points 0.789 0.885 63.516 14 Control Points 0.891 0.896 76.259 18 Control Points 0.524 0.432 90.259
+
+## 6 Conclusion 
+
+In this work, we present an integrated framework for high fidelity hand texture synthesis that combines semantically guided mesh alignment, densified texture extraction, and controlled domain-specific inpainting to synthesize personalised photo-realistic multi-view renders. With this work we paved the path for developing an optimisation free, fast pipeline to generate textures on the fly by using just frontal and dorsal images with high fidelity visual textures. Though our texture extraction was done using high reso-lution mesh to extract fine details, our final rendering uses a low-resolution mesh ,with pre-computed normals and a single texture map with efficient runtime performance. Our method employs op-timized design strategies to create fast textures while maintaining visual quality, ideal for AR/VR applications. 
+
+## References    
+
+> [1] Mahmoud Afifi. 2019. 11K Hands: gender recognition and biometric identification using a large dataset of hand images. Multimedia Tools and Applications (2019). doi:10.1007/s11042-019-7424-8
+
+PHAF: Personalized Hand Avatars in a Flash ICVGIP 2025, December 17–20, 2025, Mandi, India 
+
+[2] A. Bokhovkin, S. Tulsiani, and A. Dai. 2023. Mesh2Tex: Generating Mesh Textures from Image Queries. In Proceedings of ICCV 2023 . arXiv:2304.05868 [cs.CV] doi:10.48550/arXiv.2304.05868 [3] Yujin Chen, Zhigang Tu, Di Kang, Linchao Bao, Ying Zhang, Xuefei Zhe, Ruizhi Chen, and Junsong Yuan. 2021. Model-based 3D Hand Reconstruction via Self-Supervised Learning. arXiv:2103.11703 [cs.CV] https://arxiv.org/abs/2103.11703 [4] Enric Corona, Tomas Hodan, Minh Vo, Francesc Moreno-Noguer, Chris Sweeney, Richard Newcombe, and Lingni Ma. 2022. LISA: Learning Implicit Shape and Appearance of Hands. (2022). arXiv:2204.01695 [cs.CV] doi:10.48550/arXiv.2204. 01695 [5] K. Deng et al . 2024. FlashTex: Fast Relightable Mesh Texturing with LightCon-trolNet. (2024). arXiv:2402.13251 [cs.CV] doi:10.48550/arXiv.2402.13251 [6] A. Doe et al . 2023. Handy: Towards a High Fidelity 3D Hand Shape and Appear-ance Model. (2023). doi:10.1109/CVPR52729.2023.00453 [7] Q. Gan, Z. Zhou, and J. Zhu. 2024. XHand: Real-time Expressive Hand Avatar. (2024). arXiv:2407.21002 [cs.CV] doi:10.48550/arXiv.2407.21002 [8] D. Gao et al . 2022. DART: Articulated Hand Model with Diverse Accessories and Rich Textures. In NeurIPS 2022 - Datasets and Benchmarks Track . doi:ps/ publications/dart2022 [9] Z. Guo et al . 2023. HandNeRF: Neural Radiance Fields for Animatable Interacting Hands. (2023). arXiv:2303.13825 [cs.CV] doi:10.48550/arXiv.2303.13825 [10] David Hirshberg, Matthew Loper, Eric Rachlin, and Michael Black. 2012. Coreg-istration: Simultaneous Alignment and Modeling of Articulated 3D Shape. doi:10.1007/978-3-642-33783-3_18 [11] Md Imran Hosen and Md Baharul Islam. 2022. Masked Face Inpainting Through Residual Attention UNet. In 2022 Innovations in Intelligent Systems and Applica-tions Conference (ASYU) . IEEE, 1–5. [12] M. Ivashechkin, O. Mendez, and R. Bowden. 2025. HandOcc: NeRF-based Hand Rendering with Occupancy Networks. (2025). arXiv:2505.02079 [cs.CV] doi:10. 48550/arXiv.2505.02079 [13] Wei Jiang, Kwang Moo Yi, Golnoosh Samei, Oncel Tuzel, and Anurag Ran-jan. 2022. NeuMan: Neural Human Radiance Field from a Single Video. arXiv:2203.12575 [cs.CV] https://arxiv.org/abs/2203.12575 [14] Zheheng Jiang, Hossein Rahmani, Sue Black, and Bryan M. Williams. 2023. A Probabilistic Attention Model with Occlusion-aware Texture Regression for 3D Hand Reconstruction from a Single RGB Image. arXiv:2304.14299 [cs.CV] https://arxiv.org/abs/2304.14299 [15] Minje Kim and Tae-Kyun Kim. 2024. BiTT: Bi-directional Texture Reconstruction of Interacting Two Hands. In Proceedings of CVPR 2024 . doi:10.48550/arXiv.2403. 08262 [16] Alexander Kirillov, Eric Mintun, Nikhila Ravi, Hanzi Mao, Chloe Rolland, Laura Gustafson, Tete Xiao, Spencer Whitehead, Alexander C. Berg, Wan-Yen Lo, Piotr Dollár, and Ross Girshick. 2023. Segment Anything. arXiv:2304.02643 (2023). [17] Jiahui Lei et al . 2020. Pix2Surf: Learning Parametric 3D Surface Models of Objects from Images. (2020). arXiv:2008.07760 [cs.CV] doi:10.48550/arXiv.2008.07760 [18] Y. Liang et al . 2025. UniTEX: Universal High-Fidelity Generative Texturing for 3D Shapes. (2025). arXiv:2505.23253 [cs.GR] doi:10.48550/arXiv.2505.23253 [19] Y. Liu et al . 2024. UHM: Authentic Hand Avatar from a Phone Scan via Universal Hand Model. (2024). arXiv:2405.07933 [cs.CV] doi:10.48550/arXiv.2405.07933 [20] Stephen Lombardi, Tomas Simon, Jason Saragih, Gabriel Schwartz, Andreas Lehrmann, and Yaser Sheikh. 2019. Neural volumes: learning dynamic renderable volumes from images. ACM Transactions on Graphics 38 (July 2019), 1–14. doi:10. 1145/3306346.3323020 [21] Matthew Loper, Naureen Mahmood, Javier Romero, Gerard Pons-Moll, and Michael J. Black. 2015. SMPL: A Skinned Multi-Person Linear Model. ACM Trans. Graphics (Proc. SIGGRAPH Asia) (2015), 248:1–248:16. doi:10.1145/2816795. 2818013 [22] Marko Mihajlovic, Aayush Bansal, Michael Zollhoefer, Siyu Tang, and Shunsuke Saito. 2022. KeypointNeRF: Generalizing Image-based Volumetric Avatars using Relative Spatial Encoding of Keypoints. arXiv:2205.04992 [cs.CV] https://arxiv. org/abs/2205.04992 [23] Ben Mildenhall, Pratul P. Srinivasan, Matthew Tancik, Jonathan T. Barron, Ravi Ramamoorthi, and Ren Ng. 2020. NeRF: Representing Scenes as Neural Radiance Fields for View Synthesis. arXiv:2003.08934 [cs.CV] doi:10.48550/arXiv.2003.08934 [24] Aymen Mir, Thiemo Alldieck, and Gerard Pons-Moll. 2020. Learning to Transfer Texture from Clothing Images to 3D Humans. (2020). arXiv:2003.02050 [cs.CV] doi:10.48550/arXiv.2003.02050 [25] Gyeongsik Moon. 2023. Bringing Inputs to Shared Domains for 3D Interacting Hands Recovery in the Wild. In CVPR .[26] Tuur Stuyck Nikolaos Sarafianos et al . 2024. Garment3DGen: 3D Garment Styl-ization and Texture Generation. (2024). arXiv:2403.18816 [cs.CV] doi:10.48550/ arXiv.2403.18816 [27] Maxime Oquab, Timothée Darcet, Théo Moutakanni, Huy Vo, Marc Szafraniec, Vasil Khalidov, Pierre Fernandez, Daniel Haziza, Francisco Massa, Alaaeldin El-Nouby, Mahmoud Assran, Nicolas Ballas, Wojciech Galuba, Russell Howes, Po-Yao Huang, Shang-Wen Li, Ishan Misra, Michael Rabbat, Vasu Sharma, Gabriel Synnaeve, Hu Xu, Hervé Jegou, Julien Mairal, Patrick Labatut, Armand Joulin, and Piotr Bojanowski. 2024. DINOv2: Learning Robust Visual Features without Supervision. arXiv:2304.07193 [cs.CV] https://arxiv.org/abs/2304.07193 [28] Keunhong Park, Utkarsh Sinha, Jonathan T. Barron, Sofien Bouaziz, Dan B Gold-man, Steven M. Seitz, and Ricardo Martin-Brualla. 2021. Nerfies: Deformable Neu-ral Radiance Fields. arXiv:2011.12948 [cs.CV] https://arxiv.org/abs/2011.12948 [29] Sida Peng, Junting Dong, Qianqian Wang, Shangzhan Zhang, Qing Shuai, Xiaowei Zhou, and Hujun Bao. 2021. Animatable Neural Radiance Fields for Modeling Dynamic Human Bodies. arXiv:2105.02872 [cs.CV] https://arxiv.org/abs/2105. 02872 [30] Sida Peng, Yuanqing Zhang, Yinghao Xu, Qianqian Wang, Qing Shuai, Hujun Bao, and Xiaowei Zhou. 2021. Neural Body: Implicit Neural Representations with Structured Latent Codes for Novel View Synthesis of Dynamic Humans. arXiv:2012.15838 [cs.CV] https://arxiv.org/abs/2012.15838 [31] S. R. K. Perla, Y. Wang, A. Mahdavi-Amiri, and H. Zhang. 2024. EASI-Tex: Edge-Aware Mesh Texturing from Single Image. In ACM Transactions on Graphics (Proceedings of SIGGRAPH 2024) . arXiv:2405.17393 [cs.GR] doi:10.48550/arXiv. 2405.17393 [32] Gerard Pons-Moll, Javier Romero, Naureen Mahmood, and Michael Black. 2015. Dyna: A Model of Dynamic Human Shape in Motion. (2015). doi:10.15496/ publikation-10602 [33] E. Richardson et al . 2023. TEXTure: Text-Guided Texturing of 3D Shapes. (2023). arXiv:2302.01721 [cs.GR] doi:10.48550/arXiv.2302.01721 [34] Javier Romero, Dimitrios Tzionas, and Michael J. Black. 2017. Embodied Hands: Modeling and Capturing Hands and Bodies Together. ACM Transactions on Graphics, (Proc. SIGGRAPH Asia) 36, 6 (Nov. 2017). [35] J. Smith et al . 2020. HTML: A Parametric Hand Texture Model for 3D Hand Reconstruction and Personalization. (2020). [36] Praveen Srinivasan, Daphne Koller, Sebastian Thrun, Jim Rodgers, and James Davis. 2005. SCAPE: Shape completion and animation of people. ACM Transac-tions on Graphics (TOG) (2005), 408–416. doi:10.1145/1073204.1073207 [37] David Svitov, Dmitrii Gudkov, Renat Bashirov, and Victor Lempitsky. 2023. DI-NAR: Diffusion Inpainting of Neural Textures for One-Shot Human Avatars. arXiv:2303.09375 [cs.CV] https://arxiv.org/abs/2303.09375 [38] H. Wang et al . 2023. HandAvatar: Free-Pose Hand Animation & Rendering from Monocular Video. (2023). arXiv:2211.12782 [cs.CV] doi:10.48550/arXiv.2211.12782 [39] Chung-Yi Weng, Brian Curless, Pratul P. Srinivasan, Jonathan T. Barron, and Ira Kemelmacher-Shlizerman. 2022. HumanNeRF: Free-viewpoint Rendering of Moving People from Monocular Video. arXiv:2201.04127 [cs.CV] https://arxiv. org/abs/2201.04127 [40] Y. Xu et al . 2023. HARP: Personalized Hand Reconstruction from a Monocular RGB Video. (2023). arXiv:2212.09530 [cs.CV] doi:10.48550/arXiv.2212.09530 [41] Kim Youwang, Tae-Hyun Oh, and Gerard Pons-Moll. 2024. Paint-it: Text-to-Texture Synthesis via Deep Convolutional Texture Map Optimization and Physically-Based Rendering. (2024). arXiv:2312.11360 [cs.CV] doi:10.48550/arXiv. 2312.11360 [42] X. Zeng, X. Chen, Z. Qi, et al . 2024. Paint3D: Paint Anything 3D with Lighting-Less Texture Diffusion Models. In Proceedings of CVPR 2024 . arXiv:2312.13913 [cs.CV] doi:10.48550/arXiv.2312.13913 [43] Cheng Zhang et al . 2024. FabricDiffusion: High-Fidelity Texture Transfer for 3D Garments Generation from In-The-Wild Clothing Images. (2024). arXiv:2410.01801 [cs.CV] doi:10.48550/arXiv.2410.01801 [44] Juze Zhang et al . 2022. Nimble: a non-rigid hand model with bones and muscles. (2022). arXiv:2202.04533 [cs.CV] doi:10.48550/arXiv.2202.04533 [45] Jian Zhao and Hui Zhang. 2022. Thin-Plate Spline Motion Model for Image Animation. arXiv:2203.14367 [cs.CV] https://arxiv.org/abs/2203.14367 [46] Ziwei Zhao, David Leake, Xiaomeng Ye, and David Crandall. 2024. Case-Enhanced Vision Transformer: Improving Explanations of Image Similarity with a ViT-based Similarity Metric. arXiv:2407.16981 [cs.CV] https://arxiv.org/abs/2407.16981 [47] X. Zheng, C. Wen, Z. Su, et al . 2024. OHTA: One-shot Hand Avatar via Data-driven Implicit Priors. (2024). arXiv:2402.18969 [cs.CV] doi:10.48550/arXiv.2402.18969 [48] J. Zhu, Z. Zhao, L. Yang, and A. Yao. 2023. HiFiHR: High-Fidelity Texture for 3D Hand Reconstruction. (2023). arXiv:2308.13628 [cs.CV] doi:10.48550/arXiv.2308. 13628
