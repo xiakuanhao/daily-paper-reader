@@ -1,0 +1,58 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-10T22:25:31.181984+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 0,
+    "quick_skim_target": 11,
+    "quick_selected": 0
+  },
+  "deep_dive": [
+    {
+      "id": "2606.11152v1",
+      "source": "arxiv",
+      "title": "P3D-Bench: Benchmarking MLLMs for Parametric 3D Generation and Structural Reasoning",
+      "abstract": "Multimodal large language models can write code to produce complex programs as well as use programs to do 3D modeling, which opens up a new avenue for 3D generation powered by their priors, world knowledge and reasoning. Yet existing benchmarks rarely evaluate 3D modeling through code. Such modeling demands more than runnable code: from a text or visual specification, a model must generate a parametric 3D program that is geometrically precise, semantically aligned and assembly-consistent. We introduce P3D-Bench, a benchmark for parametric 3D generation. Unlike a 3D mesh, a parametric 3D program exposes explicit dimensions, construction operations and part relations, revealing whether a model recovers a design's structure, not just its appearance. Under a unified protocol, P3D-Bench covers three task families (Text-to-3D, Image-to-3D and Assembly-3D) and scores each output for executability, geometric fidelity, topology, text-grounded constraints, multiview semantic alignment and part-level structure. We evaluate frontier MLLMs and text-only LLMs on 400 text cases, 400 image cases and 203 annotated assemblies, with domain-specific models as reference points. Our extensive evaluation yields three findings. First, assemblies are the hardest setting, where models still fail to compose multiple parts into a coherent structure. Second, models can often recover the global shape and semantic identity of the target object, yet fail to reproduce the precise parametric geometry specified by the input. Third, part-level modeling remains weak on assemblies, where models recover neither the geometry of each part nor the right number of parts. These results position P3D-Bench as a benchmark for evaluating precise parametric geometry and part-level structure in parametric 3D generation.",
+      "authors": [
+        "Yikang Yang",
+        "Zhanpeng Hu",
+        "Youtian Lin",
+        "Mengqi Zhou",
+        "Jingxi Xu",
+        "Feihu Zhang",
+        "Jiaheng Liu",
+        "Yao Yao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-09T17:36:34+00:00",
+      "link": "https://arxiv.org/pdf/2606.11152v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "parametric 3D program exposes explicit dimensions, construction operations and part relations",
+      "llm_evidence_cn": "参数化3D程序暴露了显式尺寸、构造操作和零件关系",
+      "llm_evidence": "参数化3D程序暴露了显式尺寸、构造操作和零件关系",
+      "canonical_evidence": "参数化3D程序暴露了显式尺寸、构造操作和零件关系",
+      "llm_tldr_en": "P3D-Bench evaluates MLLMs on generating parametric 3D programs that must be geometrically precise, semantically aligned, and assembly-consistent, revealing whether a model recovers a design's part structure, not just appearance.",
+      "llm_tldr_cn": "现有基准很少通过代码评估3D建模，而参数化3D生成需要模型生成几何精确、语义对齐且装配一致的参数化程序。P3D-Bench构建了首个此类基准，要求模型从文本或视觉规范生成暴露零件关系的参数化3D程序，从而检验模型是否恢复了设计的结构而不仅是外观。实验表明，该基准能有效区分模型的零件级结构推理能力，推动零件感知3D生成研究。",
+      "llm_tldr": "现有基准很少通过代码评估3D建模，而参数化3D生成需要模型生成几何精确、语义对齐且装配一致的参数化程序。P3D-Bench构建了首个此类基准，要求模型从文本或视觉规范生成暴露零件关系的参数化3D程序，从而检验模型是否恢复了设计的结构而不仅是外观。实验表明，该基准能有效区分模型的零件级结构推理能力，推动零件感知3D生成研究。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "generating 3D models with separate parts",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": []
+}
