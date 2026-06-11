@@ -1,0 +1,69 @@
+{
+  "label": "2026-06-11",
+  "date": "2026-06-11",
+  "generated_at": "2026-06-11T22:15:08",
+  "count": 4,
+  "papers": [
+    {
+      "paper_id": "202606/11/2606.12099v1-isap-3d-identity-slot-aligned-part-aware-3d-generation",
+      "section": "deep",
+      "title_en": "ISAP-3D: Identity-Slot Aligned Part-Aware 3D Generation",
+      "authors": "Junlin Hao, Haoshuai Fu, Xibin Song, Wei Li, Ruigang Yang, Xinggong Zhang, Jinchuan Zhang",
+      "date": "2026-06-10",
+      "pdf": "https://arxiv.org/pdf/2606.12099v1",
+      "score": "10.0",
+      "evidence": "通过身份-槽对齐解决槽置换导致的结构模糊，实现稳定的零件感知3D生成",
+      "tldr": "部分感知3D生成常因身份-布局纠缠产生结构歧义，现有方法或隐式推理导致部件分配不稳定，或依赖强布局先验难以实用。本文指出根源在于身份-槽排列自由：缺乏显式对齐时，部件与生成槽的对应关系不可识别，导致解耦不一致。为此提出ISAP-3D，用语义身份令牌锚定部件，进行身份条件的一对一布局预测，并以此指导几何合成，通过局部-全局条件保持全阶段身份对齐。此外构建了统一语义协议的部分级数据集，支持可学习对齐。实验证明，该方法显著提升结构稳定性、可控性和鲁棒性，超越现有基线。该工作揭示了身份-槽对齐对部分感知生成的核心作用，为结构化3D内容创建提供了可靠方案。",
+      "tags": "query:part-aware",
+      "abstract_en": "Part-aware 3D generation aims to synthesize structured objects with semantically meaningful components, yet often suffers from structural ambiguity due to identity-layout entanglement. Existing methods either infer part identity and spatial layout implicitly, which can lead to unstable part allocation (e.g., slot swapping or part merging), or rely on strong layout conditions that are difficult to obtain in practice. We attribute this ambiguity to identity-slot permutation freedom: without explicit identity-slot alignment, the correspondence between semantic parts and generation slots is not identifiable during training, allowing multiple slot assignments to fit the same supervision and leading to inconsistent decomposition. Based on this insight, we argue that stable part-aware generation requires identity-aligned one-to-one slot modelling. We therefore propose an identity-slot aligned framework, ISAP-3D, which anchors each part with semantic identity tokens and performs identity-conditioned one-to-one layout prediction, followed by layout-conditioned geometry synthesis. Structured local-global conditioning maintains identity alignment across semantic, spatial, and geometric stages. We also construct a part-level dataset with a unified semantic protocol to enable learnable and consistent identity-slot alignment. Extensive experiments demonstrate improved structural stability, controllability, and robustness over state-of-the-art part-aware generation baselines.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/11/2606.10594v1-segment-and-select-vision-language-segmentation-in-3d-scenarios",
+      "section": "deep",
+      "title_en": "Segment and Select: Vision-Language Segmentation in 3D Scenarios",
+      "authors": "Yulin Chen, Zhihang Zhong, Yuenan Hou",
+      "date": "2026-06-09",
+      "pdf": "https://arxiv.org/pdf/2606.10594v1",
+      "score": "9.0",
+      "evidence": "基于语言指令的细粒度三维语义分割",
+      "tldr": "3D视觉-语言分割要求根据语言描述分割三维场景中的目标，现有方法多采用粗粒度超点以减少计算量，但牺牲了分割精度和边界清晰度。本文提出SEGA3D，一种直接处理细粒度视觉信息的Segment-and-Select范式，首先由掩码候选生成器提供细粒度类别掩码候选，然后利用大语言模型从语言指令和视觉特征中提取语义与空间信息，输入语义空间选择器筛选出最优候选，最后经回环验证模块输出最终分割。在ScanNet和Matterport3D数据集上，SEGA3D分别超越先前最佳方法8.3和5.3 mIoU，大幅提升分割质量，为3D视觉-语言分割开辟了新途径。",
+      "tags": "query:part-aware",
+      "abstract_en": "3D vision-language segmentation aims to segment target objects in 3D scenarios according to the linguistic instructions and visual observations. Prior art heavily relies on the coarse superpoint representation to reduce the computation complexity, which suffers from poor segmentation quality and messy object boundaries. In this paper, we propose the SEGment-And-select (SEGA3D) paradigm for 3D visionlanguage segmentation that directly operates on the fine-grained visual information and is free from the superpoint dependency. Specifically, we first leverage a mask candidate generator to provide fine-grained categorical mask candidates, substantially improving the quality of candidate masks over the superpoint counterparts. Then, a Large Language Model (LLM) is utilized to generate the semantic and spatial information based on the linguistic description and visual features. The LLM output and visual features are fed to the Semantic-Spatial Selector (SSS) to produce the top-ranking mask candidates. Eventually, the Loopback Verification Module (LVM) is designed to yield the segmentation mask from the selected candidate masks. Our SEGA3D attains competitive performance on ScanRefer, ScanNet and Matterport3D benchmarks. Notably, our SEGA3D surpasses the top-performing counterpart by 8.3 mIoU and 5.3 mIoU on ScanNet and Matterport3D, respectively. Codes will be available upon publication.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/11/2606.11152v2-p3d-bench-benchmarking-mllms-for-parametric-3d-generation-and-structural-reasoning",
+      "section": "deep",
+      "title_en": "P3D-Bench: Benchmarking MLLMs for Parametric 3D Generation and Structural Reasoning",
+      "authors": "Yikang Yang, Zhanpeng Hu, Youtian Lin, Mengqi Zhou, Jingxi Xu, Feihu Zhang, Jiaheng Liu, Yao Yao",
+      "date": "2026-06-09",
+      "pdf": "https://arxiv.org/pdf/2606.11152v2",
+      "score": "9.0",
+      "evidence": "参数化三维生成基准显式评估零件关系与装配一致性",
+      "tldr": "参数化3D生成要求模型输出精确几何与结构，但现有基准多忽略代码驱动的建模。P3D-Bench构建了覆盖文本、图像和组装三种输入的评估方案，细粒度衡量可执行性、几何保真度与零件结构。实验显示，前沿模型在组装任务上表现不佳，虽能还原全局语义，却普遍丢失精确参数尺寸和零件数量。该基准为研究参数化3D生成中的精确几何与结构推理提供了重要工具。",
+      "tags": "query:part-aware",
+      "abstract_en": "Multimodal large language models can write code to produce complex programs as well as use programs to do 3D modeling, which opens up a new avenue for 3D generation powered by their priors, world knowledge and reasoning. Yet existing benchmarks rarely evaluate 3D modeling through code. Such modeling demands more than runnable code: from a text or visual specification, a model must generate a parametric 3D program that is geometrically precise, semantically aligned and assembly-consistent. We introduce P3D-Bench, a benchmark for parametric 3D generation. Unlike a 3D mesh, a parametric 3D program exposes explicit dimensions, construction operations and part relations, revealing whether a model recovers a design's structure, not just its appearance. Under a unified protocol, P3D-Bench covers three task families (Text-to-3D, Image-to-3D and Assembly-3D) and scores each output for executability, geometric fidelity, topology, text-grounded constraints, multiview semantic alignment and part-level structure. We evaluate frontier MLLMs and text-only LLMs on 400 text cases, 400 image cases and 203 annotated assemblies, with domain-specific models as reference points. Our extensive evaluation yields three findings. First, assemblies are the hardest setting, where models still fail to compose multiple parts into a coherent structure. Second, models can often recover the global shape and semantic identity of the target object, yet fail to reproduce the precise parametric geometry specified by the input. Third, part-level modeling remains weak on assemblies, where models recover neither the geometry of each part nor the right number of parts. These results position P3D-Bench as a benchmark for evaluating precise parametric geometry and part-level structure in parametric 3D generation.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/11/2606.11805v1-texthoi-3d-text-to-3d-hand-object-interaction-via-discrete-multi-view-generation-and-joint-mesh-optimization",
+      "section": "deep",
+      "title_en": "TextHOI-3D: Text-to-3D Hand-Object Interaction via Discrete Multi-View Generation and Joint Mesh Optimization",
+      "authors": "Zixiong Hao, Zhencun Jiang",
+      "date": "2026-06-10",
+      "pdf": "https://arxiv.org/pdf/2606.11805v1",
+      "score": "9.0",
+      "evidence": "从文本生成带有铰接手部形状的手-物交互网格",
+      "tldr": "文本生成手-物体3D网格需兼顾语义、几何与接触，挑战性高。TextHOI-3D引入离散多视图视觉token作为中间表征，分两阶段实现文本到统一网格的生成：先学习紧凑token空间并用CLIP自回归预测多视图token，再通过先验初始化与联合优化恢复网格。多视图设置将物体误差大幅降低，穿透体积降至0.2193cm³，手部误差与表面质量也明显改善。该工作验证了多视图token在文本驱动3D手物交互生成中的有效性。",
+      "tags": "query:part-aware",
+      "abstract_en": "Text-conditioned 3D generation has progressed rapidly for images and isolated objects, but producing a hand-object mesh remains challenging: the output must preserve language semantics, cross-view consistency, object geometry, articulated hand shape, and physically plausible contact. We present TextHOI-3D, a staged framework that uses generated multi-view observations as an explicit interface between text-conditioned visual generation and geometry-aware hand-object recovery. TextHOI-3D learns a compact VQ token space for fixed-camera hand-object observations, predicts multi-view visual tokens from text with a CLIP-conditioned visual autoregressive model, and recovers a unified hand-object mesh through prior initialization, multi-view joint optimization, and anti-penetration refinement. The design separates semantic generation from geometric recovery while keeping both stages connected by a discrete multi-view representation. On HO3D-derived evaluations, the multi-view setting reduces object CD from 17.26 mm to 4.92 mm and penetration volume from 5.3721 cm^3 to 0.2193 cm^3 compared with a single-view counterpart, while improving hand errors and surface F-scores. These results support multi-view visual tokens as an effective intermediate representation for text-driven 3D hand-object mesh creation.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

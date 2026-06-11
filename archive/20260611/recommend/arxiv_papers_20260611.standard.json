@@ -1,0 +1,170 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-11T22:10:47.530023+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 4,
+    "deep_cap": 6,
+    "deep_selected": 4,
+    "quick_candidates": 0,
+    "quick_skim_target": 11,
+    "quick_selected": 0
+  },
+  "deep_dive": [
+    {
+      "id": "2606.12099v1",
+      "source": "arxiv",
+      "title": "ISAP-3D: Identity-Slot Aligned Part-Aware 3D Generation",
+      "abstract": "Part-aware 3D generation aims to synthesize structured objects with semantically meaningful components, yet often suffers from structural ambiguity due to identity-layout entanglement. Existing methods either infer part identity and spatial layout implicitly, which can lead to unstable part allocation (e.g., slot swapping or part merging), or rely on strong layout conditions that are difficult to obtain in practice. We attribute this ambiguity to identity-slot permutation freedom: without explicit identity-slot alignment, the correspondence between semantic parts and generation slots is not identifiable during training, allowing multiple slot assignments to fit the same supervision and leading to inconsistent decomposition. Based on this insight, we argue that stable part-aware generation requires identity-aligned one-to-one slot modelling. We therefore propose an identity-slot aligned framework, ISAP-3D, which anchors each part with semantic identity tokens and performs identity-conditioned one-to-one layout prediction, followed by layout-conditioned geometry synthesis. Structured local-global conditioning maintains identity alignment across semantic, spatial, and geometric stages. We also construct a part-level dataset with a unified semantic protocol to enable learnable and consistent identity-slot alignment. Extensive experiments demonstrate improved structural stability, controllability, and robustness over state-of-the-art part-aware generation baselines.",
+      "authors": [
+        "Junlin Hao",
+        "Haoshuai Fu",
+        "Xibin Song",
+        "Wei Li",
+        "Ruigang Yang",
+        "Xinggong Zhang",
+        "Jinchuan Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-10T13:54:59+00:00",
+      "link": "https://arxiv.org/pdf/2606.12099v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Part-aware 3D generation with identity-slot alignment to resolve structural ambiguity from slot permutation",
+      "llm_evidence_cn": "通过身份-槽对齐解决槽置换导致的结构模糊，实现稳定的零件感知3D生成",
+      "llm_evidence": "通过身份-槽对齐解决槽置换导致的结构模糊，实现稳定的零件感知3D生成",
+      "canonical_evidence": "通过身份-槽对齐解决槽置换导致的结构模糊，实现稳定的零件感知3D生成",
+      "llm_tldr_en": "ISAP-3D proposes identity-slot alignment to fix the permutation freedom in part-aware 3D generation, yielding stable and consistent part decomposition without strong layout conditions.",
+      "llm_tldr_cn": "ISAP-3D针对零件感知3D生成中身份-布局纠缠导致的结构模糊问题，提出身份-槽对齐机制，通过强制语义零件与生成槽之间的固定对应，消除了训练中的槽置换自由度，从而在无需强布局条件的情况下实现稳定一致的零件分解，显著提升了零件感知生成的结构可靠性。",
+      "llm_tldr": "ISAP-3D针对零件感知3D生成中身份-布局纠缠导致的结构模糊问题，提出身份-槽对齐机制，通过强制语义零件与生成槽之间的固定对应，消除了训练中的槽置换自由度，从而在无需强布局条件的情况下实现稳定一致的零件分解，显著提升了零件感知生成的结构可靠性。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "generating 3D models with separate parts",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.10594v1",
+      "source": "arxiv",
+      "title": "Segment and Select: Vision-Language Segmentation in 3D Scenarios",
+      "abstract": "3D vision-language segmentation aims to segment target objects in 3D scenarios according to the linguistic instructions and visual observations. Prior art heavily relies on the coarse superpoint representation to reduce the computation complexity, which suffers from poor segmentation quality and messy object boundaries. In this paper, we propose the SEGment-And-select (SEGA3D) paradigm for 3D visionlanguage segmentation that directly operates on the fine-grained visual information and is free from the superpoint dependency. Specifically, we first leverage a mask candidate generator to provide fine-grained categorical mask candidates, substantially improving the quality of candidate masks over the superpoint counterparts. Then, a Large Language Model (LLM) is utilized to generate the semantic and spatial information based on the linguistic description and visual features. The LLM output and visual features are fed to the Semantic-Spatial Selector (SSS) to produce the top-ranking mask candidates. Eventually, the Loopback Verification Module (LVM) is designed to yield the segmentation mask from the selected candidate masks. Our SEGA3D attains competitive performance on ScanRefer, ScanNet and Matterport3D benchmarks. Notably, our SEGA3D surpasses the top-performing counterpart by 8.3 mIoU and 5.3 mIoU on ScanNet and Matterport3D, respectively. Codes will be available upon publication.",
+      "authors": [
+        "Yulin Chen",
+        "Zhihang Zhong",
+        "Yuenan Hou"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-09T08:58:59+00:00",
+      "link": "https://arxiv.org/pdf/2606.10594v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "fine-grained 3D semantic segmentation using language instructions",
+      "llm_evidence_cn": "基于语言指令的细粒度三维语义分割",
+      "llm_evidence": "基于语言指令的细粒度三维语义分割",
+      "canonical_evidence": "基于语言指令的细粒度三维语义分割",
+      "llm_tldr_en": "SEGA3D proposes a segment-and-select paradigm for 3D vision-language segmentation, using fine-grained mask candidates and LLM selection to improve segmentation quality without superpoint dependency.",
+      "llm_tldr_cn": "传统三维视觉-语言分割依赖超点表示导致分割质量差，SEGA3D提出先分割再选择的范式，直接利用细粒度视觉信息。方法首先生成大量精细的类别级掩码候选，再通过大语言模型进行精确选择，克服了超点带来的边界问题。实验表明该方法在分割质量和边界清晰度上显著优于现有技术，为三维场景中的语言驱动分割提供了更精准的解决方案。",
+      "llm_tldr": "传统三维视觉-语言分割依赖超点表示导致分割质量差，SEGA3D提出先分割再选择的范式，直接利用细粒度视觉信息。方法首先生成大量精细的类别级掩码候选，再通过大语言模型进行精确选择，克服了超点带来的边界问题。实验表明该方法在分割质量和边界清晰度上显著优于现有技术，为三维场景中的语言驱动分割提供了更精准的解决方案。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "segmenting 3D objects into semantic parts",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.11152v2",
+      "source": "arxiv",
+      "title": "P3D-Bench: Benchmarking MLLMs for Parametric 3D Generation and Structural Reasoning",
+      "abstract": "Multimodal large language models can write code to produce complex programs as well as use programs to do 3D modeling, which opens up a new avenue for 3D generation powered by their priors, world knowledge and reasoning. Yet existing benchmarks rarely evaluate 3D modeling through code. Such modeling demands more than runnable code: from a text or visual specification, a model must generate a parametric 3D program that is geometrically precise, semantically aligned and assembly-consistent. We introduce P3D-Bench, a benchmark for parametric 3D generation. Unlike a 3D mesh, a parametric 3D program exposes explicit dimensions, construction operations and part relations, revealing whether a model recovers a design's structure, not just its appearance. Under a unified protocol, P3D-Bench covers three task families (Text-to-3D, Image-to-3D and Assembly-3D) and scores each output for executability, geometric fidelity, topology, text-grounded constraints, multiview semantic alignment and part-level structure. We evaluate frontier MLLMs and text-only LLMs on 400 text cases, 400 image cases and 203 annotated assemblies, with domain-specific models as reference points. Our extensive evaluation yields three findings. First, assemblies are the hardest setting, where models still fail to compose multiple parts into a coherent structure. Second, models can often recover the global shape and semantic identity of the target object, yet fail to reproduce the precise parametric geometry specified by the input. Third, part-level modeling remains weak on assemblies, where models recover neither the geometry of each part nor the right number of parts. These results position P3D-Bench as a benchmark for evaluating precise parametric geometry and part-level structure in parametric 3D generation.",
+      "authors": [
+        "Yikang Yang",
+        "Zhanpeng Hu",
+        "Youtian Lin",
+        "Mengqi Zhou",
+        "Jingxi Xu",
+        "Feihu Zhang",
+        "Jiaheng Liu",
+        "Yao Yao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-09T17:36:34+00:00",
+      "link": "https://arxiv.org/pdf/2606.11152v2",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Benchmark for parametric 3D generation explicitly evaluates part relations and assembly consistency",
+      "llm_evidence_cn": "参数化三维生成基准显式评估零件关系与装配一致性",
+      "llm_evidence": "参数化三维生成基准显式评估零件关系与装配一致性",
+      "canonical_evidence": "参数化三维生成基准显式评估零件关系与装配一致性",
+      "llm_tldr_en": "P3D-Bench evaluates MLLMs on generating parametric 3D programs that capture explicit part relations, dimensions, and assembly, directly measuring part-aware generation capability.",
+      "llm_tldr_cn": "针对现有多模态大模型代码生成三维缺乏结构化评估的问题，提出P3D-Bench基准，要求模型从文本/图像生成参数化三维程序，并显式评估几何精度、语义对齐和零件装配一致性。该基准直接衡量了零件感知生成能力，为相关方法提供了标准化测试平台。",
+      "llm_tldr": "针对现有多模态大模型代码生成三维缺乏结构化评估的问题，提出P3D-Bench基准，要求模型从文本/图像生成参数化三维程序，并显式评估几何精度、语义对齐和零件装配一致性。该基准直接衡量了零件感知生成能力，为相关方法提供了标准化测试平台。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "generating 3D models with separate parts",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.11805v1",
+      "source": "arxiv",
+      "title": "TextHOI-3D: Text-to-3D Hand-Object Interaction via Discrete Multi-View Generation and Joint Mesh Optimization",
+      "abstract": "Text-conditioned 3D generation has progressed rapidly for images and isolated objects, but producing a hand-object mesh remains challenging: the output must preserve language semantics, cross-view consistency, object geometry, articulated hand shape, and physically plausible contact. We present TextHOI-3D, a staged framework that uses generated multi-view observations as an explicit interface between text-conditioned visual generation and geometry-aware hand-object recovery. TextHOI-3D learns a compact VQ token space for fixed-camera hand-object observations, predicts multi-view visual tokens from text with a CLIP-conditioned visual autoregressive model, and recovers a unified hand-object mesh through prior initialization, multi-view joint optimization, and anti-penetration refinement. The design separates semantic generation from geometric recovery while keeping both stages connected by a discrete multi-view representation. On HO3D-derived evaluations, the multi-view setting reduces object CD from 17.26 mm to 4.92 mm and penetration volume from 5.3721 cm^3 to 0.2193 cm^3 compared with a single-view counterpart, while improving hand errors and surface F-scores. These results support multi-view visual tokens as an effective intermediate representation for text-driven 3D hand-object mesh creation.",
+      "authors": [
+        "Zixiong Hao",
+        "Zhencun Jiang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-10T08:38:40+00:00",
+      "link": "https://arxiv.org/pdf/2606.11805v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Generates articulated hand-object mesh from text, modeling articulated hand shape",
+      "llm_evidence_cn": "从文本生成带有铰接手部形状的手-物交互网格",
+      "llm_evidence": "从文本生成带有铰接手部形状的手-物交互网格",
+      "canonical_evidence": "从文本生成带有铰接手部形状的手-物交互网格",
+      "llm_tldr_en": "TextHOI-3D generates articulated hand-object meshes from text descriptions by using multi-view visual tokens and joint mesh optimization, ensuring cross-view consistency and physical plausibility.",
+      "llm_tldr_cn": "TextHOI-3D提出一个分阶段框架，从文本描述生成手-物交互的3D网格，首先用CLIP条件的自回归模型预测多视图视觉标记，再通过先验初始化联合恢复手部与物体网格，确保跨视图一致性和物理合理接触，实现了文本到包含铰接手部的高质量3D手物重建。",
+      "llm_tldr": "TextHOI-3D提出一个分阶段框架，从文本描述生成手-物交互的3D网格，首先用CLIP条件的自回归模型预测多视图视觉标记，再通过先验初始化联合恢复手部与物体网格，确保跨视图一致性和物理合理接触，实现了文本到包含铰接手部的高质量3D手物重建。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "methods for generating articulated 3D objects",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": []
+}
