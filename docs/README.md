@@ -6,35 +6,43 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-11
-- 运行时间：2026-06-11 22:14:58 UTC
+- 最新运行日期：2026-06-12
+- 运行时间：2026-06-12 21:45:31 UTC
 - 运行状态：成功
-- 本次总论文数：4
+- 本次总论文数：7
 - 精读区：4
-- 速读区：0
+- 速读区：3
 
 ### 今日简报（AI）
-今日精读两篇3D视觉前沿论文，聚焦可控部件生成与语言驱动的场景分割。
-ISAP-3D用身份-插槽对齐实现部件解耦生成，Segment and Select为3D分割引入视觉-语言协同范式。
-建议关注如何将多模态语义用于3D编辑，并尝试复现开放式场景下的零样本分割。
-- 详情：[/202606/11/README](/202606/11/README)
+1) 今日精读点云分割满分架构与机器人物理谜题生成新范式，速览3D高斯泼溅与拓扑无关动捕方案。
+2) 最值得看：PT-WNO 用小波算子攻克点云几何细节，PhyRoGen 程序化合成可操作物理谜题。
+3) 建议先从这两篇切入，体会小波变换与具身智能的结合如何重塑三维感知与机器人学习。
+- 详情：[/202606/12/README](/202606/12/README)
 
 ### 精读区论文标签
-1. [ISAP-3D: Identity-Slot Aligned Part-Aware 3D Generation](/202606/11/2606.12099v1-isap-3d-identity-slot-aligned-part-aware-3d-generation)  
+1. [PT-WNO: Point Transformer with Wavelet Neural Operator for 3D Point Cloud Semantic Segmentation](/202606/12/2606.11466v1-pt-wno-point-transformer-with-wavelet-neural-operator-for-3d-point-cloud-semantic-segmentation)  
    标签：评分：10.0/10、query:part-aware
-   evidence：通过身份-槽对齐解决槽置换导致的结构模糊，实现稳定的零件感知3D生成
-2. [Segment and Select: Vision-Language Segmentation in 3D Scenarios](/202606/11/2606.10594v1-segment-and-select-vision-language-segmentation-in-3d-scenarios)  
+   evidence：三维点云语义分割直接实现将三维物体分割成语义部件
+2. [PhyRoGen: Synthetic Generation of Physical Robot Manipulation Puzzles Using Procedural Content Generation](/202606/12/2606.06569v1-phyrogen-synthetic-generation-of-physical-robot-manipulation-puzzles-using-procedural-content-generation)  
    标签：评分：9.0/10、query:part-aware
-   evidence：基于语言指令的细粒度三维语义分割
-3. [P3D-Bench: Benchmarking MLLMs for Parametric 3D Generation and Structural Reasoning](/202606/11/2606.11152v2-p3d-bench-benchmarking-mllms-for-parametric-3d-generation-and-structural-reasoning)  
+   evidence：生成具有互锁铰接部件的物理拼图
+3. [Bridging Semantics and Physical Execution: A Neuro-Symbolic Framework for Multi-Pair Robotic Assembly](/202606/12/2606.10808v1-bridging-semantics-and-physical-execution-a-neuro-symbolic-framework-for-multi-pair-robotic-assembly)  
    标签：评分：9.0/10、query:part-aware
-   evidence：参数化三维生成基准显式评估零件关系与装配一致性
-4. [TextHOI-3D: Text-to-3D Hand-Object Interaction via Discrete Multi-View Generation and Joint Mesh Optimization](/202606/11/2606.11805v1-texthoi-3d-text-to-3d-hand-object-interaction-via-discrete-multi-view-generation-and-joint-mesh-optimization)  
+   evidence：用于多对机器人装配的神经符号框架，为零件对生成最优子图并解决干扰
+4. [AnimaSpark: A Feed-Forward Method for Animating Arbitrary 3D Objects](/202606/12/2606.10988v1-animaspark-a-feed-forward-method-for-animating-arbitrary-3d-objects)  
    标签：评分：9.0/10、query:part-aware
-   evidence：从文本生成带有铰接手部形状的手-物交互网格
+   evidence：通过建模关节变换生成类别无关的3D动画，实现部件铰接
 
 ### 速读区论文标签
-- 本次无速读推荐。
+1. [ManiSplat: Manipulation Trajectory Synthesis from Monocular Video via Decoupled 3D Gaussian Splatting](/202606/12/2606.10645v1-manisplat-manipulation-trajectory-synthesis-from-monocular-video-via-decoupled-3d-gaussian-splatting)  
+   标签：评分：7.0/10、query:part-aware
+   evidence：将动态场景解耦为铰接机器人、物体和背景以进行重建
+2. [Internalizing Geometric Law: Learning from Solver Residuals for Precision-Critical Generation](/202606/12/2606.09278v1-internalizing-geometric-law-learning-from-solver-residuals-for-precision-critical-generation)  
+   标签：评分：6.0/10、query:part-aware
+   evidence：支持具有相互作用部件的基于约束的几何设计合成
+3. [TopoCap: Learning Topology-Agnostic Motion Priors for Monocular Video-to-Animation](/202606/12/2606.12153v1-topocap-learning-topology-agnostic-motion-priors-for-monocular-video-to-animation)  
+   标签：评分：6.0/10、query:part-aware
+   evidence：从单目视频提取运动并重定向到任意骨架拓扑的角色上，实现关节型三维物体的动画
 
 
 <div class="dpr-home-promo-card">
