@@ -1,0 +1,24 @@
+{
+  "label": "2026-06-13",
+  "date": "2026-06-13",
+  "generated_at": "2026-06-13T20:54:28",
+  "count": 1,
+  "papers": [
+    {
+      "paper_id": "202606/13/2606.10478v1-3d-cos-a-new-3d-reconstruction-paradigm-based-on-vlm-code-synthesis",
+      "section": "quick",
+      "title_en": "3D-CoS: A New 3D Reconstruction Paradigm Based on VLM Code Synthesis",
+      "authors": "Yuhao Wang, Puyi Wang, Linjie Li, Zhengyuan Yang, Kevin Qinghong Lin, Yu Cheng",
+      "date": "2026-06-09",
+      "pdf": "https://arxiv.org/pdf/2606.10478v1",
+      "score": "6.0",
+      "evidence": "使用代码合成构造3D模型，可通过零件组装实现",
+      "tldr": "现有3D重建依赖低层表示难以程序化控制，本文提出3D代码合成范式，将3D资产表示为可执行的Blender代码。系统评估VLMs在代码驱动重建中的能力，并引入蓝图规划、RAG、少样本演示及组件级Agent等结构化合成工作流。实验表明代码表示强可控且具备局部编辑优势，相较点云编辑保真度更高、未编辑区域保持更好。该范式为可编辑3D重建开辟新方向，并揭示了VLM程序化建模的能力边界与潜力。",
+      "tags": "query:part-aware",
+      "abstract_en": "Most recent 3D reconstruction and editing systems operate on implicit and explicit representations such as NeRF, point clouds, or meshes. While these representations enable high-fidelity rendering, they are fundamentally low-level and hard to control programmatically. In contrast, we propose and systematically evaluate a new 3D reconstruction paradigm, 3D Code Synthesis (3D-CoS), where 3D assets are constructed as executable Blender code, a programmatic and interpretable medium. To assess how well current VLMs can use code to represent 3D objects, we evaluate representative open-source and closed-source VLMs in code-based reconstruction under a unified protocol. We further introduce a suite of structured code-synthesis workflows, including blueprint-based planning, Retrieval-Augmented Generation (RAG) over Blender API documentation, few-shot geometric demonstrations, and a component-level Agent workflow for part-wise code generation. To demonstrate the unique advantages of this representation, we further evaluate localized text-driven modifications and compare our code-based edits with a point-cloud-based 3D editing baseline. Our study shows that code as a 3D representation offers strong controllability and locality, yielding stronger edit fidelity and better preservation of unedited regions in our targeted editing evaluation. Our work also analyzes the potential of this paradigm, delineates the current capability frontier of VLMs for programmatic 3D modeling, and highlights code synthesis as a promising direction for editable 3D reconstruction.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
