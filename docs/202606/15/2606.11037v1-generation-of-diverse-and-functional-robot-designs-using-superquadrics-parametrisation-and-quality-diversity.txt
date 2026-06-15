@@ -1,0 +1,227 @@
+Title: Generation of Diverse and Functional Robot Designs using Superquadrics Parametrisation and Quality-Diversity
+
+URL Source: https://arxiv.org/pdf/2606.11037v1
+
+Published Time: Wed, 10 Jun 2026 01:26:59 GMT
+
+Number of Pages: 17
+
+Markdown Content:
+# Generation of Diverse and Functional Robot Designs using Superquadrics Parametrisation and Quality-Diversity 
+
+Leni K. Le Goff 1[0000 −0003 −1749 −9154] , Simón C. Smith 1[0000 −0001 −5453 −9659] ,and Emma Hart 1[000 −0002 −5405 −4413] 
+
+Edinburgh Napier University, Scotland UK 
+
+{l.legoff2, s.smith2, e.hart}@napier.ac.uk 
+
+Abstract. Generative design of robots requires navigating a vast search-space, encompassing physical configurations and behavioural parameters. Evolutionary Algorithms (EAs) have shown promising results, but often converge prematurely to a small set of sub-optimal designs. To counter premature convergence, we introduce a superquadrics -based representa-tion (SQs) for robot bodies. SQs are interpretable, compact and com-putationally efficient mathematical representations of 3D geometrical shapes that can be tuned to specific design-spaces. To encourage morpho-logical diversity, we combine this representation with a quality-diversity (QD) algorithm (MAP-Elites). We compare SQs and Compositional Pat-tern Producing Networks representations as generators of morphologies, combining them with standard EAs and MAP-Elites. In two test envi-ronments, we find that using SQs to generate morphology in conjunc-tion with the MAP-Elites algorithm reaches the highest QD-score across both environments, maximising diversity of design and functionality of generated robots. The findings highlight the benefits of using a com-pact and interpretable geometric representation for exploring a complex design-space and suggest that combining SQs with an explicit diversity mechanism increases the quality and number of designs generated. 
+
+Keywords: Evolutionary robotics; intrinsic motivation; generative de-sign; representation 
+
+# 1 Introduction 
+
+Automatic generation of a robot is a difficult problem, comprising the simultane-ous exploration and optimisation of the shape of a 3-dimensional object and its controller. Evolutionary algorithms (EAs) that jointly optimise design and con-troller have been shown to be a good fit to this problem due to their black-box nature. EAs can find optimal solutions even on a differentiable parametrisation of complex robot-design-space, with successful applications across a variety of robotic platforms, including modular/non-modular, soft robotics and 3D printed      
+
+> arXiv:2606.11037v1 [cs.RO] 9 Jun 2026 2L. K. Le Goff et al.
+> Fig. 1. M E 2HK S: 1) Asynchronous Morpho-Evolution, EA to optimise robot designs; 2) a superquadrics-based encoding for the robot chassis (compared to CPPN); 3) Home-okinetic controller, a self-organised behaviour generator; 4) MAP-Elites for diverse de-signs. The output of M E 2HK Sis an archive of functional and diverse robot.
+
+components [5,27,4,16,20]. Due to the complexity and high-dimensionality of search spaces, EAs can be computationally expensive, not allowing generation and testing of a large numbers of designs in a feasible time-frame [1]. The low number of designs generated impacts the diversity of solutions explored, result-ing in convergence to sub-optimal or simplistic designs [23]. Achieving diversity in the design space is important for downstream tasks, where the most appro-priate design is selected and fine-tuned. For these reasons, all designs must be 
+
+functional , i.e. capable of solving, with a predefined performance level, a given task (different from the downstream one) in a arbitrary environment. Our goal is to design a method that maximises the diversity of functional robot designs to facilitate downstream optimisation. For any EA, the representation (encoding) defines the size of the search-space and influences its ability to navigate that space. Algorithm designers try to simplify the search-space. Several EAs for generative robot design use Compo-sitional Pattern Producing Network (CPPN) [33]. CPPNs are neural networks that produce diverse spatial patterns. These networks are well suited for de-signing morphologies which tend to have repetitive patterns, e.g. symmetrical bodies. However, studies show issues with CPPNs such as bias toward certain type of designs and the difficulty of tuning its hyperparameters [34]. To address the size of the search-space and bias in the representation, we propose a new encoding to generate a robot chassis based on superquadrics (SQ) :arising from the field of Computer Vision, SQ is a compact and computationally efficient mathematical representation of 3D geometrical shapes that provides high representation strength, i.e., is able to accurately represent most common object types, using only 8 parameters [13]. SQs are less expressive than CPPNs due to their smaller parameter-space, but they are (a) more interpretable than a CPPN thanks to its parameters with ranges of values that correspond to specific shapes; (b) easier to optimise as they do not require a complex EA such as NEAT to evolve; (c) SQs are easy to tune for a specific design-space. Generation of Diverse and Func. Robot using SQ Parametrisation and QD 3
+
+To increase diversity in the set of generated designs, we integrate the pro-posed superquadrics representation with a recently proposed algorithm called Morpho-Evolution with Homeokinesis ( M EHK ) [11]. This is a nested evolution-ary algorithm in which an outer loop evolves a design: we adapt this algorithm to utilise a superquadrics representation to evolve the chassis design coupled with a CPPN representation to place actuators and/or sensors on the evolved chassis 1. For each design, an inner loop learns a controller. M EHK replaces the learning algorithm that creates the controller with a self-organised homeokinetic controller (HKC) [8,14]. The HKC can quickly find a controller that enables any robot design to move in a single episode in a closed-loop fashion, therefore offer-ing a good proxy of the potential functionality of the design. It has been shown to be considerably faster the typical learning processes used in morpho-evolution algorithms to create functional designs: for instance, in [11] it was shown that 
+
+M EHK can generate and evaluate 10000 designs in 40 hours using 64 CPUs, contrasting to e.g. [12] that uses a deep reinforcement learning method requiring 1152 CPUs to generate only 4000 designs. The M EHK algorithm implicitly results in diversity by exploring a large space of robot designs. However, given that the family of evolutionary algorithms known as quality-diversity algorithms explicitly generate diversity, we also pro-pose to augment M EHK with the MAP-Elites algorithm [27] that imposes the EA population onto a multi-dimensional archive, with dimensions defined by morphological features. By adding new solutions to the archive, the population grows over time, with solutions from the archive providing stepping stones to new areas of the search space [29,28]. The contributions of the paper are twofold: 
+
+– We propose the first use of the superquadrics representation within a nested morpho-evolution algorithm to improve chassis diversity, combining this with a CPPN to place components and a homeokinetic control mechanism to efficiently evaluate the functionality of robots; 
+
+– To increase the morphological diversity of the generated functional designs, we adapt the previously proposed M EHK algorithm to function as quality-diversity algorithm (MAP-Elites), using a 6-dimensional archive describing features of the design. Experiments are conducted using two representations (SQ-CPPN, Dual CPPN, see Section 3.2) in conjunction with two algorithms: M EHK using an elitist selection mechanism following [11] and a version of M EHK that uses MAP-Elites to project individuals into a 6-dimensional archive describing morpho-logical characteristics, and in which the selection mechanism randomly chooses solutions from the archive, following [27]. We find that the SQ-CPPN repre-sentation used in conjunction with MAP-Elites increases both the quality and number of designs generated. In the remainder of the paper: M EHK C and M EHK S refer to using M EHK 
+
+from [11], where (C, S ) respectively refers to the Dual CPPN and SQ-CPPN   
+
+> 1placement of components via a CPPN is common in the literature e.g. [20,11] 4L. K. Le Goff et al.
+
+representation, while M E 2HK C and M E 2HK S refer to the use of M EHK in conjunction with a MAP-Elites algorithm. 
+
+# 2 Related Work 
+
+The choice of representation, as a direct or indirect encoding of a robot design, defines the size of the search space and the ease by which it can be navigated. Veenstra et al. [35] show that the type of encoding is at least as important for creating robots as the optimisation strategy used, corroborating earlier findings in voxel-based soft robots [22]. In modular robotics, it is common to use an indirect encoding of a design, for example L-Systems [21] or graph-rewrite approaches [26]. A common indi-rect approach is to use a Compositional Pattern Producing Network (CPPN) [33] that learns a mapping between spatial coordinates and the module or material that should be placed at each coordinate. CPPNs generate structured patterns that are regular, symmetric, and repetitive. These networks have been used in evolutionary modular robotics [16,2,27]. In [20,19], the authors evolve free-form chassis shapes for a robot using CPPNs. However, CPPNs often lead to fast convergence to a specific type of robot. For example, Miras et al . [25] observe that when evolving modular robots, the optimisation process frequently pro-duces cross-shape robots (dubbed ‘spiders’) and dysfunctional robots that are incapable of moving. The authors of [4,23,24] show the tendency of evolutionary joint optimisation processes to converge to sub-optimal robot designs, noting that typical design and controller joint optimisation algorithms consistently fails to select morphological potential. Thomson et al. [34] study how algorithms nav-igate the search-space during joint optimisation using Local Optima Networks. The authors find that compared to an L-System, the use of CPPNs leads to significant bias in the designs with low-quality local optima. 
+
+Superquadrics is a compact mathematical way of representing a 3D shape commonly used in robotics related to grasping and pose estimation [36,37]. Su-perquadrics belong to a family of parametric representations, and have been used in computer vision and engineering applications (e.g. design of mechanical com-ponents [10]). To the best of our knowledge, the only example of superquadrics with EA is in [15] from 1996, where authors search the space of shapes for ‘interesting’ designs of 3D objects in an interactive EA. In [30], the authors evaluate multiple representations for designing architectural shapes. Their work includes evaluation of a parametric representation. However it is restricted to low-dimensionality encoding. Thus, not appropriate in a robotic context. To increase diversity in optimisation tasks, several authors use Quality-Diversity (QD) algorithms like MAP-Elites [27]. QD facilitate the exploration of the search-space and can generate a set of diverse designs for multiple down-stream tasks. QD search includes an organised archive whose axes are defined by multiple descriptors. These axes describe user-defined characteristics. The early applications of MAP-Elites opt to maximise behavioural diversity. However, de-scriptors can reflect characteristics of the morphological space. In [27], a 2D Generation of Diverse and Func. Robot using SQ Parametrisation and QD 5
+
+descriptor space is defined by the percentage of voxels filled and the percentage of voxels that are made of ‘bone’ material. In [38], robot designs are mapped to features based on a number of morphological complexity metrics, including voxel heterogeneity, structural connectivity, symmetry, and actuator distribution. In [39], a 2D descriptor is used with MAP-Elites to quantify diversity arising from the configuration of ‘voids’ in the morphological space, via Shannon entropy and void-centroid distance. This paper builds on previous work in two directions. It addresses issues asso-ciated with the CPPN representation via introducing superquadrics to represent the design, and adapts the existing M EHK algorithm to explicitly maintain morphological diversity using MAP-Elites. 
+
+# 3 Methodology 
+
+3.1 Morpho-Evolution with Homeokinesis 
+
+We repurpose the M EHK method proposed in [11] to evolve a diverse set of robots, adapting it to the format of MAP-Elites in which a population is super-imposed on an archive discretised into cells. M EHK has two nested processes: (1) an outer process, called Asynchronous Morpho-Evolution (AME) that gen-erates designs and (2) for each design, an inner process, called Homeokinetic Control (HKC), that explores the sensorimotor space of the robot resulting in seemingly intelligent behaviour with minimal adaptation time (See appendix A for a diagram and pseudo-code of AME and appendix B for more information on HKC). Hyperparameter values for M EHK are in appendix C. 
+
+Asynchronous Morpho-Evolution (AME). AME is an asynchronous EA [17]: i.e. a form of steady-state EA in which new offspring are generated as soon as one robot finishes its evaluation step. Asynchronous EAs can be efficiently parallelised as the production of new offspring does not have to wait for an entire population to be evaluated. The algorithm manages two sets of individuals: a population and an evaluation queue. The population corresponds to the set of parents available to take part in reproduction. The evaluation queue corresponds to the set of robots waiting to be evaluated. The population is updated following three steps: (1) Replacement , where newly evaluated individuals are added to the population and the worst individuals are then removed to keep the population constant size; (2) Selection , where parents are selected using a tournament of size 42; (3) Reproduction , where the selected parents are mutated to produce offspring which are added to the evaluation queue. At each update of the population, the number of offspring produced is equal to the number of individuals added to the population to keep the size of the evaluation queue constant. We set the population and evaluation queue size to 100 as in the original M EHK paper [11]. The algorithm is initialised with 100 random robot designs.   
+
+> 2This value is used in previous works using AME [17,11] 6L. K. Le Goff et al.
+
+The fitness function used for AME measures the extent to which a robot is able to explore an environment, quantified by a exploration score . The arenas shown in Figure 4 are divided into a grid of 16 by 16 tiles. The exploration score is computed by counting the number of tiles the robots visited at least once and normalised over the total number of tiles. 
+
+Asynchronous MAP-Elites Morpho-Evolution ( AM E 2). To augment AME with MAP-Elites, the unstructured population used in AME is replaced by a grid-based archive. The grid is multi-dimensional with each dimension corresponding to a discretised range of features of the robot designs (see Section 3.2). Compared to AME, the replacement and selection steps are altered. A newly evaluated individual is added to the archive if the cell corresponding to its features is empty or if it is occupied and its fitness value is higher than the current stored design. To generate new offspring and fill the evaluation queue, individuals are randomly selected from the archive and mutated. The evaluation queue is kept at a constant size of 100, so, new offspring are generated until the queue is filled. 
+
+Self-organisation of behaviour. Homeokinesis is a concept arising in the field of physics from studying self-organisation and complex systems [32]. Homeokinetic control algorithms has been applied to robotics to quickly adapt its internal pa-rameters resulting in seemingly intelligent behaviours without specific goal [9,31]. The principle of the homeokinetic controller (HKC) is to balance the predictabil-ity and sensitivity of the dynamics of the interaction between the robot and the environment. The behaviour of a robot is predictable if the resulting state of ex-ecuting an action can be predicted by an internal forward model. HKC measures predictability by training the forward model and computing the error between the predicted state and the state obtained after executing the action. Sensitiv-ity is the change in the sensory signal after performing an action. Homeokinesis calculates the sensitivity of a dynamical system as the Jacobian of the state over the actions. An adaptation loop in HKC maximises sensitivity and predictabil-ity of the dynamics at every time step. The result is a coherent behaviour that emerges from the correlation between the degrees of freedom while maximising predictability and sensitivity. A robot that only maximises sensitivity will behave chaotically, while one that only maximises predictability will remain still. An ex-ploratory behaviour arises in the balance between sensitivity and predictability at the edge of chaos. For example, a wheeled robot will excite its 2 wheels and make the robot move in lines, circles, or rotate on the spot. Furthermore, the robot will react to its surrounding, e.g. escaping from a non-sensitive state, like being stuck in corner. Note that homoekinesis is a quick adaptive algorithms, that do not require long training phases to generate the behaviours. The current joints angles, wheels positions and proximity sensors values are the input of the controller, and its outputs are used to command the joints angles and wheels angular velocities. Homeokinesis is agnostic to the configuration of the robot, is able to generate the coherent behaviour in any configuration while only requiring the input and output dimensions. We include the linear model implementation of Homeokinesis in the Supplementary Material. Generation of Diverse and Func. Robot using SQ Parametrisation and QD 7
+
+3.2 Robotic design space  
+
+> Fig. 2. Five components for the robot’s design.
+
+Design Space The robot designs are based on the ARE robotic platform [3,1]. This platform utilises 5 hand-designed components (see Figure 2) that can be assembled on a free-formed chassis (which is subject to evolution). The "head" is the central computing unit of the robot and is always placed in the bottom centre of the chassis. Wheels, sensors, limbs and castors are assembled on the surface of the chassis. The component positions are decided by the genotype — up to 8 components can be placed. The sensors are proximity sensors that output a value between 0 and 1, while limbs are composed of two active hinges: the one attached to the chassis rotates horizontally and the second one rotates vertically. Robots designs are enclosed in an 11 entries squared 3D matrix where each voxel can contain a piece of chassis, limb, wheel, sensor, castor or nothing. For the M EHK variants augmented with MAP-Elites, the grid archive has 6 dimensions: the number of wheels, joints, sensors and the height, depth and width of the chassis. The range and number of bins for each dimension are the following: wheels , {0, 8}, 8 - joints , {0, 12 }, 6 - sensors , {0, 8}, 8 - height , [0 , 1] ,12 - depth , [0 .5, 1] , 6 - Width , [0 .5, 1] , 6. 
+
+Encoding In the experiments, we are comparing two encodings: SQ-CPPN and Dual CPPN. They are composed of two parts: the shape of the chassis and the type and placement of the components. For the chassis, depending on the encoding used, a superquadrics representation (SQ) or a CPPN is used. For the components, a CPPN is always used. First, the chassis is generated by inputting the spatial coordinates of each voxel into the SQ equation or a CPPN. Then, another CPPN is queried for each coordinate of the surface of the chassis to determine if a component should be placed and if so, of which type. 
+
+Superquadrics (SQ) As previously noted, superquadrics are a family of geometric shapes that can be fully described using 8 parameters (see equation 1). The equation 1 is the "in-out" formula of a superquadric which defines a surface 
+
+with equation Qn(x, y, z ) = 1 or a volume with inequality Qn(x, y, z ) ≤ 1. If the value of Qn(x, y, z ) is less or equal to one, then a piece of chassis is added at the voxel of this coordinate. To increase the variety of shapes that can be generated, 4 superquadrics are used. Each superquadric corresponds to a quarter of the possible space that the chassis can occupy: Q1 : ( x and y ) ≥ 0, Q2 : x ≥ 0 and y < 0, Q3 : x < 0 and y ≥8 L. K. Le Goff et al. 
+
+0, and Q4 : ( x and y ) < 0 (see Figure 3). The z coordinate is always positive which guarantees a flat base to the shape. 
+
+Qn(x, y, z ) = R
+
+ |x|
+
+A
+
+ 2
+
+> u
+
++ S
+
+ |y|
+
+B
+
+ 2
+
+> u
+
+! uv
+
++ T
+
+ |z|
+
+C
+
+ 2
+
+> v
+
+(1) 
+
+Equation 1: x, y, z are 3d coordinates, A, B, C, R, S and T are free parame-ters changing the proportion and size of the shape and their sign change the type of shape. u and v are free parameters changing the type of shape. For some set of parameters, the equation is not mathematically valid if there are negative coordinates, so the absolute function is applied to the inputs (x,y,z). 
+
+Equation 1 gives a meaningful parametrization of the superquadrics. The range of values of these parameters can be mapped to the proportion, size and type of shape. Two binary parameters, Sx and Sy , determine if the shape is symmetric on the x or y axis. If Sx = 1 then Q1 = Q2 and Q3 = Q4; if Sy = 1 
+
+then Q1 = Q3 and Q2 = Q4. The 32 parameters of the superquadrics are mutated using Gaussian mutation; Sx and Sy are randomly chosen at the initialisation and not mutated during evolution. So, depending on the value of Sx and Sy the genotype has a fixed size of 10, 26 or 34 throughout the evolution. To ensure that AME starts with mathematically valid superquadrics, the 8 parameters of 
+
+Qn are picked randomly from 9 sets of values where each set corresponds to a type of shape (see appendix C). 
+
+Fig. 3. Example of a chassis generated via superquadrics, with the 4 quarters shown. This chassis was generated with Sx = 1 and 
+
+Sy = 0 , so, has symmetry on the x-axis. 
+
+Fig. 4. The two environments used in the experiments. From left to right image: flat and cracks. All the environments are 4 by 4 metres. A robot is included in the picture of the cracks environment, giving an idea of the relative size of the robots in respect to the environment. 
+
+Compositional Producing Pattern Network (CPPN) The CPPN takes three in-puts describing the spatial coordinates of the voxel and outputs one value be-tween -1 and 1. When a CPPN is used to encode the chassis, a positive value Generation of Diverse and Func. Robot using SQ Parametrisation and QD 9
+
+means a piece chassis is added, otherwise a negative value means nothing is added. Using a CPPN to generate the chassis can lead to the creation of pieces that are not attached to the body, i.e are floating: such pieces are discarded. Note that floating pieces do not happen with SQ. To decide the placement and type of components, another CPPN is used. Its output interval [−1, 1] is split in 5 equal intervals corresponding to each component type: [−1, −0.6[ for no component, [−0.6, 0.2[ for wheel, [−0.2, 0.2[ 
+
+for sensor, [0 .2, 0.6[ for joint, and [0 .6, 1] for castor. Finally, a manufacturability 
+
+check ensures the initial design can be simulated and built. The check ensures that there are no collisions between components or with the chassis and reduces the number of components to a maximum of 8 3. If more than 8 components remain after the collision check, the 8 closest to the ground are kept. Both CPPNs are mutated using the Direct-encoding Topology Evolution [18] (DET) algorithm. DET is a neuro-evolution algorithm that optimises the topol-ogy, weights and biases of the CPPN using 7 mutation operators: adding or re-moving a node, adding, removing or changing a connection, changing the weights of the connections and the biases of the nodes using Gaussian mutation (see Ap-pendix C for the mutation parameters). In this paper, DET is combined with AME. For the M EHK variants using CPPN to encode the chassis, two CPPNs are evolved: one to generate the chassis and another to place and select the com-ponents. In the rest of the paper, we refer to this encoding as Dual CPPN . In the variants using SQ, only one CPPN is used for the components and the SQ to generate the chassis. We will refer to this encoding as SQ-CPPN 
+
+3.3 Experimental Protocol 
+
+We compare four different variants of M EHK : M EHK C , M E 2HK C , M EHK S ,and M E 2HK S . The superscripts (C,S) indicates respectively the use of Dual CPPN or SQ-CPPN. The square symbol indicates use of MAP-Elites. Each of these variants is run in two different environments (Figure 4), each of which is designed to target particular features of the design space. The flat arena would be expected to favour robot design with wheels, while navigating the cracks ter-rain might be expected to favour limbs that could prevent the robot from getting stuck. For each environment, experiments are replicated 20 times. The budget of a run is the evaluation of 10000 designs. Each new robot designed has 20 minutes to explore the arena using HKC. These parameters are taken from [19]. The variants of M EHK are compared using the following metrics: (1) the archive coverage measures the number of cells filled in the 6-dimensional grid archive; (2) the Quality-Diversity (QD) score is the sum of the fitness values of all the robots stored in the archive; and (3) the maximum exploration or fitness score .To compute the archive coverage and QD score for the M EHK variants without        
+
+> 3The maximum of 8 components is a constraint introduced when building physical robots due to power requirements [1] 10 L. K. Le Goff et al.
+> Fig. 5. Pictures of robots picked from the top 10 robots in term of exploration score for M E 2HK Cand M E 2HK S. See appendix E for more pictures.
+
+MAP-Elites, at the end of the evolutionary process the 10000 robots generated are assigned to the same 6-dimensional grid as used in MAP-Elites. The source code used to run the experiments and supplementary materials with the appendices are available on Zenodo. 
+
+# 4 Results 
+
+Overall, the best variant of M EHK is M E 2HK S reaching the highest archive coverage and QD score (statistically significant) for both environments (see ta-ble 1 and Figure 6). Using the SQ-CPPN encoding, M EHK generates four times 
+
+more robot designs stored in the archive than when using Dual CPPNs encoding. This number is again doubled when adding MAP-Elites. When adding MAP-Elites on top of Dual CPPNs encoding, the archive coverage is quadrupled. As expected, regardless of the encoding, MAP-Elites increases greatly the diversity of solutions explored. The maximum fitness values or exploration score for all variants are similar (no statistically significant difference) with around 50% of the flat arena and between 14-19% of the cracks arena visited. Therefore, all the variants are able to produce robots with similar level of mobility. This result is further supported by the plots in Figure 6 showing a similar spread of exploration scores across the replicates for all the variants and both environments. Moreover, on the right hand side plots of Figure 6, the QD score increases proportionally with the archive coverage, showing that the quality of the robots added to the archive is maintained. In other words, M E 2HK S generates additional robots with similar mobility as the ones generated by the other variants.     
+
+> 5** indicates significant difference and large effect size with all the other variants and * indicates significant difference and large effect size with all but one other variant. Statistical difference is computed with Mann-Whitney U test ( p < 0.001 ) and the effect size using Cliffs delta considered large difference ( δ≥0.5).
+
+Generation of Diverse and Func. Robot using SQ Parametrisation and QD 11 
+
+M EHK 
+
+Dual CPPNs SQ-CPPN Flat Arena Cracks Flat Arena Cracks AC 483 .5|120 .8∗∗ 384 .3|86 .8∗∗ 1827 .3|356 ∗ 1761 .2|381 .5∗
+
+QD 39 .4|10 .7∗∗ 9.74 |2.15 ∗∗ 135 .7|30 .2∗∗ 55 .6|14 ∗∗ 
+
+Fit M 0.56 |0.06 ∗ 0.19 |0.03 ∗ 0.5|0.08 ∗ 0.2|0.04 ∗
+
+M E 2HK 
+
+Dual CPPNs SQ-CPPN Flat Arena Cracks Flat Arena Cracks C 1678 .2|139 .3∗ 1718 .6|193 .1∗ 3880 .6|105 .7∗∗ 3854 |103 .1∗∗ 
+
+QD 92 .6|17 .1∗∗ 37 .8|4.6∗∗ 292 |10 .4∗∗ 94 .3|3.4∗∗ 
+
+Fit M 0.44 |0.1∗ 0.15 |0.023 ∗ 0.48 |0.08 ∗ 0.14 |0.013 ∗
+
+Table 1. Summary metrics: AC=archive coverage; QD=QD Score; Fit M = max fit-ness score, showing [ average | standard deviation ] for each experiment. The values in bold corresponds to the highest value overall. The stars indicates if the differences are statistically significant 5.
+
+Fig. 6. Distribution of the replicates over the max exploration score and archive cov-erage. 
+
+Figure 9 visualises the archives populated by each variant in the flat arena. The archives of all the replicates are aggregated in this figure, while the explo-ration score is the maximum exploration score averaged over the replicates. The use of MAP-Elites helps to increase both the diversity and quality of solutions. The archive of M E 2HK has fewer unfilled cells than M EHK regardless of the encoding. Robots with an exploration score around 0.25 (red colour) are more spread in the archives of M E 2HK regardless of the encoding. However, there are fewer robots with exploration scores around 0.5 (green colour). This result suggests that MAP-Elites with M EHK spreads the optimisation effort over a 12 L. K. Le Goff et al. 
+
+larger number of robot designs while M EHK focuses on fewer designs. As a consequence, M E 2HK produces fewer high performing robots than M EHK 
+
+but increases the performance of a larger set of unique robot designs. In partic-ular, designs with the highest number of limbs (6) and sensors (8) have a higher exploration score with MAP-Elites, suggesting that they were further optimised resulting in a better configuration of components. Figure 9 shows that M EHK using SQ-CPPN (with or without MAP-Elites) increases the overall quality of the designs in comparison with using Dual CPPN. There are fewer designs with an exploration score between 0.4 and 0.5 (green colour) with Dual CPPN than with SQ-CPPN. For M EHK C , the designs with a high fitness, between 0.4 and 0.5, are not spread over the archives. The best robot designs have a low number of limbs and a high number of wheels and sensors. With respect to the chassis design, the width, height and depth have either small values or values around 0.5 (0.7 for the height).With SQ-CPPN, these high performing designs are more predominant in the archive, particularly for the chassis dimensions (as expected considering that SQ encodes the chassis). The superquadrics-based encoding alone improves the diversity and quality of solutions.         
+
+> Fig. 7. Distribution of the top 1% robots over joints and wheels. From top to bottom:
+> M EHK - Dual CPPN, M E 2HK - Dual CPPN, M EHK - SQ-CPPN, M E 2HK -SQ-CPPN
+
+Figure 7 focuses on the locomotion capability of the robots, showing the distribution of the number of robots w.r.t their number of wheels and limbs for the 100 robots with the highest exploration score aggregated over the 20 replicates, i.e. each plot displays a distribution of 2000 robots. For all the variants of M EHK , the distributions are different between the two environments. In the flat arena the majority of robots have wheels and one or no limbs. In the cracks environment, the majority of robots have between 1 and 3 limbs. This bias with Generation of Diverse and Func. Robot using SQ Parametrisation and QD 13 
+
+regard to the terrain features is intuitive: it is more efficient to locomote with wheels on a flat terrain and limbs are needed to avoid getting stuck in the cracks. MAP-Elites also helps increasing this difference as it explicitly search for high-performing and diverse robots. The distribution of components is similar for both encodings, showing that it is an effect produced by the algorithm itself.  
+
+> Fig. 8. Areas visited by the top 10 robots per replicates in term of exploration score using HKC. Each plot aggregates 200 robots trajectory.
+
+Finally, Figure 8 focuses on the behaviours of the robots. It shows the zones visited by the top 10 robots (in terms of exploration score) aggregated over 20 replicates (200 robots per plots). See Figure 5 for pictures of some these robots. The more yellow the square, the more robots visited this zone. As expected, the flat arena has a flared distribution centred on the starting position and with a peak on the border of the arena. This suggests that the robots are often moving around the arena by dragging along or staying stuck against the walls. For the cracks terrain, the distribution is also centred on the starting position (in the top right corner) with a circular spread. The centre of the distribution is more dense than the flat arena which is expected as a terrain with cracks is harder than a flat terrain to navigate. These plots shows that the best robot generated have locomotion capabilities that can be potentially be optimised for downstream tasks. Also, it shows that if the robot design is well equipped for locomotion, e.g. having wheels and limbs in sensible positions, HKC is able to control the robots, confirming HKC is a good proxy to evaluate the mobility of robots. 
+
+# 5 Conclusion 
+
+We presented the novel algorithm M E 2HK S which generates diverse and func-tional robots using a superquadrics representation of the design of the robot chassis, while inducing diversity through MAP-Elites. The generated robots are diverse in term of the shape of their chassis and in the distribution of their active components, and functional in term of their ability to locomote. The main findings can be summarised as follows. Firstly, we show that the use of the superquadrics representation to evolve the chassis improves results 14 L. K. Le Goff et al.  
+
+> Fig. 9. Grid archive pair plot for each variant on the flat arena. The heat-maps show the projection of the archive on 2D and the histograms in the diagonal show the projection on one dimension, length of the bars is proportional to exploration score. Colours show exploration score: blue as 0%, red 25% and green 50% of the arena explored.
+
+in terms of quality and diversity, regardless of the algorithm used. This is be-cause it has a smaller parameter space, and therefore, it is easier to navigate. And the superquadric equation is easier to interpret than a CPPN, allowing a tailored parametrization for our design space. Secondly, using MAP-Elites as the algorithm that evolves robots improves quality and diversity regardless of the representation used. Finally, we demonstrate experimentally that an algo-rithm that incorporates both a superquadrics representation and MAP-Elites provides the best trade-off in terms of delivering a large archive of highly func-tional robots. Finally, from a practical perspective, we remark that although MAP-Elites is well known to have low data-efficiency and often requires signif-icant computational resources [6,7], the use of the homeokinetic controller that quickly evaluates the locomotion capability of the robot enabled the discovery of nearly 4000 unique designs in a single run of M E 2HK S .Future work includes fine-tuning of robots for downstream tasks, and replac-ing the CPPN with a simpler and interpretable representation. Generation of Diverse and Func. Robot using SQ Parametrisation and QD 15 
+
+# References 
+
+1. Angus, M., Buchanan, E., Le Goff, L.K., Hart, E., Eiben, A.E., De Carlo, M., Winfield, A.F., Hale, M.F., Woolley, R., Timmis, J., et al.: Practical hardware for evolvable robots. Frontiers in Robotics and AI 10 (2023) 2. Auerbach, J.E., Bongard, J.C.: Evolving complete robots with cppn-neat: the util-ity of recurrent connections. In: Proceedings of the 13th Annual Conference on Genetic and Evolutionary Computation. p. 1475–1482. GECCO ’11, Association for Computing Machinery, New York, NY, USA (2011). https://doi.org/10. 1145/2001576.2001775 , https://doi.org/10.1145/2001576.2001775 
+
+3. Buchanan, E., Le Goff, L.K., Li, W., Hart, E., Eiben, A.E., De Carlo, M., Winfield, A.F., Hale, M.F., Woolley, R., Angus, M., et al.: Bootstrapping artificial evolution to design robots for autonomous fabrication. Robotics 9(4), 106 (2020) 4. Cheney, N., Bongard, J., SunSpiral, V., Lipson, H.: Scalable co-optimization of morphology and control in embodied machines. Journal of The Royal Society In-terface 15 (143), 20170937 (2018) 5. Cheney, N., MacCurdy, R., Clune, J., Lipson, H.: Unshackling evolution: evolv-ing soft robots with multiple materials and a powerful generative encoding. ACM SIGEVOlution 7(1), 11–23 (2014) 6. Colas, C., Madhavan, V., Huizinga, J., Clune, J.: Scaling map-elites to deep neu-roevolution. In: Proceedings of the 2020 Genetic and Evolutionary Computation Conference. pp. 67–75 (2020) 7. Cully, A.: Multi-emitter map-elites: improving quality, diversity and data efficiency with heterogeneous sets of emitters. In: Proceedings of the Genetic and Evolution-ary Computation Conference. pp. 84–92 (2021) 8. Der, R., Herrmann, J., Liebscher, R.: Homeokinetic approach to autonomous learn-ing in mobile robots. VDI BERICHTE 1679 , 301–308 (2002) 9. Der, R., Martius, G.: The playful machine: theoretical foundation and practical realization of self-organizing robots, vol. 15. Springer Science & Business Media (2012) 10. Dupac, M.: An object-oriented approach for mechanical components design and visualization. Eng. with Comput. 28 (2), 95–107 (Apr 2012) 11. Goff, L.K.L., Smith, S.C.: Efficient and diverse generative robot designs using evolution and intrinsic motivation. In: 2025 IEEE International Conference on Robotics and Automation (ICRA). pp. 16598–16605 (2025). https://doi.org/ 10.1109/ICRA55743.2025.11127289 
+
+12. Gupta, A., Savarese, S., Ganguli, S., Fei-Fei, L.: Embodied intelligence via learning and evolution. Nature communications 12 (1), 5721 (2021) 13. Han, X., Yang, L.: Sq-slam: Monocular semantic slam based on superquadric object representation. Journal of Intelligent & Robotic Systems 109 (2), 29 (2023) 14. Hesse, F.: Self-Organizing Control for Autonomous Robots A Dynamical Systems Approach Based on the Principle of Homeokinesis. Georg-August-Universitaet Goettingen (Germany) (2009) 15. Husbands, P., Jermy, G., McIlhagga, M., Ives, R.: Two applications of genetic algorithms to component design. In: AISB workshop on evolutionary computing. pp. 50–61. Springer (1996) 16. Kriegman, S., Blackiston, D., Levin, M., Bongard, J.: A scalable pipeline for de-signing reconfigurable organisms. Proceedings of the National Academy of Sciences 
+
+117 (4), 1853–1859 (2020) 16 L. K. Le Goff et al. 17. Le Goff, L., Hart, E.: Improving efficiency of evolving robot designs via self-adaptive learning cycles and an asynchronous architecture. In: Proceedings of the Genetic and Evolutionary Computation Conference Companion. pp. 1607–1615 (2024) 18. Le Goff, L.K., Hart, E., Coninx, A., Doncieux, S.: On pros and cons of evolving topologies with novelty search. In: Artificial Life Conference Proceedings. pp. 423– 431. MIT Press One Rogers Street, Cambridge, MA 02142-1209, USA (2020) 19. Le Goff, L.K., Smith, S.C.: Efficient and diverse generative robot designs using evolution and intrinsic motivation. arXiv preprint arXiv:2411.18423 (2024) 20. Li, W., Buchanan, E., Le Goff, L.K., Hart, E., Hale, M.F., Wei, B., De Carlo, M., Angus, M., Woolley, R., Gan, Z., et al.: Evaluation of frameworks that combine evolution and learning to design robots in complex morphological spaces. IEEE Transactions on Evolutionary Computation 28 (6), 1561–1574 (2023) 21. Lindenmayer, A., Jürgensen, H.: Grammars of development: discrete-state models for growth, differentiation, and gene expression in modular organisms. In: Linden-mayer systems: Impacts on theoretical computer science, computer graphics, and developmental biology, pp. 3–21. Springer (1992) 22. Medvet, E., Bartoli, A., Pigozzi, F., Rochelli, M.: Biodiversity in evolved voxel-based soft robots. In: Proceedings of the Genetic and Evolutionary Computation Conference. pp. 129–137 (2021) 23. Mertan, A., Cheney, N.: Investigating premature convergence in co-optimization of morphology and control in evolved virtual soft robots. In: European Conference on Genetic Programming (Part of EvoStar). pp. 38–55. Springer (2024) 24. Mertan, A., Cheney, N.: Evolutionary brain-body co-optimization consistently fails to select for morphological potential. In: Artificial Life Conference Proceedings 37. vol. 2025, p. 63. MIT Press One Rogers Street, Cambridge, MA 02142-1209, USA journals-info . . . (2025) 25. Miras, K.: Constrained by design: Influence of genetic encodings on evolved traits of robots. Frontiers in Robotics and AI 8, 672379 (2021) 26. Miras, K., Haasdijk, E., Glette, K., Eiben, A.: Effects of selection preferences on evolved robot morphologies and behaviors. In: Artificial Life Conference Proceed-ings. pp. 224–231. MIT Press One Rogers Street, Cambridge, MA 02142-1209, USA (2018) 27. Mouret, J.B., Clune, J.: Illuminating search spaces by mapping elites (2015), 
+
+https://arxiv.org/abs/1504.04909 
+
+28. Nadizar, G., Rusin, F., Medvet, E., Ochoa, G.: The role of stepping stones in map-elites: Insights from search trajectory networks. In: Genetic Programming: 28th European Conference, EuroGP 2025, Held as Part of EvoStar 2025, Tri-este, Italy, April 23–25, 2025, Proceedings. p. 224–239. Springer-Verlag, Berlin, Heidelberg (2025). https://doi.org/10.1007/978-3-031-89991-1_14 , https:// doi.org/10.1007/978-3-031-89991-1_14 
+
+29. Nordmoen, J., Veenstra, F., Ellefsen, K.O., Glette, K.: Map-elites enables powerful stepping stones and diversity for modular robotics. Frontiers in Robotics and AI 
+
+8, 639173 (2021) 30. Scarton, L., Hagg, A.: On the suitability of representations for quality diversity optimization of shapes. In: Proceedings of the Genetic and Evolutionary Compu-tation Conference. p. 963–971. GECCO ’23, Association for Computing Machin-ery, New York, NY, USA (2023). https://doi.org/10.1145/3583131.3590381 ,
+
+https://doi.org/10.1145/3583131.3590381 
+
+31. Smith, S.C., Herrmann, J.M.: Homeokinetic reinforcement learning. In: IAPR In-ternational Workshop on Partially Supervised Learning. pp. 82–91. Springer (2011) Generation of Diverse and Func. Robot using SQ Parametrisation and QD 17 32. Soodak, H., Iberall, A.: Homeokinetics: A physical science for complex systems. Science 201 (4356), 579–582 (1978) 33. Stanley, K.O.: Compositional pattern producing networks: A novel abstraction of development. Genetic programming and evolvable machines 8, 131–162 (2007) 34. Thomson, S.L., Le Goff, L.K., Hart, E., Eiben, A.E., Luck, K.S.: Understanding the navigation of robot morphology spaces with local optima network analysis. In: Artificial Life Conference Proceedings 37. vol. 2025, p. 42. MIT Press One Rogers Street, Cambridge, MA 02142-1209, USA journals-info . . . (2025) 35. Veenstra, F., Olsen, M.H., Glette, K.: Effects of encodings and quality-diversity on evolving 2d virtual creatures. In: Proceedings of the Genetic and Evolutionary Computation Conference Companion. p. 164–167. GECCO ’22, Association for Computing Machinery, New York, NY, USA (2022). https://doi.org/10.1145/ 3520304.3529053 , https://doi.org/10.1145/3520304.3529053 
+
+36. Vezzani, G., Pattacini, U., Natale, L.: A grasping approach based on superquadric models. In: 2017 IEEE International Conference on Robotics and Automation (ICRA). pp. 1579–1586. IEEE (2017) 37. Wu, Y., Li, W., Liu, Z., Liu, W., Chirikjian, G.S.: Autonomous learning-free grasp-ing and robot-to-robot handover of unknown objects. Autonomous Robots 49 (3), 1–16 (2025) 38. Xie, Y., Chu, K.f., Wang, X., Iida, F.: The morphology-control trade-off: Insights into soft robotic efficiency. arXiv preprint arXiv:2503.16127 (2025) 39. Xie, Y., Pinskier, J., Liow, L., Howard, D., Iida, F.: A’map’to find high-performing soft robot designs: Traversing complex design spaces using map-elites and topology optimization. In: 2024 IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS). pp. 11408–11415. IEEE (2024)

@@ -1,0 +1,181 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-15T22:43:15.990583+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 3,
+    "quick_skim_target": 11,
+    "quick_selected": 3
+  },
+  "deep_dive": [
+    {
+      "id": "2606.14699v1",
+      "source": "arxiv",
+      "title": "Instruct-Particulate: Scaling Feed-Forward 3D Object Articulation with Kinematic Control",
+      "abstract": "Reconstructing articulated 3D objects is important for animation, gaming, and robotic simulations. Recent neural networks can estimate the articulated structure of 3D objects, but their generalization remains limited by the scarcity of annotated data for this task. To address this gap, we introduce Instruct-Particulate, a model that takes a 3D mesh together with a target kinematic specification, including part descriptions, connectivity, joint types, and optional point prompts, and predicts the corresponding kinematic part segmentation and joint motion parameters. The kinematic specification disambiguates the task and allows the model to target annotations of different granularity, thereby making it possible to use more abundant heterogeneous training data. At test time, the kinematic specification can be obtained automatically from large-scale vision-language models, so the model can be applied to any input mesh. To train our model at scale, we construct a heterogeneous dataset of more than 150,000 articulated 3D objects, extending existing publicly available collections with data obtained by partially labelling other 3D models (monolithic or already decomposed into parts) with kinematic labels by means of vision-language models. Experiments show that our model generalizes better across categories and to AI-generated meshes, enabling articulated asset reconstruction from real-world images via image-to-3D models.",
+      "authors": [
+        "Ruining Li",
+        "Yuxin Yao",
+        "Matt Zhou",
+        "Chuanxia Zheng",
+        "Christian Rupprecht",
+        "Joan Lasenby",
+        "Shangzhe Wu",
+        "Andrea Vedaldi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR",
+        "cs.RO"
+      ],
+      "published": "2026-06-12T17:59:36+00:00",
+      "link": "https://arxiv.org/pdf/2606.14699v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "predicts kinematic part segmentation and joint motion parameters from mesh and kinematic specification",
+      "llm_evidence_cn": "从网格与运动学规范预测铰链部件分割与关节运动参数",
+      "llm_evidence": "从网格与运动学规范预测铰链部件分割与关节运动参数",
+      "canonical_evidence": "从网格与运动学规范预测铰链部件分割与关节运动参数",
+      "llm_tldr_en": "Instruct-Particulate scales 3D object articulation by using kinematic specifications to guide part segmentation and joint prediction, enabling generalization across varied annotation granularities.",
+      "llm_tldr_cn": "针对三维铰链物体重建中标注数据稀缺导致泛化受限的问题，Instruct-Particulate利用目标运动学规范（部件描述、连接关系、关节类型等）从三维网格直接前馈预测运动学部件分割和关节运动参数。该方法通过运动学控制消除歧义，能兼容不同粒度的标注，从而利用更多异构数据提升泛化能力，为铰链物体理解提供了更实用、可规模化的方案。",
+      "llm_tldr": "针对三维铰链物体重建中标注数据稀缺导致泛化受限的问题，Instruct-Particulate利用目标运动学规范（部件描述、连接关系、关节类型等）从三维网格直接前馈预测运动学部件分割和关节运动参数。该方法通过运动学控制消除歧义，能兼容不同粒度的标注，从而利用更多异构数据提升泛化能力，为铰链物体理解提供了更实用、可规模化的方案。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "methods for generating articulated 3D objects",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.14701v1",
+      "source": "arxiv",
+      "title": "RATS! Patches Talk Through Registers: Emergent Parts in Register Attention Transformers",
+      "abstract": "When humans see a bird, they recognize far more than just \"bird\" -- they see a head, wings, and talons, a structured assembly of reusable parts that can be identified across every bird they have ever seen. We ask whether a self-supervised visual model can discover the same compositional structure on its own. To this end, we propose RATS (Register Attention Transformers), which decomposes the classification token into N learnable register tokens that route patch information through an L->N->N->L bottleneck via a three-step compress-communicate-broadcast attention. The N registers are partitioned across the H attention heads, so that registers assigned to different heads do not interact with each other. Without auxiliary losses or part annotations, each register spontaneously specializes into a proto-semantic region whose emerging structure resembles object parts. RATS surpasses all baselines by +12 mIoU on average across five segmentation benchmarks, with consistent gains on ADE20K (+1.11 mIoU) and COCO (+0.2 AP^m). Its register dictionary further exhibits part-level consistency and semantic proximity across related categories. Our results suggest that RATS may provide a useful architectural prior for structured and interpretable visual representation learning.",
+      "authors": [
+        "Timing Yang",
+        "Predrag Neskovic",
+        "Jansen Seheult",
+        "Wenchao Han",
+        "Anand Bhattad",
+        "Alan Yuille",
+        "Feng Wang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-12T17:59:53+00:00",
+      "link": "https://arxiv.org/pdf/2606.14701v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "self-supervised discovery of emergent parts in visual models",
+      "llm_evidence_cn": "自监督发现视觉模型中的涌现零件",
+      "llm_evidence": "自监督发现视觉模型中的涌现零件",
+      "canonical_evidence": "自监督发现视觉模型中的涌现零件",
+      "llm_tldr_en": "RATS proposes a Register Attention Transformer that decomposes the classification token into learnable registers, inducing emergent part-based representations without supervision, shown to discover semantic parts like bird parts.",
+      "llm_tldr_cn": "RATS提出寄存器注意力变换器（RATS），通过将分类令牌分解为多个可学习的寄存器令牌，在自监督视觉模型中涌现出零件化的表示。在没有额外标注的情况下，模型可以自动发现如鸟的头部、翅膀等语义零件。该方法为无监督零件发现提供了一种简洁有效的思路。",
+      "llm_tldr": "RATS提出寄存器注意力变换器（RATS），通过将分类令牌分解为多个可学习的寄存器令牌，在自监督视觉模型中涌现出零件化的表示。在没有额外标注的情况下，模型可以自动发现如鸟的头部、翅膀等语义零件。该方法为无监督零件发现提供了一种简洁有效的思路。",
+      "llm_tags": [
+        "query:part-aware:composite"
+      ],
+      "matched_query_tag": "query:part-aware:composite",
+      "matched_query_text": "Papers central to 查找类似ArticulateAnything、X-Part、CubePart等关于零件感知生成的文章, especially work that connects or combines: generating 3D models with separate parts; methods for generating articulated 3D objects; decomposing 3D shapes into parts; segmenting 3D objects into semantic parts; building 3D models from assembled parts; assembling 3D parts into complete objects; How to generate articulated 3D parts from single images?; Approaches for decomposing 3D shapes into semantic parts.",
+      "matched_requirement_id": "req-composite-part-aware",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.11037v1",
+      "source": "arxiv",
+      "title": "Generation of Diverse and Functional Robot Designs using Superquadrics Parametrisation and Quality-Diversity",
+      "abstract": "Generative design of robots requires navigating a vast search-space, encompassing physical configurations and behavioural parameters. Evolutionary Algorithms (EAs) have shown promising results, but often converge prematurely to a small set of sub-optimal designs. Most EAs fail to maintain sufficient diversity in the population that would allow the discovery of distinct functional robots. To counter premature convergence, we introduce a superquadrics-based representation (SQs) for robot bodies. SQs are interpretable, compact and computationally efficient mathematical representations of 3D geometrical shapes that can be tuned to specific design-spaces. To encourage morphological diversity, we combine this representation with a quality-diversity (QD) algorithm (MAP-Elites). We compare SQs and Compositional Pattern Producing Networks representations as generators of morphologies, combining them with standard EAs and MAP-Elites. In two test environments, we find that using SQs to generate morphology in conjunction with the MAP-Elites algorithm reaches the highest QD-score across both environments, maximising diversity of design and functionality of generated robots. The findings highlight the benefits of using a compact and interpretable geometric representation for exploring a complex design-space and suggest that combining SQs with an explicit diversity mechanism increases the quality and number of designs generated.",
+      "authors": [
+        "Leni Le Goff",
+        "Simon Smith",
+        "Emma Hart"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-06-09T16:08:03+00:00",
+      "link": "https://arxiv.org/pdf/2606.11037v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "superquadrics-based robot body generation as assembling parts",
+      "llm_evidence_cn": "基于超二次曲面的机器人身体生成，即组装零件构建3D模型",
+      "llm_evidence": "基于超二次曲面的机器人身体生成，即组装零件构建3D模型",
+      "canonical_evidence": "基于超二次曲面的机器人身体生成，即组装零件构建3D模型",
+      "llm_tldr_en": "This paper proposes a superquadrics parameterization and quality-diversity algorithm to generate diverse and functional robot designs, effectively building 3D models from assembled parts.",
+      "llm_tldr_cn": "机器人生成设计需探索庞大形态空间，传统进化算法易陷入局部最优。本文采用超二次曲面参数化表示机器人身体，结合质量-多样性算法，生成多样且功能不同的机器人形态。该方法将身体视为可组装的三维部件，在保持紧凑表示的同时鼓励形态多样性，为零件组装式3D生成提供了新思路。",
+      "llm_tldr": "机器人生成设计需探索庞大形态空间，传统进化算法易陷入局部最优。本文采用超二次曲面参数化表示机器人身体，结合质量-多样性算法，生成多样且功能不同的机器人形态。该方法将身体视为可组装的三维部件，在保持紧凑表示的同时鼓励形态多样性，为零件组装式3D生成提供了新思路。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "building 3D models from assembled parts",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.12994v2",
+      "source": "arxiv",
+      "title": "DeepJEB++: Foundation Model-Driven Large-Scale 3D Engineering Dataset via 2D Latent Space Augmentation",
+      "abstract": "Data-driven engineering design is constrained by the lack of large-scale 3D datasets that pair geometry with physics-based performance labels. In particular, existing 3D data augmentation techniques have limitations in preserving subtle and diverse geometric variations, and it remains difficult to automate the subsequent simulation-labeling process, where boundary conditions vary depending on the generated geometry. We present DeepJEB++, a foundation-model-driven data-augmentation framework that expands a small seed set of jet engine brackets into a large, simulation-labeled 3D dataset under constrained resources. Our key idea is to augment in the data-rich 2D latent space, then transfer to 3D. In Stage 1, we fine-tune a pretrained 2D latent diffusion model on multi-view renders and synthesize novel views by latent interpolation, retaining manufacturable designs through a vision-language-model (VLM) quality filter. In Stage 2, the validated images are lifted to 3D meshes by a domain-adapted generative foundation model. In Stage 3, an automated pipeline recognizes the load and bolt interfaces on each mesh and assigns finite-element labels -- mass, stress, and displacement -- without manual intervention. We assess augmentation quality along three intrinsic axes: manufacturability, label fidelity against the SimJEB ground truth, and distributional consistency. Starting from fewer than 400 seed designs, DeepJEB++ yields 15,360 simulation-labeled 3D brackets -- a 40x expansion -- using a single GPU per stage. The dataset will be made publicly available to support reproducible engineering-AI research.",
+      "authors": [
+        "Soyoung Yoo",
+        "Leekyo Jeong",
+        "Jinsu Ra",
+        "Dongeon Lee",
+        "Sunwoong Yang",
+        "Hyogu Jeong",
+        "Namwoo Kang"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CE"
+      ],
+      "published": "2026-06-11T07:30:56+00:00",
+      "link": "https://arxiv.org/pdf/2606.12994v2",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "framework for generating large-scale 3D engineering part datasets, relevant to part-aware generation",
+      "llm_evidence_cn": "生成大规模三维工程零件数据集的框架，与零件感知生成相关",
+      "llm_evidence": "生成大规模三维工程零件数据集的框架，与零件感知生成相关",
+      "canonical_evidence": "生成大规模三维工程零件数据集的框架，与零件感知生成相关",
+      "llm_tldr_en": "Addresses lack of large-scale 3D engineering datasets by proposing foundation-model-driven augmentation in 2D latent space to generate simulation-labeled 3D jet engine bracket data.",
+      "llm_tldr_cn": "针对工程设计中大规模三维零件数据集匮乏的问题，本文提出DeepJEB++框架，利用基础模型在二维潜在空间进行数据增广，将少量喷气发动机支架种子样本扩展为大规模带有仿真标签的三维数据集。该方法先在二维潜在空间微调扩散模型生成多样几何，再通过重建获得三维模型并自动进行物理仿真标注。实验表明，生成的零件在几何变化和物理性能多样性上均优于现有增广技术，为数据驱动的零件设计提供了重要资源。",
+      "llm_tldr": "针对工程设计中大规模三维零件数据集匮乏的问题，本文提出DeepJEB++框架，利用基础模型在二维潜在空间进行数据增广，将少量喷气发动机支架种子样本扩展为大规模带有仿真标签的三维数据集。该方法先在二维潜在空间微调扩散模型生成多样几何，再通过重建获得三维模型并自动进行物理仿真标注。实验表明，生成的零件在几何变化和物理性能多样性上均优于现有增广技术，为数据驱动的零件设计提供了重要资源。",
+      "llm_tags": [
+        "query:part-aware:composite"
+      ],
+      "matched_query_tag": "query:part-aware:composite",
+      "matched_query_text": "Papers central to 查找类似ArticulateAnything、X-Part、CubePart等关于零件感知生成的文章, especially work that connects or combines: generating 3D models with separate parts; methods for generating articulated 3D objects; decomposing 3D shapes into parts; segmenting 3D objects into semantic parts; building 3D models from assembled parts; assembling 3D parts into complete objects; How to generate articulated 3D parts from single images?; Approaches for decomposing 3D shapes into semantic parts.",
+      "matched_requirement_id": "req-composite-part-aware",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
