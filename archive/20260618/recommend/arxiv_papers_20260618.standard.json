@@ -1,0 +1,52 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-18T21:02:25.046540+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 0,
+    "quick_skim_target": 11,
+    "quick_selected": 0
+  },
+  "deep_dive": [
+    {
+      "id": "2606.18861v1",
+      "source": "arxiv",
+      "title": "URDF Synthesis from RGB-D Sequences via Differentiable Joint Inference and Energy-Consistent Verification",
+      "abstract": "Reconstructing simulation-ready digital twins of articulated objects from sensor observations remains constrained by two persistent gaps: (i) part-level geometric reconstruction is decoupled from kinematic-parameter estimation, and (ii) the recovered models often violate basic dynamic invariants such as energy conservation, leading to drift when the URDF is replayed in physics simulators. We present KinemaForge, a constraint-driven pipeline that jointly infers part-level shape, joint topology, and joint parameters from short RGB-D sequences and validates the result against an energy-consistent verifier built on differentiable rigid-body dynamics. The pipeline introduces three components: a kinematic constraint graph that encodes joint-part incidences as soft edges; a differentiable screw-axis solver that backpropagates from rendered observations through Featherstone's articulated-body algorithm to joint parameters; and an energy residual loss that penalises non-physical free responses of the reconstructed model. Across five PartNet-Mobility categories and an internal RGB-D benchmark, KinemaForge reduces the average joint-axis error from 4.52 degrees to 2.83 degrees (-37.4%) over the strongest geometric baseline (PARIS) and from 5.30 degrees to 2.83 degrees (-46.6%) over the interaction-based Ditto baseline, lowers long-horizon simulation drift by 64% (vs. PARIS) over 50 s rollouts, and yields URDFs whose closed-loop manipulation success rate improves by 14.6 percentage points over Ditto in our preliminary evaluation. Code and reconstruction data will be released upon acceptance.",
+      "authors": [
+        "Xinze Zhang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-17T09:42:25+00:00",
+      "link": "https://arxiv.org/pdf/2606.18861v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "jointly infers part-level shape, joint topology, and joint parameters from RGB-D sequences for articulated objects",
+      "llm_evidence_cn": "从RGB-D序列联合推断零件级形状、关节拓扑与关节参数，用于铰接物体",
+      "llm_evidence": "从RGB-D序列联合推断零件级形状、关节拓扑与关节参数，用于铰接物体",
+      "canonical_evidence": "从RGB-D序列联合推断零件级形状、关节拓扑与关节参数，用于铰接物体",
+      "llm_tldr_en": "KinemaForge jointly reconstructs part-level geometry and kinematic parameters of articulated objects from short RGB-D sequences, using differentiable dynamics for energy-consistent verification, bridging the gap between perception and simulation-ready digital twins.",
+      "llm_tldr_cn": "该工作解决铰接物体数字化时几何重建与运动学参数估计脱节、物理不一致导致仿真漂移的问题。提出KinemaForge流水线，从短RGB-D序列联合推断零件级形状、关节拓扑与关节参数，并通过可微刚体动力学进行能量一致性验证。实验表明生成的URDF模型能量守恒，仿真回放稳定。该方法统一了感知与物理建模，为构建可仿真数字孪生提供新方案。",
+      "llm_tldr": "该工作解决铰接物体数字化时几何重建与运动学参数估计脱节、物理不一致导致仿真漂移的问题。提出KinemaForge流水线，从短RGB-D序列联合推断零件级形状、关节拓扑与关节参数，并通过可微刚体动力学进行能量一致性验证。实验表明生成的URDF模型能量守恒，仿真回放稳定。该方法统一了感知与物理建模，为构建可仿真数字孪生提供新方案。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "methods for generating articulated 3D objects",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": []
+}

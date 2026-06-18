@@ -1,0 +1,24 @@
+{
+  "label": "2026-06-18",
+  "date": "2026-06-18",
+  "generated_at": "2026-06-18T21:04:10",
+  "count": 1,
+  "papers": [
+    {
+      "paper_id": "202606/18/2606.18861v1-urdf-synthesis-from-rgb-d-sequences-via-differentiable-joint-inference-and-energy-consistent-verification",
+      "section": "deep",
+      "title_en": "URDF Synthesis from RGB-D Sequences via Differentiable Joint Inference and Energy-Consistent Verification",
+      "authors": "Xinze Zhang",
+      "date": "2026-06-17",
+      "pdf": "https://arxiv.org/pdf/2606.18861v1",
+      "score": "10.0",
+      "evidence": "从RGB-D序列联合推断零件级形状、关节拓扑与关节参数，用于铰接物体",
+      "tldr": "针对铰接物体从RGB-D序列重建仿真就绪数字孪生时，部件级几何重建与运动学参数估计脱节、重建模型常违背能量守恒导致仿真漂移的问题，提出KinemaForge约束驱动流程。该方法构建运动学约束图、可微分螺旋轴求解器与能量残差损失，实现部件形状、关节拓扑和参数的联合推断与能量一致性验证。实验表明，关节轴误差相对PARIS和Ditto分别降低37.4%和46.6%，50秒仿真漂移减少64%，闭环操作成功率提升14.6个百分点。该工作提升了重建模型的物理一致性与操作可靠性，为物理仿真与机器人操作提供了更准确的数字孪生。",
+      "tags": "query:part-aware",
+      "abstract_en": "Reconstructing simulation-ready digital twins of articulated objects from sensor observations remains constrained by two persistent gaps: (i) part-level geometric reconstruction is decoupled from kinematic-parameter estimation, and (ii) the recovered models often violate basic dynamic invariants such as energy conservation, leading to drift when the URDF is replayed in physics simulators. We present KinemaForge, a constraint-driven pipeline that jointly infers part-level shape, joint topology, and joint parameters from short RGB-D sequences and validates the result against an energy-consistent verifier built on differentiable rigid-body dynamics. The pipeline introduces three components: a kinematic constraint graph that encodes joint-part incidences as soft edges; a differentiable screw-axis solver that backpropagates from rendered observations through Featherstone's articulated-body algorithm to joint parameters; and an energy residual loss that penalises non-physical free responses of the reconstructed model. Across five PartNet-Mobility categories and an internal RGB-D benchmark, KinemaForge reduces the average joint-axis error from 4.52 degrees to 2.83 degrees (-37.4%) over the strongest geometric baseline (PARIS) and from 5.30 degrees to 2.83 degrees (-46.6%) over the interaction-based Ditto baseline, lowers long-horizon simulation drift by 64% (vs. PARIS) over 50 s rollouts, and yields URDFs whose closed-loop manipulation success rate improves by 14.6 percentage points over Ditto in our preliminary evaluation. Code and reconstruction data will be released upon acceptance.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
