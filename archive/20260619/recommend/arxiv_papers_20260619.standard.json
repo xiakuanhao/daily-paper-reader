@@ -1,0 +1,138 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-19T21:43:20.881381+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2606.19828v1",
+      "source": "arxiv",
+      "title": "3D-PLOT-LLM: Part-Level Object Tokens for 3D Large Language Models",
+      "abstract": "3D multimodal large language models (3D MLLMs) describe a 3D object as a whole but cannot address, name, or reason about its parts. Prior part-aware attempts add segmentation decoders, heavier 3D encoders, or bounding-box grammars at substantial parameter cost. We take a fundamentally different path: we reorganize the input token stream so that parts become directly addressable through the LLM's own vocabulary. Our model, 3D-PLOT-LLM, partitions the frozen point encoder's patches into K locally coherent regions and inserts, before each region's patch tokens, a learnable per-region marker and a reserved vocabulary token <part_k>; a Marker-Space Refinement (MSR) module then conditions each marker on its region's spatial statistics and adjacency neighbors. The model thus cites parts in its output and follows prompts that refer to parts by token, a capability absent from prior object-level 3D MLLMs. To probe this interface, we construct PartVerse-QA, a vocabulary-level part-QA benchmark adapted from PartVerse mesh annotations (77K training pairs and 588 held-out queries on disjoint object splits), on which 3D-PLOT-LLM reaches caption-to-slots Jaccard 0.459 and Exact-match 13.78%, with a slot-to-caption GPT-4o judge of 44.68. On the 3DCoMPaT-GrIn part-aware grounded description benchmark, 3D-PLOT-LLM outperforms PointLLM, Kestrel, PARIS3D, and SegPoint on every text-output metric, and ShapeLLM on 3 of 4, with up to +3.03 GPT-4o judge over PointLLM. On Objaverse whole-object captioning, adding PartVerse-QA at Stage 2 yields +0.65 SBERT and +1.85 GPT-4o over PointLLM, and tops PointLLM-PiSA on 4 of 5 traditional metrics (SBERT, SimCSE, BLEU-1, METEOR) despite targeting a different (part-grounded) objective. All with under 1M new trainable parameters on a frozen point encoder, an order of magnitude below prior part-aware 3D MLLMs, and no segmentation decoder or bounding-box head.",
+      "authors": [
+        "Jintang Xue",
+        "Xinyu Wang",
+        "Yixing Wu",
+        "Jingwen Chen",
+        "C. -C. Jay Kuo"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-18T06:12:59+00:00",
+      "link": "https://arxiv.org/pdf/2606.19828v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Partitions point cloud into regions and assigns part tokens for direct part-level reasoning.",
+      "llm_evidence_cn": "对点云分区并分配零件令牌，实现直接的零件级推理。",
+      "llm_evidence": "对点云分区并分配零件令牌，实现直接的零件级推理。",
+      "canonical_evidence": "对点云分区并分配零件令牌，实现直接的零件级推理。",
+      "llm_tldr_en": "3D-PLOT-LLM enables part-level reasoning in 3D LLMs by partitioning point cloud patches into regions and inserting learnable part tokens, making parts directly addressable without heavy decoders.",
+      "llm_tldr_cn": "目标：现有3D多模态大语言模型仅能整体描述物体，无法处理零件级语义。方法：提出3D-PLOT-LLM，将冻结点编码器的切块分区为K个局部一致区域，在每个区域前插入可学习的区域标记和专用词元<part_k>，并通过标记-空间精炼模块注入空间统计与邻接关系。结果：以极低参数代价实现了零件级别的直接寻址与推理。意义：为3D零件感知生成与分析提供了轻量化的语言模型接口。",
+      "llm_tldr": "目标：现有3D多模态大语言模型仅能整体描述物体，无法处理零件级语义。方法：提出3D-PLOT-LLM，将冻结点编码器的切块分区为K个局部一致区域，在每个区域前插入可学习的区域标记和专用词元<part_k>，并通过标记-空间精炼模块注入空间统计与邻接关系。结果：以极低参数代价实现了零件级别的直接寻址与推理。意义：为3D零件感知生成与分析提供了轻量化的语言模型接口。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "Approaches for decomposing 3D shapes into semantic parts",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.19451v1",
+      "source": "arxiv",
+      "title": "3D-DLP: Self-Supervised 3D Object-Centric Scene Representation Learning",
+      "abstract": "We introduce 3D-DLP, a self-supervised object-centric representation learning model that decomposes scene-level RGB-D or voxel observations into a set of 3D latent particles. Building on the Deep Latent Particles (DLP) framework, each particle encodes disentangled attributes, including 3D keypoint position, bounding box dimensions, and appearance features, and represents a distinct entity in the scene. The model learns interpretable per-particle segmentation maps through an end-to-end self-supervised reconstruction objective. We demonstrate on both simulated and real-world datasets that the learned latent space is interpretable and controllable: by manipulating particle positions and decoding, we can generate novel scene configurations. Furthermore, we show that leveraging these compact 3D latent particles for downstream robotic manipulation improves performance over baselines that either lack explicit 3D information or rely on memory-intensive dense 3D inputs without object-centric structure. Code and videos are available at https://eubooks3003.github.io/3d-dlp.",
+      "authors": [
+        "Ellina Zhang",
+        "Madhaven Iyengar",
+        "Amir Zadeh",
+        "Chuan Li",
+        "Deepak Pathak",
+        "David Held",
+        "Tal Daniel"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG",
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-06-17T18:00:08+00:00",
+      "link": "https://arxiv.org/pdf/2606.19451v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "Decomposes scenes into latent particles with per-particle segmentation, enabling part-based generation.",
+      "llm_evidence_cn": "将场景分解为潜在粒子并生成逐粒子分割图，实现零件级生成。",
+      "llm_evidence": "将场景分解为潜在粒子并生成逐粒子分割图，实现零件级生成。",
+      "canonical_evidence": "将场景分解为潜在粒子并生成逐粒子分割图，实现零件级生成。",
+      "llm_tldr_en": "3D-DLP learns to decompose 3D scenes into latent particles with per-particle segmentation maps and disentangled attributes, enabling controllable novel scene generation and part-level manipulation without supervision.",
+      "llm_tldr_cn": "目标：当前3D场景表示缺乏可解释的物体级分解与操控能力。方法：提出3D-DLP，通过自监督方式将RGB-D或体素观测分解为一组3D潜在粒子，每个粒子编码关键点位置、边界框尺寸及外观等解耦属性，并学习逐粒子的分割图。结果：在模拟与真实数据集上证明了潜在空间的可解释性，操控粒子位置即可生成新颖场景配置。意义：为可操控的物体级场景生成与交互提供了新途径。",
+      "llm_tldr": "目标：当前3D场景表示缺乏可解释的物体级分解与操控能力。方法：提出3D-DLP，通过自监督方式将RGB-D或体素观测分解为一组3D潜在粒子，每个粒子编码关键点位置、边界框尺寸及外观等解耦属性，并学习逐粒子的分割图。结果：在模拟与真实数据集上证明了潜在空间的可解释性，操控粒子位置即可生成新颖场景配置。意义：为可操控的物体级场景生成与交互提供了新途径。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "decomposing 3D shapes into parts",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.14168v1",
+      "source": "arxiv",
+      "title": "MUSE: Agentic 3D Scene Authoring via Memory-Grounded Incremental Requirement Satisfaction",
+      "abstract": "Text-driven 3D scene generation is a promising technique for digital content creation, embodied AI simulation, and interactive design, yet practical workflows often require refining, extending, or correcting existing scenes while preserving non-target content. Existing methods can produce realistic and structurally plausible scenes, but they generally lack editability with requirement-level state tracking, so part-level failures often lead to full-scene regeneration or manual intervention. To tackle this challenge, we formulate controllable 3D scene authoring as incremental requirement satisfaction, unifying construction and editing. In this paper, we present MUSE, a memory-grounded multi-agent framework in which an Architect compiles instructions into structured requirements, a Sculptor executes local scene operations, and an Inspector verifies each step while updating Working, Scene, and Skill Memory. To evaluate requirement-level controllability and preservation-aware editing, we introduce AuthorBench, offering 145 constrained construction cases and a 1,584-case preservation-aware editing pool paired with external structured checks. On full construction cases, MUSE improves All-Goal success from 37.9 to 80.7 and surface-constraint fulfillment from 35.0 to 92.6 over the strongest baseline. On a stratified 240-case editing test split, MUSE achieves 49.6 All-Goal success, 99.9 preservation rate, and only 0.6 unintended change rate. Beyond automated metrics, human evaluations on compared local-editing baselines support stronger alignment with user intent, and downstream navigation-proxy tests indicate stronger spatial stability. Combined with ablations validating our memory designs, these results establish MUSE as an effective framework for controllable 3D scene authoring.",
+      "authors": [
+        "Ruijie Xu",
+        "Xinnan Zhu",
+        "Jiayu Ying",
+        "Daoguo Dong",
+        "Yuzhou Ji",
+        "Xin Tan"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-12T06:51:08+00:00",
+      "link": "https://arxiv.org/pdf/2606.14168v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "Tracks part-level requirements during 3D scene authoring to handle incremental assembly and editing.",
+      "llm_evidence_cn": "在3D场景创作中追踪零件级需求，支持增量装配与编辑。",
+      "llm_evidence": "在3D场景创作中追踪零件级需求，支持增量装配与编辑。",
+      "canonical_evidence": "在3D场景创作中追踪零件级需求，支持增量装配与编辑。",
+      "llm_tldr_en": "MUSE addresses part-level failures in text-driven 3D scene generation by reformulating scene authoring as incremental requirement satisfaction with memory-grounded multi-agent collaboration.",
+      "llm_tldr_cn": "目标：文本驱动的3D场景生成常因零件级错误导致全场景重新生成，缺乏可编辑的状态追踪。方法：提出MUSE，将可控3D场景创作建模为增量需求满足，采用记忆驱动的多智能体框架，包含建筑师等角色。结果：实现了保留非目标内容的前提下对场景进行局部修改与扩展。意义：统一了场景构建与编辑，提高了3D内容生产的精细控制水平。",
+      "llm_tldr": "目标：文本驱动的3D场景生成常因零件级错误导致全场景重新生成，缺乏可编辑的状态追踪。方法：提出MUSE，将可控3D场景创作建模为增量需求满足，采用记忆驱动的多智能体框架，包含建筑师等角色。结果：实现了保留非目标内容的前提下对场景进行局部修改与扩展。意义：统一了场景构建与编辑，提高了3D内容生产的精细控制水平。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "building 3D models from assembled parts",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
