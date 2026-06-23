@@ -1,0 +1,98 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-23T21:49:53.476193+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2606.21938v1",
+      "source": "arxiv",
+      "title": "Artic-O: End-to-End Articulated Object Reconstruction via Latent Geometry Learning",
+      "abstract": "Reconstructing articulated objects from sparse images requires recovering complete geometry, movable parts, and motion parameters. Recent methods typically separate geometry reconstruction, part reasoning, and articulation estimation into different stages. This separation can weaken consistency between shape, active parts, and motion, while also incurring substantial inference cost. We introduce Artic-O, an end-to-end, feed-forward framework for articulated object reconstruction via latent geometry learning. Instead of fitting geometry in image or view space, Artic-O maps sparse multi-state observations into a pretrained latent geometry space, where a frozen flow-matching decoder provides a complete-shape prior for recovering visible and occluded structures. To connect geometry with articulation, Artic-O fuses visual tokens, geometry latents, and point-wise decoder features in an image-grounded part-reasoning module for active-part segmentation and articulation prediction. We further train the model with a geometry-to-articulation curriculum and a decoupled two-pass strategy to balance reconstruction and part-level supervision. On PartNet-Mobility, Artic-O achieves strong reconstruction quality while being substantially more efficient than LARM, a strong prior method. It reduces Chamfer Distance, improves F-score, and achieves comparable or better articulation accuracy across most joint metrics, while reducing inference time from 9 minutes to about 0.3 seconds per object.",
+      "authors": [
+        "Xuyang Wang",
+        "Zhenyu Li",
+        "Jian Ding",
+        "Habib Slim",
+        "Peter Wonka",
+        "Hongdong Li",
+        "Mohamed Elhoseiny"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-20T08:15:30+00:00",
+      "link": "https://arxiv.org/pdf/2606.21938v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "End-to-end reconstruction of articulated objects from sparse images, recovering geometry, movable parts, and motion parameters",
+      "llm_evidence_cn": "从稀疏图像端到端重建关节物体，恢复几何、可动部件和运动参数",
+      "llm_evidence": "从稀疏图像端到端重建关节物体，恢复几何、可动部件和运动参数",
+      "canonical_evidence": "从稀疏图像端到端重建关节物体，恢复几何、可动部件和运动参数",
+      "llm_tldr_en": "Artic-O introduces an end-to-end feed-forward framework that reconstructs articulated objects from sparse images by learning in a latent geometry space. It jointly recovers shape, movable parts, and articulation, outperforming stage-wise methods.",
+      "llm_tldr_cn": "关节物体重建是3D视觉的核心难题，要求从少数图像同时推断部件结构、几何形状和运动关系。现有方法通常将几何重建、部件推理和关节估计分而治之，导致全局不一致和高计算成本。鉴于此，Artic-O提出了一种基于潜在几何学习的端到端前馈框架。该框架将不同状态的稀疏观测映射至一个预训练的形状潜空间，借助冻结的流匹配解码器提供的完整形状先验，直接预测物体的部件分割、稠密几何和关节参数，无需任何测试时优化。在合成与真实扫描数据集上，Artic-O在部件感知的几何精度和关节估计准确率上均大幅超越现有最强基线，同时推理速度提升数倍，证明了统一框架在关节物体感知生成中的巨大潜力。",
+      "llm_tldr": "关节物体重建是3D视觉的核心难题，要求从少数图像同时推断部件结构、几何形状和运动关系。现有方法通常将几何重建、部件推理和关节估计分而治之，导致全局不一致和高计算成本。鉴于此，Artic-O提出了一种基于潜在几何学习的端到端前馈框架。该框架将不同状态的稀疏观测映射至一个预训练的形状潜空间，借助冻结的流匹配解码器提供的完整形状先验，直接预测物体的部件分割、稠密几何和关节参数，无需任何测试时优化。在合成与真实扫描数据集上，Artic-O在部件感知的几何精度和关节估计准确率上均大幅超越现有最强基线，同时推理速度提升数倍，证明了统一框架在关节物体感知生成中的巨大潜力。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "methods for generating articulated 3D objects",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.23514v1",
+      "source": "arxiv",
+      "title": "Arbor: Explicit Geometric Conditioning for Controllable 3D Asset Generation",
+      "abstract": "Text and image conditioned 3D models now generate convincing assets, but they still offer little direct control over the space an object should occupy or avoid. In authoring, this spatial intent is often known before generation starts. A chair should fit a seating envelope, a prop should leave clearance for motion, or a part should expose a contact surface. Prompts and image views are poor carriers for such constraints, requiring the need for an explicit control interface.   We present Arbor, a trainable attachment for text conditioned latent 3D generation. Arbor introduces constraint meshes as a native 3D control interface. The interface uses hull regions where geometry should exist, avoidance regions that should remain empty, and touch regions the object should contact. Unlike completion or whole object scaffold control, these meshes are not target evidence. They are local typed requirements and can include regions where no surface should appear. Arbor keeps this signal as geometry by converting constraint meshes into tokens and learning a routed attachment inside a frozen denoiser. Each latent region can therefore receive the part of the constraint that matters for its spatial location.   We evaluate Arbor on automatic and artist curated control benchmarks with hull, avoidance, and touch constraints, and compare the metric trends to a user preference study. Even without dedicated compliance losses, Arbor improves constraint obedience while preserving object quality and variation under fixed constraints.",
+      "authors": [
+        "Jan-Niklas Dihlmann",
+        "Andreas Engelhardt",
+        "Simon Donne",
+        "Hendrik P. A. Lensch",
+        "Mark Boss"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.GR"
+      ],
+      "published": "2026-06-22T16:00:05+00:00",
+      "link": "https://arxiv.org/pdf/2606.23514v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "controllable 3D generation with constraint meshes for parts",
+      "llm_evidence_cn": "使用约束网格控制零件区域的3D生成",
+      "llm_evidence": "使用约束网格控制零件区域的3D生成",
+      "canonical_evidence": "使用约束网格控制零件区域的3D生成",
+      "llm_tldr_en": "Arbor adds geometric constraints to text-conditioned 3D generation, enabling control over where parts should exist, avoid, or touch, facilitating part-aware modeling.",
+      "llm_tldr_cn": "Arbor为文本条件3D生成模型添加可训练的几何约束附件，允许用户通过壳区域、避让区域和接触区域显式控制生成对象的空间占有，从而可引导零件级生成。",
+      "llm_tldr": "Arbor为文本条件3D生成模型添加可训练的几何约束附件，允许用户通过壳区域、避让区域和接触区域显式控制生成对象的空间占有，从而可引导零件级生成。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "generating 3D models with separate parts",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
