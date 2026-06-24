@@ -1,0 +1,54 @@
+{
+  "label": "2026-06-24",
+  "date": "2026-06-24",
+  "generated_at": "2026-06-24T21:58:39",
+  "count": 3,
+  "papers": [
+    {
+      "paper_id": "202606/24/2606.24628v1-artitwinsplat-interactable-digital-twin-reconstruction-via-gaussian-splatting-from-rgb-d-videos",
+      "section": "deep",
+      "title_en": "ArtiTwinSplat: Interactable Digital Twin Reconstruction via Gaussian Splatting from RGB-D videos",
+      "authors": "Pranjal Mishra, René Zurbrügg, Max Wilder-Smith, Marco Hutter, Marc Pollefeys, Zuria Bauer, Hermann Blum",
+      "date": "2026-06-23",
+      "pdf": "https://arxiv.org/pdf/2606.24628v1",
+      "score": "10.0",
+      "evidence": "自动重建具有部件结构和关节运动学的铰接3D对象",
+      "tldr": "机器人在真实环境中操作需要精确的交互式物体模型，但从真实数据大规模构建数字孪生仍存在瓶颈。ArtiTwinSplat框架利用RGB-D视频，通过3D高斯泼溅与无监督关节发现，无需CAD模型即可自动重建关节式、照片级的数字孪生。该方法直接处理真实世界观测，生成的孪生支持实时渲染、视角控制和交互操作，可直接用于下游机器人规划学习。这为具身智能和人机协作中关节物体操控提供了实用的可扩展构建方案。",
+      "tags": "query:part-aware",
+      "abstract_en": "Deploying robots in unstructured real-world environments needs accurate, interactive models of the objects. Constructing these models at scale remains a critical bottleneck for robotic system integration. We present ArtiTwinSplat, a framework that automatically constructs articulated, photo-realistic digital twins of objects directly from RGB-D videos, requiring no CAD models, simulation assets, or manual annotations. Our method is built on 3D Gaussian Splatting that preserve geometric fidelity and photometric realism, coupled with an unsupervised articulation discovery pipeline that recovers part structure and joint kinematics from observed motion alone. With tracking and optimization stages our method provides stable, queryable digital twins that support real-time rendering, viewpoint control, and interactive manipulation. Unlike prior methods confined to simulation, ArtiTwinSplat operates directly on real-world observations and produces twins that are immediately usable by downstream robot planning and learning systems. This method offers a practical, scalable pathway toward digital twin construction, lowering the integration barrier for articulated object manipulation in embodied AI and human-robot collaboration contexts.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/24/2606.22527v1-trajectory-forcing-structure-first-generation-with-controllable-semantic-trajectories",
+      "section": "quick",
+      "title_en": "Trajectory Forcing: Structure-First Generation with Controllable Semantic Trajectories",
+      "authors": "Merve Kocabas, Gege Gao, Bernhard Schölkopf, Andreas Geiger",
+      "date": "2026-06-21",
+      "pdf": "https://arxiv.org/pdf/2606.22527v1",
+      "score": "7.0",
+      "evidence": "将生成组织为从全局布局到物体、零件、细节层次的进展",
+      "tldr": "当前扩散与流模型在图像合成中虽表现出色，但其生成过程被隐式处理，用户无法观察或干预中间状态。针对该局限，本文提出轨迹强制（TF）框架，将生成轨迹显式化为从全局布局、对象、部件到细节的多级语义阶段，每阶段产生可解码潜表示，支持检查与局部编辑。TF利用自监督聚类从DINOv2等预训练视觉表征中构建粗到细的教师层次，并分别训练各层次的一步流匹配模型，同时引入轨迹感知度量来衡量生成路径的结构一致性和局部可控性。实验表明，TF不仅能达到竞争性样本质量，还能暴露语义连贯的中间状态，允许用户在任意阶段进行局部编辑，推动图像生成从终点驱动转向轨迹感知交互。",
+      "tags": "query:part-aware",
+      "abstract_en": "Diffusion and flow-based generative models produce strong images, yet their controllability remains largely endpoint-centric: users specify conditions and receive final outputs, while the intermediate generative dynamics remain hidden. Recent methods have begun to exploit generation order and process decomposition to improve sample quality, but still treat intermediate states as internal computation rather than objects for interaction. We propose Trajectory Forcing (TF), a trajectory-centric framework that makes the generation path explicit, semantic, and editable. TF organizes synthesis as a sequence of semantically structured stages, progressing from global layout to object-, part-, and detail-level representations. Each stage produces a decodable latent state that can be inspected, evaluated, and locally edited before the next stage begins. To instantiate this path, we derive coarse-to-fine teacher hierarchies by clustering pretrained visual representations such as DINOv2, and train a hierarchy-conditioned one-step flow-matching model at each level. We further introduce trajectory-aware metrics that measure structural consistency and local controllability beyond endpoint quality metrics such as FID. Experiments show that TF achieves competitive sample quality while exposing coherent intermediate states and supporting localized edits across semantic levels. By shifting the focus from final images to the generative path itself, TF opens a route toward controllable, trajectory-aware image synthesis.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/24/2606.24564v1-patterngsl-a-structured-specification-language-for-template-free-and-simulation-ready-3d-garments",
+      "section": "quick",
+      "title_en": "PatternGSL: A Structured Specification Language for Template-Free and Simulation-Ready 3D Garments",
+      "authors": "Zhenyang Li, Lutao Jiang, Yizhou Zhao, Ying-Cong Chen, Xin Wang, Weikai Chen, Yifan Peng",
+      "date": "2026-06-23",
+      "pdf": "https://arxiv.org/pdf/2606.24564v1",
+      "score": "6.0",
+      "evidence": "从单图像生成由裁片边界和缝合线构成的分离部件3D服装",
+      "tldr": "单图像重建可模拟3D服装面临表示差距。提出PatternGSL规范语言，编码完整缝纫模式（面板边界、参数化接缝、针迹拓扑），无模板且可学习，将缝纫结构作为生成首要目标。设计视觉-语言框架直接从图像回归PatternGSL并确定性解码为仿真服装。构建首个大规模图像-GSL数据集PatternGSLData（30万样本）。实验显示模式精度提升，恢复缝纫结构，支持可靠模拟与编辑。弥合表示鸿沟，推动结构化服装生成。",
+      "tags": "query:part-aware",
+      "abstract_en": "Reconstructing realistic, physically plausible garments from a single image remains a fundamental challenge. Template-free methods capture surface geometry but lack explicit sewing structure for simulation; while programmatic systems are simulation-ready but constrained by predefined templates. This reveals a fundamental representation gap between geometric reconstruction and structured garment construction. We present PatternGSL, a structured garment representation in the form of a template-free and learnable specification language that encodes complete sewing patterns, including panel boundaries, parameterized seams, and explicit stitch topology, in a compact and standardized form. PatternGSL preserves the physical rigor of pattern-based models while removing template dependence, elevating sewing structure as a first-class target for generative modeling. We further propose a vision-language framework that predicts PatternGSL specifications directly from a single image and decodes them into garments using lightweight deterministic validity handling, without optimization-based refinement or manual cleanup. In addition, we introduce PatternGSLData, the first large-scale image-to-GSL paired dataset comprising 300K samples with complete sewing pattern annotations, enabling supervised VLM training for structured garment reconstruction. Experiments demonstrate improved pattern accuracy over prior baselines, explicit sewing-structure recovery, reliable cloth simulation, and pattern-level editing through the same deterministic decoding pipeline. Code and data-processing scripts will be released at https://github.com/PatternGSL/PatternGSL.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

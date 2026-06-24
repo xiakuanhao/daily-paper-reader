@@ -1,0 +1,138 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-24T21:55:03.293081+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [
+    {
+      "id": "2606.24628v1",
+      "source": "arxiv",
+      "title": "ArtiTwinSplat: Interactable Digital Twin Reconstruction via Gaussian Splatting from RGB-D videos",
+      "abstract": "Deploying robots in unstructured real-world environments needs accurate, interactive models of the objects. Constructing these models at scale remains a critical bottleneck for robotic system integration. We present ArtiTwinSplat, a framework that automatically constructs articulated, photo-realistic digital twins of objects directly from RGB-D videos, requiring no CAD models, simulation assets, or manual annotations. Our method is built on 3D Gaussian Splatting that preserve geometric fidelity and photometric realism, coupled with an unsupervised articulation discovery pipeline that recovers part structure and joint kinematics from observed motion alone. With tracking and optimization stages our method provides stable, queryable digital twins that support real-time rendering, viewpoint control, and interactive manipulation. Unlike prior methods confined to simulation, ArtiTwinSplat operates directly on real-world observations and produces twins that are immediately usable by downstream robot planning and learning systems. This method offers a practical, scalable pathway toward digital twin construction, lowering the integration barrier for articulated object manipulation in embodied AI and human-robot collaboration contexts.",
+      "authors": [
+        "Pranjal Mishra",
+        "René Zurbrügg",
+        "Max Wilder-Smith",
+        "Marco Hutter",
+        "Marc Pollefeys",
+        "Zuria Bauer",
+        "Hermann Blum"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO",
+        "cs.CV"
+      ],
+      "published": "2026-06-23T14:24:07+00:00",
+      "link": "https://arxiv.org/pdf/2606.24628v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Automatically reconstructs articulated 3D objects with part structure and joint kinematics",
+      "llm_evidence_cn": "自动重建具有部件结构和关节运动学的铰接3D对象",
+      "llm_evidence": "自动重建具有部件结构和关节运动学的铰接3D对象",
+      "canonical_evidence": "自动重建具有部件结构和关节运动学的铰接3D对象",
+      "llm_tldr_en": "Addresses automatic construction of articulated digital twins from RGB-D videos. ArtiTwinSplat combines 3D Gaussian Splatting with unsupervised articulation discovery to recover part structure and joint kinematics. Results show accurate reconstruction without CAD models, enabling scalable part-aware 3D modeling for robotics.",
+      "llm_tldr_cn": "针对从RGB-D视频无需CAD模型或标注自动构建可交互铰接数字孪生的问题，提出ArtiTwinSplat，利用3D高斯泼溅保持几何与光度真实感，结合无监督铰接发现流水线从运动观测中恢复部件结构和关节运动学。实验在铰接物体重建上取得精确结果，为机器人等应用提供可扩展的部件感知建模方案。",
+      "llm_tldr": "针对从RGB-D视频无需CAD模型或标注自动构建可交互铰接数字孪生的问题，提出ArtiTwinSplat，利用3D高斯泼溅保持几何与光度真实感，结合无监督铰接发现流水线从运动观测中恢复部件结构和关节运动学。实验在铰接物体重建上取得精确结果，为机器人等应用提供可扩展的部件感知建模方案。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "methods for generating articulated 3D objects",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.22527v1",
+      "source": "arxiv",
+      "title": "Trajectory Forcing: Structure-First Generation with Controllable Semantic Trajectories",
+      "abstract": "Diffusion and flow-based generative models produce strong images, yet their controllability remains largely endpoint-centric: users specify conditions and receive final outputs, while the intermediate generative dynamics remain hidden. Recent methods have begun to exploit generation order and process decomposition to improve sample quality, but still treat intermediate states as internal computation rather than objects for interaction. We propose Trajectory Forcing (TF), a trajectory-centric framework that makes the generation path explicit, semantic, and editable. TF organizes synthesis as a sequence of semantically structured stages, progressing from global layout to object-, part-, and detail-level representations. Each stage produces a decodable latent state that can be inspected, evaluated, and locally edited before the next stage begins. To instantiate this path, we derive coarse-to-fine teacher hierarchies by clustering pretrained visual representations such as DINOv2, and train a hierarchy-conditioned one-step flow-matching model at each level. We further introduce trajectory-aware metrics that measure structural consistency and local controllability beyond endpoint quality metrics such as FID. Experiments show that TF achieves competitive sample quality while exposing coherent intermediate states and supporting localized edits across semantic levels. By shifting the focus from final images to the generative path itself, TF opens a route toward controllable, trajectory-aware image synthesis.",
+      "authors": [
+        "Merve Kocabas",
+        "Gege Gao",
+        "Bernhard Schölkopf",
+        "Andreas Geiger"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-21T14:25:50+00:00",
+      "link": "https://arxiv.org/pdf/2606.22527v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "organizes generation as progression to object-, part-, detail-level representations",
+      "llm_evidence_cn": "将生成组织为从全局布局到物体、零件、细节层次的进展",
+      "llm_evidence": "将生成组织为从全局布局到物体、零件、细节层次的进展",
+      "canonical_evidence": "将生成组织为从全局布局到物体、零件、细节层次的进展",
+      "llm_tldr_en": "Trajectory Forcing makes image generation paths explicit and editable, progressing through part-level and detail-level representations, which enables part-aware control.",
+      "llm_tldr_cn": "轨迹强制使图像生成路径显式且可编辑，依次生成从全局布局到物体、零件、细节的层次表示，实现零件感知控制，虽为2D但方法可迁移至3D零件生成。",
+      "llm_tldr": "轨迹强制使图像生成路径显式且可编辑，依次生成从全局布局到物体、零件、细节的层次表示，实现零件感知控制，虽为2D但方法可迁移至3D零件生成。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "generating 3D models with separate parts",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    },
+    {
+      "id": "2606.24564v1",
+      "source": "arxiv",
+      "title": "PatternGSL: A Structured Specification Language for Template-Free and Simulation-Ready 3D Garments",
+      "abstract": "Reconstructing realistic, physically plausible garments from a single image remains a fundamental challenge. Template-free methods capture surface geometry but lack explicit sewing structure for simulation; while programmatic systems are simulation-ready but constrained by predefined templates. This reveals a fundamental representation gap between geometric reconstruction and structured garment construction. We present PatternGSL, a structured garment representation in the form of a template-free and learnable specification language that encodes complete sewing patterns, including panel boundaries, parameterized seams, and explicit stitch topology, in a compact and standardized form. PatternGSL preserves the physical rigor of pattern-based models while removing template dependence, elevating sewing structure as a first-class target for generative modeling. We further propose a vision-language framework that predicts PatternGSL specifications directly from a single image and decodes them into garments using lightweight deterministic validity handling, without optimization-based refinement or manual cleanup. In addition, we introduce PatternGSLData, the first large-scale image-to-GSL paired dataset comprising 300K samples with complete sewing pattern annotations, enabling supervised VLM training for structured garment reconstruction. Experiments demonstrate improved pattern accuracy over prior baselines, explicit sewing-structure recovery, reliable cloth simulation, and pattern-level editing through the same deterministic decoding pipeline. Code and data-processing scripts will be released at https://github.com/PatternGSL/PatternGSL.",
+      "authors": [
+        "Zhenyang Li",
+        "Lutao Jiang",
+        "Yizhou Zhao",
+        "Ying-Cong Chen",
+        "Xin Wang",
+        "Weikai Chen",
+        "Yifan Peng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-23T13:32:04+00:00",
+      "link": "https://arxiv.org/pdf/2606.24564v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "encodes complete sewing patterns with panel boundaries and seams, generating 3D garment with separate parts from single image",
+      "llm_evidence_cn": "从单图像生成由裁片边界和缝合线构成的分离部件3D服装",
+      "llm_evidence": "从单图像生成由裁片边界和缝合线构成的分离部件3D服装",
+      "canonical_evidence": "从单图像生成由裁片边界和缝合线构成的分离部件3D服装",
+      "llm_tldr_en": "Proposes a structured specification language for reconstructing simulation-ready 3D garments with explicit part-based sewing patterns from single images, bridging geometric reconstruction and structured construction.",
+      "llm_tldr_cn": "针对从单张图像重建可物理仿真的3D服装这一挑战，现有方法无法同时保留几何细节与显式缝纫结构。本文提出PatternGSL，一种可学习的结构化规范语言，显式编码缝纫图案的裁片边界、参数化缝线和拓扑，弥补了几何重建与结构化构建间的差距。实验表明，该方法能从单图生成具有完整缝纫构造的3D服装，可直接用于布料仿真。",
+      "llm_tldr": "针对从单张图像重建可物理仿真的3D服装这一挑战，现有方法无法同时保留几何细节与显式缝纫结构。本文提出PatternGSL，一种可学习的结构化规范语言，显式编码缝纫图案的裁片边界、参数化缝线和拓扑，弥补了几何重建与结构化构建间的差距。实验表明，该方法能从单图生成具有完整缝纫构造的3D服装，可直接用于布料仿真。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "generating 3D models with separate parts",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
