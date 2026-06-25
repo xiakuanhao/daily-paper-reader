@@ -1,0 +1,39 @@
+{
+  "label": "2026-06-25",
+  "date": "2026-06-25",
+  "generated_at": "2026-06-25T21:59:59",
+  "count": 2,
+  "papers": [
+    {
+      "paper_id": "202606/25/2606.24564v2-patterngsl-a-structured-specification-language-for-template-free-and-simulation-ready-3d-garments",
+      "section": "deep",
+      "title_en": "PatternGSL: A Structured Specification Language for Template-Free and Simulation-Ready 3D Garments",
+      "authors": "Zhenyang Li, Lutao Jiang, Yizhou Zhao, Ying-Cong Chen, Xin Wang, Weikai Chen, Yifan Peng",
+      "date": "2026-06-23",
+      "pdf": "https://arxiv.org/pdf/2606.24564v2",
+      "score": "10.0",
+      "evidence": "重建服装为结构化缝纫图样，生成具有独立面板的三维模型",
+      "tldr": "从单张图像重建可仿真的3D服装需同时捕捉几何与缝合结构，现有模板无关方法缺乏仿真所需的缝合信息，而程序化系统受限于固定模板，存在显著表示鸿沟。本文提出PatternGSL，一种模板无关且可学习的结构化规格语言，编码完整缝纫图案，并构建视觉语言框架直接从图像预测并确定性解码为仿真就绪服装。在首个大规模图像-GSL配对数据集PatternGSLData上训练后，方法准确恢复了显式缝合结构，支持可靠布料仿真和图案级编辑，精度超越基线。该工作将缝合结构提升为生成建模的一等目标，为几何重建与物理仿真提供了统一桥梁。",
+      "tags": "query:part-aware",
+      "abstract_en": "Reconstructing realistic, physically plausible garments from a single image remains a fundamental challenge. Template-free methods capture surface geometry but lack explicit sewing structure for simulation; while programmatic systems are simulation-ready but constrained by predefined templates. This reveals a fundamental representation gap between geometric reconstruction and structured garment construction. We present PatternGSL, a structured garment representation in the form of a template-free and learnable specification language that encodes complete sewing patterns, including panel boundaries, parameterized seams, and explicit stitch topology, in a compact and standardized form. PatternGSL preserves the physical rigor of pattern-based models while removing template dependence, elevating sewing structure as a first-class target for generative modeling. We further propose a vision-language framework that predicts PatternGSL specifications directly from a single image and decodes them into garments using lightweight deterministic validity handling, without optimization-based refinement or manual cleanup. In addition, we introduce PatternGSLData, the first large-scale image-to-GSL paired dataset comprising 300K samples with complete sewing pattern annotations, enabling supervised VLM training for structured garment reconstruction. Experiments demonstrate improved pattern accuracy over prior baselines, explicit sewing-structure recovery, reliable cloth simulation, and pattern-level editing through the same deterministic decoding pipeline. Code and data-processing scripts will be released at https://github.com/PatternGSL/PatternGSL.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/25/2606.25241v1-graft-graph-based-affordance-transfer-via-part-correspondence",
+      "section": "quick",
+      "title_en": "GRAFT: Graph-Based Affordance Transfer via Part Correspondence",
+      "authors": "Mengying Lin, Utkarsh Mishra, Ajay Mandlekar, Danfei Xu",
+      "date": "2026-06-23",
+      "pdf": "https://arxiv.org/pdf/2606.25241v1",
+      "score": "7.0",
+      "evidence": "基于部件的图表示用于物体部件",
+      "tldr": "机器人操纵中，零样本泛化仍是一大挑战，现有语义方法忽略几何相似性导致少样本失败。GRAFT提出基于部分图的几何感知对应框架，利用多级描述符实现全局检索与点级匹配。对未见对象仅一次演示，即可检索最相似实例并对齐功能部分，最终传播接触点。该方法为少样本操纵提供了高效的零样本转移方案。",
+      "tags": "query:part-aware",
+      "abstract_en": "Generalizing robotic manipulation to unseen objects remains challenging, as learning-based approaches require many demonstrations and fail in few-shot settings. Prior work transfers affordances through semantic retrieval, but semantics alone neglect geometric similarity, which is critical for manipulation. We propose GRAFT, a geometry-aware correspondence framework for zero-shot manipulation transfer using only one demonstration per object. Objects are represented as part-based graphs, where part-level descriptors support global instance retrieval and part correspondence, and vertex-level descriptors enable fine-grained contact point matching. For an unseen object, our method first retrieves the most functionally and geometrically similar instance from the demonstration buffer with aligned functional parts, and finally propagates the contact points through point-wise correspondence.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

@@ -1,0 +1,96 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-25T21:57:46.529064+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 1,
+    "deep_cap": 6,
+    "deep_selected": 1,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2606.24564v2",
+      "source": "arxiv",
+      "title": "PatternGSL: A Structured Specification Language for Template-Free and Simulation-Ready 3D Garments",
+      "abstract": "Reconstructing realistic, physically plausible garments from a single image remains a fundamental challenge. Template-free methods capture surface geometry but lack explicit sewing structure for simulation; while programmatic systems are simulation-ready but constrained by predefined templates. This reveals a fundamental representation gap between geometric reconstruction and structured garment construction. We present PatternGSL, a structured garment representation in the form of a template-free and learnable specification language that encodes complete sewing patterns, including panel boundaries, parameterized seams, and explicit stitch topology, in a compact and standardized form. PatternGSL preserves the physical rigor of pattern-based models while removing template dependence, elevating sewing structure as a first-class target for generative modeling. We further propose a vision-language framework that predicts PatternGSL specifications directly from a single image and decodes them into garments using lightweight deterministic validity handling, without optimization-based refinement or manual cleanup. In addition, we introduce PatternGSLData, the first large-scale image-to-GSL paired dataset comprising 300K samples with complete sewing pattern annotations, enabling supervised VLM training for structured garment reconstruction. Experiments demonstrate improved pattern accuracy over prior baselines, explicit sewing-structure recovery, reliable cloth simulation, and pattern-level editing through the same deterministic decoding pipeline. Code and data-processing scripts will be released at https://github.com/PatternGSL/PatternGSL.",
+      "authors": [
+        "Zhenyang Li",
+        "Lutao Jiang",
+        "Yizhou Zhao",
+        "Ying-Cong Chen",
+        "Xin Wang",
+        "Weikai Chen",
+        "Yifan Peng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-23T13:32:04+00:00",
+      "link": "https://arxiv.org/pdf/2606.24564v2",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "reconstructs garments as structured sewing patterns, generating 3D models with separate panels",
+      "llm_evidence_cn": "重建服装为结构化缝纫图样，生成具有独立面板的三维模型",
+      "llm_evidence": "重建服装为结构化缝纫图样，生成具有独立面板的三维模型",
+      "canonical_evidence": "重建服装为结构化缝纫图样，生成具有独立面板的三维模型",
+      "llm_tldr_en": "Addresses the gap between template-free geometric reconstruction and simulation-ready garments by proposing a learnable specification language that encodes complete sewing patterns, enabling 3D garment generation from single images with explicit part structure and panel assembly.",
+      "llm_tldr_cn": "针对单目服装重建中几何与仿真表示鸿沟，提出可学习的结构化语言PatternGSL，编码完整缝纫图样（面板、缝合线及拓扑），从单张图像生成模板自由且可仿真的三维服装，其显式零件结构突破了现有方法局限。实验显示在仿真保真度和泛化性上显著优于基线，为零件感知三维生成提供了可复用的结构化范式。",
+      "llm_tldr": "针对单目服装重建中几何与仿真表示鸿沟，提出可学习的结构化语言PatternGSL，编码完整缝纫图样（面板、缝合线及拓扑），从单张图像生成模板自由且可仿真的三维服装，其显式零件结构突破了现有方法局限。实验显示在仿真保真度和泛化性上显著优于基线，为零件感知三维生成提供了可复用的结构化范式。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "generating 3D models with separate parts",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.25241v1",
+      "source": "arxiv",
+      "title": "GRAFT: Graph-Based Affordance Transfer via Part Correspondence",
+      "abstract": "Generalizing robotic manipulation to unseen objects remains challenging, as learning-based approaches require many demonstrations and fail in few-shot settings. Prior work transfers affordances through semantic retrieval, but semantics alone neglect geometric similarity, which is critical for manipulation. We propose GRAFT, a geometry-aware correspondence framework for zero-shot manipulation transfer using only one demonstration per object. Objects are represented as part-based graphs, where part-level descriptors support global instance retrieval and part correspondence, and vertex-level descriptors enable fine-grained contact point matching. For an unseen object, our method first retrieves the most functionally and geometrically similar instance from the demonstration buffer with aligned functional parts, and finally propagates the contact points through point-wise correspondence.",
+      "authors": [
+        "Mengying Lin",
+        "Utkarsh Mishra",
+        "Ajay Mandlekar",
+        "Danfei Xu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-06-23T23:58:57+00:00",
+      "link": "https://arxiv.org/pdf/2606.25241v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "part-based graph representation for object parts",
+      "llm_evidence_cn": "基于部件的图表示用于物体部件",
+      "llm_evidence": "基于部件的图表示用于物体部件",
+      "canonical_evidence": "基于部件的图表示用于物体部件",
+      "llm_tldr_en": "GRAFT represents objects as part-based graphs and transfers manipulation skills by finding part-level correspondences, allowing zero-shot generalization from a single demonstration.",
+      "llm_tldr_cn": "针对机器人操作中少样本泛化难题，本文提出GRAFT框架，将物体表示为部件图，通过几何感知的部件对应实现零样本操作传递。该方法首先检索功能与几何最相似实例，然后建立部件级对应和接触点匹配，仅需一次演示即可将操作技能泛化至新物体。实验表明，该方法在操作任务中有效且数据高效，为基于部件理解的机器人操作提供了新途径。",
+      "llm_tldr": "针对机器人操作中少样本泛化难题，本文提出GRAFT框架，将物体表示为部件图，通过几何感知的部件对应实现零样本操作传递。该方法首先检索功能与几何最相似实例，然后建立部件级对应和接触点匹配，仅需一次演示即可将操作技能泛化至新物体。实验表明，该方法在操作任务中有效且数据高效，为基于部件理解的机器人操作提供了新途径。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "Approaches for decomposing 3D shapes into semantic parts",
+      "matched_requirement_id": "req-8",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
