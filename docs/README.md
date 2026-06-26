@@ -6,28 +6,26 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-25
-- 运行时间：2026-06-25 21:59:48 UTC
+- 最新运行日期：2026-06-26
+- 运行时间：2026-06-26 21:29:16 UTC
 - 运行状态：成功
-- 本次总论文数：2
-- 精读区：1
+- 本次总论文数：1
+- 精读区：0
 - 速读区：1
 
 ### 今日简报（AI）
-今日精读满分论文《PatternGSL》，它用结构化语言让3D服装设计首次实现“无模板、可直接仿真”。  
-最亮眼的方向：PatternGSL将缝纫模式编译为物理就绪的着装方案，彻底打通设计到模拟的鸿沟；GRAFT则用图方法实现功能跨物体迁移。  
-建议关注PatternGSL的开源工具链，它可能成为下一代虚拟试衣与数字人着装的核心组件。
-- 详情：[/202606/25/README](/202606/25/README)
+今日速读一篇关于3D语义分割的异构快照蒸馏方法，评分7.0/10。  
+该方法通过异构师生模型与多阶段快照蒸馏，高效保留了关键空间细节。  
+建议读者跟进该方法在自动驾驶或室内扫描场景中的实际部署表现。
+- 详情：[/202606/26/README](/202606/26/README)
 
 ### 精读区论文标签
-1. [PatternGSL: A Structured Specification Language for Template-Free and Simulation-Ready 3D Garments](/202606/25/2606.24564v2-patterngsl-a-structured-specification-language-for-template-free-and-simulation-ready-3d-garments)  
-   标签：评分：10.0/10、query:part-aware
-   evidence：重建服装为结构化缝纫图样，生成具有独立面板的三维模型
+- 本次无精读推荐。
 
 ### 速读区论文标签
-1. [GRAFT: Graph-Based Affordance Transfer via Part Correspondence](/202606/25/2606.25241v1-graft-graph-based-affordance-transfer-via-part-correspondence)  
+1. [Heterogeneous and Adept Snapshot Distillation for 3D Semantic Segmentation](/202606/26/2606.25278v1-heterogeneous-and-adept-snapshot-distillation-for-3d-semantic-segmentation)  
    标签：评分：7.0/10、query:part-aware
-   evidence：基于部件的图表示用于物体部件
+   evidence：通过知识蒸馏提升3D语义分割，可用于零件分割
 
 
 <div class="dpr-home-promo-card">
