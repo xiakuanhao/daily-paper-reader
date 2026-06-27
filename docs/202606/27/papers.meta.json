@@ -1,0 +1,39 @@
+{
+  "label": "2026-06-27",
+  "date": "2026-06-27",
+  "generated_at": "2026-06-27T21:10:15",
+  "count": 2,
+  "papers": [
+    {
+      "paper_id": "202606/27/2606.21292v1-lightweight-3d-feature-pretraining-by-bayesian-inversion-of-2d-foundation-models",
+      "section": "quick",
+      "title_en": "Lightweight 3D Feature Pretraining by Bayesian Inversion of 2D Foundation Models",
+      "authors": "Marwane Hariat, Gianni Franchi, David Filliat, Antoine Manzanera",
+      "date": "2026-06-19",
+      "pdf": "https://arxiv.org/pdf/2606.21292v1",
+      "score": "6.0",
+      "evidence": "生成稳定的开放词汇3D语义，可用于语义部分分割",
+      "tldr": "从2D基础模型构建3D语义时，因多视角观测噪声和歧义，简单池化等方法难以获得稳定表示，亟需可靠融合方案。本文提出Casper3D，一种轻量概率框架，将多视图2D嵌入视为噪声观测，通过贝叶斯推断反演出潜在3D语义状态，并结合相对位姿聚合多视图信息。模型通过预测新视角嵌入以自监督方式训练，保持与视觉和文本空间的语义对齐，支持开放词汇理解。实验结果显示，Casper3D在噪声和模糊场景下产生的3D特征一致性更强，显著超越多视图池化方法。该框架不依赖特定骨干，适用于语言对齐和自监督嵌入，为轻量级3D特征预训练开辟新路径。",
+      "tags": "query:part-aware",
+      "abstract_en": "We present Casper3D, a lightweight probabilistic framework for converting noisy multi-view 2D foundation-model embeddings into a latent 3D semantic representation. We model view-level semantic features as noisy observations of an underlying 3D semantic state and infer this state with a set-based variational model that incorporates relative pose during multi-view reasoning. Casper3D is trained by predicting held-out semantic observations from novel viewpoints, while remaining aligned with visual and text semantic spaces for open-vocabulary 3D understanding. The framework is backbone-agnostic and applies to both language-aligned and self-supervised embeddings. Experiments show that Casper3D produces more stable 3D semantics than simple multi-view pooling, especially in ambiguous and noisy settings.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/27/2606.27036v1-relafford6d-relational-6d-affordance-graphs-for-constraint-driven-robotic-manipulation",
+      "section": "quick",
+      "title_en": "RelAfford6D: Relational 6D Affordance Graphs for Constraint-Driven Robotic Manipulation",
+      "authors": "Guodong Zhang, Qichen He, Wenyuan Xie, Shaokai Wu, Yanbiao Ji, Qiuchang Li, Bayram Bayramli, Yue Ding, Hongtao Lu",
+      "date": "2026-06-25",
+      "pdf": "https://arxiv.org/pdf/2606.27036v1",
+      "score": "6.0",
+      "evidence": "构建关系型6D可供性图，连接铰接物体的部件并推导运动学约束",
+      "tldr": "针对开放世界机器人操作中语义理解与物理控制脱节问题，提出免训练框架RelAfford6D，其核心是关系型6D可供性图。该方法依据指令推断交互部件及其物理锚点的语义拓扑，借助视觉基础模型获取SE(3)精确位姿，将操作规划转化为追踪旋转或平移流形的运动学约束满足问题，并采用闭环跟踪实现抗扰动的连续执行。在仿真和真实场景中，零样本泛化成功率与执行鲁棒性显著优于现有数据驱动方法，为语义引导的严谨物理操作开辟了新途径。",
+      "tags": "query:part-aware",
+      "abstract_en": "Bridging abstract semantics and precise physical control remains a fundamental challenge in open-world robotic manipulation. While recent data-driven policies show promise, their reliance on isolated contact points or latent affordance embeddings lacks the rigorous kinematic constraints necessary for complex articulated objects.To overcome the limitation, we introduce RelAfford6D, a novel training-free framework centered on a Relational 6D Affordance Graph. Given a free-form instruction, our system deduces a semantic topology linking a primary interacting part to its physical anchor. By elevating these topological nodes into precise metric $SE(3)$ poses via vision foundation models, we analytically formulate downstream execution as a kinematic constraint satisfaction problem. The robot synthesizes continuous trajectories by tracking strictly defined physical manifolds (e.g., revolute or prismatic orbits). Coupled with a closed-loop tracking mechanism for dynamic replanning against disturbances, our physically grounded approach achieves superior zero-shot success rates, cross-category generalization and execution robustness in both simulation and the real world environments, outperforming existing data-driven baselines.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

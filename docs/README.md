@@ -6,26 +6,29 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-26
-- 运行时间：2026-06-26 21:29:16 UTC
+- 最新运行日期：2026-06-27
+- 运行时间：2026-06-27 21:10:07 UTC
 - 运行状态：成功
-- 本次总论文数：1
+- 本次总论文数：2
 - 精读区：0
-- 速读区：1
+- 速读区：2
 
 ### 今日简报（AI）
-今日速读一篇关于3D语义分割的异构快照蒸馏方法，评分7.0/10。  
-该方法通过异构师生模型与多阶段快照蒸馏，高效保留了关键空间细节。  
-建议读者跟进该方法在自动驾驶或室内扫描场景中的实际部署表现。
-- 详情：[/202606/26/README](/202606/26/README)
+今日速读两篇AI前沿研究，聚焦3D视觉与机器人操作。  
+亮点是利用2D基础模型轻量化预训练3D特征，以及用关系图驱动约束下的机械臂操控。  
+对3D学习或机器人感兴趣的话，可从这两条路径深入，看看代码是否开源。
+- 详情：[/202606/27/README](/202606/27/README)
 
 ### 精读区论文标签
 - 本次无精读推荐。
 
 ### 速读区论文标签
-1. [Heterogeneous and Adept Snapshot Distillation for 3D Semantic Segmentation](/202606/26/2606.25278v1-heterogeneous-and-adept-snapshot-distillation-for-3d-semantic-segmentation)  
-   标签：评分：7.0/10、query:part-aware
-   evidence：通过知识蒸馏提升3D语义分割，可用于零件分割
+1. [Lightweight 3D Feature Pretraining by Bayesian Inversion of 2D Foundation Models](/202606/27/2606.21292v1-lightweight-3d-feature-pretraining-by-bayesian-inversion-of-2d-foundation-models)  
+   标签：评分：6.0/10、query:part-aware
+   evidence：生成稳定的开放词汇3D语义，可用于语义部分分割
+2. [RelAfford6D: Relational 6D Affordance Graphs for Constraint-Driven Robotic Manipulation](/202606/27/2606.27036v1-relafford6d-relational-6d-affordance-graphs-for-constraint-driven-robotic-manipulation)  
+   标签：评分：6.0/10、query:part-aware
+   evidence：构建关系型6D可供性图，连接铰接物体的部件并推导运动学约束
 
 
 <div class="dpr-home-promo-card">

@@ -1,0 +1,98 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-27T21:07:55.133328+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 0,
+    "deep_cap": 6,
+    "deep_selected": 0,
+    "quick_candidates": 2,
+    "quick_skim_target": 11,
+    "quick_selected": 2
+  },
+  "deep_dive": [],
+  "quick_skim": [
+    {
+      "id": "2606.21292v1",
+      "source": "arxiv",
+      "title": "Lightweight 3D Feature Pretraining by Bayesian Inversion of 2D Foundation Models",
+      "abstract": "We present Casper3D, a lightweight probabilistic framework for converting noisy multi-view 2D foundation-model embeddings into a latent 3D semantic representation. We model view-level semantic features as noisy observations of an underlying 3D semantic state and infer this state with a set-based variational model that incorporates relative pose during multi-view reasoning. Casper3D is trained by predicting held-out semantic observations from novel viewpoints, while remaining aligned with visual and text semantic spaces for open-vocabulary 3D understanding. The framework is backbone-agnostic and applies to both language-aligned and self-supervised embeddings. Experiments show that Casper3D produces more stable 3D semantics than simple multi-view pooling, especially in ambiguous and noisy settings.",
+      "authors": [
+        "Marwane Hariat",
+        "Gianni Franchi",
+        "David Filliat",
+        "Antoine Manzanera"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-19T10:16:29+00:00",
+      "link": "https://arxiv.org/pdf/2606.21292v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "produces stable open-vocabulary 3D semantics, enabling semantic part segmentation",
+      "llm_evidence_cn": "生成稳定的开放词汇3D语义，可用于语义部分分割",
+      "llm_evidence": "生成稳定的开放词汇3D语义，可用于语义部分分割",
+      "canonical_evidence": "生成稳定的开放词汇3D语义，可用于语义部分分割",
+      "llm_tldr_en": "Casper3D converts noisy multi-view 2D embeddings into a stable 3D semantic representation via Bayesian inversion, enabling open-vocabulary 3D understanding and potentially aiding semantic part segmentation.",
+      "llm_tldr_cn": "Casper3D 提出了一种轻量级概率框架，通过贝叶斯反演将多视角 2D 基础模型嵌入转换为潜在 3D 语义表示，从而实现对三维场景的稳定开放词汇理解，为三维语义部分分割等任务提供了基础特征支持。",
+      "llm_tldr": "Casper3D 提出了一种轻量级概率框架，通过贝叶斯反演将多视角 2D 基础模型嵌入转换为潜在 3D 语义表示，从而实现对三维场景的稳定开放词汇理解，为三维语义部分分割等任务提供了基础特征支持。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "segmenting 3D objects into semantic parts",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    },
+    {
+      "id": "2606.27036v1",
+      "source": "arxiv",
+      "title": "RelAfford6D: Relational 6D Affordance Graphs for Constraint-Driven Robotic Manipulation",
+      "abstract": "Bridging abstract semantics and precise physical control remains a fundamental challenge in open-world robotic manipulation. While recent data-driven policies show promise, their reliance on isolated contact points or latent affordance embeddings lacks the rigorous kinematic constraints necessary for complex articulated objects.To overcome the limitation, we introduce RelAfford6D, a novel training-free framework centered on a Relational 6D Affordance Graph. Given a free-form instruction, our system deduces a semantic topology linking a primary interacting part to its physical anchor. By elevating these topological nodes into precise metric $SE(3)$ poses via vision foundation models, we analytically formulate downstream execution as a kinematic constraint satisfaction problem. The robot synthesizes continuous trajectories by tracking strictly defined physical manifolds (e.g., revolute or prismatic orbits). Coupled with a closed-loop tracking mechanism for dynamic replanning against disturbances, our physically grounded approach achieves superior zero-shot success rates, cross-category generalization and execution robustness in both simulation and the real world environments, outperforming existing data-driven baselines.",
+      "authors": [
+        "Guodong Zhang",
+        "Qichen He",
+        "Wenyuan Xie",
+        "Shaokai Wu",
+        "Yanbiao Ji",
+        "Qiuchang Li",
+        "Bayram Bayramli",
+        "Yue Ding",
+        "Hongtao Lu"
+      ],
+      "primary_category": "cs.RO",
+      "categories": [
+        "cs.RO"
+      ],
+      "published": "2026-06-25T13:42:26+00:00",
+      "link": "https://arxiv.org/pdf/2606.27036v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 6.0,
+      "llm_evidence_en": "Constructs a relational 6D affordance graph for articulated objects, linking parts and formulating kinematic constraints",
+      "llm_evidence_cn": "构建关系型6D可供性图，连接铰接物体的部件并推导运动学约束",
+      "llm_evidence": "构建关系型6D可供性图，连接铰接物体的部件并推导运动学约束",
+      "canonical_evidence": "构建关系型6D可供性图，连接铰接物体的部件并推导运动学约束",
+      "llm_tldr_en": "RelAfford6D uses a relational 6D affordance graph to reason about part interactions and kinematic constraints for manipulating articulated objects, bridging semantics and physical control without training.",
+      "llm_tldr_cn": "针对开放世界机器人操作中缺乏精确运动约束的问题，本文提出RelAfford6D框架，通过构建关系型6D可供性图，将铰接物体的语义部件拓扑提升至精确SE(3)位姿，从而从指令推导出基于物理约束的执行方案。该方法无需训练，连接了高层语义与底层控制，为零件感知的机器人推理提供了新思路。",
+      "llm_tldr": "针对开放世界机器人操作中缺乏精确运动约束的问题，本文提出RelAfford6D框架，通过构建关系型6D可供性图，将铰接物体的语义部件拓扑提升至精确SE(3)位姿，从而从指令推导出基于物理约束的执行方案。该方法无需训练，连接了高层语义与底层控制，为零件感知的机器人推理提供了新思路。",
+      "llm_tags": [
+        "query:part-aware:composite"
+      ],
+      "matched_query_tag": "query:part-aware:composite",
+      "matched_query_text": "Papers central to 查找类似ArticulateAnything、X-Part、CubePart等关于零件感知生成的文章, especially work that connects or combines: generating 3D models with separate parts; methods for generating articulated 3D objects; decomposing 3D shapes into parts; segmenting 3D objects into semantic parts; building 3D models from assembled parts; assembling 3D parts into complete objects; How to generate articulated 3D parts from single images?; Approaches for decomposing 3D shapes into semantic parts.",
+      "matched_requirement_id": "req-composite-part-aware",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "6"
+    }
+  ]
+}
