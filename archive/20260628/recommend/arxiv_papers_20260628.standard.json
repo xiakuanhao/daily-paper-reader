@@ -1,0 +1,97 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-28T20:01:34.338055+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 2,
+    "deep_cap": 6,
+    "deep_selected": 2,
+    "quick_candidates": 0,
+    "quick_skim_target": 11,
+    "quick_selected": 0
+  },
+  "deep_dive": [
+    {
+      "id": "2606.24206v1",
+      "source": "arxiv",
+      "title": "Inclusive Interactive Collisions for Multi-View Consistent Compositional 3D Generation",
+      "abstract": "Recent breakthroughs in 3D generation have advanced notably with the development of text-to-image diffusion model. However, existing methods remain two practical challenges: (1) They primarily generate single 3D object, but struggle to generate multi-object compositional 3D assets due to the lack of the modeling for Gaussian primitives in reasonable interactions. (2) They often suffer from cross-view inconsistency during 3D optimization, as Score Distillation Sampling inherently performs on each single view, inevitably resulting in cross-view hallucinations. To solve above issues, we propose I2C-3D, a novel optimization-based method to generate multi-view consistent compositional 3D assets with reasonable interactions. Specifically, we propose an Inclusive Interactive Collisions strategy to guide Gaussian primitives appearing in reasonable interaction regions naturally, thereby ensuring objects in the compositional scene interact in a physically plausible and visually coherent way. Additionally, to enhance multi-view consistency, Multi-View Adaptive Score Distillation Sampling is devised to distill multi-view consistency prior and layout prior from pre-trained diffusion model by modulating attention map of instance token and spatial token across viewpoints. Benefiting from above elaborate designs, I2C-3D not only generates high-fidelity multi-view consistent compositional 3D assets but also supports 3D editing flexibly, facilitating complex scene generation. Extensive experiments demonstrate our I2C-3D outperforms existing methods in generation quality and multi-view consistency.",
+      "authors": [
+        "Chang Liu",
+        "Mingwen Shao",
+        "Xiang Lv",
+        "Xinyuan Chen",
+        "Lingzhuang Meng",
+        "Qiao Zhang",
+        "Zhengyi Gong",
+        "Jinghao Hu"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-23T06:48:22+00:00",
+      "link": "https://arxiv.org/pdf/2606.24206v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "Generates multi-object compositional 3D assets by assembling Gaussian primitives with interactions",
+      "llm_evidence_cn": "通过组装具有交互的高斯基元生成多物体组合三维资产",
+      "llm_evidence": "通过组装具有交互的高斯基元生成多物体组合三维资产",
+      "canonical_evidence": "通过组装具有交互的高斯基元生成多物体组合三维资产",
+      "llm_tldr_en": "I2C-3D generates multi-view consistent compositional 3D scenes from text, handling part interactions and collisions to build complete objects from assembled parts.",
+      "llm_tldr_cn": "针对现有方法难以生成合理交互的多物体组合三维资产且存在跨视图不一致问题，提出I2C-3D，通过包容性交互碰撞建模和优化策略，实现从文本描述生成多视角一致的组合三维场景，各部分通过真实交互组装成完整物体。",
+      "llm_tldr": "针对现有方法难以生成合理交互的多物体组合三维资产且存在跨视图不一致问题，提出I2C-3D，通过包容性交互碰撞建模和优化策略，实现从文本描述生成多视角一致的组合三维场景，各部分通过真实交互组装成完整物体。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "building 3D models from assembled parts",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.22445v1",
+      "source": "arxiv",
+      "title": "DreamUV: Unwrap Artist-like UV by End-to-End Flow Matching",
+      "abstract": "UV parameterization is a fundamental step in 3D content creation, yet producing production-ready UV layouts remains challenging due to the gap between geometric distortion objectives and the stylistic preferences of professional artists. While classical methods optimize handcrafted energy functions, artist-authored UVs exhibit structural patterns such as straightened seams, axis-aligned islands, and flexible interior deformation, properties that are difficult to explicitly formulate. In this work, we present DreamUV, an end-to-end learning framework that formulates UV unwrapping as a generative Flow Matching problem. Rather than predicting a single optimal parameterization, DreamUV learns a mesh-conditioned transport process that maps noise samples to a distribution of artist-like UV layouts. To reflect real-world authoring practices, we introduce a boundary-aware training strategy that prioritizes seam geometry, and a Model-in-the-Loop Finetuning(MITL) scheme that explicitly accounts for discretization errors during sampling and stabilizes transport dynamics under heterogeneous supervision. We evaluate DreamUV on a large-scale dataset of professionally authored UV layouts. Experiments demonstrate that our method produces significantly straighter boundaries and tighter axis-aligned islands than both classical and learning-based baselines, while maintaining competitive distortion metrics. Qualitative results and a user study with professional artists further confirm that DreamUV generates UV layouts that are not only valid, but aligned with practical production requirements.",
+      "authors": [
+        "Quanyuan Ruan",
+        "Jiabao Lei",
+        "Xingyi Du",
+        "Xifeng Gao"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-21T11:41:32+00:00",
+      "link": "https://arxiv.org/pdf/2606.22445v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "UV parameterization decomposes a 3D mesh into flat charts (parts)",
+      "llm_evidence_cn": "UV参数化将三维网格分解为平面分块（部分）",
+      "llm_evidence": "UV参数化将三维网格分解为平面分块（部分）",
+      "canonical_evidence": "UV参数化将三维网格分解为平面分块（部分）",
+      "llm_tldr_en": "DreamUV formulates UV unwrapping as a generative flow matching problem, learning to decompose meshes into artist-like UV charts that resemble part-level layout.",
+      "llm_tldr_cn": "针对传统UV展开难模仿艺术家风格化分块的问题，DreamUV将UV参数化建模为流匹配生成过程，学习从噪声生成符合艺术家习惯的UV布局，有效分解三维模型为规整岛状部分，显著提升了生产级UV的质量与可控性。",
+      "llm_tldr": "针对传统UV展开难模仿艺术家风格化分块的问题，DreamUV将UV参数化建模为流匹配生成过程，学习从噪声生成符合艺术家习惯的UV布局，有效分解三维模型为规整岛状部分，显著提升了生产级UV的质量与可控性。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "decomposing 3D shapes into parts",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": []
+}

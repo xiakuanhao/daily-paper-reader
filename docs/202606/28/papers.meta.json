@@ -1,0 +1,39 @@
+{
+  "label": "2026-06-28",
+  "date": "2026-06-28",
+  "generated_at": "2026-06-28T20:03:37",
+  "count": 2,
+  "papers": [
+    {
+      "paper_id": "202606/28/2606.24206v1-inclusive-interactive-collisions-for-multi-view-consistent-compositional-3d-generation",
+      "section": "deep",
+      "title_en": "Inclusive Interactive Collisions for Multi-View Consistent Compositional 3D Generation",
+      "authors": "Chang Liu, Mingwen Shao, Xiang Lv, Xinyuan Chen, Lingzhuang Meng, Qiao Zhang, Zhengyi Gong, Jinghao Hu",
+      "date": "2026-06-23",
+      "pdf": "https://arxiv.org/pdf/2606.24206v1",
+      "score": "10.0",
+      "evidence": "通过组装具有交互的高斯基元生成多物体组合三维资产",
+      "tldr": "现有文本到3D方法难以生成具有合理交互的多物体组合资产，且存在跨视角不一致问题。本文提出I2C-3D，引入包容性交互碰撞策略引导高斯原语自然交互，并结合多视角自适应分数蒸馏采样增强跨视角一致性。实验表明，I2C-3D在生成质量和多视角一致性上显著优于现有方法，支持灵活3D编辑，为复杂场景生成提供了有效解决方案。",
+      "tags": "query:part-aware",
+      "abstract_en": "Recent breakthroughs in 3D generation have advanced notably with the development of text-to-image diffusion model. However, existing methods remain two practical challenges: (1) They primarily generate single 3D object, but struggle to generate multi-object compositional 3D assets due to the lack of the modeling for Gaussian primitives in reasonable interactions. (2) They often suffer from cross-view inconsistency during 3D optimization, as Score Distillation Sampling inherently performs on each single view, inevitably resulting in cross-view hallucinations. To solve above issues, we propose I2C-3D, a novel optimization-based method to generate multi-view consistent compositional 3D assets with reasonable interactions. Specifically, we propose an Inclusive Interactive Collisions strategy to guide Gaussian primitives appearing in reasonable interaction regions naturally, thereby ensuring objects in the compositional scene interact in a physically plausible and visually coherent way. Additionally, to enhance multi-view consistency, Multi-View Adaptive Score Distillation Sampling is devised to distill multi-view consistency prior and layout prior from pre-trained diffusion model by modulating attention map of instance token and spatial token across viewpoints. Benefiting from above elaborate designs, I2C-3D not only generates high-fidelity multi-view consistent compositional 3D assets but also supports 3D editing flexibly, facilitating complex scene generation. Extensive experiments demonstrate our I2C-3D outperforms existing methods in generation quality and multi-view consistency.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/28/2606.22445v1-dreamuv-unwrap-artist-like-uv-by-end-to-end-flow-matching",
+      "section": "deep",
+      "title_en": "DreamUV: Unwrap Artist-like UV by End-to-End Flow Matching",
+      "authors": "Quanyuan Ruan, Jiabao Lei, Xingyi Du, Xifeng Gao",
+      "date": "2026-06-21",
+      "pdf": "https://arxiv.org/pdf/2606.22445v1",
+      "score": "9.0",
+      "evidence": "UV参数化将三维网格分解为平面分块（部分）",
+      "tldr": "现有UV参数化方法难以生成满足艺术家风格的生产级布局，因其优化目标与专业偏好存在差距。DreamUV将UV展开转化为流匹配生成任务，学习从噪声到艺术家式UV分布的网格条件传输过程。通过边界感知训练和模型在环微调，生成的UV布局具有更直的接缝和轴对齐岛屿，同时保持有竞争力的畸变指标。该方法为3D内容制作提供了端到端的生成方案，产出符合作业流程的实用UV。",
+      "tags": "query:part-aware",
+      "abstract_en": "UV parameterization is a fundamental step in 3D content creation, yet producing production-ready UV layouts remains challenging due to the gap between geometric distortion objectives and the stylistic preferences of professional artists. While classical methods optimize handcrafted energy functions, artist-authored UVs exhibit structural patterns such as straightened seams, axis-aligned islands, and flexible interior deformation, properties that are difficult to explicitly formulate. In this work, we present DreamUV, an end-to-end learning framework that formulates UV unwrapping as a generative Flow Matching problem. Rather than predicting a single optimal parameterization, DreamUV learns a mesh-conditioned transport process that maps noise samples to a distribution of artist-like UV layouts. To reflect real-world authoring practices, we introduce a boundary-aware training strategy that prioritizes seam geometry, and a Model-in-the-Loop Finetuning(MITL) scheme that explicitly accounts for discretization errors during sampling and stabilizes transport dynamics under heterogeneous supervision. We evaluate DreamUV on a large-scale dataset of professionally authored UV layouts. Experiments demonstrate that our method produces significantly straighter boundaries and tighter axis-aligned islands than both classical and learning-based baselines, while maintaining competitive distortion metrics. Qualitative results and a user study with professional artists further confirm that DreamUV generates UV layouts that are not only valid, but aligned with practical production requirements.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

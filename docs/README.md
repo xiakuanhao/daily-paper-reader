@@ -6,29 +6,29 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-06-27
-- 运行时间：2026-06-27 21:10:07 UTC
+- 最新运行日期：2026-06-28
+- 运行时间：2026-06-28 20:03:25 UTC
 - 运行状态：成功
 - 本次总论文数：2
-- 精读区：0
-- 速读区：2
+- 精读区：2
+- 速读区：0
 
 ### 今日简报（AI）
-今日速读两篇AI前沿研究，聚焦3D视觉与机器人操作。  
-亮点是利用2D基础模型轻量化预训练3D特征，以及用关系图驱动约束下的机械臂操控。  
-对3D学习或机器人感兴趣的话，可从这两条路径深入，看看代码是否开源。
-- 详情：[/202606/27/README](/202606/27/README)
+今日精读两篇3D生成顶会论文，聚焦组合式场景构建与纹理映射自动化。  
+《Inclusive Interactive Collisions》提出全交互碰撞约束，让多个3D物体在组合时保持多视角几何一致；《DreamUV》首次用流匹配端到端生成艺术家级UV展开。  
+对普通读者而言，若关注3D内容创作工具，可重点阅读第一篇的组合碰撞解法，并思考自动化UV能否代替手动展UV。
+- 详情：[/202606/28/README](/202606/28/README)
 
 ### 精读区论文标签
-- 本次无精读推荐。
+1. [Inclusive Interactive Collisions for Multi-View Consistent Compositional 3D Generation](/202606/28/2606.24206v1-inclusive-interactive-collisions-for-multi-view-consistent-compositional-3d-generation)  
+   标签：评分：10.0/10、query:part-aware
+   evidence：通过组装具有交互的高斯基元生成多物体组合三维资产
+2. [DreamUV: Unwrap Artist-like UV by End-to-End Flow Matching](/202606/28/2606.22445v1-dreamuv-unwrap-artist-like-uv-by-end-to-end-flow-matching)  
+   标签：评分：9.0/10、query:part-aware
+   evidence：UV参数化将三维网格分解为平面分块（部分）
 
 ### 速读区论文标签
-1. [Lightweight 3D Feature Pretraining by Bayesian Inversion of 2D Foundation Models](/202606/27/2606.21292v1-lightweight-3d-feature-pretraining-by-bayesian-inversion-of-2d-foundation-models)  
-   标签：评分：6.0/10、query:part-aware
-   evidence：生成稳定的开放词汇3D语义，可用于语义部分分割
-2. [RelAfford6D: Relational 6D Affordance Graphs for Constraint-Driven Robotic Manipulation](/202606/27/2606.27036v1-relafford6d-relational-6d-affordance-graphs-for-constraint-driven-robotic-manipulation)  
-   标签：评分：6.0/10、query:part-aware
-   evidence：构建关系型6D可供性图，连接铰接物体的部件并推导运动学约束
+- 本次无速读推荐。
 
 
 <div class="dpr-home-promo-card">
