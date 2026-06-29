@@ -1,0 +1,39 @@
+{
+  "label": "2026-06-29",
+  "date": "2026-06-29",
+  "generated_at": "2026-06-29T20:46:29",
+  "count": 2,
+  "papers": [
+    {
+      "paper_id": "202606/29/2606.27738v1-handmade-spatial-prompting-for-generative-3d-creation-with-part-labeled-vr-sketches",
+      "section": "deep",
+      "title_en": "HandMade: Spatial Prompting for Generative 3D Creation with Part-Labeled VR Sketches",
+      "authors": "Jialin Huang, Rana Hanocka, Ariel Shamir, Yotam Gingold",
+      "date": "2026-06-26",
+      "pdf": "https://arxiv.org/pdf/2606.27738v1",
+      "score": "9.0",
+      "evidence": "使用带零件标注的VR草图作为空间提示，指导生成式三维模型创建，允许指定零件布局和关系。",
+      "tldr": "现有的文本到3D生成难以精确控制物体的部件位置和三维组织结构。HandMade提出VR 3D草图与自然语言协同的工作流，利用带部件标签的粗糙VR笔触生成多视图部件引导和结构化提示，让用户通过空间草图指定布局关系，语言描述赋予类别、材质和风格。在20个多类别例子上，方法显著优于仅文本和现有草图基线，更好地保留用户创作的空间支架。用户研究表明，3D草图主导空间布局，语言补充细节和修改。贡献了空间提示驱动的生成式3D创作交互管道。",
+      "tags": "query:part-aware",
+      "abstract_en": "Text-to-3D generation lowers the barrier to 3D content creation, but text alone is a weak interface for specifying spatial intent: where parts should be placed, how they relate, and how an object should be organized in 3D. We present HandMade, a workflow that combines VR 3D sketching and language for open-domain 3D asset generation. HandMade treats coarse, part-labeled 3D sketches not as incomplete geometry to reconstruct directly, but as spatial prompts for existing generative models. It converts segmented VR strokes into multi-view part guidance and structured prompts, allowing users to specify object layout and part relationships through 3D sketching while using language for identity, material, style, and local details. A technical evaluation shows that HandMade better preserves user-authored spatial scaffolds than text-only and sketch-based baselines on 20 varied examples. A user study with eight participants characterizes how users make use of 3D sketching for spatial layout and language for identity, materials, and details across initial authoring and subsequent revision. HandMade contributes an interaction paradigm and interface-to-generation pipeline for spatially guided 3D creation.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/29/2606.27923v1-home3d-10-a-high-fidelity-image-to-3d-asset-generation-system-for-interior-design",
+      "section": "deep",
+      "title_en": "Home3D 1.0: A High-Fidelity Image-to-3D Asset Generation System for Interior Design",
+      "authors": "Yiyun Fei, Guoqiu Li, Jin Song, Chuqiao Wu, Delong Wu, Hong Wu, Ziru Zeng, Haohui Chen, YinDong Kong, Jing Li, Qi Wu, Feng Zhang",
+      "date": "2026-06-26",
+      "pdf": "https://arxiv.org/pdf/2606.27923v1",
+      "score": "9.0",
+      "evidence": "网格可分解为材质特定组件",
+      "tldr": "室内设计领域亟需从单张图像生成高保真3D资产，现有方法常缺乏逼真材质与部件分解。Home3D 1.0提出了模块化流程，通过几何重建、纹理预测、材质检索与部件生成，输出带PBR材质且可编辑的网格。各模块采用VAE、DiT、视频分割等先进技术，独立评估显示系统能力与剩余差距，为模块化图像到3D生成树立新基准。",
+      "tags": "query:part-aware",
+      "abstract_en": "We present Home3D 1.0, a modular image-to-3D generation system that produces high-quality 3D assets from a single reference image, targeting interior design and e-commerce applications. Given a photograph of a furniture or decor item, the system outputs a mesh with physically-based rendering (PBR) materials, and the mesh can be decomposed into material-specific components. The pipeline is organized into four tightly coupled modules: Geometry reconstructs a watertight mesh through latent SDF modelling with a geometry VAE and a coarse-to-fine flow-matching DiT; Texture predicts multiview albedo observations, reprojects them onto the mesh, and completes unseen surface regions with a 3D texture field; Material uses MatWeaver to obtain component masks through video-based segmentation and UV-space voting, then retrieves and bakes PBR maps from a curated material library through hierarchical multi-modal matching; and Parts generates material-editable semantic part meshes with a PartVAE and PartDiT, decoding multi-head part-specific SDF fields in one pass. Each module is evaluated independently with dedicated metrics, highlighting both the current system capability and the remaining gaps toward broader deployment.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
