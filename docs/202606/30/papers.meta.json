@@ -1,0 +1,54 @@
+{
+  "label": "2026-06-30",
+  "date": "2026-06-30",
+  "generated_at": "2026-06-30T21:29:32",
+  "count": 3,
+  "papers": [
+    {
+      "paper_id": "202606/30/2606.30608v1-unfoldart-zero-shot-recovery-of-full-articulated-3d-objects-from-text-or-image",
+      "section": "deep",
+      "title_en": "UnfoldArt: Zero-Shot Recovery of Full Articulated 3D Objects from Text or Image",
+      "authors": "Mohamed el amine boudjoghra, Ivan Laptev, Angela Dai",
+      "date": "2026-06-29",
+      "pdf": "https://arxiv.org/pdf/2606.30608v1",
+      "score": "9.0",
+      "evidence": "从文本或图像零样本恢复完整铰接三维对象",
+      "tldr": "铰接3D对象重建对交互环境至关重要，但从单张图像或文本恢复完整结构与运动仍极具挑战。现有方法因缺乏监督数据或先验不足而受限。本文提出基于辩论驱动代理的方法，结合视觉语言与视频生成先验，从文本或图像零样本恢复完整铰接3D对象。高低级代理通过两轮结构化辩论推理铰接参数，并借助视频先验暴露遮挡几何。方法可联合推断铰接并重建高保真几何、内部结构及运动一致状态，为具身AI和机器人提供关键能力。",
+      "tags": "query:part-aware",
+      "abstract_en": "Articulated 3D objects are essential for interactive environments in embodied AI, robotics, and virtual reality, but reconstructing their structure and motion from sparse observations remains challenging. Existing approaches remain largely constrained by lack of supervised data or lack the priors needed to reliably recover articulation, hidden geometry, and internal object structure. We present the first debate-driven agentic approach to articulated 3D object reconstruction from text or image inputs that both grounds articulation reasoning in concrete motion and exposes the occluded geometry revealed under articulation. High-level agents reason about object semantics and motion using knowledge from vision-language and video models, while low-level agents estimate articulation parameters and interaction points; together, they engage in a two-round structured debate that first exploits global--local disagreement and then grounds the agents in freely generated video. The same video prior, conditioned on the agreed articulation, then drives each part through its motion to expose occluded interiors and geometry that cannot be inferred from a single static view. By combining agentic reasoning with a video generative prior, our approach jointly infers articulation and reconstructs complete 3D articulated objects, producing high-fidelity geometry, internal structure, and motion-consistent states beyond directly observed surfaces.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/30/2606.27923v2-home3d-10-a-high-fidelity-image-to-3d-asset-generation-system-for-interior-design",
+      "section": "deep",
+      "title_en": "Home3D 1.0: A High-Fidelity Image-to-3D Asset Generation System for Interior Design",
+      "authors": "Yiyun Fei, Guoqiu Li, Jin Song, Chuqiao Wu, Delong Wu, Hong Wu, Ziru Zeng, Haohui Chen, Yindong Kong, Jing Li, Qi Wu, Feng Zhang, Jianan Jiang, Ruigao Yang",
+      "date": "2026-06-26",
+      "pdf": "https://arxiv.org/pdf/2606.27923v2",
+      "score": "8.0",
+      "evidence": "网格可分解为材质特定组件",
+      "tldr": "针对室内设计与电商场景，Home3D 1.0能从单帧家具照片生成带PBR材质和部件分解的高保真3D模型。系统分为几何、纹理、材质与部件四个模块，采用VAE与DiT进行水密网格重建，通过多视图纹理投影与3D纹理场补全不可见区域，利用视频分割与UV投票获取部件掩膜并检索材质库得到PBR贴图，以及用PartVAE和PartDiT一次性生成可编辑部件。各模块独立评估，证明系统有效的同时指出现有局限，推动了图像到3D生成在室内设计的实际应用。",
+      "tags": "query:part-aware",
+      "abstract_en": "We present Home3D 1.0, a modular image-to-3D generation system that produces high-quality 3D assets from a single reference image, targeting interior design and e-commerce applications. Given a photograph of a furniture or decor item, the system outputs a mesh with physically-based rendering (PBR) materials, and the mesh can be decomposed into material-specific components. The pipeline is organized into four tightly coupled modules: Geometry reconstructs a watertight mesh through latent SDF modelling with a geometry VAE and a coarse-to-fine flow-matching DiT; Texture predicts multiview albedo observations, reprojects them onto the mesh, and completes unseen surface regions with a 3D texture field; Material uses MatWeaver to obtain component masks through video-based segmentation and UV-space voting, then retrieves and bakes PBR maps from a curated material library through hierarchical multi-modal matching; and Parts generates material-editable semantic part meshes with a PartVAE and PartDiT, decoding multi-head part-specific SDF fields in one pass. Each module is evaluated independently with dedicated metrics, highlighting both the current system capability and the remaining gaps toward broader deployment.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202606/30/2606.29786v1-op3dsg-open-vocabulary-part-aware-3d-scene-graph-generation-for-real-world-environments",
+      "section": "deep",
+      "title_en": "OP3DSG: Open-Vocabulary Part-Aware 3D Scene Graph Generation for Real-World Environments",
+      "authors": "Yirum Kim, Ue-Hwan Kim",
+      "date": "2026-06-29",
+      "pdf": "https://arxiv.org/pdf/2606.29786v1",
+      "score": "8.0",
+      "evidence": "零件感知的3D场景图生成，检测交互零件并融合零件感知3D数据",
+      "tldr": "现有3D场景图生成方法以对象为中心，忽视交互部件与细粒度关系，制约真实环境应用。OP3DSG提出部件感知开放词汇框架，通过部件级检测与融合保留关键交互元素，并利用LLM优化的几何先验图减少虚假关系预测，构建统一对象、部件、关系及可供性的场景图。在UniGraph3D基准上取得最先进性能，并作为感知骨干有效支撑多种真实机器人任务。",
+      "tags": "query:part-aware",
+      "abstract_en": "3D scene graphs (3DSGs) provide a compact and structured abstraction of 3D environments. Although advances in foundation models have enabled open-vocabulary 3DSG generation, existing approaches remain object-centric and encode limited relational information -- restricting their applicability in real-world scenarios that require fine-grained understanding. We propose OP3DSG, an open-vocabulary part-aware 3DSG generation framework that constructs unified graphs that jointly model objects, interactive parts, spatial relations, functional relations, and affordances. OP3DSG integrates object-part knowledge-guided detection with part-aware 3D fusion to preserve small and interaction-relevant components, and employs a geometry-initialized prior graph with LLM-based refinement to reduce spurious relational predictions while enabling efficient graph construction. To systematically evaluate unified 3D scene graph construction, we introduce UniGraph3D, a benchmark designed for part-aware perception and multi-level relational reasoning. Experimental results show that OP3DSG achieves state-of-the-art performance and demonstrates its effectiveness as a perception backbone in diverse real-world robotics tasks.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

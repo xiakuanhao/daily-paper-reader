@@ -1,0 +1,137 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-06-30T21:26:28.549551+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 0,
+    "quick_skim_target": 11,
+    "quick_selected": 0
+  },
+  "deep_dive": [
+    {
+      "id": "2606.30608v1",
+      "source": "arxiv",
+      "title": "UnfoldArt: Zero-Shot Recovery of Full Articulated 3D Objects from Text or Image",
+      "abstract": "Articulated 3D objects are essential for interactive environments in embodied AI, robotics, and virtual reality, but reconstructing their structure and motion from sparse observations remains challenging. Existing approaches remain largely constrained by lack of supervised data or lack the priors needed to reliably recover articulation, hidden geometry, and internal object structure. We present the first debate-driven agentic approach to articulated 3D object reconstruction from text or image inputs that both grounds articulation reasoning in concrete motion and exposes the occluded geometry revealed under articulation. High-level agents reason about object semantics and motion using knowledge from vision-language and video models, while low-level agents estimate articulation parameters and interaction points; together, they engage in a two-round structured debate that first exploits global--local disagreement and then grounds the agents in freely generated video. The same video prior, conditioned on the agreed articulation, then drives each part through its motion to expose occluded interiors and geometry that cannot be inferred from a single static view. By combining agentic reasoning with a video generative prior, our approach jointly infers articulation and reconstructs complete 3D articulated objects, producing high-fidelity geometry, internal structure, and motion-consistent states beyond directly observed surfaces.",
+      "authors": [
+        "Mohamed el amine boudjoghra",
+        "Ivan Laptev",
+        "Angela Dai"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-29T17:44:53+00:00",
+      "link": "https://arxiv.org/pdf/2606.30608v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Zero-shot recovery of full articulated 3D objects from text or image",
+      "llm_evidence_cn": "从文本或图像零样本恢复完整铰接三维对象",
+      "llm_evidence": "从文本或图像零样本恢复完整铰接三维对象",
+      "canonical_evidence": "从文本或图像零样本恢复完整铰接三维对象",
+      "llm_tldr_en": "UnfoldArt introduces a debate-driven agentic approach for zero-shot articulated 3D object reconstruction from text or images, grounding articulation reasoning in motion and revealing occluded geometry.",
+      "llm_tldr_cn": "UnfoldArt 提出一种辩论驱动的智能体方法，从文本或图像输入零样本恢复完整铰接三维物体，通过高层智能体推理物体语义和运动，低层智能体提取几何细节，首次实现无需监督训练即可从稀疏观测重建铰接结构与隐藏几何，为具身AI和机器人交互环境生成可运动的三维对象。",
+      "llm_tldr": "UnfoldArt 提出一种辩论驱动的智能体方法，从文本或图像输入零样本恢复完整铰接三维物体，通过高层智能体推理物体语义和运动，低层智能体提取几何细节，首次实现无需监督训练即可从稀疏观测重建铰接结构与隐藏几何，为具身AI和机器人交互环境生成可运动的三维对象。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "methods for generating articulated 3D objects",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.27923v2",
+      "source": "arxiv",
+      "title": "Home3D 1.0: A High-Fidelity Image-to-3D Asset Generation System for Interior Design",
+      "abstract": "We present Home3D 1.0, a modular image-to-3D generation system that produces high-quality 3D assets from a single reference image, targeting interior design and e-commerce applications. Given a photograph of a furniture or decor item, the system outputs a mesh with physically-based rendering (PBR) materials, and the mesh can be decomposed into material-specific components. The pipeline is organized into four tightly coupled modules: Geometry reconstructs a watertight mesh through latent SDF modelling with a geometry VAE and a coarse-to-fine flow-matching DiT; Texture predicts multiview albedo observations, reprojects them onto the mesh, and completes unseen surface regions with a 3D texture field; Material uses MatWeaver to obtain component masks through video-based segmentation and UV-space voting, then retrieves and bakes PBR maps from a curated material library through hierarchical multi-modal matching; and Parts generates material-editable semantic part meshes with a PartVAE and PartDiT, decoding multi-head part-specific SDF fields in one pass. Each module is evaluated independently with dedicated metrics, highlighting both the current system capability and the remaining gaps toward broader deployment.",
+      "authors": [
+        "Yiyun Fei",
+        "Guoqiu Li",
+        "Jin Song",
+        "Chuqiao Wu",
+        "Delong Wu",
+        "Hong Wu",
+        "Ziru Zeng",
+        "Haohui Chen",
+        "Yindong Kong",
+        "Jing Li",
+        "Qi Wu",
+        "Feng Zhang",
+        "Jianan Jiang",
+        "Ruigao Yang"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.AI"
+      ],
+      "published": "2026-06-26T10:15:47+00:00",
+      "link": "https://arxiv.org/pdf/2606.27923v2",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "mesh can be decomposed into material-specific components",
+      "llm_evidence_cn": "网格可分解为材质特定组件",
+      "llm_evidence": "网格可分解为材质特定组件",
+      "canonical_evidence": "网格可分解为材质特定组件",
+      "llm_tldr_en": "Home3D 1.0 is a modular image-to-3D system that generates high-quality meshes with PBR materials from a single image, and decomposes the mesh into material-specific components, enabling part-aware asset creation for interior design.",
+      "llm_tldr_cn": "Home3D 1.0 是一个模块化的图像到三维生成系统，针对室内设计和电子商务应用，从单张参考图像生成高质量三维资产，并能够将网格分解为材质特定组件。现有方法难以生成可分解的组件化网格，Home3D通过几何重建、纹理预测、材质分解和渲染四个紧密耦合的模块，生成带有物理渲染材质且可分解为独立材质部件的网格，填补了从单图到部件级三维模型生成的空白。",
+      "llm_tldr": "Home3D 1.0 是一个模块化的图像到三维生成系统，针对室内设计和电子商务应用，从单张参考图像生成高质量三维资产，并能够将网格分解为材质特定组件。现有方法难以生成可分解的组件化网格，Home3D通过几何重建、纹理预测、材质分解和渲染四个紧密耦合的模块，生成带有物理渲染材质且可分解为独立材质部件的网格，填补了从单图到部件级三维模型生成的空白。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "decomposing 3D shapes into parts",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.29786v1",
+      "source": "arxiv",
+      "title": "OP3DSG: Open-Vocabulary Part-Aware 3D Scene Graph Generation for Real-World Environments",
+      "abstract": "3D scene graphs (3DSGs) provide a compact and structured abstraction of 3D environments. Although advances in foundation models have enabled open-vocabulary 3DSG generation, existing approaches remain object-centric and encode limited relational information -- restricting their applicability in real-world scenarios that require fine-grained understanding. We propose OP3DSG, an open-vocabulary part-aware 3DSG generation framework that constructs unified graphs that jointly model objects, interactive parts, spatial relations, functional relations, and affordances. OP3DSG integrates object-part knowledge-guided detection with part-aware 3D fusion to preserve small and interaction-relevant components, and employs a geometry-initialized prior graph with LLM-based refinement to reduce spurious relational predictions while enabling efficient graph construction. To systematically evaluate unified 3D scene graph construction, we introduce UniGraph3D, a benchmark designed for part-aware perception and multi-level relational reasoning. Experimental results show that OP3DSG achieves state-of-the-art performance and demonstrates its effectiveness as a perception backbone in diverse real-world robotics tasks.",
+      "authors": [
+        "Yirum Kim",
+        "Ue-Hwan Kim"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV",
+        "cs.RO"
+      ],
+      "published": "2026-06-29T05:05:54+00:00",
+      "link": "https://arxiv.org/pdf/2606.29786v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 8.0,
+      "llm_evidence_en": "part-aware 3D scene graph generation, detects interactive parts and fuses part-aware 3D data",
+      "llm_evidence_cn": "零件感知的3D场景图生成，检测交互零件并融合零件感知3D数据",
+      "llm_evidence": "零件感知的3D场景图生成，检测交互零件并融合零件感知3D数据",
+      "canonical_evidence": "零件感知的3D场景图生成，检测交互零件并融合零件感知3D数据",
+      "llm_tldr_en": "OP3DSG generates open-vocabulary part-aware 3D scene graphs that jointly model objects, interactive parts, and relations, improving fine-grained 3D understanding.",
+      "llm_tldr_cn": "针对现有3D场景图仅面向对象且关系编码有限的问题，本文提出OP3DSG，一种开放词汇零件感知的三维场景图生成框架。它通过对象-零件知识引导的检测和零件感知三维融合来捕捉交互相关的小尺寸部件，并构建统一图结构同时建模对象、零件、空间与功能关系。实验表明该框架能有效地保留细节并提升机器人的精细抓取等任务，为大规模真实环境提供更丰富的场景表示。",
+      "llm_tldr": "针对现有3D场景图仅面向对象且关系编码有限的问题，本文提出OP3DSG，一种开放词汇零件感知的三维场景图生成框架。它通过对象-零件知识引导的检测和零件感知三维融合来捕捉交互相关的小尺寸部件，并构建统一图结构同时建模对象、零件、空间与功能关系。实验表明该框架能有效地保留细节并提升机器人的精细抓取等任务，为大规模真实环境提供更丰富的场景表示。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "segmenting 3D objects into semantic parts",
+      "matched_requirement_id": "req-4",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": []
+}
