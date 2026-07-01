@@ -1,0 +1,69 @@
+{
+  "label": "2026-07-01",
+  "date": "2026-07-01",
+  "generated_at": "2026-07-01T20:45:47",
+  "count": 4,
+  "papers": [
+    {
+      "paper_id": "202607/01/2606.30608v2-unfoldart-zero-shot-recovery-of-full-articulated-3d-objects-from-text-or-image",
+      "section": "deep",
+      "title_en": "UnfoldArt: Zero-Shot Recovery of Full Articulated 3D Objects from Text or Image",
+      "authors": "Mohamed el Amine Boudjoghra, Ivan Laptev, Angela Dai",
+      "date": "2026-06-29",
+      "pdf": "https://arxiv.org/pdf/2606.30608v2",
+      "score": "10.0",
+      "evidence": "从文本或图像零样本恢复完整铰接3D物体，恢复隐藏几何和铰接结构",
+      "tldr": "铰接3D物体对具身AI和VR等应用至关重要，但从单一视图恢复完整结构与运动极具挑战。本文提出首个辩论驱动的智能体方法，利用视觉语言和视频生成先验，通过高层与低层智能体的两轮结构化辩论，零样本从文本或图像恢复完整铰接3D对象。方法不仅推理出铰接参数，更暴露出运动揭露的隐藏内部几何，生成高保真、运动一致的3D模型。",
+      "tags": "query:part-aware",
+      "abstract_en": "Articulated 3D objects are essential for interactive environments in embodied AI, robotics, and virtual reality, but reconstructing their structure and motion from sparse observations remains challenging. Existing approaches remain largely constrained by lack of supervised data or lack the priors needed to reliably recover articulation, hidden geometry, and internal object structure. We present the first debate-driven agentic approach to articulated 3D object reconstruction from text or image inputs that both grounds articulation reasoning in concrete motion and exposes the occluded geometry revealed under articulation. High-level agents reason about object semantics and motion using knowledge from vision-language and video models, while low-level agents estimate articulation parameters and interaction points; together, they engage in a two-round structured debate that first exploits global--local disagreement and then grounds the agents in freely generated video. The same video prior, conditioned on the agreed articulation, then drives each part through its motion to expose occluded interiors and geometry that cannot be inferred from a single static view. By combining agentic reasoning with a video generative prior, our approach jointly infers articulation and reconstructs complete 3D articulated objects, producing high-fidelity geometry, internal structure, and motion-consistent states beyond directly observed surfaces.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/01/2606.24564v3-patterngsl-a-structured-specification-language-for-template-free-and-simulation-ready-3d-garments",
+      "section": "deep",
+      "title_en": "PatternGSL: A Structured Specification Language for Template-Free and Simulation-Ready 3D Garments",
+      "authors": "Zhenyang Li, Lutao Jiang, Yizhou Zhao, Ying-Cong Chen, Xin Wang, Weikai Chen, Yifan Peng",
+      "date": "2026-06-23",
+      "pdf": "https://arxiv.org/pdf/2606.24564v3",
+      "score": "9.0",
+      "evidence": "编码具有面板边界和缝合线的完整缝纫图案，作为装配零件",
+      "tldr": "单图服装重建面临无模板方法缺乏缝纫结构与程序化方法依赖模板的表征鸿沟。PatternGSL提出了一种无模板且仿真可用的结构化规格语言，直接编码完整缝纫图案。通过视觉-语言框架从单图预测规格并确定性解码为服装，并引入首个大规模图像-GSL配对数据集PatternGSLData。实验实现了更高图案精度、显式缝纫结构恢复及图案级编辑，弥合了重建与构造之间的鸿沟。",
+      "tags": "query:part-aware",
+      "abstract_en": "Reconstructing realistic, physically plausible garments from a single image remains a fundamental challenge. Template-free methods capture surface geometry but lack explicit sewing structure for simulation; while programmatic systems are simulation-ready but constrained by predefined templates. This reveals a fundamental representation gap between geometric reconstruction and structured garment construction. We present PatternGSL, a structured garment representation in the form of a template-free and learnable specification language that encodes complete sewing patterns, including panel boundaries, parameterized seams, and explicit stitch topology, in a compact and standardized form. PatternGSL preserves the physical rigor of pattern-based models while removing template dependence, elevating sewing structure as a first-class target for generative modeling. We further propose a vision-language framework that predicts PatternGSL specifications directly from a single image and decodes them into garments using lightweight deterministic validity handling, without optimization-based refinement or manual cleanup. In addition, we introduce PatternGSLData, the first large-scale image-to-GSL paired dataset comprising 300K samples with complete sewing pattern annotations, enabling supervised VLM training for structured garment reconstruction. Experiments demonstrate improved pattern accuracy over prior baselines, explicit sewing-structure recovery, reliable cloth simulation, and pattern-level editing through the same deterministic decoding pipeline. Code and data-processing scripts will be released at https://lagrangeli.github.io/PatternGSL/.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/01/2606.30429v2-arko-t-a-foundation-model-for-text-to-structured-3d-generation",
+      "section": "deep",
+      "title_en": "Arko-T: A Foundation Model for Text-to-Structured 3D Generation",
+      "authors": "Liang Wang, Zhaoyang Xi, Zekai Xiang, Heng Meng, Qishan Zhang, Pingyi Zhou, Jin Liu, Litao Chen",
+      "date": "2026-06-29",
+      "pdf": "https://arxiv.org/pdf/2606.30429v2",
+      "score": "9.0",
+      "evidence": "将自然语言意图直接映射为可执行的参数化CAD程序",
+      "tldr": "现有文本到3D系统主要生成可渲染的形状，而非可编辑的CAD设计。Arko-T是一个40亿参数的文本到设计基础模型，能将自然语言直接映射为参数化CAD程序。通过对齐设计状态，模型保留了CAD构件的特征、参数和构造逻辑，生成可编辑的CAD代码。在12项基准测试中，Arko-T对比7个前沿大语言模型取得8项最优和3项次优，且计算成本仅约十分之一，表明中等规模的针对性训练可媲美通用大模型。",
+      "tags": "query:part-aware",
+      "abstract_en": "Text-to-3D systems can now synthesize a model from a single sentence, yet the result is a shape to render, not a design to edit. We present Arko-T, a 4B-parameter text-to-design model that maps natural-language intent directly into executable, parametric CAD programs. Rather than optimizing for code executability alone, Arko-T aligns every stage of the pipeline to a formal notion of design state, so that data curation, code normalization, and execution-grounded supervision all work to preserve the features, parameters, and construction logic that make a CAD artifact editable. Benchmarked against seven frontier LLMs across 12 metrics, Arko-T attains the best score on 8 and the second-best on 3 more, at roughly one-tenth the per-benchmark cost. The results suggest that targeted design-level training at moderate scale can match frontier general-purpose models on structured CAD generation.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/01/2606.30429v1-arko-t-a-foundation-model-for-text-to-structured-3d-generation",
+      "section": "quick",
+      "title_en": "Arko-T: A Foundation Model for Text-to-Structured 3D Generation",
+      "authors": "Liang Wang, Zhaoyang Xi, Zekai Xiang, Heng Meng, Qishan Zhang, Pingyi Zhou, Jin Liu, Litao Chen",
+      "date": "2026-06-29",
+      "pdf": "https://arxiv.org/pdf/2606.30429v1",
+      "score": "7.0",
+      "evidence": "文本到设计模型生成包含可编辑零件的参数化CAD程序",
+      "tldr": "现有文本到3D系统虽能合成机械零件，但输出是仅供渲染的形状，无法编辑，严重制约了工程迭代与重用。为解决此问题，我们构建了Arko-T，一个40亿参数的基础模型，将自然语言直接映射为可执行、参数化的CAD程序。该模型在数据策划、代码标准化和执行监督等环节均对齐设计状态，确保生成的程序保留特征、参数和构建逻辑，真正实现可编辑。在12项基准测试中，与7个顶尖大语言模型比较，Arko-T斩获8项第一、3项第二，且每项测试成本仅为对手的十分之一。这一成果表明，通过聚焦设计层级的训练，中等规模的模型即能在结构化三维生成上匹敌前沿通用模型。",
+      "tags": "query:part-aware",
+      "abstract_en": "Text-to-3D systems can now synthesize a mechanical part from a single sentence, yet the result is a shape to render, not a design to edit. We present Arko-T, a 4B-parameter text-to-design model that maps natural-language intent directly into executable, parametric CAD programs. Rather than optimizing for code executability alone, Arko-T aligns every stage of the pipeline to a formal notion of design state, so that data curation, code normalization, and execution-grounded supervision all work to preserve the features, parameters, and construction logic that make a CAD artifact editable. Benchmarked against seven frontier LLMs across 12 metrics, Arko-T attains the best score on 8 and the second-best on 3 more, at roughly one-tenth the per-benchmark cost. The results suggest that targeted design-level training at moderate scale can match frontier general-purpose models on structured CAD generation.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}

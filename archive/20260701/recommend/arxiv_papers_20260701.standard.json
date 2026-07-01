@@ -1,0 +1,177 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-01T20:42:20.377855+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2606.30608v2",
+      "source": "arxiv",
+      "title": "UnfoldArt: Zero-Shot Recovery of Full Articulated 3D Objects from Text or Image",
+      "abstract": "Articulated 3D objects are essential for interactive environments in embodied AI, robotics, and virtual reality, but reconstructing their structure and motion from sparse observations remains challenging. Existing approaches remain largely constrained by lack of supervised data or lack the priors needed to reliably recover articulation, hidden geometry, and internal object structure. We present the first debate-driven agentic approach to articulated 3D object reconstruction from text or image inputs that both grounds articulation reasoning in concrete motion and exposes the occluded geometry revealed under articulation. High-level agents reason about object semantics and motion using knowledge from vision-language and video models, while low-level agents estimate articulation parameters and interaction points; together, they engage in a two-round structured debate that first exploits global--local disagreement and then grounds the agents in freely generated video. The same video prior, conditioned on the agreed articulation, then drives each part through its motion to expose occluded interiors and geometry that cannot be inferred from a single static view. By combining agentic reasoning with a video generative prior, our approach jointly infers articulation and reconstructs complete 3D articulated objects, producing high-fidelity geometry, internal structure, and motion-consistent states beyond directly observed surfaces.",
+      "authors": [
+        "Mohamed el Amine Boudjoghra",
+        "Ivan Laptev",
+        "Angela Dai"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-29T17:44:53+00:00",
+      "link": "https://arxiv.org/pdf/2606.30608v2",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 10.0,
+      "llm_evidence_en": "zero-shot recovery of full articulated 3D objects from text or image, recovers hidden geometry and articulation",
+      "llm_evidence_cn": "从文本或图像零样本恢复完整铰接3D物体，恢复隐藏几何和铰接结构",
+      "llm_evidence": "从文本或图像零样本恢复完整铰接3D物体，恢复隐藏几何和铰接结构",
+      "canonical_evidence": "从文本或图像零样本恢复完整铰接3D物体，恢复隐藏几何和铰接结构",
+      "llm_tldr_en": "UnfoldArt is the first debate-driven agentic approach to reconstructing full articulated 3D objects from text or single images. It grounds articulation reasoning in concrete motion, recovers occluded geometry, and uses high-level agents for semantic and motion reasoning. This advances zero-shot articulated object reconstruction for interactive environments.",
+      "llm_tldr_cn": "UnfoldArt针对稀疏观测下铰接3D物体重建的挑战，提出首个基于辩论驱动的智能体方法，从文本或单张图像零样本恢复完整铰接3D物体。高层智能体利用视觉语言和视频模型推理物体语义与运动，低层智能体根据推理结果合成3D几何并暴露被遮挡部件，将铰接推理与具体运动结合。该方法显著提升了从单一观测重建复杂铰接结构的完整性和可靠性，为具身AI和虚拟现实提供了关键的交互式3D资产生成方案。",
+      "llm_tldr": "UnfoldArt针对稀疏观测下铰接3D物体重建的挑战，提出首个基于辩论驱动的智能体方法，从文本或单张图像零样本恢复完整铰接3D物体。高层智能体利用视觉语言和视频模型推理物体语义与运动，低层智能体根据推理结果合成3D几何并暴露被遮挡部件，将铰接推理与具体运动结合。该方法显著提升了从单一观测重建复杂铰接结构的完整性和可靠性，为具身AI和虚拟现实提供了关键的交互式3D资产生成方案。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "How to generate articulated 3D parts from single images?",
+      "matched_requirement_id": "req-7",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.24564v3",
+      "source": "arxiv",
+      "title": "PatternGSL: A Structured Specification Language for Template-Free and Simulation-Ready 3D Garments",
+      "abstract": "Reconstructing realistic, physically plausible garments from a single image remains a fundamental challenge. Template-free methods capture surface geometry but lack explicit sewing structure for simulation; while programmatic systems are simulation-ready but constrained by predefined templates. This reveals a fundamental representation gap between geometric reconstruction and structured garment construction. We present PatternGSL, a structured garment representation in the form of a template-free and learnable specification language that encodes complete sewing patterns, including panel boundaries, parameterized seams, and explicit stitch topology, in a compact and standardized form. PatternGSL preserves the physical rigor of pattern-based models while removing template dependence, elevating sewing structure as a first-class target for generative modeling. We further propose a vision-language framework that predicts PatternGSL specifications directly from a single image and decodes them into garments using lightweight deterministic validity handling, without optimization-based refinement or manual cleanup. In addition, we introduce PatternGSLData, the first large-scale image-to-GSL paired dataset comprising 300K samples with complete sewing pattern annotations, enabling supervised VLM training for structured garment reconstruction. Experiments demonstrate improved pattern accuracy over prior baselines, explicit sewing-structure recovery, reliable cloth simulation, and pattern-level editing through the same deterministic decoding pipeline. Code and data-processing scripts will be released at https://lagrangeli.github.io/PatternGSL/.",
+      "authors": [
+        "Zhenyang Li",
+        "Lutao Jiang",
+        "Yizhou Zhao",
+        "Ying-Cong Chen",
+        "Xin Wang",
+        "Weikai Chen",
+        "Yifan Peng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-23T13:32:04+00:00",
+      "link": "https://arxiv.org/pdf/2606.24564v3",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "encoding complete sewing patterns with panel boundaries and seams as assembled parts",
+      "llm_evidence_cn": "编码具有面板边界和缝合线的完整缝纫图案，作为装配零件",
+      "llm_evidence": "编码具有面板边界和缝合线的完整缝纫图案，作为装配零件",
+      "canonical_evidence": "编码具有面板边界和缝合线的完整缝纫图案，作为装配零件",
+      "llm_tldr_en": "PatternGSL learns a template-free specification language to reconstruct simulation-ready 3D garments from a single image, explicitly encoding sewing patterns with panel boundaries and seams, thus bridging the gap between geometric reconstruction and structured part assembly.",
+      "llm_tldr_cn": "针对单张图像难以同时获取几何形状与缝纫结构的难题，PatternGSL提出了一种无模板、可学习的结构化规范语言，能直接编码服装的完整缝纫图样，包括面板边界和参数化缝合线。该方法弥合了几何重建与结构化零件组装之间的鸿沟，从图像中生成可仿真的服装，在保持物理逼真度的同时具备明确的零件结构。实验表明，该语言能紧凑表达复杂服装，并实现从图像到仿真就绪服装的重建，为服装设计与虚拟试穿提供了新范式。",
+      "llm_tldr": "针对单张图像难以同时获取几何形状与缝纫结构的难题，PatternGSL提出了一种无模板、可学习的结构化规范语言，能直接编码服装的完整缝纫图样，包括面板边界和参数化缝合线。该方法弥合了几何重建与结构化零件组装之间的鸿沟，从图像中生成可仿真的服装，在保持物理逼真度的同时具备明确的零件结构。实验表明，该语言能紧凑表达复杂服装，并实现从图像到仿真就绪服装的重建，为服装设计与虚拟试穿提供了新范式。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "generating 3D models with separate parts",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2606.30429v2",
+      "source": "arxiv",
+      "title": "Arko-T: A Foundation Model for Text-to-Structured 3D Generation",
+      "abstract": "Text-to-3D systems can now synthesize a model from a single sentence, yet the result is a shape to render, not a design to edit. We present Arko-T, a 4B-parameter text-to-design model that maps natural-language intent directly into executable, parametric CAD programs. Rather than optimizing for code executability alone, Arko-T aligns every stage of the pipeline to a formal notion of design state, so that data curation, code normalization, and execution-grounded supervision all work to preserve the features, parameters, and construction logic that make a CAD artifact editable. Benchmarked against seven frontier LLMs across 12 metrics, Arko-T attains the best score on 8 and the second-best on 3 more, at roughly one-tenth the per-benchmark cost. The results suggest that targeted design-level training at moderate scale can match frontier general-purpose models on structured CAD generation.",
+      "authors": [
+        "Liang Wang",
+        "Zhaoyang Xi",
+        "Zekai Xiang",
+        "Heng Meng",
+        "Qishan Zhang",
+        "Pingyi Zhou",
+        "Jin Liu",
+        "Litao Chen"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-06-29T15:09:13+00:00",
+      "link": "https://arxiv.org/pdf/2606.30429v2",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "maps natural-language intent directly into executable, parametric CAD programs",
+      "llm_evidence_cn": "将自然语言意图直接映射为可执行的参数化CAD程序",
+      "llm_evidence": "将自然语言意图直接映射为可执行的参数化CAD程序",
+      "canonical_evidence": "将自然语言意图直接映射为可执行的参数化CAD程序",
+      "llm_tldr_en": "Arko-T is a text-to-3D design model that generates editable parametric CAD programs, inherently producing part-based 3D models with construction logic.",
+      "llm_tldr_cn": "提出文本到设计的基座模型，将自然语言描述直接转化为可编辑的参数化CAD程序，生成由特征和参数驱动的部件化三维模型。",
+      "llm_tldr": "提出文本到设计的基座模型，将自然语言描述直接转化为可编辑的参数化CAD程序，生成由特征和参数驱动的部件化三维模型。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "generating 3D models with separate parts",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.30429v1",
+      "source": "arxiv",
+      "title": "Arko-T: A Foundation Model for Text-to-Structured 3D Generation",
+      "abstract": "Text-to-3D systems can now synthesize a mechanical part from a single sentence, yet the result is a shape to render, not a design to edit. We present Arko-T, a 4B-parameter text-to-design model that maps natural-language intent directly into executable, parametric CAD programs. Rather than optimizing for code executability alone, Arko-T aligns every stage of the pipeline to a formal notion of design state, so that data curation, code normalization, and execution-grounded supervision all work to preserve the features, parameters, and construction logic that make a CAD artifact editable. Benchmarked against seven frontier LLMs across 12 metrics, Arko-T attains the best score on 8 and the second-best on 3 more, at roughly one-tenth the per-benchmark cost. The results suggest that targeted design-level training at moderate scale can match frontier general-purpose models on structured CAD generation.",
+      "authors": [
+        "Liang Wang",
+        "Zhaoyang Xi",
+        "Zekai Xiang",
+        "Heng Meng",
+        "Qishan Zhang",
+        "Pingyi Zhou",
+        "Jin Liu",
+        "Litao Chen"
+      ],
+      "primary_category": "cs.LG",
+      "categories": [
+        "cs.LG"
+      ],
+      "published": "2026-06-29T15:09:13+00:00",
+      "link": "https://arxiv.org/pdf/2606.30429v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "text-to-design model generates parametric CAD programs with editable parts",
+      "llm_evidence_cn": "文本到设计模型生成包含可编辑零件的参数化CAD程序",
+      "llm_evidence": "文本到设计模型生成包含可编辑零件的参数化CAD程序",
+      "canonical_evidence": "文本到设计模型生成包含可编辑零件的参数化CAD程序",
+      "llm_tldr_en": "Arko-T is a 4B text-to-design model generating executable parametric CAD programs from text, preserving editable features and construction logic, outperforming LLMs at lower cost.",
+      "llm_tldr_cn": "针对文本到3D系统生成结果不可编辑的问题，Arko-T提出一个40亿参数的文本到设计基础模型，将自然语言意图直接映射为可执行参数化CAD程序，通过对齐设计状态保留特征、参数和构建逻辑。在12项指标上对比七个前沿大模型，Arko-T在8项上取得最佳，3项次优，且推理成本仅约十分之一。该工作为可编辑的结构化3D生成提供了新范式。",
+      "llm_tldr": "针对文本到3D系统生成结果不可编辑的问题，Arko-T提出一个40亿参数的文本到设计基础模型，将自然语言意图直接映射为可执行参数化CAD程序，通过对齐设计状态保留特征、参数和构建逻辑。在12项指标上对比七个前沿大模型，Arko-T在8项上取得最佳，3项次优，且推理成本仅约十分之一。该工作为可编辑的结构化3D生成提供了新范式。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "generating 3D models with separate parts",
+      "matched_requirement_id": "req-1",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}
