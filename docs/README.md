@@ -6,34 +6,34 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-01
-- 运行时间：2026-07-01 20:45:36 UTC
+- 最新运行日期：2026-07-02
+- 运行时间：2026-07-02 20:58:24 UTC
 - 运行状态：成功
 - 本次总论文数：4
 - 精读区：3
 - 速读区：1
 
 ### 今日简报（AI）
-今日聚焦从文本或图像生成可驱动、可仿真的结构化 3D 内容，精读零样本全身物体恢复与服装语言设计两项突破。  
-值得关注：无条件恢复完整关节 3D 身形和用规范语言一键生成仿真级服装，正在消除建模与模拟的繁琐环节。  
-建议读者从这两篇入手，理解“零样本全身恢复”与“结构化服装规范”如何为虚拟人管线下一次提速。
-- 详情：[/202607/01/README](/202607/01/README)
+今日解析了四篇前沿论文，聚焦从单目视频重建动态动物、用可变形超二次曲面分解点云等突破性技术。  
+最值得关注的两项成果：一是无需多视角即可从视频恢复动物4D骨架与外形，二是将点云自动拆解为带语义的几何部件。  
+感兴趣可先阅读那篇9分精读，看看AI如何理解动物的运动与形状。
+- 详情：[/202607/02/README](/202607/02/README)
 
 ### 精读区论文标签
-1. [UnfoldArt: Zero-Shot Recovery of Full Articulated 3D Objects from Text or Image](/202607/01/2606.30608v2-unfoldart-zero-shot-recovery-of-full-articulated-3d-objects-from-text-or-image)  
-   标签：评分：10.0/10、query:part-aware
-   evidence：从文本或图像零样本恢复完整铰接3D物体，恢复隐藏几何和铰接结构
-2. [PatternGSL: A Structured Specification Language for Template-Free and Simulation-Ready 3D Garments](/202607/01/2606.24564v3-patterngsl-a-structured-specification-language-for-template-free-and-simulation-ready-3d-garments)  
+1. [Progressive Pose-Guided 4D Animal Reconstruction from Monocular Video](/202607/02/2607.00157v1-progressive-pose-guided-4d-animal-reconstruction-from-monocular-video)  
    标签：评分：9.0/10、query:part-aware
-   evidence：编码具有面板边界和缝合线的完整缝纫图案，作为装配零件
-3. [Arko-T: A Foundation Model for Text-to-Structured 3D Generation](/202607/01/2606.30429v2-arko-t-a-foundation-model-for-text-to-structured-3d-generation)  
+   evidence：重建具有复杂关节的4D动物，解耦关节姿态与非刚性变形
+2. [SuperFlex: Deformable Superquadrics for Point Cloud Decomposition](/202607/02/2607.01015v1-superflex-deformable-superquadrics-for-point-cloud-decomposition)  
    标签：评分：9.0/10、query:part-aware
-   evidence：将自然语言意图直接映射为可执行的参数化CAD程序
+   evidence：将点云分解为可变形超二次曲面以实现高保真零件分解
+3. [Linkify: Learning from Interface-Augmented Assembly Graphs](/202607/02/2607.01205v1-linkify-learning-from-interface-augmented-assembly-graphs)  
+   标签：评分：9.0/10、query:part-aware
+   evidence：构建包含零件与接口几何的装配图，用于机械装配体中的上下文感知零件检索
 
 ### 速读区论文标签
-1. [Arko-T: A Foundation Model for Text-to-Structured 3D Generation](/202607/01/2606.30429v1-arko-t-a-foundation-model-for-text-to-structured-3d-generation)  
+1. [Knowledge-Driven Dimension Estimation from a Single Image -3D Asset Generation Technology for Digital Twin Construction](/202607/02/2606.30896v1-knowledge-driven-dimension-estimation-from-a-single-image--3d-asset-generation-technology-for-digital-twin-construction)  
    标签：评分：7.0/10、query:part-aware
-   evidence：文本到设计模型生成包含可编辑零件的参数化CAD程序
+   evidence：将物体分解为多个结构元素以从单幅图像估计尺寸
 
 
 <div class="dpr-home-promo-card">

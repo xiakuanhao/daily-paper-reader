@@ -1,0 +1,168 @@
+{
+  "mode": "standard",
+  "generated_at": "2026-07-02T20:54:35.235479+00:00",
+  "stats": {
+    "mode": "standard",
+    "tag_count": 1,
+    "deep_divecandidates": 3,
+    "deep_cap": 6,
+    "deep_selected": 3,
+    "quick_candidates": 1,
+    "quick_skim_target": 11,
+    "quick_selected": 1
+  },
+  "deep_dive": [
+    {
+      "id": "2607.00157v1",
+      "source": "arxiv",
+      "title": "Progressive Pose-Guided 4D Animal Reconstruction from Monocular Video",
+      "abstract": "Reconstructing 4D animals from monocular videos is challenging due to large inter-species variation, complex articulations, and the lack of reliable templates. Existing approaches typically rely on either strict category-specific priors that restrict generalization, or unconstrained generative models that sacrifice input fidelity. To bridge this gap, we present a progressive test-time optimization framework built on 3D Gaussian Splatting for high-fidelity 4D animal reconstruction from a single video. Our key insight is that a coarse shape prior suffices when coupled with a progressive strategy that disentangles articulated pose from non-rigid deformation. Specifically, we employ a symmetry-aware temporal encoding that exploits bilateral cues while absorbing camera estimation drift and a part-conditioned deformation mechanism guided by learnable part anchors and a learnable skinning field. Extensive experiments demonstrate that our approach generalizes robustly across diverse species, achieving superior geometric accuracy, temporal consistency, and visual fidelity compared to existing baselines, even under severe prior mismatch.",
+      "authors": [
+        "Siyuan Li",
+        "Weiying Chen",
+        "Yilin Wang",
+        "Xinxin Zuo",
+        "Xingyu Li",
+        "Li Cheng"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-30T20:32:29+00:00",
+      "link": "https://arxiv.org/pdf/2607.00157v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "Reconstructs 4D animals with complex articulations, disentangling articulated pose from non-rigid deformation",
+      "llm_evidence_cn": "重建具有复杂关节的4D动物，解耦关节姿态与非刚性变形",
+      "llm_evidence": "重建具有复杂关节的4D动物，解耦关节姿态与非刚性变形",
+      "canonical_evidence": "重建具有复杂关节的4D动物，解耦关节姿态与非刚性变形",
+      "llm_tldr_en": "We propose a progressive test-time optimization framework that reconstructs high-fidelity 4D animals from monocular videos by disentangling articulated pose from non-rigid deformation using 3D Gaussian Splatting and symmetry-aware timing, achieving state-of-the-art quality without category-specific templates.",
+      "llm_tldr_cn": "单目视频重建4D动物因物种差异大、关节复杂而极具挑战。本文提出渐进式测试时优化框架，基于3D高斯泼溅，利用对称感知时序编码和渐进策略解耦关节姿态与非刚性变形，从粗形状先验出发逐步精细化。实验表明，该方法无需类别特定模板即可从单视视频重建高保真4D动物，显著优于现有方法，为通用动物重建与运动捕捉提供新途径，实现了高质量关节运动重建。",
+      "llm_tldr": "单目视频重建4D动物因物种差异大、关节复杂而极具挑战。本文提出渐进式测试时优化框架，基于3D高斯泼溅，利用对称感知时序编码和渐进策略解耦关节姿态与非刚性变形，从粗形状先验出发逐步精细化。实验表明，该方法无需类别特定模板即可从单视视频重建高保真4D动物，显著优于现有方法，为通用动物重建与运动捕捉提供新途径，实现了高质量关节运动重建。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "methods for generating articulated 3D objects",
+      "matched_requirement_id": "req-2",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.01015v1",
+      "source": "arxiv",
+      "title": "SuperFlex: Deformable Superquadrics for Point Cloud Decomposition",
+      "abstract": "Superquadrics have proven to provide a compact, geometrically meaningful representation for 3D objects. However, existing methods suffer from limited reconstruction accuracy, are restricted to rigid primitives, and lack robustness to partial point clouds. In this work, we present SuperFlex, an enhanced framework that expands the expressive power and applicability of superquadric decompositions. First, we introduce a novel loss formulation which significantly improves reconstruction accuracy. Second, we include bending and tapering deformations, enabling high-fidelity representation of curved and asymmetric geometries. Finally, we leverage these high-quality decompositions as supervision to train a model that is robust to partial real-world point clouds. Experiments demonstrate substantial improvements in reconstruction accuracy over both optimization- and learning-based baselines while maintaining a highly compact primitive representation.",
+      "authors": [
+        "Gabriel Tavernini",
+        "Elisabetta Fedele",
+        "Tiago Novello",
+        "Leonidas Guibas",
+        "Marc Pollefeys",
+        "Francis Engelmann"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-01T14:51:14+00:00",
+      "link": "https://arxiv.org/pdf/2607.01015v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "decomposes point clouds into deformable superquadrics for high-fidelity part decomposition",
+      "llm_evidence_cn": "将点云分解为可变形超二次曲面以实现高保真零件分解",
+      "llm_evidence": "将点云分解为可变形超二次曲面以实现高保真零件分解",
+      "canonical_evidence": "将点云分解为可变形超二次曲面以实现高保真零件分解",
+      "llm_tldr_en": "SuperFlex enhances superquadric decomposition by introducing a novel loss, bending/tapering deformations, and training a robust model for partial point clouds, achieving state-of-the-art part decomposition.",
+      "llm_tldr_cn": "该论文针对现有超二次曲面分解方法精度有限、仅限于刚性基元且对部分点云鲁棒性差的问题，提出了SuperFlex框架，通过引入新型损失函数、弯曲和锥化变形，以及利用高质量分解监督训练鲁棒模型，显著提升了点云分解为可变形超二次曲面（零件）的精度与鲁棒性。",
+      "llm_tldr": "该论文针对现有超二次曲面分解方法精度有限、仅限于刚性基元且对部分点云鲁棒性差的问题，提出了SuperFlex框架，通过引入新型损失函数、弯曲和锥化变形，以及利用高质量分解监督训练鲁棒模型，显著提升了点云分解为可变形超二次曲面（零件）的精度与鲁棒性。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "decomposing 3D shapes into parts",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "id": "2607.01205v1",
+      "source": "arxiv",
+      "title": "Linkify: Learning from Interface-Augmented Assembly Graphs",
+      "abstract": "We present Linkify, a framework for learning from interface-augmented assembly graphs to enable context-aware part retrieval in mechanical assemblies. While recent generative AI methods for CAD have focused largely on isolated parts or monolithic assemblies, the rich geometric information at the interfaces between parts, where function is realized, remains underexplored. We address this gap by recomputing high-fidelity interface geometry for the Fusion 360 Gallery Assembly dataset, correcting missing and erroneous contacts, and generating point-cloud representations of local contact regions. Using this data, we construct assembly graphs whose nodes encode part geometry and whose edges encode interface geometry via a pretrained point-cloud encoder. On top of this representation, we train a Graph Attention Network based on GATv2 to solve a masked part prediction task: given an assembly with one part held out, the model predicts the class of the missing component from a large vocabulary of geometrically clustered parts, thereby approximating a realistic part-retrieval scenario. Compared to non-graph baselines such as logistic regression and k-nearest neighbors operating on aggregated node features, Linkify achieves higher Top-K accuracy and F1 scores. Ablation studies on graph connectivity, edge attributes, and attention mechanisms demonstrate that accurate contact computation and dynamic attention over interfaces are critical for performance. Our corrected interface dataset and training pipeline, released publicly, provide a foundation for future interface-aware models for assembly retrieval, validation, and generative design.",
+      "authors": [
+        "Anushrut Jignasu",
+        "Daniele Grandi"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-07-01T17:45:51+00:00",
+      "link": "https://arxiv.org/pdf/2607.01205v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 9.0,
+      "llm_evidence_en": "constructs assembly graphs with part and interface geometry for context-aware part retrieval in mechanical assemblies",
+      "llm_evidence_cn": "构建包含零件与接口几何的装配图，用于机械装配体中的上下文感知零件检索",
+      "llm_evidence": "构建包含零件与接口几何的装配图，用于机械装配体中的上下文感知零件检索",
+      "canonical_evidence": "构建包含零件与接口几何的装配图，用于机械装配体中的上下文感知零件检索",
+      "llm_tldr_en": "Linkify learns from interface-augmented assembly graphs to enable context-aware part retrieval, using high-fidelity interface geometry recomputed from Fusion 360 data, and a graph neural network to rank parts given a partial assembly query.",
+      "llm_tldr_cn": "该论文针对当前生成式AI方法忽视零件间接口几何信息的问题，提出了Linkify框架，通过重新高保真计算接口几何并构建装配图，利用节点编码零件几何、边编码接口几何，训练图神经网络实现上下文感知的零件检索，从而辅助机械装配体中的零件选择和装配过程。",
+      "llm_tldr": "该论文针对当前生成式AI方法忽视零件间接口几何信息的问题，提出了Linkify框架，通过重新高保真计算接口几何并构建装配图，利用节点编码零件几何、边编码接口几何，训练图神经网络实现上下文感知的零件检索，从而辅助机械装配体中的零件选择和装配过程。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "building 3D models from assembled parts",
+      "matched_requirement_id": "req-5",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "quick_skim": [
+    {
+      "id": "2606.30896v1",
+      "source": "arxiv",
+      "title": "Knowledge-Driven Dimension Estimation from a Single Image -3D Asset Generation Technology for Digital Twin Construction",
+      "abstract": "In the verification of in-vehicle cameras, simulation technology using virtual spaces has advanced, enabling pre-evaluation of false detections and missed detections in various scenarios. However, discrepancies in the scale of the object being verified between the virtual and real environments can lead to a decrease in camera recognition performance. For traffic signs installed at high altitudes, distance measurement using LiDAR or stereo cameras is difficult, requiring size estimation from monocular images. This paper proposes a method for estimating the scale of an object by decomposing it into multiple structural elements and integrating external knowledge regarding design rules, geometric relationships, and conventional dimensions. Specifically, this method detects each component from a monocular image and estimates the size of each component by considering its structural relationships and dimensional consistency with surrounding elements. Furthermore, it generates a 3D asset of the object by reconstructing the estimated components. This method makes it possible to place 3D assets with a scale approximating the real environment within a digital twin space and is expected to contribute to improving the verification accuracy of in-vehicle cameras for autonomous driving in virtual environments.",
+      "authors": [
+        "Hidenori Sakaniwa",
+        "Akihito Akai",
+        "Akihiko Hyodo"
+      ],
+      "primary_category": "cs.CV",
+      "categories": [
+        "cs.CV"
+      ],
+      "published": "2026-06-29T20:35:54+00:00",
+      "link": "https://arxiv.org/pdf/2606.30896v1",
+      "tags": [
+        "keyword:part-aware",
+        "query:part-aware"
+      ],
+      "llm_score": 7.0,
+      "llm_evidence_en": "decomposes objects into structural elements for dimension estimation from a single image",
+      "llm_evidence_cn": "将物体分解为多个结构元素以从单幅图像估计尺寸",
+      "llm_evidence": "将物体分解为多个结构元素以从单幅图像估计尺寸",
+      "canonical_evidence": "将物体分解为多个结构元素以从单幅图像估计尺寸",
+      "llm_tldr_en": "This paper proposes a knowledge-driven method to estimate object scale from a single image by decomposing the object into structural elements and integrating design rules and geometric relationships, enabling accurate size estimation for traffic signs.",
+      "llm_tldr_cn": "该论文针对虚拟环境与真实环境尺度差异导致车载摄像头识别性能下降的问题，提出了一种知识驱动的单目尺寸估计方法，通过将物体分解为多个结构元素并结合设计规则和几何关系的外部知识来估计物体的尺度，从而准确估算高空交通标志的尺寸，提升了虚拟仿真与实车测试的一致性。",
+      "llm_tldr": "该论文针对虚拟环境与真实环境尺度差异导致车载摄像头识别性能下降的问题，提出了一种知识驱动的单目尺寸估计方法，通过将物体分解为多个结构元素并结合设计规则和几何关系的外部知识来估计物体的尺度，从而准确估算高空交通标志的尺寸，提升了虚拟仿真与实车测试的一致性。",
+      "llm_tags": [
+        "query:part-aware"
+      ],
+      "matched_query_tag": "query:part-aware",
+      "matched_query_text": "decomposing 3D shapes into parts",
+      "matched_requirement_id": "req-3",
+      "selection_source": "fresh_fetch",
+      "quick_tier": "7"
+    }
+  ]
+}

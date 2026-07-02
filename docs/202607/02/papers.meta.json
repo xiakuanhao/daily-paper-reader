@@ -1,0 +1,69 @@
+{
+  "label": "2026-07-02",
+  "date": "2026-07-02",
+  "generated_at": "2026-07-02T20:58:34",
+  "count": 4,
+  "papers": [
+    {
+      "paper_id": "202607/02/2607.00157v1-progressive-pose-guided-4d-animal-reconstruction-from-monocular-video",
+      "section": "deep",
+      "title_en": "Progressive Pose-Guided 4D Animal Reconstruction from Monocular Video",
+      "authors": "Siyuan Li, Weiying Chen, Yilin Wang, Xinxin Zuo, Xingyu Li, Li Cheng",
+      "date": "2026-06-30",
+      "pdf": "https://arxiv.org/pdf/2607.00157v1",
+      "score": "9.0",
+      "evidence": "重建具有复杂关节的4D动物，解耦关节姿态与非刚性变形",
+      "tldr": "单目视频重建4D动物面临物种差异、关节复杂等挑战，现有方法难以兼顾泛化与保真度。本文提出基于3DGS的渐进式测试时优化框架，利用粗糙形状先验和姿态分离策略，实现高保真动态重建。实验证明方法跨物种泛化性强，在几何、时间一致性及视觉质量上超越基线，即使先验严重不匹配。贡献在于提供无需精确模板的通用4D动物重建方案。",
+      "tags": "query:part-aware",
+      "abstract_en": "Reconstructing 4D animals from monocular videos is challenging due to large inter-species variation, complex articulations, and the lack of reliable templates. Existing approaches typically rely on either strict category-specific priors that restrict generalization, or unconstrained generative models that sacrifice input fidelity. To bridge this gap, we present a progressive test-time optimization framework built on 3D Gaussian Splatting for high-fidelity 4D animal reconstruction from a single video. Our key insight is that a coarse shape prior suffices when coupled with a progressive strategy that disentangles articulated pose from non-rigid deformation. Specifically, we employ a symmetry-aware temporal encoding that exploits bilateral cues while absorbing camera estimation drift and a part-conditioned deformation mechanism guided by learnable part anchors and a learnable skinning field. Extensive experiments demonstrate that our approach generalizes robustly across diverse species, achieving superior geometric accuracy, temporal consistency, and visual fidelity compared to existing baselines, even under severe prior mismatch.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/02/2607.01015v1-superflex-deformable-superquadrics-for-point-cloud-decomposition",
+      "section": "deep",
+      "title_en": "SuperFlex: Deformable Superquadrics for Point Cloud Decomposition",
+      "authors": "Gabriel Tavernini, Elisabetta Fedele, Tiago Novello, Leonidas Guibas, Marc Pollefeys, Francis Engelmann",
+      "date": "2026-07-01",
+      "pdf": "https://arxiv.org/pdf/2607.01015v1",
+      "score": "9.0",
+      "evidence": "将点云分解为可变形超二次曲面以实现高保真零件分解",
+      "tldr": "超二次曲面以其紧凑且具几何意义的表示广泛用于三维物体建模，但现有方法重建精度有限、局限于刚性基元，对部分点云的鲁棒性也较差。SuperFlex通过设计新颖损失函数大幅提高重建精度，并首次将弯曲与锥化变形引入超二次曲面分解，实现复杂形状的高保真表示。进一步，以高质量分解为监督训练模型，使其对真实场景中的部分点云具有鲁棒性。实验表明，该方法的重建精度全面超越优化和基于学习的基线，且保持了基元表示的紧凑性，为三维物体表示与分析提供了强有力工具。",
+      "tags": "query:part-aware",
+      "abstract_en": "Superquadrics have proven to provide a compact, geometrically meaningful representation for 3D objects. However, existing methods suffer from limited reconstruction accuracy, are restricted to rigid primitives, and lack robustness to partial point clouds. In this work, we present SuperFlex, an enhanced framework that expands the expressive power and applicability of superquadric decompositions. First, we introduce a novel loss formulation which significantly improves reconstruction accuracy. Second, we include bending and tapering deformations, enabling high-fidelity representation of curved and asymmetric geometries. Finally, we leverage these high-quality decompositions as supervision to train a model that is robust to partial real-world point clouds. Experiments demonstrate substantial improvements in reconstruction accuracy over both optimization- and learning-based baselines while maintaining a highly compact primitive representation.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/02/2607.01205v1-linkify-learning-from-interface-augmented-assembly-graphs",
+      "section": "deep",
+      "title_en": "Linkify: Learning from Interface-Augmented Assembly Graphs",
+      "authors": "Anushrut Jignasu, Daniele Grandi",
+      "date": "2026-07-01",
+      "pdf": "https://arxiv.org/pdf/2607.01205v1",
+      "score": "9.0",
+      "evidence": "构建包含零件与接口几何的装配图，用于机械装配体中的上下文感知零件检索",
+      "tldr": "当前CAD生成方法大多忽略部件间接口的几何信息，而这些信息对功能实现至关重要。Linkify框架通过高保真接口重计算和点云编码，构建接口增强的装配图，利用GATv2图注意力网络实现缺失部件预测。该方法在大型词汇表检索任务上超越逻辑回归和k近邻等基线，消融实验证实准确的接触计算与动态注意力是关键。相关数据集和流程已公开，为接口感知的装配检索与生成设计奠定基础。",
+      "tags": "query:part-aware",
+      "abstract_en": "We present Linkify, a framework for learning from interface-augmented assembly graphs to enable context-aware part retrieval in mechanical assemblies. While recent generative AI methods for CAD have focused largely on isolated parts or monolithic assemblies, the rich geometric information at the interfaces between parts, where function is realized, remains underexplored. We address this gap by recomputing high-fidelity interface geometry for the Fusion 360 Gallery Assembly dataset, correcting missing and erroneous contacts, and generating point-cloud representations of local contact regions. Using this data, we construct assembly graphs whose nodes encode part geometry and whose edges encode interface geometry via a pretrained point-cloud encoder. On top of this representation, we train a Graph Attention Network based on GATv2 to solve a masked part prediction task: given an assembly with one part held out, the model predicts the class of the missing component from a large vocabulary of geometrically clustered parts, thereby approximating a realistic part-retrieval scenario. Compared to non-graph baselines such as logistic regression and k-nearest neighbors operating on aggregated node features, Linkify achieves higher Top-K accuracy and F1 scores. Ablation studies on graph connectivity, edge attributes, and attention mechanisms demonstrate that accurate contact computation and dynamic attention over interfaces are critical for performance. Our corrected interface dataset and training pipeline, released publicly, provide a foundation for future interface-aware models for assembly retrieval, validation, and generative design.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/02/2606.30896v1-knowledge-driven-dimension-estimation-from-a-single-image--3d-asset-generation-technology-for-digital-twin-construction",
+      "section": "quick",
+      "title_en": "Knowledge-Driven Dimension Estimation from a Single Image -3D Asset Generation Technology for Digital Twin Construction",
+      "authors": "Hidenori Sakaniwa, Akihito Akai, Akihiko Hyodo",
+      "date": "2026-06-29",
+      "pdf": "https://arxiv.org/pdf/2606.30896v1",
+      "score": "7.0",
+      "evidence": "将物体分解为多个结构元素以从单幅图像估计尺寸",
+      "tldr": "车载摄像头虚拟验证中，物体尺度差异会降低识别性能，尤其高空交通标志难以通过常规传感器测距。本文提出知识驱动的方法，将物体分解为多个结构元素，融合设计规则、几何关系等先验知识，从单目图像估计各组件尺寸，并重建生成尺度逼真的3D资产。实验表明，该方法能生成与真实环境尺度近似的3D资产，有效提升数字孪生空间中自动驾驶摄像头验证的准确性。该项技术为数字孪生构建中的3D资产生成提供了高效解决方案。",
+      "tags": "query:part-aware",
+      "abstract_en": "In the verification of in-vehicle cameras, simulation technology using virtual spaces has advanced, enabling pre-evaluation of false detections and missed detections in various scenarios. However, discrepancies in the scale of the object being verified between the virtual and real environments can lead to a decrease in camera recognition performance. For traffic signs installed at high altitudes, distance measurement using LiDAR or stereo cameras is difficult, requiring size estimation from monocular images. This paper proposes a method for estimating the scale of an object by decomposing it into multiple structural elements and integrating external knowledge regarding design rules, geometric relationships, and conventional dimensions. Specifically, this method detects each component from a monocular image and estimates the size of each component by considering its structural relationships and dimensional consistency with surrounding elements. Furthermore, it generates a 3D asset of the object by reconstructing the estimated components. This method makes it possible to place 3D assets with a scale approximating the real environment within a digital twin space and is expected to contribute to improving the verification accuracy of in-vehicle cameras for autonomous driving in virtual environments.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
