@@ -6,34 +6,32 @@
 </div>
 
 ## 每次日报
-- 最新运行日期：2026-07-02
-- 运行时间：2026-07-02 20:58:24 UTC
+- 最新运行日期：2026-07-03
+- 运行时间：2026-07-03 20:23:09 UTC
 - 运行状态：成功
-- 本次总论文数：4
-- 精读区：3
-- 速读区：1
+- 本次总论文数：3
+- 精读区：1
+- 速读区：2
 
 ### 今日简报（AI）
-今日解析了四篇前沿论文，聚焦从单目视频重建动态动物、用可变形超二次曲面分解点云等突破性技术。  
-最值得关注的两项成果：一是无需多视角即可从视频恢复动物4D骨架与外形，二是将点云自动拆解为带语义的几何部件。  
-感兴趣可先阅读那篇9分精读，看看AI如何理解动物的运动与形状。
-- 详情：[/202607/02/README](/202607/02/README)
+- 今日共生成 3 篇推荐（精读 1 篇，速读 2 篇）
+- 精读：《PWM-ArtGen: Part World Model for Articulated Object Generation》（10.0/10）
+- 速读：《UnderOneFacade: Worldwide Facade Semantic Segmentation Benchmark Dataset》（7.0/10）, 《SAMoR: Motion Modelling for Articulated Objects of Any Skeleton and Topology》（7.0/10）
+- 这些结果覆盖了当下较热的方向，建议先看精读区论文的关键问题与方法。
+- 详情：[/202607/03/README](/202607/03/README)
 
 ### 精读区论文标签
-1. [Progressive Pose-Guided 4D Animal Reconstruction from Monocular Video](/202607/02/2607.00157v1-progressive-pose-guided-4d-animal-reconstruction-from-monocular-video)  
-   标签：评分：9.0/10、query:part-aware
-   evidence：重建具有复杂关节的4D动物，解耦关节姿态与非刚性变形
-2. [SuperFlex: Deformable Superquadrics for Point Cloud Decomposition](/202607/02/2607.01015v1-superflex-deformable-superquadrics-for-point-cloud-decomposition)  
-   标签：评分：9.0/10、query:part-aware
-   evidence：将点云分解为可变形超二次曲面以实现高保真零件分解
-3. [Linkify: Learning from Interface-Augmented Assembly Graphs](/202607/02/2607.01205v1-linkify-learning-from-interface-augmented-assembly-graphs)  
-   标签：评分：9.0/10、query:part-aware
-   evidence：构建包含零件与接口几何的装配图，用于机械装配体中的上下文感知零件检索
+1. [PWM-ArtGen: Part World Model for Articulated Object Generation](/202607/03/2607.02045v1-pwm-artgen-part-world-model-for-articulated-object-generation)  
+   标签：评分：10.0/10、query:part-aware
+   evidence：部件世界模型从单张图像生成铰接三维物体
 
 ### 速读区论文标签
-1. [Knowledge-Driven Dimension Estimation from a Single Image -3D Asset Generation Technology for Digital Twin Construction](/202607/02/2606.30896v1-knowledge-driven-dimension-estimation-from-a-single-image--3d-asset-generation-technology-for-digital-twin-construction)  
+1. [UnderOneFacade: Worldwide Facade Semantic Segmentation Benchmark Dataset](/202607/03/2607.02018v1-underonefacade-worldwide-facade-semantic-segmentation-benchmark-dataset)  
    标签：评分：7.0/10、query:part-aware
-   evidence：将物体分解为多个结构元素以从单幅图像估计尺寸
+   evidence：面向3D部件分割的立面语义分割基准
+2. [SAMoR: Motion Modelling for Articulated Objects of Any Skeleton and Topology](/202607/03/2607.02148v1-samor-motion-modelling-for-articulated-objects-of-any-skeleton-and-topology)  
+   标签：评分：7.0/10、query:part-aware
+   evidence：为任意骨架拓扑的铰接对象建模运动
 
 
 <div class="dpr-home-promo-card">

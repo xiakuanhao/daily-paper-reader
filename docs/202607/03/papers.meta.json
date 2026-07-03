@@ -1,0 +1,54 @@
+{
+  "label": "2026-07-03",
+  "date": "2026-07-03",
+  "generated_at": "2026-07-03T20:23:17",
+  "count": 3,
+  "papers": [
+    {
+      "paper_id": "202607/03/2607.02045v1-pwm-artgen-part-world-model-for-articulated-object-generation",
+      "section": "deep",
+      "title_en": "PWM-ArtGen: Part World Model for Articulated Object Generation",
+      "authors": "Wentao Zheng, Ancong Wu",
+      "date": "2026-07-02",
+      "pdf": "https://arxiv.org/pdf/2607.02045v1",
+      "score": "10.0",
+      "evidence": "部件世界模型从单张图像生成铰接三维物体",
+      "tldr": "现有的从单张图像生成铰接三维对象的方法存在根本局限：直接从静态图像推断运动参数忽略了部件级动态关系，而分两步先生成视觉动态再估计参数则易积累误差，且高质量标注数据的匮乏进一步制约了模型的泛化能力。为此，本文提出统一的部分世界模型PWM-ArtGen，将铰接对象视为动态系统，创新性地学习视觉动态与运动参数的联合分布，并通过耦合动作扩散和图像扩散，采用独立的扩散时间步，实现视觉分支在无标注数据上的协同训练。同时，我们构建了一个包含19,700对无标注部件级图像的逼真数据集，以支持大规模预训练。实验结果表明，PWM-ArtGen不仅在静止状态生成质量上显著优于现有基线，还对分布外对象展现出强大的零样本泛化性能，为低成本、高泛化的铰接对象生成开辟了新范式。",
+      "tags": "query:part-aware",
+      "abstract_en": "The key challenge in articulated 3D object generation from a single image is accurately predicting the underlying kinematic structure. Existing methods either infer kinematic parameters directly from a static image that lacks dynamic part-level kinematic relationships, or estimate parameters from visual dynamics generated from a single image, which is prone to accumulated errors of two steps. Moreover, the limited scale and diversity of existing annotated datasets further hinder generalization to complex, real-world objects. To overcome these limitations, we propose to learn the joint distribution of visual dynamics and kinematic parameters. Recognizing that articulated objects can be formulated as dynamic systems, we propose a unified Part World Model called PWM-ArtGen. To leverage unannotated data, this model couples action diffusion and image diffusion with independent diffusion timesteps, which enables visual branch co-training. We further curate a photorealistic dataset of 19.7k part-level image pairs without kinematic annotations, to support co-training. Experiments demonstrate that PWM-ArtGen substantially outperforms existing baselines in the resting state and exhibits strong zero-shot generalization to out-of-distribution objects.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/03/2607.02018v1-underonefacade-worldwide-facade-semantic-segmentation-benchmark-dataset",
+      "section": "quick",
+      "title_en": "UnderOneFacade: Worldwide Facade Semantic Segmentation Benchmark Dataset",
+      "authors": "Yi Wang, Fan Wang, Prabin Gyawali, Ziyang Xu, Anna Klimkowska, Yixiong Jing, Wanru Yang, Filip Biljecki, Christoph Holst, Benjamin Busam, Brian Sheil, Olaf Wysocki",
+      "date": "2026-07-02",
+      "pdf": "https://arxiv.org/pdf/2607.02018v1",
+      "score": "7.0",
+      "evidence": "面向3D部件分割的立面语义分割基准",
+      "tldr": "尽管全球数字孪生亟需厘米级三维立面语义分割，但现有数据集地理范围窄、语义不一，难以评估跨域泛化。UnderOneFacade提出了最大跨洲数据集，含27亿统一标注点云。架构评估显示，当前模型细粒度识别差，在LoFG3基准上IoU仅33，跨域泛化退化严重。该基准及评估脚本、预训练模型将公开，推动可迁移立面分割研究。",
+      "tags": "query:part-aware",
+      "abstract_en": "Globally consistent semantic digital twins require centimeter-accurate and geographically transferable 3D facade segmentation. However, progress in facade parsing is limited by the lack of large-scale, standardized benchmarks for evaluating cross-domain generalization. Existing datasets are geographically narrow, semantically inconsistent, or insufficiently precise. We introduce UnderOneFacade, the largest cross-country and cross-continent 3D facade benchmark to date, comprising centimeter-accurate point clouds with hierarchical, harmonized, and architecturally grounded semantic labels totaling 2.7 billion annotated points. Through a systematic evaluation of representative point-, graph- and transformer-based architectures, we show that current methods struggle to recognize fine-grained architectural elements and degrade significantly across geographic domains, with the best models achieving only up to 33 IoU on the fine-grained LoFG3 benchmark. By combining geometric precision with standardized semantics at unprecedented scale, UnderOneFacade establishes a rigorous benchmark for developing robust and transferable 3D segmentation models. The dataset, evaluation scripts, and pretrained models will be released upon publication.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    },
+    {
+      "paper_id": "202607/03/2607.02148v1-samor-motion-modelling-for-articulated-objects-of-any-skeleton-and-topology",
+      "section": "quick",
+      "title_en": "SAMoR: Motion Modelling for Articulated Objects of Any Skeleton and Topology",
+      "authors": "Yuhao Zhang, Gerard Pons-Moll, Tolga Birdal",
+      "date": "2026-07-02",
+      "pdf": "https://arxiv.org/pdf/2607.02148v1",
+      "score": "7.0",
+      "evidence": "为任意骨架拓扑的铰接对象建模运动",
+      "tldr": "不同骨架拓扑的关节运动因关节数量和连接关系差异难以统一建模。SAMoR通过图Transformer编码关节运动与名称，利用交叉注意力池化将任意骨架压缩为固定K个跨物种共享的部位令牌，并引入拓扑无关的注意力监督损失防止坍缩。在跨拓扑重建中归一化MPJPE达2.75×10⁻²，比最优基线低5.8倍，同时保持与专用人体模型相当的生成质量。该方法为任意骨架物体的运动表示、文本驱动生成与部件编辑提供了通用解决方案。",
+      "tags": "query:part-aware",
+      "abstract_en": "Modeling motion for articulated objects of arbitrary skeleton topology remains difficult: existing motion generators target a fixed human skeleton, and prior adaptations either fail to share a vocabulary across rigs or discard motion detail through global pooling. Our key observation is that while joint-level motion does not correspond cleanly across species, motion of functional joint groups does: a human arm, a wolf foreleg, and a bird wing share motion structure despite differing joint counts and connectivity, a correspondence that joint names (e.g., \"forearm\", \"wing_L1\") partially expose even when topology does not. We introduce SAMoR (Skeleton-Aware Motion Representation for Articulated Objects), a cross-topology motion representation that encodes each motion segment as a small fixed number ($K=8$) of part tokens shared across arbitrary skeletons. A graph-transformer encoder consumes per-joint motion features, kinematic graph structure, and joint-name embeddings, then compresses them into part-level tokens via cross-attention pooling and residual vector quantization, yielding a discrete motion codebook shared across rigs. To keep the part queries from collapsing into redundant global representations, we introduce a topology-agnostic attention supervision loss, with joint-name dropout to reduce over-reliance on text labels. We curate a heterogeneous corpus from HumanML3D, Truebones Zoo, and animated Objaverse-XL assets, and evaluate SAMoR on held-out characters with unseen skeletons. It supports accurate reconstruction and cross-topology transfer, and enables text-conditioned generation and part-wise editing via a MaskGIT token generator. SAMoR reaches $2.75 \\times 10^{-2}$ normalized MPJPE on cross-topology reconstruction, $5.8\\times$ below the strongest adapted variable-$J$ tokenizer baseline, while remaining competitive with fixed-skeleton specialists on HumanML3D.",
+      "source": "arxiv",
+      "selection_source": "fresh_fetch"
+    }
+  ],
+  "errors": []
+}
